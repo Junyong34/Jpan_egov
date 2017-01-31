@@ -435,7 +435,7 @@ public class ForcastInOut
         System.out.println( "  fullname " + fullname);*/
         try
         {
-        	// stopWatch.start("Excel FIle load");
+        	
           
             _fin = new FileInputStream(fullname);
             XSSFWorkbook _workbook_hssf = null;
@@ -445,10 +445,7 @@ public class ForcastInOut
             int rowidx =0;
             int continuecnt = 0;
             XSSFRow _row = null;
-           // stopWatch.stop();
-        	//System.out.println("Excel FIle load " + stopWatch.getLastTaskTimeMillis() + " ms");
-        	
-        	//stopWatch.start("cell data create");
+          
             while(true)
             {
             	

@@ -294,8 +294,6 @@ public class ManageSheet
            _sheet.autoSizeColumn(0); 
            //=============================================================================================
 
-           
-           
            HashMap<Object,Object> record = null;
            Conn = getConnection();
            pstmt = getStatement(Conn, indobj);

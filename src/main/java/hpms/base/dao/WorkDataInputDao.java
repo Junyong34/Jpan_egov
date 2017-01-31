@@ -133,7 +133,7 @@ public class WorkDataInputDao extends EgovAbstractDAO
             param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
             param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
             param.put("DATA_TYPE", "ACT");   //デ？タタイプ
-            param.put("LOG_SEQ", dobj.getRetObject("SEL87").getRecord().get("LOG_SEQ"));   //LOG_SEQ
+            param.put("LOG_SEQ", dobj.getRetObject("ER01").getRecord().get("LOG_SEQ"));   //LOG_SEQ
             param.put("PROCESSING_FLAG", "I");   //？理フラグ
             param.put("REQ_COMPANY_CD", "#");   //要求元？社CD
             param.put("REQ_ORG_CD", "#");   //要求元部CD

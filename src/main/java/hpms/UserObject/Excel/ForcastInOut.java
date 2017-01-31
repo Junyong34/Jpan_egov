@@ -428,7 +428,7 @@ public class ForcastInOut
         String fullname = FilePath + FileName;
         String value ="";
         
-     
+        // 파일 정보 로그 찍기
         /*System.out.println( "  FilePath " + FilePath);
         System.out.println( "  FileName " + FileName);
         System.out.println( "  FileUnName " + FileUnName);

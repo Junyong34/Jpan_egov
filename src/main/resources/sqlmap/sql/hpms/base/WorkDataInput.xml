@@ -2,7 +2,63 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="WorkDataInput_20160912111169">
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="workCountUpload_SEL87">select LOG_SEQ.nextval LOG_SEQ FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL1">SELECT                                                                                                          
+  ERR_MSG                                                                                                       
+  ,ERR_FLAG                                                                                                      
+  ,DATA_TYPE                                                                                                     
+  ,PID                                                                                                           
+  ,USE_COMPANY_CD                                                                                                
+  ,USE_ORG_CD                                                                                                    
+  ,REQ_COMPANY_CD                                                                                                
+  ,REQ_ORG_CD                                                                                                    
+  ,HPMS_ID                                                                                                       
+  ,CUSTOMER_CD                                                                                                   
+  ,INVEST_TYPE_CD                                                                                                                                                                                                         
+  ,ITEM_NAME                                                                                                     
+  ,APPLICATION                                                                                                                                                                                                             
+  ,UPLOAD_FILE_NAME                                                                                              
+FROM                                                                                                            
+(                                                                                                               
+  SELECT                                                                                                        
+    '0' FLAG                                                                                                    
+    ,'ERR_MSG'          ERR_MSG                                                                                 
+    ,'ERR_FLAG'         ERR_FLAG                                                                                
+    ,'DATA_TYPE'        DATA_TYPE                                                                               
+    ,'PID'              PID                                                                                     
+    ,'USE_COMPANY_CD'   USE_COMPANY_CD                                                                          
+    ,'USE_ORG_CD'       USE_ORG_CD                                                                              
+    ,'REQ_COMPANY_CD'   REQ_COMPANY_CD                                                                          
+    ,'REQ_ORG_CD'       REQ_ORG_CD                                                                              
+    ,'HPMS_ID'          HPMS_ID                                                                                 
+    ,'CUSTOMER_CD'      CUSTOMER_CD                                                                             
+    ,'INVEST_TYPE_CD'   INVEST_TYPE_CD                                                                                                                                                            
+    ,'ITEM_NAME'        ITEM_NAME                                                                               
+    ,'APPLICATION'      APPLICATION                                                                                                                                                                 
+    ,'UPLOAD_FILE_NAME' UPLOAD_FILE_NAME                                                                        
+  FROM DUAL                                                                                                     
+  UNION ALL                                                                                                     
+  SELECT   DISTINCT                                                                                                     
+    '1' FLAG                                                                                                    
+    , ERR_MSG                                                                                                   
+    ,TO_CHAR(ERR_FLAG) ERR_FLAG                                                                                                   
+    ,DATA_TYPE                                                                                                  
+    ,PID                                                                                                        
+    ,USE_COMPANY_CD                                                                                             
+    ,USE_ORG_CD                                                                                                 
+    ,REQ_COMPANY_CD                                                                                             
+    ,REQ_ORG_CD                                                                                                 
+    ,HPMS_ID                                                                                                    
+    ,CUSTOMER_CD                                                                                                
+    ,INVEST_TYPE_CD                                                                                                                                                                                                  
+    ,ITEM_NAME                                                                                                  
+    ,APPLICATION                                                                                                                                                                                                                                                                                                          
+    ,UPLOAD_FILE_NAME                                                                                           
+  FROM  HP3D001W                                                                                         
+  WHERE LOG_SEQ =#LOG_SEQ#                                                                                       
+)                                                                                                               
+ORDER BY FLAG, ERR_MSG, ERR_FLAG, DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL5">SELECT  TO_CHAR(SYSDATE,'yyyy-mm-dd hh24.mi.ss') AS CDATE FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="workCountUpload_ER01">select LOG_SEQ.nextval LOG_SEQ FROM DUAL</select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="workCountUpload_SEL17">SELECT  ( Z01_1.PID_CNT +Z01_2.PID_CNT) AS PID_CNT 
        , Z02.DATA_TYPE_CNT 
        , Z03.USE_COMPANY_CNT 
@@ -73,61 +129,5 @@ AND      ORG_CD   =#ORG_CD#</select>
                  WHERE X.ORG_LVL_4 = Y.ORG_LVL_4)</select>
   <update parameterClass="java.util.HashMap" id="workCountUpload_UNI36_UPD">Update HP_DBA01.HP3D001T  set  VAL2=#VAL2#  , VAL4=#VAL4#  , VAL3=#VAL3#  , UNIT=#UNIT#  , UNIT2=#UNIT2#  , UNIT3=#UNIT3#  , UPDATE_TIME=SYSDATE , VAL=#VAL#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , UNIT4=#UNIT4#  , UPLOAD_FILE_NAME=#UPLOAD_FILE_NAME#  where CUSTOMER_CD=#CUSTOMER_CD#  and PID=#PID#  and APPLICATION=#APPLICATION#  and HPMS_ID=#HPMS_ID#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and YYYYMM=#YYYYMM#  and REQ_ORG_CD=#REQ_ORG_CD#  and ITEM_NAME=#ITEM_NAME#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</update>
   <insert parameterClass="java.util.HashMap" id="workCountUpload_UNI36_INS">Insert into HP_DBA01.HP3D001T (VAL2, CUSTOMER_CD, VAL4, VAL3, UNIT, PID, UNIT2, UNIT3, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, UNIT4, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#VAL2# , #CUSTOMER_CD# , #VAL4# , #VAL3# , #UNIT# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #UNIT4# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL1">SELECT                                                                                                          
-  ERR_MSG                                                                                                       
-  ,ERR_FLAG                                                                                                      
-  ,DATA_TYPE                                                                                                     
-  ,PID                                                                                                           
-  ,USE_COMPANY_CD                                                                                                
-  ,USE_ORG_CD                                                                                                    
-  ,REQ_COMPANY_CD                                                                                                
-  ,REQ_ORG_CD                                                                                                    
-  ,HPMS_ID                                                                                                       
-  ,CUSTOMER_CD                                                                                                   
-  ,INVEST_TYPE_CD                                                                                                                                                                                                         
-  ,ITEM_NAME                                                                                                     
-  ,APPLICATION                                                                                                                                                                                                             
-  ,UPLOAD_FILE_NAME                                                                                              
-FROM                                                                                                            
-(                                                                                                               
-  SELECT                                                                                                        
-    '0' FLAG                                                                                                    
-    ,'ERR_MSG'          ERR_MSG                                                                                 
-    ,'ERR_FLAG'         ERR_FLAG                                                                                
-    ,'DATA_TYPE'        DATA_TYPE                                                                               
-    ,'PID'              PID                                                                                     
-    ,'USE_COMPANY_CD'   USE_COMPANY_CD                                                                          
-    ,'USE_ORG_CD'       USE_ORG_CD                                                                              
-    ,'REQ_COMPANY_CD'   REQ_COMPANY_CD                                                                          
-    ,'REQ_ORG_CD'       REQ_ORG_CD                                                                              
-    ,'HPMS_ID'          HPMS_ID                                                                                 
-    ,'CUSTOMER_CD'      CUSTOMER_CD                                                                             
-    ,'INVEST_TYPE_CD'   INVEST_TYPE_CD                                                                                                                                                            
-    ,'ITEM_NAME'        ITEM_NAME                                                                               
-    ,'APPLICATION'      APPLICATION                                                                                                                                                                 
-    ,'UPLOAD_FILE_NAME' UPLOAD_FILE_NAME                                                                        
-  FROM DUAL                                                                                                     
-  UNION ALL                                                                                                     
-  SELECT   DISTINCT                                                                                                     
-    '1' FLAG                                                                                                    
-    , ERR_MSG                                                                                                   
-    ,TO_CHAR(ERR_FLAG) ERR_FLAG                                                                                                   
-    ,DATA_TYPE                                                                                                  
-    ,PID                                                                                                        
-    ,USE_COMPANY_CD                                                                                             
-    ,USE_ORG_CD                                                                                                 
-    ,REQ_COMPANY_CD                                                                                             
-    ,REQ_ORG_CD                                                                                                 
-    ,HPMS_ID                                                                                                    
-    ,CUSTOMER_CD                                                                                                
-    ,INVEST_TYPE_CD                                                                                                                                                                                                  
-    ,ITEM_NAME                                                                                                  
-    ,APPLICATION                                                                                                                                                                                                                                                                                                          
-    ,UPLOAD_FILE_NAME                                                                                           
-  FROM  HP3D001W                                                                                         
-  WHERE LOG_SEQ =#LOG_SEQ#                                                                                       
-)                                                                                                               
-ORDER BY FLAG, ERR_MSG, ERR_FLAG, DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL5">SELECT  TO_CHAR(SYSDATE,'yyyy-mm-dd hh24.mi.ss') AS CDATE FROM DUAL</select>
 </sqlMap>
 

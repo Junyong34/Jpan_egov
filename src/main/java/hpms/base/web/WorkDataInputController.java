@@ -34,17 +34,6 @@ public class WorkDataInputController
         model.addAttribute("MESSAGE", odobj.getRetmsg());
         return "/jsp/base/WorkingDataInput";
     }
-    @RequestMapping(value="/20160912111169WorkDataInput_workCountUpload.do")
-    public ModelAndView workCountUpload(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = WorkDataInputService.workCountUpload(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL87", odobj.getRetObject("SEL87").getRecords());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/20160912111169WorkDataInput_errorConfirm.do")
     public String errorConfirm(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -53,5 +42,16 @@ public class WorkDataInputController
         model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
         model.addAttribute("MESSAGE", odobj.getRetmsg());
         return "/jsp/File/Dn01download";
+    }
+    @RequestMapping(value="/20160912111169WorkDataInput_workCountUpload.do")
+    public ModelAndView workCountUpload(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = WorkDataInputService.workCountUpload(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("ER01", odobj.getRetObject("ER01").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
     }
 }

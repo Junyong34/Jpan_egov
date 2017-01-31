@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>File3</title>
+        <script><![CDATA[ 
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <init>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+    </div>
+</body>
+</html>

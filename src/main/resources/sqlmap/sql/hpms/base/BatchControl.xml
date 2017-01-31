@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BatchControl_20160912111170">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="loadpage_SEL3">SELECT  '1' as aa from dual</select>
+  <update parameterClass="java.util.HashMap" id="writeStop_UNI2_UPD">Update HP_DBA01.HP1M106T  set  VAL1=#VAL1#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="writeStop_UNI2_INS">Insert into HP_DBA01.HP1M106T (VAL1, UPDATE_USER_ID, CD, CD_TYPE, UPDATE_TIME)  values(#VAL1# , #UPDATE_USER_ID# , #CD# , #CD_TYPE# , SYSDATE)</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="writeStop_SEL4">SELECT  
+       UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM   HP1M106T 
+WHERE  CD_TYPE ='SYS' 
+AND      CD ='UPLOAD' 
+AND      VAL1='Y'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="writeStop_SEL5">SELECT  
+       UPDATE_USER_ID, 
+         TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM   HP1M106T 
+WHERE  CD_TYPE ='SYS' 
+AND      CD ='UPLOAD' 
+AND      VAL1='N'</select>
+  <update parameterClass="java.util.HashMap" id="writeRelease_UNI2_UPD">Update HP_DBA01.HP1M106T  set  VAL1=#VAL1#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="writeRelease_UNI2_INS">Insert into HP_DBA01.HP1M106T (VAL1, UPDATE_USER_ID, CD, CD_TYPE, UPDATE_TIME)  values(#VAL1# , #UPDATE_USER_ID# , #CD# , #CD_TYPE# , SYSDATE)</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="writeRelease_SEL2">SELECT  
+       UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM   HP1M106T 
+WHERE  CD_TYPE ='SYS' 
+AND      CD ='UPLOAD' 
+AND      VAL1='Y'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="writeRelease_SEL3">SELECT  
+       UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM   HP1M106T 
+WHERE  CD_TYPE ='SYS' 
+AND      CD ='UPLOAD' 
+AND      VAL1='N'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="managedatabuild_SEL10">SELECT COUNT(*) CNT 
+FROM HP1M106T 
+WHERE CD_TYPE='SYS' 
+AND CD='UPLOAD' 
+AND VAL1='N'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="managedatabuild_SEL5">SELECT COUNT(*) CNT 
+FROM HP1M106T 
+WHERE CD_TYPE='SYS' 
+AND CD='BATCH_FLAG' 
+AND VAL1='Y'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="managedatabuild_batch">SELECT ''   AS PATH 
+     , 'mgrsum_batch.bat'  AS FILE_NAME 
+     , #DATA_TYPE#          AS D_TYPE 
+FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="getConfirmInfo_SEL2">SELECT UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME , 
+      TO_CHAR(UPDATE_TIME,'YYYYMM')  VAR_TIME 
+FROM HP1M105T 
+WHERE CD_TYPE ='MCTL' 
+AND   CD =#CD# || '_' || #DATA_TYPE#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="getConfirmInfo_SEL4">SELECT TO_CHAR(  add_months(   TO_DATE(VAL1, 'YYYYMM') , +1 ), 'YYYYMM') AS YYYYMM 
+ FROM HP1M105T 
+ WHERE CD_TYPE='MONTHLY' 
+ AND CD=#CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="LMP_ConfirmCheck_SEL17">SELECT count(*) CNT 
+ FROM HP1M105T 
+  WHERE VAL1 &lt; TO_CHAR(  add_months(  TO_DATE(TO_CHAR( SYSDATE, 'YYYYMM'),'YYYYMM'), -1),'YYYYMM' ) 
+  AND CD_TYPE = 'MONTHLY'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="LMP_ConfirmCheck_SEL39">SELECT VAL2  , CD_TYPE , CD 
+  FROM HP1M105T 
+ WHERE CD_TYPE = 'MONTHLY' 
+ AND CD = 'CONFIRM_YYYYMM'</select>
+  <update parameterClass="java.util.HashMap" id="LMP_ConfirmCheck_UPD8">Update HP_DBA01.HP1M105T  set  VAL2=#VAL2#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMiddle_SEL11">SELECT #YYYY# || '04' AS FROM_YYYYMM, 
+        (#YYYY# ) +1 || '03' AS TO_YYYYMM, 
+        TO_CHAR(SYSDATE , 'YYYYMMDD') AS C_DATE 
+  FROM DUAL</select>
+  <delete parameterClass="java.util.HashMap" id="copyMiddle_DEL13">Delete from HP_DBA01.HP2D002T_TZ  where DATA_TYPE=#DATA_TYPE#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMiddle_SEL16">SELECT 
+ APPROVAL_YYYYMMDD,DATA_TYPE FROM HP2D002T_TZ WHERE APPROVAL_YYYYMMDD = #APPROVAL_YYYYMMDD# AND DATA_TYPE lIKE 'MTP_' || #YYYY# ||'_'||'%'</select>
+  <delete parameterClass="java.util.HashMap" id="copyMiddle_DEL14">Delete from HP_DBA01.HP2D002T_TZ  where APPROVAL_YYYYMMDD=#APPROVAL_YYYYMMDD#  and DATA_TYPE=#DATA_TYPE#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMiddle_SEL2">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       SRC_COMPANY_CD, 
+       SRC_ORG_CD, 
+       DST_COMPANY_CD, 
+       DST_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UNIT2, 
+       VAL2, 
+       UNIT3, 
+       VAL3, 
+       VAL_TYPE, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME, 
+       CALC_MST_VER 
+  FROM HP2D002T 
+ WHERE     DATA_TYPE = #DATA_TYPE# 
+       AND TO_NUMBER (YYYYMM) &gt;= TO_NUMBER (#FROM_YYYYMM#)</select>
+  <insert parameterClass="java.util.HashMap" id="copyMiddle_INS14">Insert into HP_DBA01.HP2D002T_TZ (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, APPROVAL_YYYYMMDD, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, TO_CHAR(SYSDATE,'YYYYMMDD'), #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <insert parameterClass="java.util.HashMap" id="copyMiddle_INS16">Insert into HP_DBA01.HP2D002T_TZ (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, APPROVAL_YYYYMMDD, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, TO_CHAR(SYSDATE,'YYYYMMDD'), #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <update parameterClass="java.util.HashMap" id="copyMiddle_UNI8_UPD">Update HP_DBA01.HP1M105T  set  UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where VAL1=#VAL1#  and CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="copyMiddle_UNI8_INS">Insert into HP_DBA01.HP1M105T (VAL1, UPDATE_USER_ID, CD, CD_TYPE, UPDATE_TIME)  values(#VAL1# , #UPDATE_USER_ID# , #CD# , #CD_TYPE# , SYSDATE)</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMiddle_SEL3">SELECT UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM HP1M105T 
+WHERE CD_TYPE ='MCTL' 
+AND   CD =#CD# || '_' || #DATA_TYPE#</select>
+  <insert parameterClass="java.util.HashMap" id="copyMiddle_XIUD11">INSERT    INTO    HP2DM11T_TZ    
+(    
+                            YYYYMMDD,    
+                            DATA_TYPE,    
+                            PID,    
+                            HPMS_ID,    
+                            APPLICATION,    
+                            ITEM_NAME,    
+                            YYYYMM,    
+                            UNIT,    
+                            VAL,    
+                            UPDATE_TIME,    
+                            UPDATE_USER_ID,    
+                            UPLOAD_FILE_NAME    
+)    
+SELECT    
+                        TO_CHAR(SYSDATE,'YYYYMMDD')  AS    YYYYMMDD,    
+                            #DATA_TYPE_1# AS    DATA_TYPE,    
+                            PID,    
+                            HPMS_ID,    
+                            APPLICATION,    
+                            ITEM_NAME,    
+                            YYYYMM,    
+                            UNIT,    
+                            VAL,    
+        SYSDATE         UPDATE_TIME            ,    
+        #UPDATE_USER_ID#     UPDATE_USER_ID    ,    
+                            UPLOAD_FILE_NAME    
+FROM        HP2DM11T    
+WHERE        DATA_TYPE    =#DATA_TYPE#</insert>
+  <delete parameterClass="java.util.HashMap" id="copyMiddle_DEL17">Delete from HP_DBA01.HP2DM11T  where DATA_TYPE=#DATA_TYPE#</delete>
+  <update parameterClass="java.util.HashMap" id="copyMiddle_UPD7">Update HP_DBA01.HP1M105T  set  VAL1=#VAL1#  where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMP_SEL7">SELECT #YYYY# || '04' AS FROM_YYYYMM, 
+        (#YYYY# ) +1 || '03' AS TO_YYYYMM, 
+        TO_CHAR(SYSDATE , 'YYYYMMDD') AS C_DATE 
+  FROM DUAL</select>
+  <delete parameterClass="java.util.HashMap" id="copyMP_DEL15">Delete from HP_DBA01.HP2D002T_TZ  where DATA_TYPE=#DATA_TYPE#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMP_SEL28">SELECT 
+ APPROVAL_YYYYMMDD,DATA_TYPE FROM HP2D002T_TZ WHERE APPROVAL_YYYYMMDD = #APPROVAL_YYYYMMDD# AND DATA_TYPE lIKE 'MP_' || #YYYY# ||'_'||'%'</select>
+  <delete parameterClass="java.util.HashMap" id="copyMP_DEL12">Delete from HP_DBA01.HP2D002T_TZ  where APPROVAL_YYYYMMDD=#APPROVAL_YYYYMMDD#  and DATA_TYPE=#DATA_TYPE#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMP_SEL2">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       SRC_COMPANY_CD, 
+       SRC_ORG_CD, 
+       DST_COMPANY_CD, 
+       DST_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UNIT2, 
+       VAL2, 
+       UNIT3, 
+       VAL3, 
+       VAL_TYPE, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME, 
+       CALC_MST_VER 
+  FROM HP2D002T 
+ WHERE     DATA_TYPE = #DATA_TYPE# 
+       AND TO_NUMBER (YYYYMM) &gt;= TO_NUMBER (#FROM_YYYYMM#)</select>
+  <insert parameterClass="java.util.HashMap" id="copyMP_INS13">Insert into HP_DBA01.HP2D002T_TZ (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, APPROVAL_YYYYMMDD, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, TO_CHAR(SYSDATE,'YYYYMMDD'), #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <insert parameterClass="java.util.HashMap" id="copyMP_INS14">Insert into HP_DBA01.HP2D002T_TZ (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, APPROVAL_YYYYMMDD, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, TO_CHAR(SYSDATE,'YYYYMMDD'), #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <update parameterClass="java.util.HashMap" id="copyMP_UNI5_UPD">Update HP_DBA01.HP1M105T  set  UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where CD_TYPE=#CD_TYPE#  and CD=#CD#  and VAL1=#VAL1#</update>
+  <insert parameterClass="java.util.HashMap" id="copyMP_UNI5_INS">Insert into HP_DBA01.HP1M105T (CD_TYPE, CD, VAL1, UPDATE_USER_ID, UPDATE_TIME)  values(#CD_TYPE# , #CD# , #VAL1# , #UPDATE_USER_ID# , SYSDATE)</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyMP_SEL3">SELECT UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM HP1M105T 
+WHERE CD_TYPE ='MCTL' 
+AND   CD =#CD# || '_' || #DATA_TYPE#</select>
+  <insert parameterClass="java.util.HashMap" id="copyMP_XIUD13">INSERT    INTO    HP2DM11T_TZ    
+(    
+                            YYYYMMDD,    
+                            DATA_TYPE,    
+                            PID,    
+                            HPMS_ID,    
+                            APPLICATION,    
+                            ITEM_NAME,    
+                            YYYYMM,    
+                            UNIT,    
+                            VAL,    
+                            UPDATE_TIME,    
+                            UPDATE_USER_ID,    
+                            UPLOAD_FILE_NAME    
+)    
+SELECT    
+                        TO_CHAR(SYSDATE,'YYYYMMDD')  AS    YYYYMMDD,    
+                            #DATA_TYPE_1# AS    DATA_TYPE,    
+                            PID,    
+                            HPMS_ID,    
+                            APPLICATION,    
+                            ITEM_NAME,    
+                            YYYYMM,    
+                            UNIT,    
+                            VAL,    
+        SYSDATE         UPDATE_TIME            ,    
+        #UPDATE_USER_ID#     UPDATE_USER_ID    ,    
+                            UPLOAD_FILE_NAME    
+FROM        HP2DM11T    
+WHERE        DATA_TYPE    =#DATA_TYPE#</insert>
+  <delete parameterClass="java.util.HashMap" id="copyMP_DEL18">Delete from HP_DBA01.HP2DM11T  where DATA_TYPE=#DATA_TYPE#</delete>
+  <update parameterClass="java.util.HashMap" id="copyMP_UPD9">Update HP_DBA01.HP1M105T  set  VAL1=#VAL1#  where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="pageInit_SEL2">SELECT DATA_TYPE  ITEM_CD, 
+       DATA_TYPE  ITEM_NM 
+FROM HP1DM06T 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="pageInit_SEL4">SELECT TO_CHAR(  add_months(   TO_DATE(VAL1, 'YYYYMM') , +1 ), 'YYYYMM') AS YYYYMM 
+ FROM HP1M105T 
+ WHERE CD_TYPE='MONTHLY' 
+ AND CD='CONFIRM_YYYYMM'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="pageInit_SEL6">SELECT TO_CHAR( SYSDATE, 'YYYY')  YYYY  , TO_CHAR( SYSDATE, 'YYYYMM')  YYYYMM FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="pageInit_SEL8">SELECT  
+       UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM   HP1M106T 
+WHERE  CD_TYPE ='SYS' 
+AND      CD ='UPLOAD' 
+AND      VAL1='N'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="pageInit_SEL10">SELECT  
+       UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mi:ss')  UPDATE_TIME 
+FROM   HP1M106T 
+WHERE  CD_TYPE ='SYS' 
+AND      CD ='UPLOAD' 
+AND      VAL1='Y'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="pageInit_SEL19">SELECT VAL1 , VAL2 FROM HP1M105T where CD_TYPE='BATCH_TIME' and CD='MGRSUM'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyLMP_SEL26">SELECT TO_CHAR(  add_months(   TO_DATE(VAL1, 'YYYYMM') , +0 ), 'YYYYMM') AS YYYYMM 
+  FROM HP1M105T 
+ WHERE CD_TYPE = 'MONTHLY' 
+ AND CD = 'CONFIRM_YYYYMM'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyLMP_SEL13">SELECT TO_CHAR(  add_months(   TO_DATE(#YYYYMM#, 'YYYYMM') , -1 ), 'YYYYMM') AS YYYYMM , 
+       TO_CHAR(  add_months(   TO_DATE(#YYYYMM#, 'YYYYMM') , +1 ), 'YYYYMM') AS MONTHLY_YYYYMM 
+FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyLMP_SEL2">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       SRC_COMPANY_CD, 
+       SRC_ORG_CD, 
+       DST_COMPANY_CD, 
+       DST_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UNIT2, 
+       VAL2, 
+       UNIT3, 
+       VAL3, 
+       VAL_TYPE, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME, 
+       CALC_MST_VER 
+  FROM HP2D002T 
+ WHERE DATA_TYPE = #DATA_TYPE# 
+ AND TO_NUMBER (YYYYMM) &gt;= TO_NUMBER (#YYYYMM#)</select>
+  <update parameterClass="java.util.HashMap" id="copyLMP_UNI4_UPD">Update HP_DBA01.HP2D002T_TZ  set  VAL2=#VAL2#  , VAL3=#VAL3#  , UNIT2=#UNIT2#  , UNIT3=#UNIT3#  , VAL_TYPE=#VAL_TYPE#  , SRC_COMPANY_CD=#SRC_COMPANY_CD#  , UPDATE_TIME=SYSDATE , APPROVAL_YYYYMMDD=TO_CHAR(SYSDATE,'YYYYMMDD') , VAL=#VAL#  , SRC_ORG_CD=#SRC_ORG_CD#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , REQ_ORG_CD=#REQ_ORG_CD#  where PID=#PID#  and APPLICATION=#APPLICATION#  and DST_ORG_CD=#DST_ORG_CD#  and DST_COMPANY_CD=#DST_COMPANY_CD#  and YYYYMM=#YYYYMM#  and CALC_MST_VER=#CALC_MST_VER#  and DATA_TYPE=#DATA_TYPE#  and UPLOAD_FILE_NAME=#UPLOAD_FILE_NAME#  and USE_COMPANY_CD=#USE_COMPANY_CD#  and CUSTOMER_CD=#CUSTOMER_CD#  and UNIT=#UNIT#  and HPMS_ID=#HPMS_ID#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and ITEM_NAME=#ITEM_NAME#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and USE_ORG_CD=#USE_ORG_CD#</update>
+  <insert parameterClass="java.util.HashMap" id="copyLMP_UNI4_INS">Insert into HP_DBA01.HP2D002T_TZ (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, APPROVAL_YYYYMMDD, INVEST_TYPE_CD, VAL, SRC_ORG_CD, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , TO_CHAR(SYSDATE,'YYYYMMDD'), #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <update parameterClass="java.util.HashMap" id="copyLMP_UNI7_UPD">Update HP_DBA01.HP1M105T  set  UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where VAL1=#VAL1#  and CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="copyLMP_UNI7_INS">Insert into HP_DBA01.HP1M105T (VAL1, UPDATE_USER_ID, CD, CD_TYPE, UPDATE_TIME)  values(#VAL1# , #UPDATE_USER_ID# , #CD# , #CD_TYPE# , SYSDATE)</insert>
+  <update parameterClass="java.util.HashMap" id="copyLMP_UNI14_UPD">Update HP_DBA01.HP1M105T  set  VAL1=#VAL1#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="copyLMP_UNI14_INS">Insert into HP_DBA01.HP1M105T (VAL1, UPDATE_USER_ID, CD, CD_TYPE, UPDATE_TIME)  values(#VAL1# , #UPDATE_USER_ID# , #CD# , #CD_TYPE# , SYSDATE)</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="copyLMP_SEL8">SELECT UPDATE_USER_ID, 
+       TO_CHAR(UPDATE_TIME,'YYYY-MM-DD hh24:mm:ss')  UPDATE_TIME 
+FROM HP1M105T 
+WHERE CD_TYPE ='MCTL' 
+AND   CD =#CD# || '_' || #DATA_TYPE#</select>
+  <insert parameterClass="java.util.HashMap" id="copyLMP_XIUD7">INSERT  INTO  HP3D002T_TM  
+(  
+    DATA_TYPE                  ,  
+    PID                              ,  
+    USE_COMPANY_CD        ,  
+    USE_ORG_CD                ,  
+    REQ_COMPANY_CD        ,  
+    REQ_ORG_CD                ,  
+    SRC_COMPANY_CD        ,  
+    SRC_ORG_CD                ,  
+    DST_COMPANY_CD        ,  
+    DST_ORG_CD                ,  
+    HPMS_ID                      ,  
+    INVEST_TYPE_CD        ,  
+    APPLICATION              ,  
+    ITEM_NAME                  ,  
+    CUSTOMER_CD              ,  
+    YYYYMM                        ,  
+    UNIT                            ,  
+    VAL                              ,  
+    UNIT2                          ,  
+    VAL2                            ,  
+    UNIT3                          ,  
+    VAL3                            ,  
+    UNIT4                          ,  
+    VAL4                            ,  
+    VAL_TYPE                    ,  
+    UPLOAD_FILE_NAME    ,  
+    CALC_MST_VER            ,  
+    UPDATE_TIME              ,                      
+    UPDATE_USER_ID            
+)  
+SELECT  
+    DATA_TYPE                  ,  
+    PID                              ,  
+    USE_COMPANY_CD        ,  
+    USE_ORG_CD                ,  
+    REQ_COMPANY_CD        ,  
+    REQ_ORG_CD                ,  
+    SRC_COMPANY_CD        ,  
+    SRC_ORG_CD                ,  
+    DST_COMPANY_CD        ,  
+    DST_ORG_CD                ,  
+    HPMS_ID                      ,  
+    INVEST_TYPE_CD        ,  
+    APPLICATION              ,  
+    ITEM_NAME                  ,  
+    CUSTOMER_CD              ,  
+    YYYYMM                        ,  
+    UNIT                            ,  
+    VAL                              ,  
+    UNIT2                          ,  
+    VAL2                            ,  
+    UNIT3                          ,  
+    VAL3                            ,  
+    UNIT4                          ,  
+    VAL4                            ,  
+    VAL_TYPE                    ,  
+    UPLOAD_FILE_NAME    ,  
+    CALC_MST_VER            ,  
+    SYSDATE     UPDATE_TIME                        ,  
+    #UPDATE_USER_ID#   UPDATE_USER_ID  
+FROM    HP3D002T  
+WHERE  YYYYMM  =#YYYYMM#</insert>
+  <delete parameterClass="java.util.HashMap" id="copyLMP_DEL9">Delete from HP_DBA01.HP3D002T  where YYYYMM=#YYYYMM#</delete>
+  <insert parameterClass="java.util.HashMap" id="copyLMP_XIUD24">INSERT    INTO    HP2DM11T_TZ    
+(    
+                            YYYYMMDD,    
+                            DATA_TYPE,    
+                            PID,    
+                            HPMS_ID,    
+                            APPLICATION,    
+                            ITEM_NAME,    
+                            YYYYMM,    
+                            UNIT,    
+                            VAL,    
+                            UPDATE_TIME,    
+                            UPDATE_USER_ID,    
+                            UPLOAD_FILE_NAME    
+)    
+SELECT    
+                        TO_CHAR(SYSDATE,'YYYYMMDD')  AS    YYYYMMDD,    
+                            #DATA_TYPE_1# AS    DATA_TYPE,    
+                            PID,    
+                            HPMS_ID,    
+                            APPLICATION,    
+                            ITEM_NAME,    
+                            YYYYMM,    
+                            UNIT,    
+                            VAL,    
+    SYSDATE     UPDATE_TIME      ,  
+    #UPDATE_USER_ID#   UPDATE_USER_ID  ,  
+      UPLOAD_FILE_NAME                      
+  
+FROM        HP2DM11T    
+WHERE    YYYYMM    =#YYYYMM# 
+AND    DATA_TYPE    =#DATA_TYPE#</insert>
+  <delete parameterClass="java.util.HashMap" id="copyLMP_DEL14">Delete from HP_DBA01.HP2DM11T  where YYYYMM=#YYYYMM#  and DATA_TYPE=#DATA_TYPE#</delete>
+  <update parameterClass="java.util.HashMap" id="copyLMP_UPD46">Update HP_DBA01.HP1M105T  set  VAL2=#VAL2#  , UPDATE_USER_ID=#UPDATE_USER_ID#  , UPDATE_TIME=SYSDATE where CD=#CD#  and CD_TYPE=#CD_TYPE#</update>
+</sqlMap>
+

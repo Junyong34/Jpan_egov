@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>프로젝트부담율확인</title>
+        <script><![CDATA[ 
+        function Onselect_calendar1(date,el)
+        {
+        alert( date  + " @@ " + el);
+        
+         $("#calendar1").val("");
+        }
+        
+        function btn_download_OnClick(myObj)
+        {
+        ORG_combo_S1.submit(true);
+        }
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  COMPANY_CD=""  ORG_CD=""   />
+                        </S1>
+                        <C dateformat="" >
+                            <row  ITEM_NM=""  ITEM_CD=""   />
+                        </C>
+                        <S3 dateformat="" >
+                                <row  PID=""   />
+                        </S3>
+                        <init>
+                            <S1>
+                                <row  COMPANY_CD=""  ORG_CD=""   />
+                            </S1>
+                            <C>
+                                <row  ITEM_NM=""  ITEM_CD=""   />
+                            </C>
+                            <S3>
+                                <row  PID=""   />
+                            </S3>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="Company_Org_cd" menuname="40. 공통코드 관리" eventname="03.회사 _ 조직 콤보" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_combo_S1" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S3" outdataset="S:SEL10" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_ApprovalDataSearch.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="ApprovalDataSearch" menuname="20. DCP  Management" eventname="07. Approval Data output" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608757345678023960" label="Project Allocation Rate">    	</output>
+
+        	<combo  location="185,107"  size="144,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:144px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_COMPANY_CD" bindcolumn="COMPANY_CD"  binddataset="S1"  unikey="63608757478452618293" bind="S1_COMPANY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S1_COMPANY_CD_OnChange(this);" appearance="minimal" >
+    	</combo>
+
+        	<output  location="58,107"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608757438925357463" label="Company Name">    	</output>
+
+        	<combo  location="185,160"  size="144,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:144px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_ORG_CD" bindcolumn="ORG_CD"  binddataset="S1"  unikey="63608757485893043810" bind="S1_ORG_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S1_ORG_CD_OnClick(this);" appearance="minimal" >
+    	</combo>
+
+        	<output  location="58,160"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608757445525734968" label="Organization Name">    	</output>
+
+        	<calendar  location="374,160"  size="100,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:ko; " id="calendar1" bindcolumn=""  binddataset=""  unikey="63610760098239251813" visible="True" dateFormat="yymmdd"     constrainInput="True" buttonimageOnly="False" buttonImage=""     showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="0" >    	</calendar>
+
+        	<button  location="187,214"  size="130,26"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_download" label="" type="button" src="" unikey="63608757514188662221" visible="True" value="Download" tabindex="0"  onclick="btn_download_OnClick(this);" ></button>
+
+        	<output  location="478,266"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="S_E" bindcolumn=""  binddataset=""  unikey="63610771871019616319" label="">    	</output>
+
+        	<textbox  location="305,341"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_PID" bindcolumn="PID"  binddataset="S3"  unikey="63610771912569992937" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" value="P00125" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+    </div>
+</body>
+</html>

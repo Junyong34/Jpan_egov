@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PidListMgr_20160902161145">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="PIDListinfo_SEL2">
+    SELECT 
+    PID 
+    ,SUB_PID 
+    ,APPLICATION 
+    ,PID_STATUS_NM 
+    ,RD_CATEGORY_NM 
+    ,PID_STATUS_CD 
+    ,RD_THEME 
+    ,ITEM_NAME 
+    ,NICKNAME 
+    ,REGIST_ORG_CD 
+    ,OWNER_ORG_CD 
+    ,REGIST_TIME 
+    ,PID_STATUS_NM 
+    ,RD_CATEGORY_NM 
+,REGIST_ORG_NM 
+, OWNER_ORG_NM 
+,OWNER_COMPANY_CD 
+,RD_CATEGORY_CD 
+    FROM(          
+SELECT  
+    A.PID 
+    ,''AS SUB_PID 
+    , A.APPLICATION 
+    ,F_GET_COMBO_NAME('STATUS_CD',PID_STATUS_CD) AS PID_STATUS_NM 
+    ,F_GET_COMBO_NAME('CATEGORY_CD',RD_CATEGORY_CD) AS RD_CATEGORY_NM 
+    ,A.PID_STATUS_CD 
+    ,A.RD_THEME 
+    ,A.ITEM_NAME 
+    ,A.NICKNAME 
+    ,A.REGIST_ORG_CD 
+    ,A.OWNER_ORG_CD 
+    ,A.REGIST_TIME 
+,A.RD_CATEGORY_CD 
+    , (SELECT ORG_NM  FROM HP1DM03T WHERE 1=1 AND ORG_LVL != '2'  AND ORG_CD=REGIST_ORG_CD ) AS REGIST_ORG_NM 
+     ,(SELECT ORG_NM  FROM HP1DM03T WHERE 1=1 AND ORG_LVL != '2'  AND ORG_CD=OWNER_ORG_CD ) AS OWNER_ORG_NM 
+,OWNER_COMPANY_CD 
+    ,'0' AS ORDERPID 
+ FROM HP1DM01T A 
+ WHERE 1=1 
+AND PID NOT IN (SELECT SUB_PID FROM HP1DM02T) 
+ 
+ UNION ALL 
+ 
+ SELECT  
+    B.PID 
+    ,B.SUB_PID 
+    , A.APPLICATION 
+    ,'' AS PID_STATUS_NM 
+    ,F_GET_COMBO_NAME('CATEGORY_CD',RD_CATEGORY_CD) AS RD_CATEGORY_NM 
+    ,A.PID_STATUS_CD 
+    ,A.RD_THEME 
+    ,A.ITEM_NAME 
+    ,A.NICKNAME 
+    ,A.REGIST_ORG_CD 
+    ,A.OWNER_ORG_CD 
+    ,A.REGIST_TIME 
+    ,A.RD_CATEGORY_CD 
+    , (SELECT ORG_NM  FROM HP1DM03T WHERE 1=1 AND ORG_LVL != '2'  AND ORG_CD=REGIST_ORG_CD ) AS REGIST_ORG_NM 
+    ,(SELECT ORG_NM  FROM HP1DM03T WHERE 1=1 AND ORG_LVL != '2'  AND ORG_CD=OWNER_ORG_CD ) AS OWNER_ORG_NM 
+,OWNER_COMPANY_CD 
+    ,'1' AS ORDERPID 
+ FROM HP1DM01T A , HP1DM02T B 
+ WHERE 1=1 
+ AND A.PID = B.SUB_PID 
+ ) WHERE 1=1
+    <dynamic>
+      <isNotEmpty property="PID">AND PID LIKE '%'|| #PID# || '%'</isNotEmpty>
+      <isNotEmpty property="SUB_PID">AND SUB_PID LIKE '%'|| #SUB_PID# || '%'</isNotEmpty>
+      <isNotEqual property="PID_STATUS_CD" compareValue="">AND PID_STATUS_CD = #PID_STATUS_CD#</isNotEqual>
+      <isNotEqual property="RD_CATEGORY_CD" compareValue="">AND RD_CATEGORY_CD = #RD_CATEGORY_CD#</isNotEqual>
+      <isNotEmpty property="RD_THEME">AND RD_THEME LIKE '%'|| #RD_THEME# || '%'</isNotEmpty>
+      <isNotEmpty property="NICKNAME">AND NICKNAME LIKE '%'|| #NICKNAME# || '%'</isNotEmpty>
+      <isNotEmpty property="ITEM_NAME">AND ITEM_NAME LIKE '%'|| #ITEM_NAME# || '%'</isNotEmpty>
+      <isNotEqual property="OWNER_ORG_CD" compareValue="">AND OWNER_ORG_CD= #OWNER_ORG_CD#</isNotEqual>
+      <isNotEqual property="OWNER_COMPANY_CD" compareValue="">AND OWNER_COMPANY_CD= #OWNER_COMPANY_CD#</isNotEqual>
+    </dynamic>
+    order by PID, ORDERPID,SUB_PID
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceITest_SEL7">SELECT PID, 
+       RD_CATEGORY_TYPE, 
+       PID_STATUS_CD, 
+       RD_CATEGORY_CD, 
+       RD_THEME, 
+       ITEM_NAME, 
+       NICKNAME, 
+       NICKNAME_EXCL, 
+       APPLICATION, 
+       OWNER_COMPANY_CD, 
+       REGIST_COMPANY_CD, 
+       OWNER_ORG_CD, 
+       REGIST_ORG_CD, 
+       REGIST_USER_ID, 
+       REGIST_TIME, 
+       UPDATE_USER_ID, 
+       UPDATE_TIME 
+  FROM HP1DM01T 
+  where PID='P93543'</select>
+  <insert parameterClass="java.util.HashMap" id="ServiceITest_INS3">Insert into HP_DBA01.HP1DM01T (REGIST_ORG_CD, OWNER_COMPANY_CD, PID, REGIST_COMPANY_CD, PID_STATUS_CD, APPLICATION, RD_THEME, UPDATE_TIME, NICKNAME, RD_CATEGORY_TYPE, REGIST_TIME, RD_CATEGORY_CD, REGIST_USER_ID, UPDATE_USER_ID, ITEM_NAME, OWNER_ORG_CD, NICKNAME_EXCL)  values(#REGIST_ORG_CD# , #OWNER_COMPANY_CD# , #PID# , #REGIST_COMPANY_CD# , #PID_STATUS_CD# , #APPLICATION# , #RD_THEME# , #UPDATE_TIME# , #NICKNAME# , #RD_CATEGORY_TYPE# , #REGIST_TIME# , #RD_CATEGORY_CD# , #REGIST_USER_ID# , #UPDATE_USER_ID# , #ITEM_NAME# , #OWNER_ORG_CD# , #NICKNAME_EXCL# )</insert>
+</sqlMap>
+

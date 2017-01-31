@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>ErrorDisplay</title>
+        <script><![CDATA[ 
+        $(document).ready(function(){ 
+            
+        
+               $("#S_ERROR_CODE").val( getParamdata('ERROR_CODE'));
+              $("#S_ERROR_MSG").val( getParamdata('ERROR_MSG'));
+         
+        });
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  ERROR_CODE=""  ERROR_MSG=""   />
+                        </S>
+                        <init>
+                            <S>
+                                <row  ERROR_CODE=""  ERROR_MSG=""   />
+                            </S>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="29,24"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608766840467094897" label="Error Indication">    	</output>
+
+        	<output  location="54,78"  size="131,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608766868010670207" label="Error Code">    	</output>
+
+        	<textbox  location="189,78"  size="231,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_ERROR_CODE" bindcolumn="ERROR_CODE"  binddataset="S"  unikey="63608766866753598303" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="54,107"  size="131,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608766896003271328" label="Error Description">    	</output>
+
+        	<textarea  location="190,107"  size="231,53"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" style="background-color:#EBF7FF;border: 1px solid #a0c3f5 ;" visible="True" inputstyle="width:231px; height:53px; border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_ERROR_MSG" bindcolumn="ERROR_MSG"  binddataset="S"  unikey="63610229350370951258" value="" tabindex="0"  readonly="True"  ></textarea>
+
+    </div>
+</body>
+</html>

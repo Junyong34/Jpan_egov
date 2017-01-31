@@ -1,0 +1,55 @@
+/* Type Selector 
+ {-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box ;}*/
+html	{height : 100%}
+/*body	{width : 100% ;height : 100% ; position : relative ;  }*/
+li {list-style:none; }
+img, input, span, select {vertical-align:middle;}
+
+
+textarea {overflow:auto; border:0; color:#444;  resize:none; margin : 5px 0 5px 0 }
+legend {visibility:hidden; position:absolute; top:0; left:0; width:1px; height:1px; font-size:0; } 
+/* div {overflow:hidden;} */
+
+/* common */
+* { font-family : 'Dotum','굴림','Verdana','MalgunGothic','NanumGothic'  }
+body { margin : 0 ; padding-top : 79px ; color : #666666 }
+label { cursor : pointer }
+a { text-decoration : none }
+a:link,a:visited { color : #232323 }
+a:hover { color : #0064af }
+
+iframe{border:0px;}
+input,select,textarea { outline-width:0 ; transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
+input:focus,select:focus,textarea:focus {-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
+
+.padding-top-5 { padding-top : 5px !important }
+.padding-top-8 { padding-top : 8px !important }
+.margin-left-15 { margin-left : 15px !important }
+.float-left { float : left }
+.float-right { float : right }
+
+/* 메인 */
+#header,#container { min-width : 1240px }
+#header { width : 100% ; height : 79px ; position : absolute ; top : 0 ; border-bottom : solid 4px #6382c3 ; background : url('../jsp/menu/img/header_pattern.png') top left }
+#header > div.logo { height : 100%; padding : 13px 0 0 42px ; float : left ; background : url('../jsp/menu/img/header.png') top left no-repeat }
+#header > div.logo > .nsystems { margin-right : 212px }
+#header > div.btns { float : right ; padding : 23px 74px 0 0 }
+#header > div.btns > .dot { padding : 0 8px ; margin-top : -4px ; display : inline-block }
+#header > div.btns > .user { font-weight : 600 ; padding-right : 15px ; color : #ffffff !important }
+#header > div.btns a { color : #ffffff }
+
+/*div */
+#snb { background-color : #f1f6fe ; position : absolute ; width : 252px ; height : 100% ; left : 0 }
+#snb div.divide { width : 9px ; height : 100% ; position : absolute ; left : 252px ; background : url('../img/main/divide.png') top center repeat-y }
+#snb div.divide > .handle { width : 9px ; height : 78px ; position : absolute ; top : 50% ; margin-top : -39px ; background : url('../img/main/divide-handle.png') }
+
+#divbar { float:left; width:9px; height:2000px; cursor:pointer;
+            background:url('../jsp/menu/img/main/divide.png'); background-repeat:repeat-y }
+
+#divbar_image { position:absolute; top:50%; cursor:pointer ;}
+
+
+div.search-box { height:100%;  background : url('../jsp/menu/img/main/searchbox-left.png') left top no-repeat,url('../jsp/menu/img/main/searchbox-right.png') right top no-repeat,url('../jsp/menu/img/main/searchbox.png') left top repeat-x  ;
+padding : 19px 22px 0 38px; }
+div.search-box .serachlabel { background : url('../jsp/menu/img/main/searchbox-head.png') left center no-repeat ; padding-left : 13px ; font-size : 14px ; color : #0054a6 ; font-weight : 600 }
+.titleLabel { font-family : 'NanumGothic' ; font-size : 19px ; color : #4576bd ; font-weight : 600 ; letter-spacing : 0.1em ; float : left }

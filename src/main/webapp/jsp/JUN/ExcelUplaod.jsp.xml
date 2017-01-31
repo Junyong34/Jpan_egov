@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>엑셀업로드(데모)</title>
+        <script><![CDATA[ 
+        function button2_OnClick(myObj)
+        {
+          isloadingCheck =true;
+           Execelupload_jun.submit(false);
+         
+        }
+        function FIleUPload_S1_FILE()
+        {
+        wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'S1_FILE', 'Excel', ['xls','xlsx']);
+        }
+        function Excel(){
+        
+        }
+        function S1_FILE_OnChange(myObj)
+        {
+        
+        FIleUPload_S1_FILE();
+        }
+        
+        function button3_OnClick(myObj)
+        { 
+                $("#group1").dialog({  
+                        autoOpen: false,  
+                        height: 620,  
+                        width: 1085, 
+                        modal: true,  
+                        title: "제목",  
+                        resizable: true,  
+                        closeOnEscape: true 
+                      
+               
+                       , create: function (event, ui) {  
+                        },  
+                        open: function (event, ui) {  
+                        },  
+                        close: function () {  
+                        },  
+                        cancle: function () {  
+                        }  
+                    });  
+                    $("#group1").dialog("open"); 
+        
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" checkbox="" >
+                            <row  FILE=""  GUBUN=""   />
+                        </S1>
+                        <S dateformat="" checkbox="" >
+                            <row  SAWONNO=""  SAWONNM=""  ADDR=""  DEPTCD=""  BIGO=""   />
+                        </S>
+                        <init>
+                            <S1>
+                                <row  FILE=""  GUBUN=""   />
+                            </S1>
+                            <S>
+                                <row  SAWONNO=""  SAWONNM=""  ADDR=""  DEPTCD=""  BIGO=""   />
+                            </S>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Execelupload_jun" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="grid1:SEL12" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_ExcelUpload.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="ExcelUpload" menuname="박준용" eventname="엑셀업로드(실습)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<textbox  location="147,32"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:#22FFEF; text-align:left;" id="S1_GUBUN" bindcolumn="GUBUN"  binddataset="S1"  unikey="63595108202714681416" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" value="JUN" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);wizutil.CheckNumberValue(this);">    	</textbox>
+
+        	<button  location="484,39"  size="121,38"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63595108319706372950" visible="True" value="저장" tabindex="0"  ></button>
+
+        	<button  location="614,39"  size="121,38"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63595108337802408067" visible="True" value="엑셀업로드" tabindex="0"  onclick="button2_OnClick(this);" ></button>
+
+        	<button  location="817,73"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63595115429646038246" visible="True" value="button" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+        	<upload  location="118,80"  size="344,21"  visible="True" inputstyle="width:344px; height:21px;color:Black;" id="S1_FILE" bindcolumn="FILE"  binddataset="S1"  unikey="63595108291220743740" bind="S1_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="S1_FILE_OnChange(this);" ></upload>
+
+    
+       <grid  rownum="1000" unikey="63595364824985394018" id="grid1" dataset="S" border="1" width="733" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="21,129"  size="733,209"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  >
+        <heads>
+          <row height="23">
+          <head title="사원번호" text-align="center" > </head>
+          <head title="사원명" text-align="center" > </head>
+          <head title="주소" text-align="center" > </head>
+          <head title="부서코드" text-align="center" > </head>
+          <head title="비교" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="SAWONNO" dataset="S" columnid="SAWONNO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SAWONNM" dataset="S" columnid="SAWONNM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="ADDR" dataset="S" columnid="ADDR" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="DEPTCD" dataset="S" columnid="DEPTCD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="BIGO" dataset="S" columnid="BIGO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    </div>
+</body>
+</html>

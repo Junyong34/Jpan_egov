@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>마스터 입출력</title>
+        <script><![CDATA[ 
+        $(function(){          
+        	/*$('#UPLOAD').click(function(e){
+        		$("#F_FILE").val("");
+        		e.preventDefault();   //이벤트 중단 현재	         
+        		$("#F_FILE").click();             
+        	});    
+        	
+         	$('#UPLOAD2').click(function(e){
+        		$("#F_FILE2").val("");
+        		e.preventDefault();   //이벤트 중단 현재	         
+        		$("#F_FILE2").click();             
+        	}); 
+        	
+        	$('#UPLOAD3').click(function(e){
+        		$("#F_FILE3").val("");
+        		e.preventDefault();   //이벤트 중단 현재	         
+        		$("#F_FILE3").click();             
+        	}); */
+        });  
+        function Result(){
+        Return_RTN_MSG();
+        
+        if($("#out_code").val() == 0) Return_RTN_MSG("00002");
+        }
+        
+        function FIleUPload_F_FILE()
+        {
+        
+           if($("#F_FILE").val() != "")wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'F_FILE', '', ['xls','xlsx']);
+        }
+        function FIleUPload_F_FILE2()
+        {
+            if($("#F_FILE2").val() != "")wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'F_FILE2', '', ['xls','xlsx']);
+        }
+        function FIleUPload_F_FILE3()
+        {
+           if($("#F_FILE3").val() != "")wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'F_FILE3', '', ['xls','xlsx']);
+        }
+        
+        
+        function F_FILE_OnChange(myObj)
+        {
+        	$("#S_FLAG").val("CURRENCY");
+        	FIleUPload_F_FILE();
+        
+        }
+        function F_FILE2_OnChange(myObj)
+        {
+        FIleUPload_F_FILE2();
+        
+        }
+        function F_FILE3_OnChange(myObj)
+        {
+        FIleUPload_F_FILE3();
+        
+        }
+        //업로드 파일 인서트 시킴킴
+        function UPLOAD_OnClick(myObj)
+        {
+        $("#F_FILE").val("");
+        
+          CurrencyExcel.submit(false,"Result");
+        }
+        function UPLOAD2_OnClick(myObj)
+        {
+        $("#F_FILE2").val("");
+        }
+        function UPLOAD3_OnClick(myObj)
+        {
+        $("#F_FILE3").val("");
+        }
+        
+        
+        function btn_currency_down_OnClick(myObj)
+        {
+        	$("#S_FLAG").val("CURRENCY");
+        	FormSubmit("frm" , "/hpms/hpms.do?SYSID=HPMS&MENUID=20160901091140&EVENTID=MasterExcelDown" , "S[A]:S" ,"",false); 
+        }
+        function btn_application_down_OnClick(myObj)
+        {
+        	$("#S_FLAG").val("APPLICATION");
+        	FormSubmit("frm" , "/hpms/hpms.do?SYSID=HPMS&MENUID=20160901091140&EVENTID=MasterExcelDown" , "S[A]:S" ,"",false); 
+        }
+        function btn_department_down_OnClick(myObj)
+        {
+        	$("#S_FLAG").val("DEPARTMENT");
+        	FormSubmit("frm" , "/hpms/hpms.do?SYSID=HPMS&MENUID=20160901091140&EVENTID=MasterExcelDown" , "S[A]:S" ,"",false); 
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <F dateformat="" >
+                            <row  FILE=""  FILE2=""  FILE3=""   />
+                        </F>
+                        <S dateformat="" >
+                            <row  FLAG=""   />
+                        </S>
+                        <init>
+                            <F>
+                                <row  FILE=""  FILE2=""  FILE3=""   />
+                            </F>
+                            <S>
+                                <row  FLAG=""   />
+                            </S>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_CurrencyExcel" validate="false" method="post" replace="instance" instance="template"
+                     indataset="F[A]:F,S[A]:S" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/hpms.do?SYSID=HPMS&amp;MENUID=2016082417899&amp;EVENTID=ForecastTitleSet" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="ForecastTitleSet" menuname="20. Forecast관리" eventname="01. Forecast호칭 설정" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608750755600093070" label="Master Input and Output">    	</output>
+
+        	<button  location="397,100"  size="72,36"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="UPLOAD" label="" type="button" src="" unikey="63608752492656447096" visible="True" value="UPLOAD" tabindex="0"  onclick="UPLOAD_OnClick(this);" ></button>
+
+        	<button  location="526,100"  size="72,36"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_currency_down" label="" type="button" src="" unikey="63608752502960036322" visible="True" value="Download" tabindex="0"  onclick="btn_currency_down_OnClick(this);" ></button>
+
+        	<output  location="48,101"  size="123,31"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608751064470759492" label="Currency Master">    	</output>
+
+        	<upload  location="183,107"  size="196,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:196px; height:21px;color:Black;" id="F_FILE" bindcolumn="FILE"  binddataset="F"  unikey="63608755454820873102" bind="F_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="F_FILE_OnChange(this);" ></upload>
+
+        	<button  location="526,160"  size="72,36"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_department_down" label="" type="button" src="" unikey="63608752504800141531" visible="True" value="Download" tabindex="0"  onclick="btn_department_down_OnClick(this);" ></button>
+
+        	<button  location="397,160"  size="72,36"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="UPLOAD2" label="" type="button" src="" unikey="63608752498791797907" visible="True" value="UPLOAD" tabindex="0"  onclick="UPLOAD2_OnClick(this);" ></button>
+
+        	<output  location="48,161"  size="123,31"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608751078446558897" label="Department Master">    	</output>
+
+        	<upload  location="183,165"  size="196,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:196px; height:21px;color:Black;" id="F_FILE2" bindcolumn="FILE2"  binddataset="F"  unikey="63608755483075489286" bind="F_FILE2_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="F_FILE2_OnChange(this);" ></upload>
+
+        	<button  location="526,220"  size="72,36"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_application_down" label="" type="button" src="" unikey="63608752506848258741" visible="True" value="Download" tabindex="0"  onclick="btn_application_down_OnClick(this);" ></button>
+
+        	<output  location="50,220"  size="123,31"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63608751093438416301" label="Allocation Master">    	</output>
+
+        	<button  location="397,220"  size="72,36"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="UPLOAD3" label="" type="button" src="" unikey="63608752500903918714" visible="True" value="UPLOAD" tabindex="0"  onclick="UPLOAD3_OnClick(this);" ></button>
+
+        	<upload  location="183,227"  size="196,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:196px; height:21px;color:Black;" id="F_FILE3" bindcolumn="FILE3"  binddataset="F"  unikey="63608755486770700599" bind="F_FILE3_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="F_FILE3_OnChange(this);" ></upload>
+
+        	<textbox  location="48,281"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_FLAG" bindcolumn="FLAG"  binddataset="S"  unikey="63608846913687500028" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title> PL Sheet Output</title>
+        <script><![CDATA[ 
+        function btn_download_OnClick(myObj)
+        {
+        	if($("#S2_PID").val() == "")
+        	{
+        		alert("PID is Not Found.");
+        		return;
+        	}
+        	
+        	$("#S3_CNT").val("");
+        	
+        	sbmPIDCheck.submit(false, "callbackDownload" );
+        	
+        }
+        
+        
+        function callbackDownload()
+        {
+           if($("#S3_CNT").val() == "0")
+        	{
+        		alert("PID CODE is Not Found.");
+        		return;
+           }
+           FormSubmit("frm" , "/hpms/20160901101143PLSheetOutput_PLSheetDownload.do" , "S2[A]:S" ,"" ,false ); 
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <C dateformat="" >
+                            <row  ITEM_NM=""  ITEM_CD=""   />
+                        </C>
+                        <S2 dateformat="" >
+                            <row  PID=""  DATA_TYPE=""   />
+                        </S2>
+                        <S3 dateformat="" >
+                            <row  CNT=""   />
+                        </S3>
+                        <init>
+                            <C>
+                                <row  ITEM_NM=""  ITEM_CD=""   />
+                            </C>
+                            <S2>
+                                <row  PID=""  DATA_TYPE=""   />
+                            </S2>
+                            <S3>
+                                <row  CNT=""   />
+                            </S3>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S1_DATA_TYPE:SEL10" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_CommonCombo.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="40. 공통코드 관리" eventname="02 공통 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmPIDCheck" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="S3:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101143PLSheetOutput_PIDCheck.do" encoding="UTF-8" confirm="" menuid="20160901101143" eventid="PIDCheck" menuname="90. PL Sheet Output" eventname="02. PID Check" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608757345678023960" label="PL Sheet Output">    	</output>
+
+        	<userobject  location="532,25"  size="100,100"  inputstyle="width:100px; height:100px; border-width:1px; background-color:Transparent; color:Black; border-color:Transparent; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63611265469093886562" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<output  location="58,107"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608757438925357463" label="PID">    	</output>
+
+        	<textbox  location="186,108"  size="144,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_PID" bindcolumn="PID"  binddataset="S2"  unikey="63608758471974444434" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="58,145"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608757445525734968" label="Date Type">    	</output>
+
+        	<combo  location="185,145"  size="144,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:144px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S2"  unikey="63608757485893043810" bind="S2_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+    	</combo>
+
+        	<button  location="185,215"  size="144,26"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_download" label="" type="button" src="" unikey="63608757514188662221" visible="True" value="Download" tabindex="0"  onclick="btn_download_OnClick(this);" ></button>
+
+        	<textbox  location="184,247"  size="60,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_CNT" bindcolumn="CNT"  binddataset="S3"  unikey="63611107737703125080" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+    </div>
+</body>
+</html>

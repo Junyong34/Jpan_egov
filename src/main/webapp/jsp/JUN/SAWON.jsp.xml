@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>그리드 함수 SAMPLE</title>
+        <script><![CDATA[ 
+        function grid1_OnLoadComplete()
+        {
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  BASE_YEAR=""  BIZ_PLACE_CD=""  ITEM_CD=""  ITEM_NM=""  ITEM_TYPE_CD=""  ITEM_SPEC=""  ITEM_MODEL=""  ITEM_UNIT=""  PURVEY_GBN_CD=""  MAKE_GBN_CD=""  BUY_PLACE_CD=""  BUY_TYPE_CD=""  MONEY_UNIT_CD=""  UNIT_PRICE=""  INCIDENT_COST_RATE=""   />
+                        </S1>
+                        <init>
+                            <S1>
+                                <row  BASE_YEAR=""  BIZ_PLACE_CD=""  ITEM_CD=""  ITEM_NM=""  ITEM_TYPE_CD=""  ITEM_SPEC=""  ITEM_MODEL=""  ITEM_UNIT=""  PURVEY_GBN_CD=""  MAKE_GBN_CD=""  BUY_PLACE_CD=""  BUY_TYPE_CD=""  MONEY_UNIT_CD=""  UNIT_PRICE=""  INCIDENT_COST_RATE=""   />
+                            </S1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="2016041114476" eventid="getCondition" menuname="" eventname="04.조회조건" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_saveList" validate="false" method="post" replace="instance" instance="template"
+                     indataset="grid1[A]:S" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114476AccountTitleMgr_saveAccountTitle.do" encoding="UTF-8" confirm="저장하시겠습니까?" menuid="2016041114476" eventid="saveAccountTitle" menuname="02. 계정과목 관리" eventname="03.계정과목저장" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_excelDown" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/excelDown.excel" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_selectList" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114476AccountTitleMgr_selectAccountTitle.do" encoding="UTF-8" confirm="" menuid="2016041114476" eventid="selectAccountTitle" menuname="02. 계정과목 관리" eventname="02.계정과목조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<button  location="308,48"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button7" label="" type="button" src="" unikey="63600976799525640551" visible="True" value="추가" tabindex="0"  onclick="button7_OnClick(this);" ></button>
+
+        	<button  location="52,50"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button23" label="" type="button" src="" unikey="63600977155510001605" visible="True" value="Row선택" tabindex="0"  onclick="button23_OnClick(this);" ></button>
+
+        	<button  location="656,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button4" label="" type="button" src="" unikey="63597275026782543064" visible="True" value="ColumnShow" tabindex="0"  onclick="button4_OnClick(this);" ></button>
+
+        	<button  location="544,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63597275024917436360" visible="True" value="ColumnHide" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+        	<button  location="869,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button6" label="" type="button" src="" unikey="63597275985799395612" visible="True" value="DeleteRow" tabindex="0"  onclick="button6_OnClick(this);" ></button>
+
+        	<button  location="166,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63597258939145382845" visible="True" value="조회" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+        	<button  location="762,56"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button5" label="" type="button" src="" unikey="63597275964039151001" visible="True" value="insertRow" tabindex="0"  onclick="button5_OnClick(this);" ></button>
+
+        	<button  location="646,92"  size="135,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button9" label="" type="button" src="" unikey="63597276187181914168" visible="True" value="선택된 Row Index값" tabindex="0"  onclick="button9_OnClick(this);" ></button>
+
+        	<button  location="531,92"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button8" label="" type="button" src="" unikey="63597276059030584259" visible="True" value="CellStyle" tabindex="0"  onclick="button8_OnClick(this);" ></button>
+
+        	<button  location="792,92"  size="135,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button10" label="" type="button" src="" unikey="63597276252636657914" visible="True" value="Column Object 값" tabindex="0"  onclick="button10_OnClick(this);" ></button>
+
+        	<button  location="418,131"  size="239,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button11" label="" type="button" src="" unikey="63597276298469279365" visible="True" value="Column Index로 이름가져오기" tabindex="0"  onclick="button11_OnClick(this);" ></button>
+
+        	<button  location="667,131"  size="273,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button12" label="" type="button" src="" unikey="63597276411779760310" visible="True" value="Column 이름으로 ColIndex값 가져오기" tabindex="0"  onclick="button12_OnClick(this);" ></button>
+
+        	<button  location="648,164"  size="131,20"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button14" label="" type="button" src="" unikey="63597276521091012611" visible="True" value="Cell 값 가져오기" tabindex="0"  onclick="button14_OnClick(this);" ></button>
+
+        	<button  location="431,164"  size="198,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button13" label="" type="button" src="" unikey="63597276479491633271" visible="True" value="상태 Flag 값 가져오기" tabindex="0"  onclick="button13_OnClick(this);" ></button>
+
+        	<button  location="796,164"  size="148,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn" label="" type="button" src="" unikey="63597276557691106068" visible="True" value="cell 값 변경 하기" tabindex="0"  onclick="btn_OnClick(this);" ></button>
+
+        	<button  location="632,199"  size="224,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button16" label="" type="button" src="" unikey="63597276655274687464" visible="True" value="Flag가 U인 Row 정보 가져오기" tabindex="0"  onclick="button16_OnClick(this);" ></button>
+
+        	<button  location="869,199"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button20" label="" type="button" src="" unikey="63597276827241523413" visible="True" value="Grid Clear" tabindex="0"  onclick="button20_OnClick(this);" ></button>
+
+        	<button  location="427,199"  size="189,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button15" label="" type="button" src="" unikey="63597276607098931999" visible="True" value="선택된 Row Cell 값 가져오기" tabindex="0"  onclick="button15_OnClick(this);" ></button>
+
+        	<button  location="184,204"  size="63,26"  font-family="굴림체" font-size="9.75" inputclass="btn-search-s" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button22" label="" type="button" src="" unikey="63599352796454527201" visible="True" value="" tabindex="0"  ></button>
+
+        	<button  location="692,237"  size="160,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button18" label="" type="button" src="" unikey="63597276752435244773" visible="True" value="Grid Column 총 수" tabindex="0"  onclick="button18_OnClick(this);" ></button>
+
+        	<button  location="862,237"  size="161,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button19" label="" type="button" src="" unikey="63597276781153887312" visible="True" value="Grid Row 총 수" tabindex="0"  onclick="button19_OnClick(this);" ></button>
+
+        	<button  location="428,237"  size="247,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button17" label="" type="button" src="" unikey="63597276692738830382" visible="True" value="Grid Edit 상태 Close 처리" tabindex="0"  onclick="button17_OnClick(this);" ></button>
+
+        	<button  location="357,283"  size="109,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button" label="" type="button" src="" unikey="63597806040123338861" visible="True" value="파일다운로드" tabindex="0"  onclick="button_OnClick(this);" ></button>
+
+        	<button  location="558,283"  size="193,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button21" label="" type="button" src="" unikey="63597361795720442471" visible="True" value="그리드 스타일 변경" tabindex="0"  onclick="button21_OnClick(this);" ></button>
+
+        	<button  location="791,286"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:DarkGray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63597258955847338148" visible="True" value="Colmerge" tabindex="0"  onclick="button2_OnClick(this);" ></button>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,633 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>editable(true)</title>
+        <script><![CDATA[ 
+        $(document).ready(function(){
+        
+        	$('#gbox_grid2').css('border', 0) ;
+        }) ;
+        
+        // 추가
+        function button5_OnClick(myObj)
+        {
+        	if(!validate()) return ;
+        
+        	if($('#S2_PURVEY_GBN_CD').val() == '01')
+        	{
+        		var rowIndex = grid1.getRowCount();
+        		
+        		grid1.insertRow();
+        		grid1.setCellValue(rowIndex, "BASE_YEAR", $('#S2_BASE_YEAR').val(), true);				
+        		grid1.setCellValue(rowIndex, "PURVEY_GBN_CD", "01", true);				
+        	}
+        	else if($('#S2_PURVEY_GBN_CD').val() == '02')
+        	{
+        		var rowIndex = grid2.getRowCount();		
+        
+        		grid2.insertRow();
+        		grid2.setCellValue(rowIndex, "BASE_YEAR", $('#S2_BASE_YEAR').val(), true);				
+        		grid2.setCellValue(rowIndex, "PURVEY_GBN_CD", "02", true);						
+        	}	
+        }
+        
+        // 조회
+        function button1_OnClick(myObj)
+        {
+        	if(!validate()) return ;
+        	
+        	if($('#S2_PURVEY_GBN_CD').val() == '01')
+        	{
+        		// 초기화
+        		G1_CURR_ROW_INDEX = -1 ;
+        		
+        		selectList.submit(false); 	
+        	}
+        	else if($('#S2_PURVEY_GBN_CD').val() == '02')
+        	{
+        		// 초기화
+        		G2_CURR_ROW_INDEX = -1 ;
+        		
+        		selectList2.submit(false); 	
+        	}	
+        	
+        }
+        
+        // 생산탭 이동
+        function tab1_Page1_OnClick(myObj)
+        {
+        	$('#S2_PURVEY_GBN_CD').val('01');	
+        	$('#S2_MAKE_GBN_CD').attr('disabled', false);
+        }
+        
+        // 구매탭 이동
+        function tab1_Page2_OnClick(myObj)
+        {
+        	$('#S2_PURVEY_GBN_CD').val('02');
+        	$('#S2_MAKE_GBN_CD').val('Z');
+        	$('#S2_MAKE_GBN_CD').attr('disabled', true);
+        }
+        
+        
+        var G1_CURR_ROW_INDEX = -1 ;
+        function grid1_OnChange(rowIndex, colName)
+        {
+        	G1_CURR_ROW_INDEX = rowIndex ;
+        
+        	// 삭제 체크박스 부분 이벤트 해제.
+        	if(colName == 'cb') return ;
+        	
+        	var iudFlag = grid1.getCellValue(rowIndex, 'IUDFLAG', true);
+        	var MAKE_GBN_CD = grid1.getCellValue(rowIndex, 'MAKE_GBN_CD', true);
+        	
+        	if(iudFlag == 'I')
+        	{
+        		// 품목코드 Readonly 해제
+        		setCellOpt(rowIndex, grid1.getColumnIndex('ITEM_CD'));	
+        	}
+        
+        	// 생산구분	
+        	if(colName == 'MAKE_GBN_CD')
+        	{
+        		if(MAKE_GBN_CD == '01') // 자체생산
+        		{
+        		}
+        		else if(MAKE_GBN_CD == '02') // 외주생산
+        		{
+        			var rowId = grid1.getGridRowId(rowIndex) ;
+        /*	alert(rowId);
+        	grid1.setCell(rowId, 'ACT_CENTER_01', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_02', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_03', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_04', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_05', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_06', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_07', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_08', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_09', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_10', null);
+        	
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_01', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_02', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_03', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_04', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_05', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_06', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_07', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_08', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_09', null);
+        	grid1.setCell(rowId, 'ACT_CENTER_NM_10', null);
+        */	
+        
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_01'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_02'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_03'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_04'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_05'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_06'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_07'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_08'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_09'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_10'), null, true);
+        
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_01'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_02'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_03'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_04'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_05'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_06'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_07'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_08'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_09'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_10'), null, true);
+        			
+        			
+        		}
+        	}
+        	
+        	if(colName == 'BIZ_PLACE_CD')
+        	{
+        		alert('1');
+        	}
+        }	
+        
+        var G2_CURR_ROW_INDEX = -1 ;
+        function grid2_OnChange(rowIndex, colName)
+        {
+        	G2_CURR_ROW_INDEX = rowIndex ;
+        
+        	// 삭제 체크박스 부분 이벤트 해제.
+        	if(colName == 'cb') return ;
+        	
+        	var iudFlag = grid2.getCellValue(rowIndex, 'IUDFLAG', true);
+        	if(iudFlag == 'I')
+        	{
+        		// 품목코드 Readonly 해제
+        		setCellOpt(rowIndex, grid2.getColumnIndex('ITEM_CD'));	
+        	}
+        
+        }
+        
+        // 저장
+        function button4_OnClick(myObj)
+        {
+            var rowCount = grid1.getRowCount();
+                
+            for(var rowIndex = 0; rowIndex <= rowCount; rowIndex++)
+            {
+                var iudFlag = grid1.getCellValue(rowIndex, 'IUDFLAG', true);
+                                      
+                if(iudFlag == 'I' || iudFlag == 'U')
+                {
+        			// 계정유형     
+        			//var ACCNT_TYPE_CD = grid1.getCellValue(rowIndex, 'ACCNT_TYPE_CD', true);	    			
+                                
+          		}
+          	}   	
+          	 	
+        	if($('#S2_PURVEY_GBN_CD').val() == '01')
+        	{
+        		saveList.submit(false); 
+        	}
+        	else if($('#S2_PURVEY_GBN_CD').val() == '02')
+        	{
+        		saveList2.submit(false);
+        	}  	 	
+            
+        }
+        
+        // 활동센터조회
+        function popActCenter(rowId,rowIndex,suffix)
+        {
+        	if(!validate()) return;
+        
+            var iudFlag = grid1.getCellValue(rowIndex, 'IUDFLAG', true);                           
+            
+            /*** 활동센터조회 팝업 시작 ***/
+        	   
+            // 필수 수정
+        	var fromWhere = 'G' ; // S:조회조건, G:그리드
+        		
+        	// 조회조건 영역
+        	var baseYear = grid1.getCellValueAfterSave(rowIndex , "BASE_YEAR", true);
+        	var bizPlaceCd = grid1.getCellValueAfterSave(rowIndex , "BIZ_PLACE_CD", true);	
+        	var actCenterGbn = '';
+        	var actCenterCd = '';
+        	var actCenterNm = '';
+        		
+        	// 반환정보 입력 영역 (부모창)
+            var targetGridId   = 'grid1';    // 반환대상 그리드 아이디(그리드가 아닌경우 '') 
+            var targetRowIndex = rowIndex;   // 반환대상 그리드 Row Index (그리드가 아닌경우 '') 
+            var targetBizPlaceCd = '';       // 반환대상 사업장코드 필드명 (대상없으면 '') 
+            var targetActCenterCd = 'ACT_CENTER_'+suffix;  // 반환대상 활동센터코드 필드명 (대상없으면 '')   
+            var targetActCenterNm = 'ACT_CENTER_NM_'+suffix;  // 반환대상 활동센터명칭 필드명 (대상없으면 '')   
+        
+        	if(!bizPlaceCd)
+        	{
+        		alert('사업장을 선택하세요');		
+        		return false ;	
+        	}	
+        
+        	// 활동센터조회 팝업 - Scost.js
+            popBaseActCenter(rowId, fromWhere, baseYear, bizPlaceCd, actCenterGbn, actCenterCd, actCenterNm
+        		              ,targetGridId, targetRowIndex, targetBizPlaceCd, targetActCenterCd, targetActCenterNm) // 필수 고정
+        		
+        	/*** 활동센터조회 팝업 종료 ***/
+        }
+        
+        function validate()
+        {
+        	if($('#S2_BASE_YEAR').val() == 'Z')
+        	{
+        		alert('기준연도를 선택하세요');
+        		$('#S2_BASE_YEAR').focus();
+        		return false ;	
+        	}	
+        	return true ;
+        }
+        function grid1_OnCellSelect(rowIndex, Colname, cellcontent, e)
+        {
+        	if(Colname == 'ITEM_TYPE_CD') return ;
+        	if(Colname == 'ITEM_UNIT') return ;
+        	if(Colname == 'PURVEY_GBN_CD') return;
+        	if(Colname == 'MAKE_GBN_CD') return ;
+        	if(Colname == 'BIZ_PLACE_CD') return ;
+        	if(Colname == 'MAKE_GBN_CD') return ;
+        	
+        	grid1_OnChange(rowIndex, Colname) ;
+        }
+        function grid2_OnCellSelect(rowIndex, Colname, cellcontent, e)
+        {
+        	if(Colname == 'ITEM_TYPE_CD') return ;
+        	if(Colname == 'ITEM_UNIT') return ;
+        	if(Colname == 'PURVEY_GBN_CD') return ;
+        	if(Colname == 'MAKE_GBN_CD') return ;
+        	if(Colname == 'BIZ_PLACE_CD') return ;
+        	if(Colname == 'BUY_TYPE_CD') return ;
+        	if(Colname == 'MONEY_UNIT') return ;
+        
+        	grid2_OnChange(rowIndex, Colname) ;
+        }
+        function ACT_CENTER_NM_01_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'01');
+        }
+        function ACT_CENTER_NM_02_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'02');
+        }
+        function ACT_CENTER_NM_03_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'03');
+        }
+        function ACT_CENTER_NM_04_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'04');
+        }
+        function ACT_CENTER_NM_05_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'05');
+        }
+        function ACT_CENTER_NM_06_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'06');
+        }
+        function ACT_CENTER_NM_07_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'07');
+        }
+        function ACT_CENTER_NM_08_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'08');
+        }
+        function ACT_CENTER_NM_09_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'09');
+        }
+        function ACT_CENTER_NM_10_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        	popActCenter(rowId,rowIndex,'10');
+        }
+        function grid1_OnLoadComplete()
+        {
+            // 그리드 OnChange이벤트 초기화
+        	//initGridOnChange('grid1') ;		
+        }
+        function grid2_OnLoadComplete()
+        {
+            // 그리드 OnChange이벤트 초기화
+        	initGridOnChange('grid2') ;		
+        }
+        
+        function grid1_OnInitGrid()
+        {
+         // 그리드 OnChange이벤트 초기화
+        	initGridOnChange('grid1') ;		
+        }
+        
+        function button7_OnClick(myObj)
+        {
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_01'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_02'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_03'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_04'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_05'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_06'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_07'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_08'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_09'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_10'), null, true);
+        
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_01'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_02'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_03'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_04'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_05'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_06'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_07'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_08'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_09'), null, true);
+        	grid1.setCellValue(0, grid1.getColumnIndex('ACT_CENTER_NM_10'), null, true);
+         /* grid1.setCell("R1", 'ACT_CENTER_01', null);
+        					grid1.setCell("R1", 'ACT_CENTER_02', null);
+        					grid1.setCell("R1", 'ACT_CENTER_03', null);
+        					grid1.setCell("R1", 'ACT_CENTER_04', null);
+        					grid1.setCell("R1", 'ACT_CENTER_05', null);
+        					grid1.setCell("R1", 'ACT_CENTER_06', null);
+        					grid1.setCell("R1", 'ACT_CENTER_07', null);
+        					grid1.setCell("R1", 'ACT_CENTER_08', null);
+        					grid1.setCell("R1", 'ACT_CENTER_09', null);
+        					grid1.setCell("R1", 'ACT_CENTER_10', null);
+        					
+        					grid1.setCell("R1", 'ACT_CENTER_NM_01', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_02', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_03', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_04', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_05', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_06', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_07', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_08', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_09', null);
+        					grid1.setCell("R1", 'ACT_CENTER_NM_10', null);
+        					
+        						grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_01'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_02'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_03'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_04'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_05'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_06'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_07'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_08'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_09'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_10'), null, true);
+        
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_01'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_02'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_03'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_04'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_05'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_06'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_07'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_08'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_09'), null, true);
+        	grid1.setCellValue("R1", grid1.getColumnIndex('ACT_CENTER_NM_10'), null, true);
+        	
+        	*/
+        			
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" checkbox="" >
+                            <row  BASE_YEAR=""  BIZ_PLACE_CD=""  ITEM_CD=""  ITEM_NM=""  ITEM_TYPE_CD=""  ITEM_SPEC=""  ITEM_MODEL=""  ITEM_UNIT=""  PURVEY_GBN_CD=""  MAKE_GBN_CD=""  BUY_PLACE_CD=""  BUY_TYPE_CD=""  MONEY_UNIT=""  UNIT_PRICE=""  INCIDENT_COST_RATE=""  ACT_CENTER_01=""  ACT_CENTER_02=""  ACT_CENTER_03=""  ACT_CENTER_04=""  ACT_CENTER_05=""  ACT_CENTER_06=""  ACT_CENTER_07=""  ACT_CENTER_08=""  ACT_CENTER_09=""  ACT_CENTER_10=""  INS_USER=""  INS_DATE=""  UPD_USER=""  UPD_DATE=""  ACT_CENTER_NM_01=""  ACT_CENTER_NM_02=""  ACT_CENTER_NM_03=""  ACT_CENTER_NM_04=""  ACT_CENTER_NM_05=""  ACT_CENTER_NM_06=""  ACT_CENTER_NM_07=""  ACT_CENTER_NM_08=""  ACT_CENTER_NM_09=""  ACT_CENTER_NM_10=""   />
+                        </S1>
+                        <S2 dateformat="" checkbox="" >
+                            <row  BASE_YEAR=""  ITEM_CD=""  ITEM_NM=""  ITEM_TYPE_CD=""  MAKE_GBN_CD=""  PURVEY_GBN_CD=""   />
+                        </S2>
+                        <C1 dateformat="" checkbox="" >
+                            <row  CBO_CD=""  CBO_NM=""   />
+                        </C1>
+                        <init>
+                            <S1>
+                                <row  BASE_YEAR=""  BIZ_PLACE_CD=""  ITEM_CD=""  ITEM_NM=""  ITEM_TYPE_CD=""  ITEM_SPEC=""  ITEM_MODEL=""  ITEM_UNIT=""  PURVEY_GBN_CD=""  MAKE_GBN_CD=""  BUY_PLACE_CD=""  BUY_TYPE_CD=""  MONEY_UNIT=""  UNIT_PRICE=""  INCIDENT_COST_RATE=""  ACT_CENTER_01=""  ACT_CENTER_02=""  ACT_CENTER_03=""  ACT_CENTER_04=""  ACT_CENTER_05=""  ACT_CENTER_06=""  ACT_CENTER_07=""  ACT_CENTER_08=""  ACT_CENTER_09=""  ACT_CENTER_10=""  INS_USER=""  INS_DATE=""  UPD_USER=""  UPD_DATE=""  ACT_CENTER_NM_01=""  ACT_CENTER_NM_02=""  ACT_CENTER_NM_03=""  ACT_CENTER_NM_04=""  ACT_CENTER_NM_05=""  ACT_CENTER_NM_06=""  ACT_CENTER_NM_07=""  ACT_CENTER_NM_08=""  ACT_CENTER_NM_09=""  ACT_CENTER_NM_10=""   />
+                            </S1>
+                            <S2>
+                                <row  BASE_YEAR=""  ITEM_CD=""  ITEM_NM=""  ITEM_TYPE_CD=""  MAKE_GBN_CD=""  PURVEY_GBN_CD=""   />
+                            </S2>
+                            <C1>
+                                <row  CBO_CD=""  CBO_NM=""   />
+                            </C1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S2_BASE_YEAR:SEL3,S2_ITEM_TYPE_CD:SEL9,S2_MAKE_GBN_CD:SEL11,grid1_ITEM_TYPE_CD:SEL8,grid1_ITEM_UNIT:SEL9,grid1_BIZ_PLACE_CD:SEL12,grid1_MAKE_GBN_CD:SEL11,grid2_BIZ_PLACE_CD:SEL12,grid2_ITEM_TYPE_CD:SEL9,grid2_ITEM_TYPE_CD:SEL6,grid2_PURVEY_GBN_CD:SEL8,grid2_BUY_PLACE_CD:SEL14,grid2_BUY_TYPE_CD:SEL16,grid2_MONEY_UNIT:SEL16" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114478ItemMasterMgr_comboItemMaster.do" encoding="UTF-8" confirm="" menuid="2016041114478" eventid="comboItemMaster" menuname="04. 품목 관리" eventname="02.조회조건" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_aaa33" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_MENU_NM:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160412101097MainScreenMgr_loadPage.do" encoding="UTF-8" confirm="" menuid="20160412101097" eventid="loadPage" menuname="30. 메인 화면" eventname="01. loadPage" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_bbb" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="grid1:SEL7" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_SAWONLIST.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="SAWONLIST" menuname="박준용" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_selectList" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114478ItemMasterMgr_selectItemMaster.do" encoding="UTF-8" confirm="" menuid="2016041114478" eventid="selectItemMaster" menuname="04. 품목 관리" eventname="03.품목 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_saveList" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2,grid1[C]:S1" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114478ItemMasterMgr_saveItemMaster.do" encoding="UTF-8" confirm="" menuid="2016041114478" eventid="saveItemMaster" menuname="04. 품목 관리" eventname="04.품목 저장" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_selectList2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="grid2:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114478ItemMasterMgr_selectItemMaster.do" encoding="UTF-8" confirm="" menuid="2016041114478" eventid="selectItemMaster" menuname="04. 품목 관리" eventname="03.품목 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="0,0"  size="1250,50"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63596912995494650214" label="품목관리">    	</output>
+
+        	<userobject  location="279,16"  size="77,22"  inputstyle="width:77px; height:22px; border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63597873865795703851" value="" navindex="0"  ><![CDATA[ 
+<div id="divPopup" name="divPopup" style="display:none;background-color:white;" >
+	<iframe id="ifmPopup" name="ifmPopup" style="width:1050px;height:540px;" scrolling="no">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<textbox  location="162,16"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_PURVEY_GBN_CD" bindcolumn="PURVEY_GBN_CD"  binddataset="S2"  unikey="63597549244764083911" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" value="01" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">    	</textbox>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="1,51"  size="1250,60"  unikey="63596913042566342620" style="" inputclass="search-box" visible="True" >  
+        <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="5,61"  size="1240,40"  unikey="63596913077516341627" style="" inputclass="search-box-inner" visible="True" >  
+                        	<combo  location="872,71"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="::전체::" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_MAKE_GBN_CD" bindcolumn="MAKE_GBN_CD"  binddataset="S2"  unikey="63596913207875797717" bind="S2_MAKE_GBN_CD_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="CBO_NM" itemcode="CBO_CD" appearance="minimal" >
+            	</combo>
+                        	<button  location="1081,71"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63596913334492039874" visible="True" value="조회" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+                        	<combo  location="316,71"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="::전체::" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_ITEM_TYPE_CD" bindcolumn="ITEM_TYPE_CD"  binddataset="S2"  unikey="63596913142172039770" bind="S2_ITEM_TYPE_CD_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="CBO_NM" itemcode="CBO_CD" appearance="minimal" >
+            	</combo>
+                        	<textbox  location="610,71"  size="90,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_ITEM_NM" bindcolumn="ITEM_NM"  binddataset="S2"  unikey="63596913175155926353" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">            	</textbox>
+                        	<output  location="29,71"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63596913100731669437" label="기준연도">            	</output>
+                        	<output  location="791,71"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63596913197571208390" label="생산구분">            	</output>
+                        	<button  location="708,71"  size="25,21"  font-family="굴림체" font-size="9.75" inputclass="btn-search-s" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button6" label="" type="button" src="" unikey="63596942418841569454" visible="True" value="" tabindex="0"  ></button>
+                        	<output  location="472,71"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63596913161332135613" label="품번/명">            	</output>
+                        	<textbox  location="541,71"  size="62,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_ITEM_CD" bindcolumn="ITEM_CD"  binddataset="S2"  unikey="63596918071056955821" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">            	</textbox>
+                        	<output  location="252,71"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63596913120611806557" label="품목구분">            	</output>
+                        	<combo  location="93,71"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="::선택::" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_BASE_YEAR" bindcolumn="BASE_YEAR"  binddataset="S2"  unikey="63596913111613291846" bind="S2_BASE_YEAR_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="CBO_NM" itemcode="CBO_CD" appearance="minimal" >
+            	</combo>
+        </group>    </group>
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group3" name="group3"  location="221,112"  size="1029,40"  unikey="63596913420865980172" style="z-index:9999;" inputclass="button-box" visible="True" >  
+                	<button  location="1007,121"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn4" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63596914109965394369" visible="True" value="엑셀일괄등록" tabindex="0"  ></button>
+                	<button  location="1115,121"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn4" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63596914106389189832" visible="True" value="엑셀다운로드" tabindex="0"  ></button>
+                	<button  location="931,122"  size="60,20"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button4" label="" type="button" src="" unikey="63596914113589601608" visible="True" value="저장" tabindex="0"  onclick="button4_OnClick(this);" ></button>
+                	<button  location="863,122"  size="60,20"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button5" label="" type="button" src="" unikey="63596914117076801149" visible="True" value="추가" tabindex="0"  onclick="button5_OnClick(this);" ></button>
+    </group>
+        <tabcontrol id="tab1" inputstyle="position:absolute; top:10px; left:0px; border-width:0px; border-color:Black; " location="0,160"  size="1250,500"  unikey="63596913389298174505" selectedColor="SteelBlue" unselectedColor="LightGray" visible="True" >
+    		<heads height="24" >
+    					<head  location="1,136"  size="94,24"  unikey="63596913389298174506" font-family="Microsoft Sans Serif" font-size="10" inputstyle="width:94px; height:24px; border-color:Black; border:0px solid;" style="color:white;" id="tab1_Page1" title="생산품목" >    </head>
+    					<head  location="95,136"  size="92,24"  unikey="63596914061339613162" font-family="Microsoft Sans Serif" font-size="10" inputstyle="width:92px; height:24px; border-color:Black; border:0px solid;" style="color:white;" id="tab1_Page2" title="구매품목" >    </head>
+    		</heads>
+    		<pages id="tab1Pages">
+    			<page id="tab1_Page1" inputstyle="position:absolute; top:26px; left:1px; width:1250px; height:475px;border:0px;background-color:White;border-color:Black;" unikey="63596913389298174506"  >
+    			        
+           <grid  rownum="10" unikey="63599182360482828662" id="grid1" dataset="S1" border="1" width="1240" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="2,162"  size="1240,485"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  oncellselect="grid1_OnCellSelect(this);" oninitgrid="grid1_OnInitGrid(this);" onloadcomplete="grid1_OnLoadComplete(this);" >
+            <heads>
+              <row height="23">
+              <head title="품목구분" text-align="center" > </head>
+              <head title="품목코드" text-align="center" > </head>
+              <head title="품목명" text-align="center" > </head>
+              <head title="품목규격" text-align="center" > </head>
+              <head title="품목모델" text-align="center" > </head>
+              <head title="품목단위" text-align="center" > </head>
+              <head title="조달구분" text-align="center" > </head>
+              <head title="생산구분" text-align="center" > </head>
+              <head title="사업장" text-align="center" > </head>
+              <head title="활동센터코드1" text-align="center" > </head>
+              <head title="활동센터1" text-align="center" > </head>
+              <head title="활동센터코드2" text-align="center" > </head>
+              <head title="활동센터2" text-align="center" > </head>
+              <head title="활동센터코드3" text-align="center" > </head>
+              <head title="활동센터3" text-align="center" > </head>
+              <head title="활동센터코드4" text-align="center" > </head>
+              <head title="활동센터4" text-align="center" > </head>
+              <head title="활동센터코드5" text-align="center" > </head>
+              <head title="활동센터5" text-align="center" > </head>
+              <head title="활동센터코드6" text-align="center" > </head>
+              <head title="활동센터6" text-align="center" > </head>
+              <head title="활동센터코드7" text-align="center" > </head>
+              <head title="활동센터7" text-align="center" > </head>
+              <head title="활동센터코드8" text-align="center" > </head>
+              <head title="활동센터8" text-align="center" > </head>
+              <head title="활동센터코드9" text-align="center" > </head>
+              <head title="활동센터9" text-align="center" > </head>
+              <head title="활동센터코드10" text-align="center" > </head>
+              <head title="활동센터10" text-align="center" > </head>
+              <head title="등록자" text-align="center" > </head>
+              <head title="등록일자" text-align="center" > </head>
+              <head title="기준연도" text-align="center" > </head>
+               </row>
+             </heads>
+
+            <columns height="23" >
+              <column  id="ITEM_TYPE_CD" dataset="S1" columnid="ITEM_TYPE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="ITEM_CD" dataset="S1" columnid="ITEM_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="ITEM_NM" dataset="S1" columnid="ITEM_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ITEM_SPEC" dataset="S1" columnid="ITEM_SPEC" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="86" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ITEM_MODEL" dataset="S1" columnid="ITEM_MODEL" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="89" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ITEM_UNIT" dataset="S1" columnid="ITEM_UNIT" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="83" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="PURVEY_GBN_CD" dataset="S1" columnid="PURVEY_GBN_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="91" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="True" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="MAKE_GBN_CD" dataset="S1" columnid="MAKE_GBN_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="87" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="BIZ_PLACE_CD" dataset="S1" columnid="BIZ_PLACE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_01" dataset="S1" columnid="ACT_CENTER_01" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_01" dataset="S1" columnid="ACT_CENTER_NM_01" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_01_POPUP_cellonclick_grid1" readonly="True" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_02" dataset="S1" columnid="ACT_CENTER_02" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_02" dataset="S1" columnid="ACT_CENTER_NM_02" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_02_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_03" dataset="S1" columnid="ACT_CENTER_03" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_03" dataset="S1" columnid="ACT_CENTER_NM_03" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_03_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_04" dataset="S1" columnid="ACT_CENTER_04" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_04" dataset="S1" columnid="ACT_CENTER_NM_04" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_04_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_05" dataset="S1" columnid="ACT_CENTER_05" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_05" dataset="S1" columnid="ACT_CENTER_NM_05" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_05_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_06" dataset="S1" columnid="ACT_CENTER_06" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_06" dataset="S1" columnid="ACT_CENTER_NM_06" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_06_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_07" dataset="S1" columnid="ACT_CENTER_07" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_07" dataset="S1" columnid="ACT_CENTER_NM_07" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_07_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_08" dataset="S1" columnid="ACT_CENTER_08" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_08" dataset="S1" columnid="ACT_CENTER_NM_08" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_08_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_09" dataset="S1" columnid="ACT_CENTER_09" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_09" dataset="S1" columnid="ACT_CENTER_NM_09" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_09_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="ACT_CENTER_10" dataset="S1" columnid="ACT_CENTER_10" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ACT_CENTER_NM_10" dataset="S1" columnid="ACT_CENTER_NM_10" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="ACT_CENTER_NM_10_POPUP_cellonclick_grid1" readonly="False" text-align="center" >            <events></events>              </column>
+              <column  id="INS_USER" dataset="S1" columnid="INS_USER" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="button"  imagepath="" popupOnclick="" text-align="center" >            <events></events>              </column>
+              <column  id="INS_DATE" dataset="S1" columnid="INS_DATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="calendar"  maxlength="20" dateFormat="yy-mm-dd" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" imagepath="" imagestyle="" text-align="center" >            <events></events>              </column>
+              <column  id="BASE_YEAR" dataset="S1" columnid="BASE_YEAR" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+            </columns>
+           </grid>
+
+    			</page>
+    			<page id="tab1_Page2" inputstyle="position:absolute; top:26px; left:1px; width:1250px; height:475px;border:0px;background-color:White;border-color:Black;" unikey="63596914061339613162"  >
+    			        
+           <grid  rownum="10" unikey="63599182360573833801" id="grid2" dataset="S1" border="1" width="1240" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="2,162"  size="1240,485"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  oncellselect="grid2_OnCellSelect(this);" onloadcomplete="grid2_OnLoadComplete(this);" >
+            <heads>
+              <row height="23">
+              <head title="기준연도" text-align="center" > </head>
+              <head title="품목구분(*)" text-align="center" > </head>
+              <head title="품목코드(*)" text-align="center" > </head>
+              <head title="품목명(*)" text-align="center" > </head>
+              <head title="품목규격" text-align="center" > </head>
+              <head title="품목모델" text-align="center" > </head>
+              <head title="품목단위(*)" text-align="center" > </head>
+              <head title="조달구분" text-align="center" > </head>
+              <head title="사업장" text-align="center" > </head>
+              <head title="구매처" text-align="center" > </head>
+              <head title="구매형태" text-align="center" > </head>
+              <head title="통화" text-align="center" > </head>
+              <head title="단가" text-align="center" > </head>
+              <head title="부대비용율" text-align="center" > </head>
+              <head title="등록자" text-align="center" > </head>
+              <head title="등록일자" text-align="center" > </head>
+              <head title="수정자" text-align="center" > </head>
+              <head title="수정일자" text-align="center" > </head>
+               </row>
+             </heads>
+
+            <columns height="23" >
+              <column  id="BASE_YEAR" dataset="S1" columnid="BASE_YEAR" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="ITEM_TYPE_CD" dataset="S1" columnid="ITEM_TYPE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="ITEM_CD" dataset="S1" columnid="ITEM_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="ITEM_NM" dataset="S1" columnid="ITEM_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ITEM_SPEC" dataset="S1" columnid="ITEM_SPEC" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ITEM_MODEL" dataset="S1" columnid="ITEM_MODEL" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >            <events></events>              </column>
+              <column  id="ITEM_UNIT" dataset="S1" columnid="ITEM_UNIT" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="PURVEY_GBN_CD" dataset="S1" columnid="PURVEY_GBN_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="True" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="BIZ_PLACE_CD" dataset="S1" columnid="BIZ_PLACE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="BUY_PLACE_CD" dataset="S1" columnid="BUY_PLACE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="BUY_TYPE_CD" dataset="S1" columnid="BUY_TYPE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="MONEY_UNIT" dataset="S1" columnid="MONEY_UNIT" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="False" rowmerge="False" text-align="center" >            <events></events>              </column>
+              <column  id="UNIT_PRICE" dataset="S1" columnid="UNIT_PRICE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="right" >            <events></events>              </column>
+              <column  id="INCIDENT_COST_RATE" dataset="S1" columnid="INCIDENT_COST_RATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="INS_USER" dataset="S1" columnid="INS_USER" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="INS_DATE" dataset="S1" columnid="INS_DATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="UPD_USER" dataset="S1" columnid="UPD_USER" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+              <column  id="UPD_DATE" dataset="S1" columnid="UPD_DATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >            <events></events>              </column>
+            </columns>
+           </grid>
+
+    			</page>
+    		</pages>
+    </tabcontrol>
+
+        	<button  location="375,703"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button7" label="" type="button" src="" unikey="63597901400849401483" visible="True" value="button" tabindex="0"  onclick="button7_OnClick(this);" ></button>
+
+        	<textbox  location="555,735"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_ITEM_CD" bindcolumn="ITEM_CD"  binddataset="S1"  unikey="63597951882251772421" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">    	</textbox>
+
+        	<textbox  location="708,743"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_ACT_CENTER_NM_01" bindcolumn="ACT_CENTER_NM_01"  binddataset="S1"  unikey="63597951884651909751" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">    	</textbox>
+
+    </div>
+</body>
+</html>

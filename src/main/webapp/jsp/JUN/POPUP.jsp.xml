@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>팝업화면</title>
+        <script><![CDATA[ 
+        $(document).ready(function () { 
+              $('#input1').val(getParamdata("SAWONNO"));
+              $('#input2').val(getParamdata("SAWONNM"));
+           });
+        
+        
+        function button1_OnClick(myObj)
+        {
+        
+        SAWONLIST.submit(false);
+        }
+        function grid1_OndblClickRow(rowIndex)
+        {;
+               var VAL_1 = grid1.getCellValue("R"+rowIndex, "SAWONNM", true);
+                var VAL_2 = grid1.getCellValue("R"+rowIndex, "SAWONNO", true);
+                alert(VAL_1);
+               $("#input2",parent.document).val(VAL_1);
+               $("#input1",parent.document).val(VAL_2);
+             $(parent.location).attr("href","javascript:fnSubOffClose();"); 
+                
+        
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <init>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SAWONLIST" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_SAWONLIST.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="SAWONLIST" menuname="박준용" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<button  location="711,30"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63600923565784844767" visible="True" value="button" tabindex="0"  ></button>
+
+        	<button  location="508,34"  size="103,41"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63595124768102167479" visible="True" value="사원조회" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+        	<textbox  location="196,39"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:#22FFEF; text-align:left;" id="input2" bindcolumn=""  binddataset=""  unikey="63595125091740678432" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">    	</textbox>
+
+        	<textbox  location="78,39"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:#22FFEF; text-align:left;" id="input1" bindcolumn=""  binddataset=""  unikey="63595125090077583327" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);">    	</textbox>
+
+    
+       <grid  rownum="1000" unikey="63604796459734145022" id="grid1" dataset="S1" border="1" width="886" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="28,114"  size="886,459"  readonly="false"  statusvisible="false"  allowdelete="false"  visible="true"  paging="false"  rownumber="true"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  ondblclickRow="grid1_OndblClickRow(this);" >
+        <heads>
+          <row height="23">
+          <head title="사원번호" text-align="center" > </head>
+          <head title="사원명" text-align="center" > </head>
+          <head title="주소" text-align="center" > </head>
+          <head title="비고" text-align="center" > </head>
+          <head title="부서코드" text-align="center" > </head>
+          <head title="입사일자" text-align="center" > </head>
+          <head title="직급코드" text-align="center" > </head>
+          <head title="결혼여부" text-align="center" > </head>
+          <head title="성별" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="SAWONNO" dataset="S1" columnid="SAWONNO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SAWONNM" dataset="S1" columnid="SAWONNM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="ADDR" dataset="S1" columnid="ADDR" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="BIGO" dataset="S1" columnid="BIGO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="DEPTCD" dataset="S1" columnid="DEPTCD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="IPSADATE" dataset="S1" columnid="IPSADATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="JIKGEUPCD" dataset="S1" columnid="JIKGEUPCD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="MARRYYN" dataset="S1" columnid="MARRYYN" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SEX" dataset="S1" columnid="SEX" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    </div>
+</body>
+</html>

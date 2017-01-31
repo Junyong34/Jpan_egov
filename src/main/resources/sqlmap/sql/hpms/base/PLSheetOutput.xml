@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PLSheetOutput_20160901101143">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID00_SEL2">select A.DATA_TYPE, 
+       DECODE(B.DATA_TYPE_NM,'', A.DATA_TYPE_NM, A.DATA_TYPE || '(' || B.DATA_TYPE_NM || ')' ) DATA_TYPE_NM 
+FROM 
+( 
+ SELECT CD     DATA_TYPE, 
+        NM_JP  DATA_TYPE_NM, 
+        SEQ 
+ FROM HP1M101T  A 
+ WHERE CD_TYPE ='DATA_TYPE' 
+ UNION 
+ select DATA_TYPE , 
+        DATA_TYPE DATA_TYPE_NM, 
+        TO_NUMBER(ROWNUM || '1') AS SEQ 
+ FROM HP1DM06T 
+ ORDER BY DATA_TYPE 
+) A, 
+( 
+ select DATA_TYPE, 
+       DATA_TYPE_NM 
+ FROM   HP1D003T 
+ WHERE  PID=#PID# 
+ UNION 
+ select DATA_TYPE, 
+        DATA_TYPE_NM 
+ FROM   HP1D004T 
+ WHERE  COMPANY_CD =#COMPANY_CD# 
+ AND    ORG_CD     =#ORG_CD# 
+) B 
+WHERE A.DATA_TYPE = B.DATA_TYPE(+) 
+ORDER BY A.SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID00_SEL3">select A.DATA_TYPE, 
+       DECODE(B.DATA_TYPE_NM,'', A.DATA_TYPE_NM, A.DATA_TYPE || '(' || B.DATA_TYPE_NM || ')' ) DATA_TYPE_NM 
+FROM 
+( 
+ SELECT CD     DATA_TYPE, 
+        NM_JP  DATA_TYPE_NM, 
+        SEQ 
+ FROM HP1M101T  A 
+ WHERE CD_TYPE ='DATA_TYPE' 
+ UNION 
+ select DATA_TYPE , 
+        DATA_TYPE DATA_TYPE_NM, 
+        TO_NUMBER(ROWNUM || '1') AS SEQ 
+ FROM HP1DM06T 
+ ORDER BY DATA_TYPE 
+) A, 
+( 
+ select DATA_TYPE, 
+        DATA_TYPE_NM 
+ FROM   HP1D004T 
+ WHERE  COMPANY_CD =#COMPANY_CD# 
+ AND    ORG_CD     =#ORG_CD# 
+) B 
+WHERE A.DATA_TYPE = B.DATA_TYPE(+) 
+ORDER BY A.SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID01_SEL5">select COUNT(*) CNT 
+FROM HP1DM01T 
+WHERE PID NOT IN (SELECT SUB_PID FROM HP1DM02T) 
+AND   PID =#PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID01_SEL11">select A.PID, 
+       B.DCP_TYPE 
+FROM   HP1DM01T A, 
+       HP1D001T B 
+WHERE A.PID = B.PID(+) 
+AND   A.PID =#PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID01_SEL13">SELECT MAX(APPROVAL_YYYYMMDD) APPROVAL_YYYYMMDD 
+FROM   HP1D001T_TZ 
+WHERE  PID=#PID# 
+AND    DCP_TYPE=#DCP_TYPE#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID01_SEL02">select DATA_TYPE 
+       ,HPMS_ID                                               
+       ,YYYYMM                                                
+       ,SUM(VAL) VAL 
+FROM 
+( 
+  select                                                      
+        DATA_TYPE                                             
+       ,HPMS_ID                                               
+       ,YYYYMM                                                
+       ,VAL                                              
+  from  HP_DBA01..HP2D101T A                                     
+  WHERE PID=#PID#                                              
+  OR    PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID =A.PID ) 
+  AND   DATA_TYPE =#DATA_TYPE#          
+  UNION ALL 
+  select                                                      
+        DATA_TYPE                                             
+       ,HPMS_ID                                               
+       ,YYYYMM                                                
+       ,VAL                                              
+  from  HP_DBA01..HP3D101T A                                     
+  WHERE PID=#PID#                                              
+  OR  PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID =A.PID ) 
+  AND   DATA_TYPE =#DATA_TYPE#    
+) 
+GROUP BY DATA_TYPE, HPMS_ID, YYYYMM</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL13">SELECT A.PID, 
+       A.RD_CATEGORY_CD, 
+       (SELECT VAL3 
+          FROM HP1M105T 
+         WHERE CD_TYPE = 'RD_CATEGORY_CD' AND CD = A.RD_CATEGORY_CD) 
+          AS PL_TYPE 
+  FROM HP1DM01T A 
+  where 1=1 
+  AND   A.PID =#PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL01" remapResults="true">select * 
+from table( HP5D101T_F21(#PID#, #DATA_TYPE#) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL06" remapResults="true">select * 
+from table( HP5D101T_F22( #PID#, #DATA_TYPE# ) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_leftColumn">SELECT 'CHAR_01' AS A0, 'CHAR_02' AS A1 , 'VAL_01' AS A2 FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_RightColumn">SELECT 'VAL_01' A0, 
+       'VAL_02'A1, 
+       'VAL_03'A2, 
+       'VAL_05'A3, 
+       'VAL_05'A4, 
+       'CHAR_01'A5, 
+       'CHAR_02'A6, 
+       'CHAR_03'A7, 
+       'CHAR_04'A8, 
+       'CHAR_05'A9, 
+       'CHAR_06'A10, 
+       'CHAR_07'A11, 
+       'CHAR_08'A12, 
+       'CHAR_09'A13, 
+       'CHAR_10'A14, 
+       'CHAR_11'A15, 
+       'CHAR_12'A16, 
+       'CHAR_13'A17, 
+       'CHAR_14'A18, 
+       'CHAR_15'A19, 
+       'CHAR_16'A20, 
+       'CHAR_17'A21, 
+       'CHAR_18'A22, 
+       'CHAR_19'A23, 
+       'CHAR_20'A24, 
+       'CHAR_21'A25, 
+       'CHAR_22'A26, 
+       'CHAR_23'A27, 
+       'CHAR_24'A28, 
+       'CHAR_25'A29 
+  FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL02" remapResults="true">select * 
+from table( HP5D101T_F21(#PID#, #DATA_TYPE#) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL07" remapResults="true">select * 
+from table( HP5D101T_F22( #PID#, #DATA_TYPE# ) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL03" remapResults="true">select * 
+from table( HP5D101T_F21(#PID#, #DATA_TYPE#) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL08" remapResults="true">select * 
+from table( HP5D101T_F22( #PID#, #DATA_TYPE# ) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL04" remapResults="true">select * 
+from table( HP5D101T_F21(#PID#, #DATA_TYPE#) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL09" remapResults="true">select * 
+from table( HP5D101T_F22( #PID#, #DATA_TYPE# ) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL05" remapResults="true">select * 
+from table( HP5D101T_F21(#PID#, #DATA_TYPE#) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildPLSheetDownload_SEL10" remapResults="true">select * 
+from table( HP5D101T_F22( #PID#, #DATA_TYPE# ) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="PIDCheck_SEL1">select COUNT(*) CNT 
+FROM HP1DM01T 
+WHERE PID NOT IN (SELECT SUB_PID FROM HP1DM02T) 
+AND   PID =#PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="PIDCheck_SEL3">select COUNT(*) CNT 
+FROM HP1DM01T 
+WHERE  PID =#PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL2">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM , 
+ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+</sqlMap>
+

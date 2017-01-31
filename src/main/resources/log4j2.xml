@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+        </Console>
+        <!--  르고 파일 관리 -->
+        <RollingFile name="file" fileName="C:\tmp\logs\std.log"  filePattern="C:\tmp\logs\std.%i.%d{yyyy-MM-dd}.log">
+   			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		   <Policies>
+		    <SizeBasedTriggeringPolicy size="10MB" /> <!-- 이 용량이 초과되면 아래 DefaultRolloverStrategy 정책만큼 넘버링 할거다. -->
+		   </Policies>
+	   <DefaultRolloverStrategy max="10" fileIndex="min" /><!-- 0부터 1000개 까지만 만들거다 1000개 초과되면 파일이 더생성안된다. -->
+	  </RollingFile>
+
+
+    </Appenders>
+    <Loggers>
+        <Logger name="egovframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+             <appender-ref ref="file" />
+        </Logger>
+        <!-- log SQL with timing information, post execution -->
+        <logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+            <appender-ref ref="console" />
+              <appender-ref ref="file" />
+        </logger>
+        <logger name="org.springframework" level="DEBUG" additivity="false">
+            <appender-ref ref="console" />
+             <appender-ref ref="file" />
+        </logger>
+        <logger name="java.sql.Connection" level="DEBUG" additivity="false">
+            <appender-ref ref="console" />
+             <appender-ref ref="file" />
+        </logger>
+        <logger name="java.sql.Statement" level="DEBUG" additivity="false">
+            <appender-ref ref="console" />
+             <appender-ref ref="file" />
+        </logger>
+        <logger name="java.sql.PreparedStatement" level="DEBUG" additivity="false">
+            <appender-ref ref="console" />
+             <appender-ref ref="file" />
+        </logger>
+        <logger name="java.sql.ResultSet" level="DEBUG" additivity="false">
+            <appender-ref ref="console" />
+             <appender-ref ref="file" />
+        </logger>
+        <Root level="ERROR">
+            <AppenderRef ref="console" />
+             <appender-ref ref="file" />
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>Test중</title>
+        <script><![CDATA[ 
+        function AAA(){
+         alert(1);
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <init>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SEARCH" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_P_Search_DEMO.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="P_Search_DEMO" menuname="사원관리" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<button  location="77,75"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63602042341906484407" visible="True" value="button" tabindex="0"  ></button>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>Batch Control</title>
+        <script><![CDATA[ 
+        $(document).ready(function(e) {
+        
+          $(document).keydown(function(e){   
+                   
+                   if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });
+        
+        });
+        
+        function S2_DATA_TYPE_OnChange(myObj)
+        {
+            $("#S21_UPDATE_TIME").val("");
+            $("#S21_UPDATE_USER_ID").val("");
+            
+        	sbmInfo.setInput("S2[A]:S");
+        	sbmInfo.setOutput("S21:SEL2,S2:MRG11");
+        	sbmInfo.submit(false);
+        }
+        function S4_DATA_TYPE_OnChange(myObj)
+        {
+        	$("#S41_UPDATE_TIME").val("");
+            $("#S41_UPDATE_USER_ID").val("");
+            
+        	sbmInfo.setInput("S4[A]:S");
+        	sbmInfo.setOutput("S41:SEL2");
+        	sbmInfo.submit(false);
+        }
+        function S3_DATA_TYPE_OnChange(myObj)
+        {
+            $("#S31_UPDATE_TIME").val("");
+            $("#S31_UPDATE_USER_ID").val("");
+            
+        	sbmInfo.setInput("S3[A]:S");
+        	sbmInfo.setOutput("S31:SEL2");
+        	sbmInfo.submit(false);
+        }
+        
+        
+        function btn_mgrbuild_OnClick(myObj)
+        {
+         if(  AUTH_Check()){
+          	sbmCtlRead.submit(false, "mgrbuild");
+           }else{
+              Return_RTN_MSG("00020");
+           }
+        
+        }
+        function mgrbuild()
+        {
+          if( $("#out_message").val() != "" )
+          {
+              ErrorCheck();
+              return;
+          }
+          if( $("#S1_DATA_TYPE").val() == "")
+          {
+             Return_RTN_MSG("00004","Data Type");
+            return;
+          }
+        
+          sbmMgrbuild.submit(false,"MgrMSG");
+          
+        }
+        function MgrMSG(){
+        
+          //경영종합표 돌고 있으면 오류 메시지 표시시
+          if( $("#out_message").val() != "" )
+          {
+              ErrorCheck();
+              return;
+          }
+        }
+        
+        function btn_Middle_OnClick(myObj)
+        {
+          sbmCtlRead.submit(false, "submitMTP");
+          //submitMTP();
+        }
+        function submitMTP()
+        {
+          if( $("#out_message").val() != "" )
+          {
+              ErrorCheck();
+              return;
+          }    
+          if( $("#S4_YYYY").val() == "" )
+           {
+             Return_RTN_MSG("00034","Year");
+             return;
+           }
+           
+           if( $("#S4_DATA_TYPE").val() == "")
+           {
+              Return_RTN_MSG("00004","Data Type");
+             return;
+           }
+           
+          // fromyyymm = $("#S4_YYYY").val() +"03";
+           //toyymm = ( parseInt($("#S4_YYYY").val())+ 1 ) +"04";
+           
+          // $("#S4_FROM_YYYYMM").val(fromyyymm);
+          // $("#S4_TO_YYYYMM").val(toyymm);
+           
+           sbmMTP.submit(false);   
+        }
+        
+        
+        function btn_MP_OnClick(myObj)
+        {
+           
+        
+           sbmCtlRead.submit(false, "submitMP");
+           //submitMP();
+        }
+        function submitMP()
+        {
+           var fromyyymm="";
+           var toyymm="";
+           if( $("#out_message").val() != "" )
+           {
+              ErrorCheck();
+              return;
+           }
+           
+           if( $("#S3_YYYY").val() == "")
+           {
+             Return_RTN_MSG("00003","Year");
+             return;
+           }
+           
+           if( $("#S3_DATA_TYPE").val() == "" )
+           {
+            Return_RTN_MSG("00004","Data Type");
+             return;
+           }
+           
+           
+          // fromyyymm = $("#S3_YYYY").val() +"03";
+          // toyymm = ( parseInt($("#S3_YYYY").val())+ 1 ) +"04";
+           
+           
+           $("#S3_FROM_YYYYMM").val(fromyyymm);
+           $("#S3_TO_YYYYMM").val(toyymm);
+         
+           sbmMP.submit(false);  
+        }
+        
+        
+        function btn_LMP_OnClick(myObj)
+        {
+           sbmCtlRead.submit(false, "LMP_ConfirmCheck");
+           //submitLMP();
+        }
+        function LMP_ConfirmCheck(){
+        
+          
+          if( $("#out_message").val() != "" )
+           {
+          
+              ErrorCheck();
+              return;
+           }
+        
+          LMPConfirm.submit(false , "submitLMP" )
+        }
+        function submitLMP()
+        {
+         
+           if( $("#out_message").val() != "" )
+           {
+              ErrorCheck();
+              return;
+           }
+          
+           if( $("#S2_YYYYMM").val()=="")
+           {
+             Return_RTN_MSG("00003","Year");
+             return;
+           }
+           if( $("#S2_DATA_TYPE").val()=="")
+           {
+             Return_RTN_MSG("00004","Data Type");
+             return;
+           }
+        
+           sbmLMP.submit(false,"ReSearch");  
+        }
+        function ReSearch(){
+        
+        sbmInfo.setInput("S2[A]:S");
+        	sbmInfo.setOutput("S21:SEL2,S2:MRG11");
+        	sbmInfo.submit(false);
+        }
+        function btn_release_OnClick(myObj)
+        {
+          if(  AUTH_Check()){
+           sbmCtlRead.submit(false, "release");
+           }else{
+              Return_RTN_MSG("00020");
+           }
+          
+           //release();
+        }
+        function release()
+        {
+            if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }
+          
+            $("#S51_UPDATE_TIME").val("");
+            $("#S51_UPDATE_USER_ID").val("");
+            
+            $("#S52_UPDATE_TIME").val("");
+            $("#S52_UPDATE_USER_ID").val("");
+        
+            sbmRelease.submit(false, "setStatus");
+        }
+        
+        
+        function btn_stop_OnClick(myObj)
+        {
+           if(  AUTH_Check()){
+           sbmCtlRead.submit(false, "stop");
+           }else{
+              Return_RTN_MSG("00020");
+           }
+           //stop();
+        }
+        function stop()
+        {
+           if( $("#out_message").val() != "" )
+           {
+              ErrorCheck();
+              return;
+           }
+           
+           $("#S51_UPDATE_TIME").val("");
+           $("#S51_UPDATE_USER_ID").val("");
+            
+           $("#S52_UPDATE_TIME").val("");
+           $("#S52_UPDATE_USER_ID").val("");
+           
+           
+           sbmStop.submit(false, "setStatus");
+        }
+        
+        function setYYYY()
+        {
+            var yyyy = $("#S6_YYYY").val();
+            var yyyymm = $("#S6_YYYYMM").val();
+            var mm = yyyymm.substr(4,2);
+            if(mm == "01" || mm == "02" ||mm == "03"){
+              //회계년도일때 -1 년도 처리 해준다 
+            yyyy = ( parseInt(yyyy)- 1 );
+            $("#S3_YYYY").val(yyyy);
+            $("#S4_YYYY").val(yyyy);
+            
+            }else{
+            
+             $("#S3_YYYY").val(yyyy);
+             $("#S4_YYYY").val(yyyy);
+            
+            }
+            
+           
+            
+             setStatus();
+        }
+        function setStatus()
+        {
+            if($("#S51_UPDATE_USER_ID").val() =="")
+            {
+               $("#lbl_status").html("<label id='open'> OPEN</label>");
+               $("#open").css({'color':'black' ,'font-weight':'bold' ,'font-size':'36px' });
+               $("#close").remove();
+            }
+            else
+            {
+           
+               $("#lbl_status").html("<label id='close'> CLOSE</label>");
+                $("#close").css({'color':'black' ,'font-weight':'bold' ,'font-size':'36px' });
+                $("#open").remove();
+            }  
+        }
+        
+        
+        
+        function ErrorCheck()
+        {
+          if(ErroMsgDisplay() != 0) {
+            
+           var ERROR_CODE ="";
+           ERROR_CODE= $("#out_message").val();
+           
+           if(ErroMsgDisplay() == 9999)
+           {
+              ERROR_CODE= 9999;
+           }
+        
+           var param = ""
+           param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+            
+           var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        	 
+        	   $("#Error_cd").attr("src",url);
+        	   $("#Error_cd").attr("frameborder", 0);
+        	   $("#divPopup_ErrorCode").dialog({
+        			autoPoen:false,
+        			height : 260,
+        			//position:[50,300],
+        			width:530,
+        			modal: true, 
+        			title: "Error Indication",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 
+                 
+               $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+        	   $("#divPopup_ErrorCode").dialog("open"); 
+           	}
+           	else
+           	{
+           	  alert("Upload complete");
+           	}
+          }
+        	
+          function dialogClose_MYPAGE()
+          { //팝업종료및 
+        	$("#divPopup_ErrorCode").dialog("close");
+          }
+        function AUTH_Check(){
+             if("${G.AUTH_CD}" =="40" || "${G.AUTH_CD}" =="20" || "${G.AUTH_CD}" =="30"){
+                 return true;
+             }else{
+             
+              return false;
+             }
+        
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  DATA_TYPE=""  CD=""   />
+                        </S1>
+                        <S2 dateformat="" >
+                            <row  DATA_TYPE=""  YYYYMM=""  CD=""   />
+                        </S2>
+                        <S3 dateformat="" >
+                            <row  DATA_TYPE=""  YYYY=""  CD=""  FROM_YYYYMM=""  TO_YYYYMM=""   />
+                        </S3>
+                        <S4 dateformat="" >
+                            <row  DATA_TYPE=""  YYYY=""  CD=""  FROM_YYYYMM=""  TO_YYYYMM=""   />
+                        </S4>
+                        <C dateformat="" >
+                            <row  ITEM_NM=""  ITEM_CD=""   />
+                        </C>
+                        <S52 dateformat="" >
+                            <row  UPDATE_USER_ID=""  UPDATE_TIME=""   />
+                        </S52>
+                        <S51 dateformat="" >
+                            <row  UPDATE_USER_ID=""  UPDATE_TIME=""   />
+                        </S51>
+                        <S dateformat="" >
+                            <row  CD=""  DATA_TYPE=""   />
+                        </S>
+                        <S21 dateformat="" >
+                            <row  UPDATE_TIME=""  UPDATE_USER_ID=""   />
+                        </S21>
+                        <S31 dateformat="" >
+                            <row  UPDATE_TIME=""  UPDATE_USER_ID=""   />
+                        </S31>
+                        <S41 dateformat="" >
+                            <row  UPDATE_TIME=""  UPDATE_USER_ID=""   />
+                        </S41>
+                        <S6 dateformat="" >
+                            <row  YYYY=""  YYYYMM=""   />
+                        </S6>
+                        <B dateformat="" >
+                            <row  PATH=""   />
+                        </B>
+                        <S61 dateformat="" >
+                            <row  VAL1=""  VAL2=""   />
+                        </S61>
+                        <init>
+                            <S1>
+                                <row  DATA_TYPE=""  CD=""   />
+                            </S1>
+                            <S2>
+                                <row  DATA_TYPE=""  YYYYMM=""  CD=""   />
+                            </S2>
+                            <S3>
+                                <row  DATA_TYPE=""  YYYY=""  CD=""  FROM_YYYYMM=""  TO_YYYYMM=""   />
+                            </S3>
+                            <S4>
+                                <row  DATA_TYPE=""  YYYY=""  CD=""  FROM_YYYYMM=""  TO_YYYYMM=""   />
+                            </S4>
+                            <C>
+                                <row  ITEM_NM=""  ITEM_CD=""   />
+                            </C>
+                            <S52>
+                                <row  UPDATE_USER_ID=""  UPDATE_TIME=""   />
+                            </S52>
+                            <S51>
+                                <row  UPDATE_USER_ID=""  UPDATE_TIME=""   />
+                            </S51>
+                            <S>
+                                <row  CD=""  DATA_TYPE=""   />
+                            </S>
+                            <S21>
+                                <row  UPDATE_TIME=""  UPDATE_USER_ID=""   />
+                            </S21>
+                            <S31>
+                                <row  UPDATE_TIME=""  UPDATE_USER_ID=""   />
+                            </S31>
+                            <S41>
+                                <row  UPDATE_TIME=""  UPDATE_USER_ID=""   />
+                            </S41>
+                            <S6>
+                                <row  YYYY=""  YYYYMM=""   />
+                            </S6>
+                            <B>
+                                <row  PATH=""   />
+                            </B>
+                            <S61>
+                                <row  VAL1=""  VAL2=""   />
+                            </S61>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S1_DATA_TYPE:SEL2,S2_DATA_TYPE:SEL2,S3_DATA_TYPE:SEL2,S4_DATA_TYPE:SEL2,S2:SEL4,S51:SEL8,S52:SEL10,S6:SEL6,S61:SEL19" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_pageInit.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="pageInit" menuname="60 . Batch Control" eventname="07. PageInit" callback="" msghandler="setYYYY" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmInfo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S" outdataset="S21:SEL2,S2:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_getConfirmInfo.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="getConfirmInfo" menuname="60 . Batch Control" eventname="08. get Confirm Info" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmStop" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S51:SEL5,S52:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_writeStop.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="writeStop" menuname="60 . Batch Control" eventname="01. Plan/Output Write Stop" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmRelease" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S51:SEL3,S52:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_writeRelease.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="writeRelease" menuname="60 . Batch Control" eventname="02. Plan/Output Write Release" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmMgrbuild" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S,S1[A]:S1" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_managedatabuild.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="managedatabuild" menuname="60 . Batch Control" eventname="03. Total Management Data build" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmLMP" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="S21:SEL8" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_copyLMP.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="copyLMP" menuname="60 . Batch Control" eventname="04. 先月 Data確定" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmMP" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S3" outdataset="S31:SEL3" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_copyMP.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="copyMP" menuname="60 . Batch Control" eventname="05. MP Data 確定" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmMTP" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S4[A]:S4" outdataset="S41:SEL3" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_copyMiddle.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="copyMiddle" menuname="60 . Batch Control" eventname="06. 中期 Data 確定" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlRead" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_SearchUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="SearchUsingCheck" menuname="50. Common Control" eventname="03. Search Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_LMPConfirm" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111170BatchControl_LMP_ConfirmCheck.do" encoding="UTF-8" confirm="" menuid="20160912111170" eventid="LMP_ConfirmCheck" menuname="60 . Biz Admin Proc" eventname="09.LMP Confirm Checking" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<userobject  location="771,15"  size="77,77"  inputstyle="width:77px; height:77px; border-width:1px; background-color:Transparent; color:Black; border-color:Transparent; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63611265318140761516" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<output  location="31,21"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63609276094489051301" label="Biz Admin Proc.">    	</output>
+
+        	<output  location="57,66"  size="435,36"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63610147772093750040" label="Data Change Control">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group3" name="group3"  location="76,103"  size="745,89"  unikey="63610148942828125082" style="" visible="True" >  
+                	<output  location="116,119"  size="52,30"  font-family="Microsoft Sans Serif" font-weight="bold" font-size="18" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="lbl_status" bindcolumn=""  binddataset=""  unikey="63611370351484375053" label="">        	</output>
+                	<textbox  location="669,122"  size="120,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S51_UPDATE_USER_ID" bindcolumn="UPDATE_USER_ID"  binddataset="S51"  unikey="63610148235593750018" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="518,122"  size="145,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="9.75" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S51_UPDATE_TIME" bindcolumn="UPDATE_TIME"  binddataset="S51"  unikey="63610148147296875086" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<button  location="294,122"  size="199,21"  font-family="MS PGothic" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_stop" label="" type="button" src="" unikey="63610148132843750074" visible="True" value="Plan/Output Data Change:Stop" tabindex="0"  onclick="btn_stop_OnClick(this);" ></button>
+                	<textbox  location="668,151"  size="120,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S52_UPDATE_USER_ID" bindcolumn="UPDATE_USER_ID"  binddataset="S52"  unikey="63610148271921875064" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="517,151"  size="145,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S52_UPDATE_TIME" bindcolumn="UPDATE_TIME"  binddataset="S52"  unikey="63610148271921875062" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<button  location="294,151"  size="199,21"  font-family="MS PGothic" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_release" label="" type="button" src="" unikey="63610148271921875060" visible="True" value="resume" tabindex="0"  onclick="btn_release_OnClick(this);" ></button>
+    </group>
+        	<textbox  location="834,135"  size="39,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_CD" bindcolumn="CD"  binddataset="S"  unikey="63611170186218750061" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" value="UPLOAD" maxlength="50" incremental="True" tabindex="0"  onclick="S_CD_OnClick(this);">    	</textbox>
+
+        	<output  location="56,195"  size="435,36"  font-family="Microsoft Sans Serif" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63610162293504517829" label="Comprehensive data management table creation">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group4" name="group4"  location="76,233"  size="747,69"  unikey="63610162555094479958" style="" visible="True" >  
+                	<combo  location="95,255"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S1"  unikey="63610162598277949944" bind="S1_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<textbox  location="507,256"  size="145,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" style="border-width:0px;background-color:White;border-color:White;text-align:center;color:Black;  font-family:Microsoft Sans Serif;font-size:10pt;" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:center;" id="S61_VAL1" bindcolumn="VAL1"  binddataset="S61"  unikey="63616808794646997832" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="657,256"  size="159,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" style="border-width:0px;background-color:White;border-color:White;text-align:center;color:Black;  font-family:Microsoft Sans Serif;font-size:10pt;" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:center;" id="S61_VAL2" bindcolumn="VAL2"  binddataset="S61"  unikey="63616817227323319355" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<button  location="294,256"  size="199,21"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_mgrbuild" label="" type="button" src="" unikey="63610162611453703521" visible="True" value="Submit" tabindex="0"  onclick="btn_mgrbuild_OnClick(this);" ></button>
+    </group>
+        	<textbox  location="835,258"  size="39,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_CD" bindcolumn="CD"  binddataset="S1"  unikey="63611123188421875053" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" value="A01" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="56,307"  size="435,36"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63610147837078125046" label="Management Comprehensive Data Build">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="76,346"  size="747,80"  unikey="63610148838921875003" style="" visible="True" >  
+                	<output  location="205,362"  size="79,21"  font-family="Microsoft Sans Serif" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63611170770171875002" label="YYYYMM">        	</output>
+                	<textbox  location="666,389"  size="120,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S21_UPDATE_USER_ID" bindcolumn="UPDATE_USER_ID"  binddataset="S21"  unikey="63610148605531250086" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="515,389"  size="145,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S21_UPDATE_TIME" bindcolumn="UPDATE_TIME"  binddataset="S21"  unikey="63610148605531250084" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<combo  location="95,389"  size="102,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:102px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S2"  unikey="63610148529328125035" bind="S2_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S2_DATA_TYPE_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<textbox  location="205,389"  size="81,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_YYYYMM" bindcolumn="YYYYMM"  binddataset="S2"  unikey="63611094716921875097" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="6" incremental="True" tabindex="0" >        	</textbox>
+                	<button  location="294,389"  size="199,21"  font-family="MS PGothic" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_LMP" label="" type="button" src="" unikey="63610148605531250082" visible="True" value="Data Build" tabindex="0"  onclick="btn_LMP_OnClick(this);" ></button>
+    </group>
+        	<textbox  location="835,385"  size="39,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_CD" bindcolumn="CD"  binddataset="S2"  unikey="63611123198203125043" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" value="A02" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="56,441"  size="435,36"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63610148005640625057" label="Data Confirm">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="76,481"  size="748,108"  unikey="63610148797140625072" style="" visible="True" >  
+                	<output  location="205,498"  size="69,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63611170798203125028" label="FY_YYYY">        	</output>
+                	<textbox  location="666,524"  size="122,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S31_UPDATE_USER_ID" bindcolumn="UPDATE_USER_ID"  binddataset="S31"  unikey="63610148620437500038" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="515,524"  size="147,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S31_UPDATE_TIME" bindcolumn="UPDATE_TIME"  binddataset="S31"  unikey="63610148620437500036" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="205,524"  size="81,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_YYYY" bindcolumn="YYYY"  binddataset="S3"  unikey="63611094774546875001" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="4" incremental="True" tabindex="0" >        	</textbox>
+                	<combo  location="95,524"  size="104,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="Microsoft Sans Serif" font-size="10" inputclass="selectbox" visible="True" inputstyle="width:104px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S3_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S3"  unikey="63610148620437500033" bind="S3_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S3_DATA_TYPE_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<button  location="294,525"  size="201,21"  font-family="MS PGothic" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_MP" label="" type="button" src="" unikey="63610148620437500034" visible="True" value="MP Data Confirm" tabindex="0"  onclick="btn_MP_OnClick(this);" ></button>
+                	<textbox  location="666,554"  size="122,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S41_UPDATE_USER_ID" bindcolumn="UPDATE_USER_ID"  binddataset="S41"  unikey="63610148646984375074" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="515,554"  size="147,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S41_UPDATE_TIME" bindcolumn="UPDATE_TIME"  binddataset="S41"  unikey="63610148646984375072" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="205,554"  size="81,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_YYYY" bindcolumn="YYYY"  binddataset="S4"  unikey="63611094778890625095" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="4" incremental="True" tabindex="0" >        	</textbox>
+                	<combo  location="95,554"  size="104,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="Microsoft Sans Serif" font-size="10" inputclass="selectbox" visible="True" inputstyle="width:104px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S4_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S4"  unikey="63610148666593750007" bind="S4_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S4_DATA_TYPE_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<button  location="293,554"  size="201,21"  font-family="MS PGothic" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_Middle" label="" type="button" src="" unikey="63610148646984375070" visible="True" value="MTP Data Confirm" tabindex="0"  onclick="btn_Middle_OnClick(this);" ></button>
+    </group>
+        	<textbox  location="835,488"  size="39,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S6_YYYY" bindcolumn="YYYY"  binddataset="S6"  unikey="63611176212343750027" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="878,520"  size="50,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_FROM_YYYYMM" bindcolumn="FROM_YYYYMM"  binddataset="S3"  unikey="63611693174093750024" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="835,521"  size="39,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_CD" bindcolumn="CD"  binddataset="S3"  unikey="63611123227312500088" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" value="A03" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="932,521"  size="54,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_TO_YYYYMM" bindcolumn="TO_YYYYMM"  binddataset="S3"  unikey="63611693183062500078" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="878,554"  size="50,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_FROM_YYYYMM" bindcolumn="FROM_YYYYMM"  binddataset="S4"  unikey="63611693247234375075" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="932,554"  size="54,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_TO_YYYYMM" bindcolumn="TO_YYYYMM"  binddataset="S4"  unikey="63611693261062500012" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="835,554"  size="39,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_CD" bindcolumn="CD"  binddataset="S4"  unikey="63611123232484375043" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" value="A04" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="865,595"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S6_YYYYMM" bindcolumn="YYYYMM"  binddataset="S6"  unikey="63615941171269776211" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+    </div>
+</body>
+</html>

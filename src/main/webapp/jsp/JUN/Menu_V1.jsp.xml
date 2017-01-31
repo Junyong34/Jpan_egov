@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>File4</title>
+        <script><![CDATA[ 
+        function FIleUPload_S_FILE()
+        {
+        wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'S_FILE', '', ['jpg','html','zip']);
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" checkbox="" >
+                            <row  SELECTBOX=""   />
+                        </S>
+                        <S1 dateformat="" checkbox="" >
+                            <row  CODE="Z"  NAME="Select"   />
+                            <row  CODE="A"  NAME="2"   />
+                            <row  CODE="B"  NAME="3"   />
+                        </S1>
+                        <init>
+                            <S>
+                                <row  SELECTBOX=""   />
+                            </S>
+                            <S1>
+                                <row  CODE=""  NAME=""   />
+                            </S1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<textarea  location="127,75"  size="208,136"  requiredfield="true" requiredmsg="" font-family="굴림체" font-weight="bold" font-size="14.25" visible="True" inputstyle="width:208px; height:136px; border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="area1" bindcolumn=""  binddataset=""  unikey="63595483830859810748" value="" tabindex="0"  ></textarea>
+
+        <tabcontrol id="tab1" inputstyle="position:absolute; top:133px; left:131px;" location="131,283"  size="252,205"  unikey="63595484104771477575" selectedColor="White" unselectedColor="LightGray" visible="True" >
+    		<heads height="20" >
+    					<head  location="132,263"  size="70,20"  unikey="63595484104783478276" font-family="Microsoft Sans Serif" font-weight="bold" font-size="12" inputstyle="width:70px; height:20px; border-color:Aqua; border:2px solid;" style="" id="tab1_Page1" title="123" >    </head>
+    					<head  location="202,263"  size="70,20"  unikey="63595484114296022390" font-family="Microsoft Sans Serif" font-size="10" inputstyle="width:70px; height:20px; border-color:Aqua; border:2px solid;" style="" id="tab1_Page2" title="456" >    </head>
+    		</heads>
+    		<pages id="tab1Pages">
+    			<page id="tab1_Page1" inputstyle="position:absolute; top:22px; left:1px; width:252px; height:184px;border:1px;background-color:White;border-color:Black;" unikey="63595484104783478276"  >
+    			
+    			</page>
+    			<page id="tab1_Page2" inputstyle="position:absolute; top:22px; left:1px; width:252px; height:184px;border:1px;background-color:White;border-color:Black;" unikey="63595484114296022390"  >
+    			
+    			</page>
+    		</pages>
+    </tabcontrol>
+
+        	<numupdown  location="335,512"  size="80,19"  inputstyle=" border-width:3px; background-color:White; color:Black; border-color:Black; text-align:center;" id="number1" bindcolumn=""  binddataset=""  unikey="63595483697214166628" value="1" maxlength="1" visible="True" cnt="1" maxvalue="100" minvalue="1" tabindex="0" ></numupdown>
+
+    </div>
+</body>
+</html>

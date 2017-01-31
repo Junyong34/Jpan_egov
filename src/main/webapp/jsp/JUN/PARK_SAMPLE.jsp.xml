@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>샘플화면</title>
+        <script><![CDATA[ 
+        function button1_OnClick(myObj)
+        {
+             Search.submit(false);
+            Search2.submit(false);
+        }
+        function button2_OnClick(myObj)
+        {
+        
+          SAVE.submit(false);
+        }
+        
+        function button3_OnClick(myObj)
+        {
+         grid1.readonlyGrid();
+        }
+        
+        function grid1_OnLoadComplete()
+        {
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  EMPLOYEEID=""  AGE=""  NAME=""  EMAIL=""   />
+                        </S1>
+                        <init>
+                            <S1>
+                                <row  EMPLOYEEID=""  AGE=""  NAME=""  EMAIL=""   />
+                            </S1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Search" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160518172747TEST_PARK_SAMPLE_SAWON_PARK12.do" encoding="UTF-8" confirm="" menuid="20160518172747" eventid="SAWON_PARK12" menuname="샘플" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SAVE" validate="false" method="post" replace="instance" instance="template"
+                     indataset="grid1[C]:S1" outdataset="grid1:PEX13" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160518172747TEST_PARK_SAMPLE_SAWON_SAVE_12.do" encoding="UTF-8" confirm="저장하시겠습니까?" menuid="20160518172747" eventid="SAWON_SAVE_12" menuname="샘플" eventname="사원저장" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Search2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="grid2:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160518172747TEST_PARK_SAMPLE_SAWON_PARK12.do" encoding="UTF-8" confirm="" menuid="20160518172747" eventid="SAWON_PARK12" menuname="샘플" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<button  location="384,57"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63599189696942450181" visible="True" value="조회" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+        	<button  location="512,58"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63599189703214808884" visible="True" value="저장" tabindex="0"  onclick="button2_OnClick(this);" ></button>
+
+        	<button  location="244,86"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63602979471747479048" visible="True" value="button" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+    
+       <grid  rownum="10" unikey="63605916539851340013" id="grid1" dataset="S1" border="1" width="816" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="86,133"  size="816,256"  readonly="false"  statusvisible="false"  allowdelete="true"  visible="true"  paging="false"  rownumber="true"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="26"  gridbodyheight="63"  evenrow="false"  colmove="false"  gridrowcolor=""  onloadcomplete="grid1_OnLoadComplete(this);" >
+        <heads>
+          <row height="26">
+          <head title="사원 ID" text-align="center" > </head>
+          <head title="asdasdasda" text-align="center" > </head>
+          <head title="이름ㅇ" text-align="center" > </head>
+          <head title="EMAIL" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="63" >
+          <column  id="EMPLOYEEID" dataset="S1" columnid="EMPLOYEEID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AGE" dataset="S1" columnid="AGE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="calendar"  maxlength="20" dateFormat="yy-mm-dd" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" YMDformat="YearMonth" popupOnclick="" imagepath="" imagestyle="" text-align="center" >        <events></events>          </column>
+          <column  id="NAME" dataset="S1" columnid="NAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="185" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="EMAIL" dataset="S1" columnid="EMAIL" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="284" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    
+       <grid  rownum="10" unikey="63605916539871341123" id="grid2" dataset="S1" border="1" width="894" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="50,429"  size="894,270"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  >
+        <heads>
+          <row height="23">
+          <head title="사원 ID" text-align="center" > </head>
+          <head title="나이" text-align="center" > </head>
+          <head title="이름" text-align="center" > </head>
+          <head title="EMAIL" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="EMPLOYEEID" dataset="S1" columnid="EMPLOYEEID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AGE" dataset="S1" columnid="AGE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="calendar"  maxlength="20" dateFormat="yy-mm-dd" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" YMDformat="YearMonthDay" popupOnclick="" imagepath="" imagestyle="" text-align="center" >        <events></events>          </column>
+          <column  id="NAME" dataset="S1" columnid="NAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="EMAIL" dataset="S1" columnid="EMAIL" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    </div>
+</body>
+</html>

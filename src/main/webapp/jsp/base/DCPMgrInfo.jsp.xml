@@ -1,0 +1,1341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>DCP Management</title>
+        <script><![CDATA[ 
+        //isChange = false;
+        $(document).ready(function(e) {
+        
+            Approval_applicant_combo.submit(false, "ORG_InitCombo");
+        
+          //  $("input:not(#S_PID):not(#S2_APPROVAL_YYYYMMDD) , select:not(#S_DCP_TYPE)").change(function() {
+                //  $(input:not([id="S_PID"]) select:not([id="S_DCP_TYPE"]):not([id="S_DCP_TYPE"]) ).change(function(){
+        
+            //    isChange = true;
+           // });
+          $(document).keydown(function(e){   
+                  if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });
+        
+        });
+        
+        
+        function ORG_InitCombo() {
+        
+        }
+        
+        function PID_POP_DATE(PID) {
+        
+            $("#S_PID").val(PID);
+            Forecast_data_combo.submit(false);
+        }
+        
+        function FileInfosubmit() {
+            FIleInfoAdd.submit(false, "Complete");
+        }
+        
+        function Complete() {
+            $("input:file").val('');
+            Return_RTN_MSG("00013");
+            //alert(" 파일이 첨부 되었습니다 ");
+        }
+        
+        function FILE_PID_FOR() {
+            //파일업로드 키값 전송송
+            $("#F_PID").val($("#S3_PID").val());
+            $("#F_DCP_TYPE").val($("#S2_DCP_TYPE").val());
+        
+            var DCP_TYPE = $("#S2_DCP_TYPE").val();
+            var APPRO = $("#S2_APPROVAL_YYYYMMDD").val();
+            ApprovalDate_output.submit(false, "DCP_ORG_Set");
+        
+        
+        }
+        
+        function DCP_ORG_Set() {
+        
+            // ORG_CD  다시 셋팅 하고 조회
+            Approval_applicant_ORG_Combo.submit(false, "", false);
+            Approval_applicant_ORG_Combo1.submit(false, "PIDinfoSearch", false);
+        
+        
+        }
+        
+        function PIDinfoSearch() {
+        
+            DCPsearch.submit(false);
+        }
+        
+        function FIle_AUTH_Check() {
+            
+            
+            var File_gubun = $("#F_SEQ").val();
+            
+            var file_Status="";
+            
+            switch (File_gubun) {
+                case "10":
+                   file_Status ="F_FILE";
+                    break;
+                case "20":
+                    file_Status ="F_FILE1";
+                    break;
+                case "30":
+                    file_Status ="F_FILE2";
+                    break;
+                case "40":
+                    file_Status ="F_FILE3";
+                    break;
+                case "50":
+                    file_Status ="F_FILE4";
+                    break;
+                case "60":
+                    file_Status ="F_FILE5";
+                    break;
+                case "70":
+                   file_Status ="F_FILE6";
+                    break;
+                case "71":
+                    file_Status = "F_FILE7";
+                    break;
+                case "71":
+                    file_Status = "F_FILE8";
+                    break;
+                case "":
+                    alert(" File Upload Fail");
+                    return;
+                    break;
+            }
+            
+           // alert($('#'+file_Status).text() + " @@ "+ file_Status+ " @@" +$('#'+).val()+ "@@" +File_gubun );
+            if($('#'+file_Status).val() ==""){
+            
+                    return;
+            }
+            
+            if ($("#C_CNT").val() != 1 ) {
+          
+        		$('input[type=file]').val("");
+                Return_RTN_MSG("00020");
+              
+                return ;
+        
+            }
+            
+             eval("FIleUPload_"+file_Status+"()");
+          /*  if ($("#out_message").val() != "") {
+                $('input[type=file]').val("");
+                ErrorCheck();
+                return;
+            }*/
+            
+            
+        
+        
+        
+        }
+        
+        
+        function FileName_length(name) {
+            var filename = $('#' + name).val();
+            filename = filename.replace(/^.*[\\\/]/, '');
+            var temp = filename.length;
+            var tcount = 0;
+            var onechar;
+        
+            for (k = 0; k < temp; k++) {
+                onechar = filename.charCodeAt(k);
+                if (onechar > 128) {
+                    tcount += 2;
+                } else {
+                    tcount++;
+                }
+            }
+        
+        
+        
+            // alert( filename.length + "@@  "+ " @@ " + tcount);
+        
+            if (tcount > 64) {
+                $('#' + name).val("");
+                return true;
+            } else {
+        
+                return false;
+            }
+        
+        }
+        
+        function FIleUPload_F_FILE() {
+        
+            // 10 관람시트파일일
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE_OnChange(myObj) {
+            
+            
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE').val("");
+                return;
+        
+            }
+            //	alert(FileName_length("F_FILE"));
+        
+            if (FileName_length("F_FILE")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+        
+        
+            $("#F_SEQ").val(10);
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE').val("");
+                return;
+            } else {*/
+        
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+        
+           // }
+        
+        }
+        
+        function FIleUPload_F_FILE1() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE1', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE1_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE1').val("");
+                return;
+        
+            }
+        
+            if (FileName_length("F_FILE1")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+        
+        
+            $("#F_SEQ").val(20);
+        
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE1').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE1();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+          //  }
+        
+        }
+        
+        function FIleUPload_F_FILE2() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE2', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE2_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE2').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE2")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(30);
+            /*if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE2').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE2();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+           // }
+        }
+        
+        function FIleUPload_F_FILE3() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE3', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE3_OnChange(myObj) {
+        
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE3').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE3")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(40);
+        
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE3').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE3();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+        
+           // }
+        
+        }
+        
+        function FIleUPload_F_FILE4() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE4', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE4_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE4').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE4")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(50);
+        
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE4').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE4();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+           // }
+        
+        }
+        
+        function FIleUPload_F_FILE5() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE5', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE5_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE5').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE5")) {
+                Return_RTN_MSG("00022");
+                $('#F_FILE').val("");
+                return;
+            }
+            if (FileName_length("F_FILE5")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(60);
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE5').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE5();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+           // }
+        
+        }
+        
+        function FIleUPload_F_FILE6() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE6', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE6_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE6').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE6")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(70);
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE6').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE6();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+          //  }
+        
+        }
+        
+        function FIleUPload_F_FILE7() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE7', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE7_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE7').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE7")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(71);
+          /*  if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE7').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE7();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+           // }
+        }
+        
+        function FIleUPload_F_FILE8() {
+            wizutil.FileAjaxSubmit(Contextpath + '/jsp/File/fileupload_DCP.jsp', fileform, 'F_FILE8', 'FileInfosubmit', ['ppt', 'xlsx', 'xls', 'pptx'], true);
+        }
+        
+        function F_FILE8_OnChange(myObj) {
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                $('#F_FILE8').val("");
+                return;
+        
+            }
+            if (FileName_length("F_FILE8")) {
+                Return_RTN_MSG("00022");
+        
+                return;
+            }
+            $("#F_SEQ").val(72);
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                $('#F_FILE8').val("");
+                return;
+            } else {*/
+                if ("${G.AUTH_CD}" != "50") {
+                    //파일 업로드 실행 
+                    FIleUPload_F_FILE8();
+                } else {
+                    Update_File_AUTH_check.submit(false, "FIle_AUTH_Check");
+                }
+           // }
+        
+        }
+        
+        function required_msg() {
+            if ($("#S2_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID");
+                return false;
+            }
+        
+            if ($("#S_DCP_TYPE").val() == "") {
+                Return_RTN_MSG("00003", "Date Type");
+                return false;
+            }
+            return true;
+        }
+        
+        function Update_OnClick(myObj) {
+        
+            sbmCtlSave.submit(false, "DCPUpdate");
+        }
+        
+        function DCPUpdate() {
+        
+            // 오류 체크 
+            if ($("#out_message").val() != "") {
+                ErrorCheck();
+                return;
+            }
+        
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00018");
+                return;
+            }
+            if ($("#S2_CLOSING_COMPANY_CD").val() != "" && $("#S2_CLOSING_ORG_CD").val() == "") {
+        
+                Return_RTN_MSG("00004", "Approval Section", "S2_CLOSING_ORG_CD");
+                return;
+            }
+            if ($("#S2_APPLICA_COMPANY_CD").val() != "" && $("#S2_APPLICA_ORG_CD").val() == "") {
+        
+                Return_RTN_MSG("00004", "Applicant Section", "S2_APPLICA_ORG_CD");
+                return;
+            }
+            
+            var A_Date =$("#S2_A_DCP_PLAN_YYYYMMDD").val();
+            if ( !isValidDate(A_Date) && A_Date != "") {
+                Return_RTN_MSG("00036","A.DCP Scheduled Date" ,"S2_A_DCP_PLAN_YYYYMMDD");
+                	return ;	
+            } 
+            var P_Date=$("#S2_P_DCP_PLAN_YYYYMMDD").val();
+            if ( !isValidDate(P_Date) && P_Date != "" ) {
+                Return_RTN_MSG("00036","P.DCP Scheduled Date" ,"S2_P_DCP_PLAN_YYYYMMDD");
+                	return ;	
+            } 
+            var T_Date=$("#S2_T_DCP_PLAN_YYYYMMDD").val();
+            if ( !isValidDate(T_Date) && T_Date != "" ) {
+                Return_RTN_MSG("00036","T.DCP Scheduled Date" ,"S2_T_DCP_PLAN_YYYYMMDD");
+                	return ;	
+            } 
+            var M_Date=$("#S2_M_DCP_PLAN_YYYYMMDD").val();
+            if ( !isValidDate(M_Date) && M_Date != "" ) {
+                Return_RTN_MSG("00036","M.DCP Scheduled Date" ,"S2_M_DCP_PLAN_YYYYMMDD");
+                	return ;	
+            } 
+            var E_Date=$("#S2_E_DCP_PLAN_YYYYMMDD").val();
+            if ( !isValidDate(E_Date) && E_Date != "" ) {
+                Return_RTN_MSG("00036","E.DCP Scheduled Date" ,"S2_E_DCP_PLAN_YYYYMMDD");
+                	return ;	
+            } 
+            
+            
+            var A_Date2 =$("#S2_A_DCP_EXEC_YYYYMMDD").val();
+            if ( !isValidDate(A_Date2) && A_Date2 != "" ) {
+                   Return_RTN_MSG("00036","A.DCP Date of Execution" ,"S2_A_DCP_EXEC_YYYYMMDD");
+                	return ;	
+            } 
+            if(!today_inputDate(A_Date2)){
+                  Return_RTN_MSG("00005");
+                  return;
+            }
+            var P_Date2 =$("#S2_P_DCP_EXEC_YYYYMMDD").val();
+            if ( !isValidDate(P_Date2) && P_Date2 != "" ) {
+                Return_RTN_MSG("00036","P.DCP Date of Execution" ,"S2_P_DCP_EXEC_YYYYMMDD");
+                	return ;	
+            }
+            if(!today_inputDate(P_Date2)){
+                  Return_RTN_MSG("00005");
+                  return;
+            } 
+            var T_Date2 =$("#S2_T_DCP_EXEC_YYYYMMDD").val();
+            if ( !isValidDate(T_Date2) && T_Date2 != "" ) {
+                Return_RTN_MSG("00036","T.DCP Date of Execution" ,"S2_T_DCP_EXEC_YYYYMMDD");
+                	return ;	
+            } 
+            if(!today_inputDate(T_Date2)){
+                  Return_RTN_MSG("00005");
+                  return;
+            } 
+            var M_Date2 =$("#S2_M_DCP_EXEC_YYYYMMDD").val();
+            if ( !isValidDate(M_Date2) && M_Date2 != "" ) {
+                Return_RTN_MSG("00036","M.DCP Date of Execution" ,"S2_M_DCP_EXEC_YYYYMMDD");
+                	return ;	
+            } 
+            if(!today_inputDate(M_Date2)){
+                  Return_RTN_MSG("00005");
+                  return;
+            } 
+            var E_Date2 =$("#S2_E_DCP_EXEC_YYYYMMDD").val();
+            if ( !isValidDate(E_Date2) && E_Date2 != "" ) {
+                Return_RTN_MSG("00036","E.DCP Date of Execution" ,"S2_E_DCP_EXEC_YYYYMMDD");
+                	return ;	
+            } 
+            if(!today_inputDate(E_Date2)){
+                  Return_RTN_MSG("00005");
+                  return;
+            }
+            
+            
+           
+            
+            
+        
+            //일반 권한만 PI 체크 해서 수정 가능여부 판단
+            if ("${G.AUTH_CD}" != "50") {
+                if (confirm(confirm_MSG("0001"))) DCPInfoUpdate.submit(false, "Result");
+        
+            } else {
+                Update_File_AUTH_check.submit(false, "DCPinfo_Update");
+            }
+        
+        
+        
+        }
+        
+        function DCPinfo_Update() {
+        
+         if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00020");
+                $("#C_CNT").val('');
+                return;
+        
+            }
+            // 오류 체크 
+          /*  if ($("#out_message").val() != "") {
+                ErrorCheck();
+                return;
+            }
+        */
+            if (confirm(confirm_MSG("0001"))) DCPInfoUpdate.submit(false, "Result");
+        }
+        
+        function Result() {
+        
+            Return_RTN_MSG("00014");
+           // isChange = false;
+            //재조회 
+            DCPsearch.submit(false, "FILE_PID_FOR");
+        
+            // window.location.reload();
+            // alert( $("#out_message").val());
+        }
+        
+        function Approval_Update() {
+        
+            Return_RTN_MSG("00021");
+            //재조회 
+            DCPsearch.submit(false, "DCPSearch");
+        
+            // window.location.reload();
+            // alert( $("#out_message").val());
+        }
+        
+        
+        function button5_OnClick(myObj) {
+            if ("${G.AUTH_CD}" != "50") {
+                sbmCtlSave.submit(false, "DCP_APPROVAL");
+            } else {
+                Return_RTN_MSG("00020");
+                return;
+            }
+        }
+        
+        function DCP_APPROVAL() {
+        
+            // 오류 체크 
+            if ($("#out_message").val() != "") {
+                ErrorCheck();
+                return;
+            }
+            if ($("#S3_PID").val() == "") {
+                Return_RTN_MSG("00018");
+                return false;
+            }
+            if ($("#S2_APPROVAL_YYYYMMDD").val() == "") {
+                Return_RTN_MSG("00003", "Approved Date", "S2_APPROVAL_YYYYMMDD");
+                return;
+            }
+            
+              var APPROVAL_DATE =$("#S2_APPROVAL_YYYYMMDD").val();
+            if ( !isValidDate(APPROVAL_DATE) && APPROVAL_DATE != "" ) {
+                Return_RTN_MSG("00036","Approved Date" ,"S2_APPROVAL_YYYYMMDD");
+                	return ;	
+            } 
+            
+        
+           /* if (isChange) {
+                //수정 내역이 있으면 수정 버튼 먼저 누르라고 메시지 발생  
+                Return_RTN_MSG("00031");
+                return;
+            } else {*/
+                // 승인 처리 
+                if (confirm(confirm_MSG("0002"))) DCPAPPROVAL.submit(false, "Approval_Update");
+           // }
+        
+        
+        
+        }
+        
+        function InputClear() {
+        
+            $('input:text:not([id=S_PID]):text:not([id=S_DCP_TYPE])').val('');
+            $('select').each(function() {
+                var C_ID = this.id;
+                if(C_ID != "S_DCP_TYPE" && C_ID !=""){
+                  $("#"+C_ID+ " option:eq(0)").prop('selected', 'true');
+                }
+        		$("#F1_FILE_NM").text("");
+        		$("#F1_FILE_NM1").text("");
+        		$("#F1_FILE_NM2").text("");
+        		$("#F1_FILE_NM3").text("");
+        		$("#F1_FILE_NM4").text("");
+        	    $("#F1_FILE_NM5").text("");
+        	    $("#F1_FILE_NM6").text("");
+        	    $("#F1_FILE_NM7").text("");
+        		$("#F1_FILE_NM8").text("");
+        	  
+                //$(this).eq(0).find('select:not([id=S_DCP_TYPE])').prop('selected', 'true');
+            //  alert(  $(this).find('select:not([id=S_DCP_TYPE])').val());
+            });
+        }
+        
+        function dept2() {
+            if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00019", "PID", "S_PID");
+                // PID  마스터에 값이 존재하지않으면 값 초기화화
+                 InputClear();
+               // $("#S2_PID").val("");
+                return;
+        
+            }
+            //PID가 마스터에 존재하면 PID 값을 셋팅팅
+            $("#S3_PID").val($("#S_PID").val());
+        
+            if ($("#S_DCP_TYPE").val() != "") {
+        
+        
+                InputClear();
+                DCPsearch.submit(false, "DCPSearch");
+        
+            } else {
+                InputClear();
+                DCPsearch.submit(false, "FILE_PID_FOR");
+            }
+        
+        }
+        
+        function DCPSearch() {
+            Calculate_DCP.submit(false, "FILE_PID_FOR");
+        }
+        
+        function btn1_click(myObj) {
+        
+            sbmCtlRead.submit(false, "DCP_Search");
+        
+        }
+        
+        function DCP_Search() {
+            // 오류 체크 
+            if ($("#out_message").val() != "") {
+                ErrorCheck();
+                return;
+            }
+            if ($("#S_PID").val() == "") {
+                Return_RTN_MSG("00003", "PID", "S_PID");
+                return false;
+            }
+            //정규식 체크 
+            if (PatternVal($("#S_PID").val(), "PID") == -1) {
+                return;
+            }
+            if ($("#S_DCP_TYPE").val() == "") {
+                Return_RTN_MSG("00004", "Data Type", "S_DCP_TYPE");
+                return false;
+            }
+            //PID 존재여부 확인 
+            PID_Confirm.submit(false, "dept2");
+        
+        }
+        
+        function S2_CLOSING_AMT_OnKeypress(myObj) {
+            isNumberKey(event);
+        }
+        
+        function S2_REQUEST_AMT_OnKeypress(myObj) {
+            isNumberKey(event);
+        }
+        
+        function S2_BTM_AMT_SP_OnKeypress(myObj) {
+            isNumberKey(event);
+        }
+        
+        function S2_BTM_AMT_SSP_OnKeypress(myObj) {
+            isNumberKey(event);
+        }
+        
+        function S2_BTM_AMT_TP_OnKeypress(myObj) {
+            isNumberKey(event);
+        }
+        
+        function S2_OSC_MARGIN_RATIO_OnKeypress(myObj) {
+            isNumberKey(event);
+        }
+        
+        
+        
+        function ErrorCheck() {
+            //오류가 발생할 때 
+            if (ErroMsgDisplay() != 0) {
+        
+                // 메시지 코드드
+                var ERROR_CODE = "";
+                ERROR_CODE = $("#out_message").val();
+        
+                if (ErroMsgDisplay() == 9999) {
+                    ERROR_CODE = 9999;
+                }
+        
+                var param = ""
+                param += "?ERROR_CODE=" + ERROR_CODE + "&ERROR_MSG=" + ErroMsgDisplay();
+        
+                var url = "/hpms/20160906131150ErrorDisplay_loadpage.do" + param;
+        
+                $("#Error_cd").attr("src", url);
+                $("#Error_cd").attr("frameborder", 0);
+                $("#divPopup_ErrorCode").dialog({
+                    autoPoen: false,
+                    height: 260,
+                    //position:[50,300],
+                    width: 530,
+                    modal: true,
+                    title: "Error Indication",
+                    resizable: true,
+                    closeOnEscape: true,
+        
+                    close: function() {
+        
+                        //	window.location.reload();
+                        // iframe 초기화.
+                        $("#" + this.id).find('iframe').contents().find('body').html('');
+                    }
+                });
+                $("#divPopup_ErrorCode").dialog("open");
+            }
+        }
+        
+        function S2_CLOSING_ORG_CD_OnClick(myObj) {
+            if ($("#S2_CLOSING_COMPANY_CD").val() == "") {
+                Return_RTN_MSG("00004", "Approval Section", "S2_CLOSING_COMPANY_CD");
+                return;
+            }
+        
+        
+        }
+        
+        function S2_APPLICA_ORG_CD_OnClick(myObj) {
+            if ($("#S2_APPLICA_COMPANY_CD").val() == "") {
+                Return_RTN_MSG("00004", "Applicant Section", "S2_APPLICA_COMPANY_CD");
+                return;
+            }
+        }
+        
+        function S2_CLOSING_COMPANY_CD_OnChange(myObj) {
+            if ($("#S2_CLOSING_COMPANY_CD").val() != "") {
+                Approval_applicant_ORG_Combo.submit(false);
+            } else {
+                $("#S2_CLOSING_ORG_CD").val("");
+            }
+        
+        }
+        
+        function S2_APPLICA_COMPANY_CD_OnChange(myObj) {
+        
+            if ($("#S2_APPLICA_COMPANY_CD").val() != "") {
+                Approval_applicant_ORG_Combo1.submit(false);
+            } else {
+                $("#S2_APPLICA_ORG_CD").val("");
+            }
+        
+        }
+        
+        
+        
+        function S_PID_OnBlur(myObj) {
+            /*
+            isloadingCheck = false;
+            if($("#S_PID").val() != ""){
+             DATA_TYPE_TITLE_Combo.submit(false, "",false);
+             }
+             isloadingCheck = true;*/
+        }
+        
+        
+        function S_DCP_TYPE_OnClick(myObj) {
+        
+            if ($("#S_DCP_TYPE  option:eq(0)").text() != "--Choice--") {
+                Return_RTN_MSG("00003", "PID", "S_PID");
+                return;
+            }
+        }
+        
+        
+        
+        function S_PID_OnKeyUp(myObj) {
+            if ($("#S_PID").val() != "" && $("#S_PID").val().length == 6) {
+        
+                DATA_TYPE_TITLE_Combo.submit(false);
+            }
+        }
+        
+        //날짜유효성검사
+        function isValidDate(param) {
+                try
+                {
+                    //param = param.replace(/-/g,'');
+         
+                    // 자리수가 맞지않을때
+                    if( isNaN(param) || param.length!=8 ) {
+                        return false;
+                    }
+                     
+                    var year = Number(param.substring(0, 4));
+                    var month = Number(param.substring(4, 6));
+                    var day = Number(param.substring(6, 8));
+         
+                    var dd = day / 0;
+         
+                     
+                    if( month<1 || month>12 ) {
+                        return false;
+                    }
+                     
+                    var maxDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                    var maxDay = maxDaysInMonth[month-1];
+                     
+                    // 윤년 체크
+                    if( month==2 && ( year%4==0 && year%100!=0 || year%400==0 ) ) {
+                        maxDay = 29;
+                    }
+                     
+                    if( day<=0 || day>maxDay ) {
+                        return false;
+                    }
+                    return true;
+         
+                } catch (err) {
+                    return false;
+                }                       
+            }
+            
+            function today_inputDate(param){
+                
+                var Eyear = param.substring(0, 4);
+                var Emonth = param.substring(4, 6);
+                var Eday = param.substring(6, 8);
+                //날짜 조합합
+                var Edate =  Eyear+"-"+Emonth+"-"+ Eday; 
+                    
+                var date = new Date();
+           
+                var year  = date.getFullYear();
+                var month = date.getMonth() + 1; // 0부터 시작하므로 1더함 더함
+                var day   = date.getDate();
+            	
+                if (("" + month).length == 1) { month = "0" + month; }
+                if (("" + day).length   == 1) { day   = "0" + day;   }
+               
+                var Cdate =Eyear+"-"+month+"-"+ day; 
+                
+             
+                if( new Date(Edate) == new Date(Cdate)){
+                
+                  return true;
+                }else if( new Date(Edate) > new Date(Cdate)){
+        		return false;
+        		}else{
+        		return true;
+        		}
+                   
+            }
+        
+        function F_FILE_OnClick(myObj)
+        {
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  PID=""  DCP_TYPE=""   />
+                        </S>
+                        <S1 dateformat="" >
+                            <row  PID=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""   />
+                        </S1>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""  CNT=""   />
+                        </C>
+                        <G1 dateformat="" >
+                            <row  PID=""  FORECAST_NO=""  DCP_TYPE_CD=""  PLAN_YMD=""  EXEC_YMD=""  EXEC_NUM=""  APPROV_YMD=""   />
+                        </G1>
+                        <G2 dateformat="" >
+                            <row  PID=""  SUB_PID=""  APPLICATION=""  OWNER_ORG_CD=""   />
+                        </G2>
+                        <S2 dateformat="" >
+                            <row  PID=""  DCP_TYPE=""  REQUIRED_RETURN=""  CLOSING_AMT=""  REQUEST_AMT=""  CLOSING_COMPANY_CD=""  CLOSING_ORG_CD=""  APPLICA_COMPANY_CD=""  APPLICA_ORG_CD=""  RESPONS_COMPANY_CD=""  RESPONS_ORG_CD=""  PERSON_IN_CHARGE_ID=""  BTM_AMT_ECP_UNIT=""  BTM_AMT_ECP=""  BTM_AMT_SSP_UNIT=""  BTM_AMT_SSP=""  BTM_AMT_TP_UNIT=""  BTM_AMT_TP=""  OSC_MARGIN_RATIO=""  A_DCP_PLAN_YYYYMMDD=""  P_DCP_PLAN_YYYYMMDD=""  T_DCP_PLAN_YYYYMMDD=""  M_DCP_PLAN_YYYYMMDD=""  E_DCP_PLAN_YYYYMMDD=""  A_DCP_EXEC_YYYYMMDD=""  P_DCP_EXEC_YYYYMMDD=""  T_DCP_EXEC_YYYYMMDD=""  M_DCP_EXEC_YYYYMMDD=""  E_DCP_EXEC_YYYYMMDD=""  A_DCP_EXEC_CNT=""  P_DCP_EXEC_CNT=""  T_DCP_EXEC_CNT=""  M_DCP_EXEC_CNT=""  E_DCP_EXEC_CNT=""  SALES_AMT=""  NRE_AMT=""  RD_COST=""  INCOME_AMT=""  INCOME_AMT_RATIO=""  REGIST_USER_ID=""  REGIST_TIME=""  UPDATE_USER_ID=""  UPDATE_TIME=""  AAA=""  BBB=""  REQUIRED_RETURN_NM=""   />
+                        </S2>
+                        <F dateformat="" >
+                            <row  FILE=""  FILE2=""  FILE1=""  FILE3=""  FILE4=""  FILE5=""  FILE6=""  FILE7=""  FILE8=""  SEQ=""  PID=""  DCP_TYPE=""   />
+                        </F>
+                        <S3 dateformat="" >
+                            <row  PID=""  DCP_TYPE=""  APPROVAL_YYYYMMDD=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""  REQUIRED_RETURN=""  CLOSING_AMT=""  REQUEST_AMT=""  CLOSING_COMPANY_CD=""  CLOSING_ORG_CD=""  APPLICA_COMPANY_CD=""  APPLICA_ORG_CD=""  RESPONS_COMPANY_CD=""  RESPONS_ORG_CD=""  PERSON_IN_CHARGE_ID=""  BTM_AMT_ECP_UNIT=""  BTM_AMT_ECP=""  BTM_AMT_SSP_UNIT=""  BTM_AMT_SSP=""  BTM_AMT_TP_UNIT=""  BTM_AMT_TP=""  OSC_MARGIN_RATIO=""  A_DCP_PLAN_YYYYMMDD=""  P_DCP_PLAN_YYYYMMDD=""  T_DCP_PLAN_YYYYMMDD=""  M_DCP_PLAN_YYYYMMDD=""  E_DCP_PLAN_YYYYMMDD=""  A_DCP_EXEC_YYYYMMDD=""  P_DCP_EXEC_YYYYMMDD=""  T_DCP_EXEC_YYYYMMDD=""  M_DCP_EXEC_YYYYMMDD=""  E_DCP_EXEC_YYYYMMDD=""  A_DCP_EXEC_CNT=""  P_DCP_EXEC_CNT=""  T_DCP_EXEC_CNT=""  M_DCP_EXEC_CNT=""  E_DCP_EXEC_CNT=""  SALES_AMT=""  NRE_AMT=""  RD_COST=""  INCOME_AMT=""  INCOME_AMT_RATIO=""  NICKNAME_EXCL_HIDDEN=""   />
+                        </S3>
+                        <S4 dateformat="" >
+                            <row  A=""  P=""  T=""  M=""  E=""   />
+                        </S4>
+                        <F1 dateformat="" >
+                            <row  FILE_NM=""  FILE_NM1=""  FILE_NM2=""  FILE_NM3=""  FILE_NM4=""  FILE_NM5=""  FILE_NM6=""  FILE_NM7=""  FILE_NM8=""   />
+                        </F1>
+                        <C1 dateformat="" >
+                            <row  SALES_AMT=""  NRE_AMT=""  RD_COST=""  INCOME_AMT=""  INCOME_AMT_RATIO=""   />
+                        </C1>
+                        <init>
+                            <S>
+                                <row  PID=""  DCP_TYPE=""   />
+                            </S>
+                            <S1>
+                                <row  PID=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""   />
+                            </S1>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""  CNT=""   />
+                            </C>
+                            <G1>
+                                <row  PID=""  FORECAST_NO=""  DCP_TYPE_CD=""  PLAN_YMD=""  EXEC_YMD=""  EXEC_NUM=""  APPROV_YMD=""   />
+                            </G1>
+                            <G2>
+                                <row  PID=""  SUB_PID=""  APPLICATION=""  OWNER_ORG_CD=""   />
+                            </G2>
+                            <S2>
+                                <row  PID=""  DCP_TYPE=""  REQUIRED_RETURN=""  CLOSING_AMT=""  REQUEST_AMT=""  CLOSING_COMPANY_CD=""  CLOSING_ORG_CD=""  APPLICA_COMPANY_CD=""  APPLICA_ORG_CD=""  RESPONS_COMPANY_CD=""  RESPONS_ORG_CD=""  PERSON_IN_CHARGE_ID=""  BTM_AMT_ECP_UNIT=""  BTM_AMT_ECP=""  BTM_AMT_SSP_UNIT=""  BTM_AMT_SSP=""  BTM_AMT_TP_UNIT=""  BTM_AMT_TP=""  OSC_MARGIN_RATIO=""  A_DCP_PLAN_YYYYMMDD=""  P_DCP_PLAN_YYYYMMDD=""  T_DCP_PLAN_YYYYMMDD=""  M_DCP_PLAN_YYYYMMDD=""  E_DCP_PLAN_YYYYMMDD=""  A_DCP_EXEC_YYYYMMDD=""  P_DCP_EXEC_YYYYMMDD=""  T_DCP_EXEC_YYYYMMDD=""  M_DCP_EXEC_YYYYMMDD=""  E_DCP_EXEC_YYYYMMDD=""  A_DCP_EXEC_CNT=""  P_DCP_EXEC_CNT=""  T_DCP_EXEC_CNT=""  M_DCP_EXEC_CNT=""  E_DCP_EXEC_CNT=""  SALES_AMT=""  NRE_AMT=""  RD_COST=""  INCOME_AMT=""  INCOME_AMT_RATIO=""  REGIST_USER_ID=""  REGIST_TIME=""  UPDATE_USER_ID=""  UPDATE_TIME=""  AAA=""  BBB=""  REQUIRED_RETURN_NM=""   />
+                            </S2>
+                            <F>
+                                <row  FILE=""  FILE2=""  FILE1=""  FILE3=""  FILE4=""  FILE5=""  FILE6=""  FILE7=""  FILE8=""  SEQ=""  PID=""  DCP_TYPE=""   />
+                            </F>
+                            <S3>
+                                <row  PID=""  DCP_TYPE=""  APPROVAL_YYYYMMDD=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""  REQUIRED_RETURN=""  CLOSING_AMT=""  REQUEST_AMT=""  CLOSING_COMPANY_CD=""  CLOSING_ORG_CD=""  APPLICA_COMPANY_CD=""  APPLICA_ORG_CD=""  RESPONS_COMPANY_CD=""  RESPONS_ORG_CD=""  PERSON_IN_CHARGE_ID=""  BTM_AMT_ECP_UNIT=""  BTM_AMT_ECP=""  BTM_AMT_SSP_UNIT=""  BTM_AMT_SSP=""  BTM_AMT_TP_UNIT=""  BTM_AMT_TP=""  OSC_MARGIN_RATIO=""  A_DCP_PLAN_YYYYMMDD=""  P_DCP_PLAN_YYYYMMDD=""  T_DCP_PLAN_YYYYMMDD=""  M_DCP_PLAN_YYYYMMDD=""  E_DCP_PLAN_YYYYMMDD=""  A_DCP_EXEC_YYYYMMDD=""  P_DCP_EXEC_YYYYMMDD=""  T_DCP_EXEC_YYYYMMDD=""  M_DCP_EXEC_YYYYMMDD=""  E_DCP_EXEC_YYYYMMDD=""  A_DCP_EXEC_CNT=""  P_DCP_EXEC_CNT=""  T_DCP_EXEC_CNT=""  M_DCP_EXEC_CNT=""  E_DCP_EXEC_CNT=""  SALES_AMT=""  NRE_AMT=""  RD_COST=""  INCOME_AMT=""  INCOME_AMT_RATIO=""  NICKNAME_EXCL_HIDDEN=""   />
+                            </S3>
+                            <S4>
+                                <row  A=""  P=""  T=""  M=""  E=""   />
+                            </S4>
+                            <F1>
+                                <row  FILE_NM=""  FILE_NM1=""  FILE_NM2=""  FILE_NM3=""  FILE_NM4=""  FILE_NM5=""  FILE_NM6=""  FILE_NM7=""  FILE_NM8=""   />
+                            </F1>
+                            <C1>
+                                <row  SALES_AMT=""  NRE_AMT=""  RD_COST=""  INCOME_AMT=""  INCOME_AMT_RATIO=""   />
+                            </C1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S2_DCP_TYPE:SEL12,S2_BTM_AMT_ECP_UNIT:SEL8,S2_BTM_AMT_SSP_UNIT:SEL8,S2_BTM_AMT_TP_UNIT:SEL8" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_CommonCombo.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="40. 공통코드 관리" eventname="02 공통 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DCPsearch" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S3:SEL4,grid2:SEL8,S2:SEL10,F1:SEL6,S2:SEL14" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_DCPSearchInfo.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="DCPSearchInfo" menuname="30. DCP관리" eventname="02. DCP부대정보 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FIleInfoAdd" validate="false" method="post" replace="instance" instance="template"
+                     indataset="F[A]:F,S3[A]:S3,S[A]:S" outdataset="F1:SEL21" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_FileInfoAdd.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="FileInfoAdd" menuname="20. DCP  Management" eventname="03. FileUpload" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DCPInfoUpdate" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2,S3[A]:S3,S[A]:S" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_DCPInfoUpdate.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="DCPInfoUpdate" menuname="30. DCP관리" eventname="04. DCP 부대정보 수정&amp;추가" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DCPAPPROVAL" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2,S3[A]:S3" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_DCPApproval_Flow.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="DCPApproval_Flow" menuname="30. DCP관리" eventname="05. DCP 승인처리" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_PID_Confirm" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="C:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_PIDConfirm.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="PIDConfirm" menuname="30. DCP관리" eventname="06.PID 존재여부 확인" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ApprovalDate_output" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S3" outdataset="S4:SEL10,S4:SEL2,S4:SEL4,S4:SEL6,S4:SEL8" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_ApprovalDataSearch.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="ApprovalDataSearch" menuname="30. DCP  Management" eventname="07. Approval Data output" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Calculate_DCP" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S,S2[A]:S2,S3[A]:S3" outdataset="S2:SEL2,C1:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_DCP_Calculate.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="DCP_Calculate" menuname="20. DCP  Management" eventname="08.Calculate the DCP " callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlSave" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_saveUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="saveUsingCheck" menuname="50. Common Control" eventname="02. Save Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlRead" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_SearchUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="SearchUsingCheck" menuname="50. Common Control" eventname="03. Search Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Approval_applicant_combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S2_CLOSING_COMPANY_CD:SEL4,S2_APPLICA_COMPANY_CD:SEL4,S2_APPLICA_ORG_CD:SEL7,S2_CLOSING_ORG_CD:SEL7" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_Company_Org_cd.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="Company_Org_cd" menuname="40. Common Code Manage" eventname="03.Company_Org_Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Approval_applicant_ORG_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="S2_CLOSING_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_ORGCombobox.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="ORGCombobox" menuname="40. Common Code Manage" eventname="05. ORG Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Approval_applicant_ORG_Combo1" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="S2_APPLICA_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_Approval_applicant_ORG_Combo.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="Approval_applicant_ORG_Combo" menuname="20. DCP  Management" eventname="09. Approval_applicant_ORG_Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Update_File_AUTH_check" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S3" outdataset="C:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_DCP_PIDCheck.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="DCP_PIDCheck" menuname="20. DCP  Management" eventname="10. PID_AUTH_CHECK(SAVE,FILEUPLOAD)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DATA_TYPE_TITLE_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S2" outdataset="S_DCP_TYPE:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101143PLSheetOutput_initCombo.do" encoding="UTF-8" confirm="" menuid="20160901101143" eventid="initCombo" menuname="90. PL Sheet Output" eventname="03. initComboList" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="28,22"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63607809325781706315" label="DCP Management">    	</output>
+
+        	<userobject  location="863,56"  size="49,64"  style="display:none;" visible="True" inputstyle="width:49px; height:64px; border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63611286923203270718" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="26,66"  size="399,84"  unikey="63610150371212601756" style="" visible="True" >  
+                	<output  location="55,85"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607809276123866001" label="PID">        	</output>
+                	<textbox  location="157,86"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63607809315851138305" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="0"  onkeyup="S_PID_OnKeyUp(this);" onblur="S_PID_OnBlur(this);">        	</textbox>
+                	<output  location="55,110"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63607809352605240544" label="Data Type">        	</output>
+                	<combo  location="157,110"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_DCP_TYPE" bindcolumn="DCP_TYPE"  binddataset="S"  unikey="63607827205591372910" bind="S_DCP_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S_DCP_TYPE_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<button  location="340,112"  size="64,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn1" label="" type="button" src="" unikey="63607809388896316278" visible="True" value="Search" tabindex="0"  onclick="btn1_click(this);" ></button>
+    </group>
+        	<textbox  location="555,95"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C_CNT" bindcolumn="CNT"  binddataset="C"  unikey="63609019850041000268" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="30,162"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63607809465692708739" label="DCP Info">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="26,204"  size="731,346"  unikey="63610150407515678150" style="" visible="True" >  
+                	<output  location="398,212"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label12" bindcolumn=""  binddataset=""  unikey="63607810508013326127" label="Latest DCP Type">        	</output>
+                	<output  location="37,212"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63607809514036473867" label="PID">        	</output>
+                	<textbox  location="188,212"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_PID" bindcolumn="PID"  binddataset="S3"  unikey="63607809841418199088" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<combo  location="524,213"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:130px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_DCP_TYPE" bindcolumn="DCP_TYPE"  binddataset="S2"  unikey="63607810924154128029" bind="S2_DCP_TYPE_bnd" incremental="True" tabindex="1" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<textbox  location="357,232"  size="28,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_PID_STATUS_CD" bindcolumn="PID_STATUS_CD"  binddataset="S3"  unikey="63610075208006512231" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="398,237"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label13" bindcolumn=""  binddataset=""  unikey="63607810523141191370" label="Required return">        	</output>
+                	<textbox  location="188,237"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_PID_STATUS_NM" bindcolumn="PID_STATUS_NM"  binddataset="S3"  unikey="63609987265044027731" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<output  location="37,237"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63607809596956216656" label="PID Status">        	</output>
+                	<textbox  location="525,237"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_REQUIRED_RETURN_NM" bindcolumn="REQUIRED_RETURN_NM"  binddataset="S2"  unikey="63612553151317454746" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="357,258"  size="25,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_RD_CATEGORY_CD" bindcolumn="RD_CATEGORY_CD"  binddataset="S3"  unikey="63610075238292244546" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="188,261"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_RD_CATEGORY_NM" bindcolumn="RD_CATEGORY_NM"  binddataset="S3"  unikey="63609987266930135699" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<output  location="37,261"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label7" bindcolumn=""  binddataset=""  unikey="63607809656899645123" label="R&amp;D Category">        	</output>
+                	<textbox  location="533,263"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_REQUIRED_RETURN" bindcolumn="REQUIRED_RETURN"  binddataset="S2"  unikey="63607810937338882111" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="188,285"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_RD_THEME" bindcolumn="RD_THEME"  binddataset="S3"  unikey="63607810869619008761" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="120" incremental="True" tabindex="-1" >        	</textbox>
+                	<output  location="37,285"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63607809706291470296" label="R&amp;d Theme">        	</output>
+                	<textbox  location="188,309"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_ITEM_NAME" bindcolumn="ITEM_NAME"  binddataset="S3"  unikey="63607810872491173096" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="30" incremental="True" tabindex="-1" >        	</textbox>
+                	<output  location="37,309"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63607809729154777923" label="Product">        	</output>
+                	<output  location="398,310"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label14" bindcolumn=""  binddataset=""  unikey="63607810539253112937" label="Applied Price">        	</output>
+                	<textbox  location="524,310"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_CLOSING_AMT" bindcolumn="CLOSING_AMT"  binddataset="S2"  unikey="63607810939451002955" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="18" incremental="True" tabindex="2"  onkeypress="S2_CLOSING_AMT_OnKeypress(this);">        	</textbox>
+                	<textbox  location="188,332"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_NICKNAME" bindcolumn="NICKNAME"  binddataset="S3"  unikey="63607810875987373033" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="120" incremental="True" tabindex="-1" >        	</textbox>
+                	<output  location="37,333"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63607809762874706608" label="Nickname (For Display)">        	</output>
+                	<output  location="398,335"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label15" bindcolumn=""  binddataset=""  unikey="63607810550892778684" label="Approved Ordered Price">        	</output>
+                	<textbox  location="524,341"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_REQUEST_AMT" bindcolumn="REQUEST_AMT"  binddataset="S2"  unikey="63607810941506120401" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="18" incremental="True" tabindex="3"  onkeypress="S2_REQUEST_AMT_OnKeypress(this);">        	</textbox>
+                	<output  location="37,357"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63607809798226728654" label="Nickname (For Outside)">        	</output>
+                	<textbox  location="188,357"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_NICKNAME_EXCL_HIDDEN" bindcolumn="NICKNAME_EXCL_HIDDEN"  binddataset="S3"  unikey="63607810878058491472" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="120" incremental="True" tabindex="-1" >        	</textbox>
+                	<combo  location="188,396"  size="164,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:164px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_CLOSING_COMPANY_CD" bindcolumn="CLOSING_COMPANY_CD"  binddataset="S2"  unikey="63611704945678436379" bind="S2_CLOSING_COMPANY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S2_CLOSING_COMPANY_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<output  location="397,400"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label16" bindcolumn=""  binddataset=""  unikey="63607810562941467833" label="Bottom ECP Price">        	</output>
+                	<textbox  location="523,400"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_BTM_AMT_ECP" bindcolumn="BTM_AMT_ECP"  binddataset="S2"  unikey="63607810944442288449" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="18" incremental="True" tabindex="8"  onkeypress="S2_BTM_AMT_SP_OnKeypress(this);">        	</textbox>
+                	<combo  location="656,400"  size="77,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:77px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_BTM_AMT_ECP_UNIT" bindcolumn="BTM_AMT_ECP_UNIT"  binddataset="S2"  unikey="63610077233498363812" bind="S2_BTM_AMT_ECP_UNIT_bnd" incremental="True" tabindex="9" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="37,409"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label19" bindcolumn=""  binddataset=""  unikey="63607810692587883191" label="Approval Section">        	</output>
+                	<combo  location="188,419"  size="164,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:164px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_CLOSING_ORG_CD" bindcolumn="CLOSING_ORG_CD"  binddataset="S2"  unikey="63611704949141634469" bind="S2_CLOSING_ORG_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S2_CLOSING_ORG_CD_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="656,425"  size="77,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:77px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_BTM_AMT_SSP_UNIT" bindcolumn="BTM_AMT_SSP_UNIT"  binddataset="S2"  unikey="63610077236984563287" bind="S2_BTM_AMT_SSP_UNIT_bnd" incremental="True" tabindex="11" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="397,425"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label48" bindcolumn=""  binddataset=""  unikey="63609988243580996864" label="Bottom SSP Price">        	</output>
+                	<textbox  location="523,425"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_BTM_AMT_SSP" bindcolumn="BTM_AMT_SSP"  binddataset="S2"  unikey="63609988245796123535" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="10"  onkeypress="S2_BTM_AMT_SSP_OnKeypress(this);">        	</textbox>
+                	<combo  location="188,442"  size="164,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:164px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_APPLICA_COMPANY_CD" bindcolumn="APPLICA_COMPANY_CD"  binddataset="S2"  unikey="63611704953221867760" bind="S2_APPLICA_COMPANY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S2_APPLICA_COMPANY_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<output  location="397,449"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label17" bindcolumn=""  binddataset=""  unikey="63607810572501014559" label="Bottom TP Price">        	</output>
+                	<textbox  location="523,449"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_BTM_AMT_TP" bindcolumn="BTM_AMT_TP"  binddataset="S2"  unikey="63607810946480404999" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="18" incremental="True" tabindex="12"  onkeypress="S2_BTM_AMT_TP_OnKeypress(this);">        	</textbox>
+                	<combo  location="656,450"  size="77,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:77px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_BTM_AMT_TP_UNIT" bindcolumn="BTM_AMT_TP_UNIT"  binddataset="S2"  unikey="63610077240040738063" bind="S2_BTM_AMT_TP_UNIT_bnd" incremental="True" tabindex="13" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="37,453"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label20" bindcolumn=""  binddataset=""  unikey="63607810698740235018" label="Applicant Section">        	</output>
+                	<combo  location="188,465"  size="164,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:164px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_APPLICA_ORG_CD" bindcolumn="APPLICA_ORG_CD"  binddataset="S2"  unikey="63611704956478054052" bind="S2_APPLICA_ORG_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S2_APPLICA_ORG_CD_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<output  location="397,473"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label18" bindcolumn=""  binddataset=""  unikey="63607810582004558112" label="Dealer Margin">        	</output>
+                	<textbox  location="523,473"  size="130,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_OSC_MARGIN_RATIO" bindcolumn="OSC_MARGIN_RATIO"  binddataset="S2"  unikey="63607810948306509451" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="18" incremental="True" tabindex="14"  onkeypress="S2_OSC_MARGIN_RATIO_OnKeypress(this);">        	</textbox>
+                	<textbox  location="188,489"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_RESPONS_ORG_CD" bindcolumn="RESPONS_ORG_CD"  binddataset="S2"  unikey="63607810996762280979" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="100" incremental="True" tabindex="6" >        	</textbox>
+                	<output  location="37,489"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label21" bindcolumn=""  binddataset=""  unikey="63607810721699548246" label="Responsibility">        	</output>
+                	<textbox  location="189,513"  size="164,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_PERSON_IN_CHARGE_ID" bindcolumn="PERSON_IN_CHARGE_ID"  binddataset="S2"  unikey="63607810998546382939" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="100" incremental="True" tabindex="7" >        	</textbox>
+                	<output  location="37,513"  size="149,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label22" bindcolumn=""  binddataset=""  unikey="63607810732604171931" label="Person in charge">        	</output>
+    </group>
+        	<textbox  location="775,355"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_NICKNAME_EXCL" bindcolumn="NICKNAME_EXCL"  binddataset="S3"  unikey="63612659896485288909" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group3" name="group3"  location="26,555"  size="731,196"  unikey="63610150775857746114" style="" visible="True" >  
+                	<output  location="302,569"  size="140,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label35" bindcolumn=""  binddataset=""  unikey="63608665185228747719" label="Date of Execution">        	</output>
+                	<output  location="160,569"  size="140,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label34" bindcolumn=""  binddataset=""  unikey="63608665144325408288" label="Scheduled Date">        	</output>
+                	<output  location="84,569"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label33" bindcolumn=""  binddataset=""  unikey="63608665133572793202" label="DCP">        	</output>
+                	<output  location="445,569"  size="140,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label36" bindcolumn=""  binddataset=""  unikey="63608665200292609381" label="Execution Count">        	</output>
+                	<output  location="587,569"  size="140,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label37" bindcolumn=""  binddataset=""  unikey="63608665230108314758" label="Date of Approval">        	</output>
+                	<calendar  location="160,593"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_A_DCP_PLAN_YYYYMMDD" bindcolumn="A_DCP_PLAN_YYYYMMDD"  binddataset="S2"  unikey="63608665339950597331" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="15" >        	</calendar>
+                	<output  location="84,593"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label49" bindcolumn=""  binddataset=""  unikey="63612293223613949445" label="A.DCP">        	</output>
+                	<textbox  location="587,593"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_A" bindcolumn="A"  binddataset="S4"  unikey="63608665381275961032" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="445,593"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_A_DCP_EXEC_CNT" bindcolumn="A_DCP_EXEC_CNT"  binddataset="S2"  unikey="63608665366164096733" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="2" incremental="True" tabindex="17" >        	</textbox>
+                	<calendar  location="303,593"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_A_DCP_EXEC_YYYYMMDD" bindcolumn="A_DCP_EXEC_YYYYMMDD"  binddataset="S2"  unikey="63608665353555375556" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" maxDate="+0d"
+ tabindex="16" >        	</calendar>
+                	<calendar  location="160,617"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_P_DCP_PLAN_YYYYMMDD" bindcolumn="P_DCP_PLAN_YYYYMMDD"  binddataset="S2"  unikey="63608665342323733132" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="18" >        	</calendar>
+                	<calendar  location="302,617"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_P_DCP_EXEC_YYYYMMDD" bindcolumn="P_DCP_EXEC_YYYYMMDD"  binddataset="S2"  unikey="63608665355819505067" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" maxDate="+0d"
+ tabindex="19" >        	</calendar>
+                	<output  location="84,617"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label50" bindcolumn=""  binddataset=""  unikey="63612293261308105383" label="P.DCP">        	</output>
+                	<textbox  location="587,617"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_P" bindcolumn="P"  binddataset="S4"  unikey="63608665383148068155" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="445,617"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_P_DCP_EXEC_CNT" bindcolumn="P_DCP_EXEC_CNT"  binddataset="S2"  unikey="63608665368868251357" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="2" incremental="True" tabindex="20" >        	</textbox>
+                	<calendar  location="302,641"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_T_DCP_EXEC_YYYYMMDD" bindcolumn="T_DCP_EXEC_YYYYMMDD"  binddataset="S2"  unikey="63608665358067633674" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" maxDate="+0d"
+ tabindex="22" >        	</calendar>
+                	<output  location="84,641"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label51" bindcolumn=""  binddataset=""  unikey="63612293264068263276" label="T.DCP">        	</output>
+                	<calendar  location="160,641"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_T_DCP_PLAN_YYYYMMDD" bindcolumn="T_DCP_PLAN_YYYYMMDD"  binddataset="S2"  unikey="63608665344595863035" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="21" >        	</calendar>
+                	<textbox  location="587,641"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_T" bindcolumn="T"  binddataset="S4"  unikey="63608665384995173780" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="445,641"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_T_DCP_EXEC_CNT" bindcolumn="T_DCP_EXEC_CNT"  binddataset="S2"  unikey="63608665373107493824" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="2" incremental="True" tabindex="23" >        	</textbox>
+                	<output  location="84,664"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label52" bindcolumn=""  binddataset=""  unikey="63612293266284390063" label="M.DCP">        	</output>
+                	<calendar  location="302,665"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_M_DCP_EXEC_YYYYMMDD" bindcolumn="M_DCP_EXEC_YYYYMMDD"  binddataset="S2"  unikey="63608665360939797896" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" maxDate="+0d"
+ tabindex="25" >        	</calendar>
+                	<calendar  location="160,665"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_M_DCP_PLAN_YYYYMMDD" bindcolumn="M_DCP_PLAN_YYYYMMDD"  binddataset="S2"  unikey="63608665347356020940" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="24" >        	</calendar>
+                	<textbox  location="587,665"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_M" bindcolumn="M"  binddataset="S4"  unikey="63608665391491545357" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="445,665"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_M_DCP_EXEC_CNT" bindcolumn="M_DCP_EXEC_CNT"  binddataset="S2"  unikey="63608665375907654056" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="2" incremental="True" tabindex="26" >        	</textbox>
+                	<output  location="84,688"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label53" bindcolumn=""  binddataset=""  unikey="63612293269020546558" label="E.DCP">        	</output>
+                	<calendar  location="302,689"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_E_DCP_EXEC_YYYYMMDD" bindcolumn="E_DCP_EXEC_YYYYMMDD"  binddataset="S2"  unikey="63608665363339935113" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" maxDate="+0d"
+ tabindex="28" >        	</calendar>
+                	<calendar  location="160,689"  size="140,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_E_DCP_PLAN_YYYYMMDD" bindcolumn="E_DCP_PLAN_YYYYMMDD"  binddataset="S2"  unikey="63608665350764215847" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="27" >        	</calendar>
+                	<textbox  location="587,689"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S4_E" bindcolumn="E"  binddataset="S4"  unikey="63608665394475716013" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="445,689"  size="140,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_E_DCP_EXEC_CNT" bindcolumn="E_DCP_EXEC_CNT"  binddataset="S2"  unikey="63608665378651810992" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="2" incremental="True" tabindex="29" >        	</textbox>
+                	<button  location="649,718"  size="97,23"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="Update" label="" type="button" src="" unikey="63608672827125839325" visible="True" value="Update" tabindex="30"  onclick="Update_OnClick(this);" ></button>
+    </group>
+    
+       <grid  rownum="1000" unikey="63616803892748625274" id="grid2" dataset="G2" border="1" width="241" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="26,759"  size="241,192"  readonly="true"  statusvisible="false"  allowdelete="false"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  >
+        <heads>
+          <row height="23">
+          <head title="PID" text-align="center" > </head>
+          <head title="SUB PID" text-align="center" > </head>
+          <head title="Purpose" text-align="center" > </head>
+          <head title="OWNER_ORG_CD" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="22" >
+          <column  id="PID" dataset="G2" columnid="PID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SUB_PID" dataset="G2" columnid="SUB_PID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="APPLICATION" dataset="G2" columnid="APPLICATION" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="OWNER_ORG_CD" dataset="G2" columnid="OWNER_ORG_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+        	<output  location="30,958"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label23" bindcolumn=""  binddataset=""  unikey="63607817012007333224" label="File Upload">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group4" name="group4"  location="26,999"  size="891,312"  unikey="63610150887913155395" style="" visible="True" >  
+                	<upload  location="204,1009"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE" bindcolumn="FILE"  binddataset="F"  unikey="63607817135121375040" bind="F_FILE_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE_OnChange(this);" ></upload>
+                	<output  location="37,1010"  size="115,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label24" bindcolumn=""  binddataset=""  unikey="63607817030727404030" label="Front Page File">        	</output>
+                	<output  location="481,1012"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM" bindcolumn=""  binddataset=""  unikey="63610852560246776170" label="">        	</output>
+                	<upload  location="204,1040"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE1" bindcolumn="FILE1"  binddataset="F"  unikey="63607817182022057563" bind="F_FILE1_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE1_OnChange(this);" ></upload>
+                	<output  location="37,1040"  size="146,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label26" bindcolumn=""  binddataset=""  unikey="63607817066375442982" label="PL Sheet">        	</output>
+                	<output  location="481,1042"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM1" bindcolumn=""  binddataset=""  unikey="63610852570118340837" label="">        	</output>
+                	<output  location="481,1075"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM2" bindcolumn=""  binddataset=""  unikey="63610852574782607506" label="">        	</output>
+                	<output  location="37,1075"  size="115,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label27" bindcolumn=""  binddataset=""  unikey="63607817073998879011" label="Cost Estimate Sheet">        	</output>
+                	<upload  location="204,1075"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE2" bindcolumn="FILE2"  binddataset="F"  unikey="63607817172030486093" bind="F_FILE2_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE2_OnChange(this);" ></upload>
+                	<output  location="481,1109"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM3" bindcolumn=""  binddataset=""  unikey="63610852599214004947" label="">        	</output>
+                	<output  location="37,1110"  size="146,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label28" bindcolumn=""  binddataset=""  unikey="63607817081255294042" label="Quote Sheet">        	</output>
+                	<upload  location="204,1110"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE3" bindcolumn="FILE3"  binddataset="F"  unikey="63607817183918166040" bind="F_FILE3_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE3_OnChange(this);" ></upload>
+                	<output  location="37,1140"  size="115,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label29" bindcolumn=""  binddataset=""  unikey="63607817090919846875" label="DR Slip Sheet">        	</output>
+                	<upload  location="204,1140"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE4" bindcolumn="FILE4"  binddataset="F"  unikey="63607817175686695238" bind="F_FILE4_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE4_OnChange(this);" ></upload>
+                	<output  location="481,1141"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM4" bindcolumn=""  binddataset=""  unikey="63610852601902158720" label="">        	</output>
+                	<output  location="37,1175"  size="146,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label25" bindcolumn=""  binddataset=""  unikey="63607817054335754355" label="CHIP Specification Sheet">        	</output>
+                	<upload  location="204,1175"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE5" bindcolumn="FILE5"  binddataset="F"  unikey="63607817185719269018" bind="F_FILE5_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE5_OnChange(this);" ></upload>
+                	<output  location="481,1208"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM6" bindcolumn=""  binddataset=""  unikey="63610852607934503772" label="">        	</output>
+                	<output  location="37,1210"  size="115,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label30" bindcolumn=""  binddataset=""  unikey="63607817105878702410" label="Others 1">        	</output>
+                	<upload  location="204,1210"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE6" bindcolumn="FILE6"  binddataset="F"  unikey="63607817177798816012" bind="F_FILE6_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE6_OnChange(this);" ></upload>
+                	<output  location="481,1238"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM7" bindcolumn=""  binddataset=""  unikey="63610852611390701451" label="">        	</output>
+                	<output  location="37,1240"  size="146,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label31" bindcolumn=""  binddataset=""  unikey="63607817107358787079" label="Others 2">        	</output>
+                	<upload  location="204,1240"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE7" bindcolumn="FILE7"  binddataset="F"  unikey="63607817187918394897" bind="F_FILE7_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE7_OnChange(this);" ></upload>
+                	<output  location="481,1273"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM8" bindcolumn=""  binddataset=""  unikey="63610852614734892732" label="">        	</output>
+                	<output  location="39,1275"  size="115,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label32" bindcolumn=""  binddataset=""  unikey="63607817108846872149" label="Others 3">        	</output>
+                	<upload  location="204,1275"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE8" bindcolumn="FILE8"  binddataset="F"  unikey="63607817180205953687" bind="F_FILE8_bnd" fileuploadurl="/jsp/File/fileupload_DCP.jsp" incremental="True"  tabindex="-1"  onchange="F_FILE8_OnChange(this);" ></upload>
+    </group>
+        	<textbox  location="929,1102"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="F_DCP_TYPE" bindcolumn="DCP_TYPE"  binddataset="F"  unikey="63607819316239127874" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="939,1137"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="F_SEQ" bindcolumn="SEQ"  binddataset="F"  unikey="63607820541143188305" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="942,1169"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="F_PID" bindcolumn="PID"  binddataset="F"  unikey="63607820539191076620" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="483,1175"  size="435,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="F1_FILE_NM5" bindcolumn=""  binddataset=""  unikey="63610852604718319895" label="">    	</output>
+
+        	<output  location="30,1319"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label38" bindcolumn=""  binddataset=""  unikey="63608691186972962445" label="Calculate the DCP front Page">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group5" name="group5"  location="26,1361"  size="891,84"  unikey="63610150922312122856" style="" visible="True" >  
+                	<output  location="295,1371"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label42" bindcolumn=""  binddataset=""  unikey="63608691275964052411" label="Inside NRE">        	</output>
+                	<output  location="448,1371"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label43" bindcolumn=""  binddataset=""  unikey="63608691279068230047" label="The Total Development">        	</output>
+                	<output  location="601,1371"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label44" bindcolumn=""  binddataset=""  unikey="63608691281355360884" label="Life Operating Income">        	</output>
+                	<output  location="754,1371"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label45" bindcolumn=""  binddataset=""  unikey="63608691283259469722" label="Life Operating Margin">        	</output>
+                	<output  location="142,1371"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label40" bindcolumn=""  binddataset=""  unikey="63608691265739467672" label="Life Sales">        	</output>
+                	<output  location="41,1394"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label39" bindcolumn=""  binddataset=""  unikey="63608691263627346839" label="Present">        	</output>
+                	<textbox  location="602,1394"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_INCOME_AMT" bindcolumn="INCOME_AMT"  binddataset="S2"  unikey="63608691580993499196" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="755,1394"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_INCOME_AMT_RATIO" bindcolumn="INCOME_AMT_RATIO"  binddataset="S2"  unikey="63608691585097733906" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="449,1394"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_RD_COST" bindcolumn="RD_COST"  binddataset="S2"  unikey="63608691575218168894" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="296,1394"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_NRE_AMT" bindcolumn="NRE_AMT"  binddataset="S2"  unikey="63608691569705853500" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="143,1394"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_SALES_AMT" bindcolumn="SALES_AMT"  binddataset="S2"  unikey="63608691517417862888" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<output  location="41,1417"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label41" bindcolumn=""  binddataset=""  unikey="63608691268972652606" label="Previous">        	</output>
+                	<textbox  location="143,1417"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C1_SALES_AMT" bindcolumn="SALES_AMT"  binddataset="C1"  unikey="63608691519321971730" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="296,1417"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C1_NRE_AMT" bindcolumn="NRE_AMT"  binddataset="C1"  unikey="63608691571665965646" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="449,1417"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C1_RD_COST" bindcolumn="RD_COST"  binddataset="C1"  unikey="63608691579129392544" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="602,1417"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C1_INCOME_AMT" bindcolumn="INCOME_AMT"  binddataset="C1"  unikey="63608691582881607150" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+                	<textbox  location="755,1417"  size="151,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C1_INCOME_AMT_RATIO" bindcolumn="INCOME_AMT_RATIO"  binddataset="C1"  unikey="63608691586985841964" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="-1" >        	</textbox>
+    </group>
+        	<output  location="30,1454"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label46" bindcolumn=""  binddataset=""  unikey="63608691797623889751" label="DCP Information Storage">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group6" name="group6"  location="26,1496"  size="441,46"  unikey="63610150970079855043" style="" visible="True" >  
+                	<output  location="49,1510"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label47" bindcolumn=""  binddataset=""  unikey="63608691827983626229" label="Approved Date">        	</output>
+                	<button  location="349,1510"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button5" label="" type="button" src="" unikey="63608691869832019795" visible="True" value="Next DCP" tabindex="32"  onclick="button5_OnClick(this);" ></button>
+                	<calendar  location="152,1511"  size="121,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S2_APPROVAL_YYYYMMDD" bindcolumn="APPROVAL_YYYYMMDD"  binddataset="S2"  unikey="63608691847719755050" visible="True" dateFormat="yymmdd"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" tabindex="31" >        	</calendar>
+    </group>
+    </div>
+</body>
+</html>

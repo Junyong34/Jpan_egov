@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>원가입력</title>
+        <script><![CDATA[ 
+        $(function(){          
+        	$('#UPLOAD').click(function(e){
+        		$("#S1_FILE").val("");
+        		e.preventDefault();   //이벤트 중단 현재	         
+        		$("#S1_FILE").click();             
+        	});    
+        }); 
+        
+        
+        function FIleUPload_F_FILE()
+        {
+         if(  $("#S2_DATA_TYPE").val() == "")
+         {
+        	alert("Not Found Value: Condition");
+        	return;
+         }
+        
+         if($("#S1_FILE").val() != "") 
+            wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'S1_FILE', 'uploadsubmit', ['xls','xlsx']);
+        }
+        
+        function S2_FILE_OnChange(myObj)
+        {
+        	FIleUPload_F_FILE();
+        }
+        
+        function uploadsubmit()
+        {
+        	sbmUpload.submit(false,"ErrorCheck");
+        }
+        
+        
+        function btn_download_OnClick(myObj)
+        {
+        	
+        	if(  $("#S2_DATA_TYPE").val() == "")
+        	{
+        		alert("Not Found Value: DATA TYPE");
+        		return;
+        	}
+        	
+            FormSubmit("frm" , "/hpms/20160901101142CostInput_csvdownload.do" , "S2[A]:S" ,"",false); 
+        }
+        
+        
+        function ErrorCheck()
+        {
+        	if(ErroMsgDisplay() != 0) 
+        	{
+        	    
+        	   var ERROR_CODE ="";
+        	   ERROR_CODE= $("#out_message").val();
+        	   
+        	   if(ErroMsgDisplay() == 9999){
+        	    ERROR_CODE= 9999;
+        	   }
+        	
+        	   var param = ""
+        	   param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+        	
+        	   var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        		 
+        		   $("#Error_cd").attr("src",url);
+        		   $("#Error_cd").attr("frameborder", 0);
+        		   $("#divPopup_ErrorCode").dialog({
+        				autoPoen:false,
+        				height : 260,
+        				//position:[50,300],
+        				width:530,
+        				modal: true, 
+        				title: "Error Indication",
+        				resizable: true,
+        				closeOnEscape:true ,
+        			 
+        			close: function(){ 
+        	     
+        			//	window.location.reload();
+        				// iframe 초기화.
+        	   $("#" + this.id).find('iframe').contents().find('body').html('');
+        	  	}
+        	  	});
+        		   $("#divPopup_ErrorCode").dialog("open"); 
+        	 }
+        	 else
+        	 {
+        	     //오류업시 성공적으로 업로드 완료 했을 때    	
+        	   	  alert("Upload complete");
+             }
+        }
+        	
+        function dialogClose_MYPAGE(){ //팝업종료및 
+        	$("#divPopup_ErrorCode").dialog("close");
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  FILE=""   />
+                        </S1>
+                        <S2 dateformat="" >
+                            <row  DATA_TYPE=""   />
+                        </S2>
+                        <C dateformat="" >
+                            <row  ITEM_NM=""  ITEM_CD=""   />
+                        </C>
+                        <init>
+                            <S1>
+                                <row  FILE=""   />
+                            </S1>
+                            <S2>
+                                <row  DATA_TYPE=""   />
+                            </S2>
+                            <C>
+                                <row  ITEM_NM=""  ITEM_CD=""   />
+                            </C>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S2_DATA_TYPE:SEL16" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_CommonCombo.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="40. 공통코드 관리" eventname="02 공통 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmUpload" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101142CostInput_CostUpload.do" encoding="UTF-8" confirm="" menuid="20160901101142" eventid="CostUpload" menuname="80. 원가입력" eventname="01. 원가입력(Excel Upload)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="29,27"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608757672371709764" label="Cost Data Management Screen">    	</output>
+
+        	<combo  location="145,111"  size="158,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:158px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S2"  unikey="63610142400031250034" bind="S2_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+    	</combo>
+
+        	<output  location="73,111"  size="71,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608757719955431466" label="Condition">    	</output>
+
+        	<button  location="71,165"  size="117,29"  font-family="Microsoft Sans Serif" font-size="10" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_download" label="" type="button" src="" unikey="63610142253375000073" visible="True" value="Download" tabindex="0"  onclick="btn_download_OnClick(this);" ></button>
+
+        	<button  location="200,165"  size="120,29"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="UPLOAD" label="" type="button" src="" unikey="63608757777418718183" visible="True" value="Upload" tabindex="0"  ></button>
+
+        	<upload  location="337,172"  size="100,21"  requiredfield="true" requiredmsg="" style="width:0px;height:0px;" visible="True" inputstyle="width:100px; height:21px;color:Black;" id="S1_FILE" bindcolumn="FILE"  binddataset="S1"  unikey="63608757789762424192" bind="S1_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="S2_FILE_OnChange(this);" ></upload>
+
+    </div>
+</body>
+</html>

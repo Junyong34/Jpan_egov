@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>File2</title>
+        <script><![CDATA[ 
+        $(document).ready(function() {
+        
+        	$("#S_USER_ID,#S_USER_PW").focusout(function() {
+        		if($(this).val() != "") {
+        			$(this).addClass("inp");
+        		}
+        		else {
+        			$(this).removeClass("inp");
+        		}
+        	});
+        });
+             
+        function LoginDo(myObj){
+               isloadingCheck = true;
+               
+               	if($("#S_USER_ID").val() ==""){
+               	  return;
+               	}
+               	if($("#S_USER_PW").val() == ""){
+               		return;
+               	}
+        
+               LoginCheck.submit(false ,"callBack");
+        	 }
+        function callBack(){
+                  
+               if(wizutil.getResultMsg() == "로그인 ID,PW를 다시 확인해 주세요."){
+        
+        	      	  alert(wizutil.getResultMsg());
+        	       	  return;
+             		 }
+             		
+             	  FormSubmit("frm" , "/PBCloud/2016041114474LoginMgr_loadPage.do" , "S[A]:S" ,"",false);
+          } 
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" checkbox="" >
+                                <row  USER_ID=""  USER_PW=""  GUBUN=""   />
+                        </S>
+                        <S1 dateformat="" checkbox="" >
+                                <row  USER_ID=""  USER_PW=""   />
+                        </S1>
+                        <init>
+                            <S>
+                                <row  USER_ID=""  USER_PW=""  GUBUN=""   />
+                            </S>
+                            <S1>
+                                <row  USER_ID=""  USER_PW=""   />
+                            </S1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_LoginCheck" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114474LoginMgr_wizLoginSession.do" encoding="UTF-8" confirm="" menuid="2016041114474" eventid="wizLoginSession" menuname="10. 로그인" eventname="01. 로그인 체크" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<textbox  location="494,30"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_GUBUN" bindcolumn="GUBUN"  binddataset="S"  unikey="63597383198969638206" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0"  onchange="wizutil.CheckNumberValue(this);;">    	</textbox>
+
+        	<userobject  location="560,202"  size="725,460"  visible="True" inputstyle="width:725px; height:460px; border-width:0px; background-color:Transparent; color:Black; border-color:Black; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63597383214296514913" value="" navindex="0"  ><![CDATA[ 
+<div id="login-box">
+	<div class="header"><img src="img/login/logo.png" alt="S-COST"></div>
+	<div class="cont">
+		<form name="frm" onSubmit="login();return false;">
+		<div class="row">
+			<input  title="아이디" id="S_USER_ID" name="S_USER_ID" type="text" maxlength="50" tabindex="0"  required>
+		</div>
+		<div class="row">
+			<input type="password" title="비밀번호"  id="S_USER_PW" name="S_USER_PW" type="text" maxlength="50" tabindex="0" required>
+		</div>
+		<div class="row">
+			<div class="left">
+				<label><input type="checkbox" name="remember" value="1"><img src="img/login/rememberid.png" alt="Remember ID"></label>
+			</div>
+			<div class="right">
+				<img src="img/login/btn-submit.png"  onclick="LoginDo(this);"  alt="Login">
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+]]></userobject>
+
+    </div>
+</body>
+</html>

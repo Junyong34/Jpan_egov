@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BP_HP3D002T_DWH_20160930162713">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_GL_SEL9">SELECT COUNT(1) AS CNT 
+FROM HP3RF01T_BOX</select>
+  <delete parameterClass="java.util.HashMap" id="BP_HP3D002T_GL_XIUD11">DELETE FROM HP3D002T WHERE VAL_TYPE = 1</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_GL_SEL1">SELECT 
+            'ACT'                             AS    DATA_TYPE 
+        ,    PID                              AS    PID 
+        ,    COMPANY_CD                       AS    USE_COMPANY_CD 
+        ,    ORG_CD                           AS    USE_ORG_CD 
+        ,    COMPANY_CD                       AS    REQ_COMPANY_CD 
+        ,    ORG_CD                           AS    REQ_ORG_CD 
+        ,    '#'                              AS    SRC_COMPANY_CD 
+        ,    '#'                              AS    SRC_ORG_CD 
+        ,    '#'                              AS    DST_COMPANY_CD 
+        ,    '#'                              AS    DST_ORG_CD 
+        ,    HPMS_ID                          AS    HPMS_ID 
+        ,    '#'                              AS    INVEST_TYPE_CD 
+        ,    '#'                              AS    APPLICATION 
+        ,    ITEM_NAME                        AS    ITEM_NAME 
+        ,    CUSTOMER_CD                      AS    CUSTOMER_CD 
+        ,    FISCAL_YYYYMM                    AS    YYYYMM 
+        ,    TRANSACTION_CURRENCY_TYPE_CD     AS    UNIT 
+        ,    SUM(TRANSACTION_LINE_AMT)        AS    VAL 
+        ,    LOCAL_CURRENCY_TYPE_CD           AS    UNIT2 
+        ,    SUM(LOCAL_LINE_AMT)              AS    VAL2 
+        ,    'JPY'                            AS    UNIT3 
+        ,    SUM(PLAN_LINE_AMT)               AS    VAL3 
+        ,    'JPY'                            AS    UNIT4 
+        ,    SUM(REAL_LINE_AMT)               AS    VAL4 
+        ,    1                                AS    VAL_TYPE     
+        ,    'BP_HP3D002T_GL'                 AS    UPDATE_USER_ID 
+        ,    'HP3RF01T_BOX'                   AS    UPLOAD_FILE_NAME 
+        ,    TO_CHAR(NULL)                    AS    CALC_MST_VER 
+FROM 
+        HP3RF01T_BOX 
+WHERE 
+        ( 1 = 1 ) 
+  AND   FISCAL_YYYYMM &gt; F_GET_CONFIRM_YYYYMM() 
+GROUP BY 
+             PID 
+        ,    COMPANY_CD 
+        ,    ORG_CD 
+        ,    HPMS_ID 
+        ,    ITEM_NAME 
+        ,    CUSTOMER_CD 
+        ,    FISCAL_YYYYMM 
+        ,    TRANSACTION_CURRENCY_TYPE_CD 
+        ,    LOCAL_CURRENCY_TYPE_CD</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP3D002T_GL_INS9">Insert into HP_DBA01.HP3D002T (VAL2, VAL4, VAL3, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, UNIT4, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL4# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #UNIT4# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_GL_SEL3">SELECT 
+         'ACT'                        AS    DATA_TYPE 
+        , PID                          AS    PID 
+        , COMPANY_CD                   AS    USE_COMPANY_CD 
+        , ORG_CD                       AS    USE_ORG_CD 
+        , COMPANY_CD                   AS    REQ_COMPANY_CD 
+        , ORG_CD                       AS    REQ_ORG_CD 
+        , '#'                          AS    SRC_COMPANY_CD 
+        , '#'                          AS    SRC_ORG_CD 
+        , '#'                          AS    DST_COMPANY_CD 
+        , '#'                          AS    DST_ORG_CD 
+        , 'H10001'                     AS    HPMS_ID 
+        , '#'                          AS    INVEST_TYPE_CD 
+        , '#'                          AS    APPLICATION 
+        , ITEM_NAME                    AS    ITEM_NAME 
+        , CUSTOMER_CD                  AS    CUSTOMER_CD 
+        , FISCAL_YYYYMM                AS    YYYYMM 
+        , TO_CHAR(NULL)                AS    UNIT 
+        , SUM(TRANSACTION_QTY)         AS    VAL 
+        , TO_CHAR(NULL)                AS    UNIT2 
+        , SUM(TRANSACTION_QTY)         AS    VAL2 
+        , TO_CHAR(NULL)                AS    UNIT3 
+        , SUM(TRANSACTION_QTY)         AS    VAL3 
+        , TO_CHAR(NULL)                AS    UNIT4 
+        , SUM(TRANSACTION_QTY)         AS    VAL4 
+        , 1                            AS    VAL_TYPE     
+        , 'BP_HP3D002T_GL'             AS    UPDATE_USER_ID 
+        , 'HP3RF01T_BOX'               AS    UPLOAD_FILE_NAME 
+        , TO_CHAR(NULL)                AS    CALC_MST_VER 
+FROM 
+        HP3RF01T_BOX 
+WHERE 
+        ( 1 = 1 ) 
+  AND   FISCAL_YYYYMM &gt; NVL((SELECT VAL1 FROM HP1M105T 
+                       WHERE CD_TYPE='MONTHLY' AND CD='CONFIRM_YYYYMM'), '999912') 
+GROUP BY 
+          PID 
+        , COMPANY_CD 
+        , ORG_CD 
+        , ITEM_NAME 
+        , CUSTOMER_CD 
+        , FISCAL_YYYYMM</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP3D002T_GL_INS12">Insert into HP_DBA01.HP3D002T (VAL2, VAL4, VAL3, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, UNIT4, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL4# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #UNIT4# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_GL_SEL5">SELECT 
+         'ACT'                         AS    DATA_TYPE 
+        , PID                           AS    PID 
+        , COMPANY_CD                    AS    USE_COMPANY_CD 
+        , ORG_CD                        AS    USE_ORG_CD 
+        , COMPANY_CD                    AS    REQ_COMPANY_CD 
+        , ORG_CD                        AS    REQ_ORG_CD 
+        , '#'                           AS    SRC_COMPANY_CD 
+        , '#'                           AS    SRC_ORG_CD 
+        , '#'                           AS    DST_COMPANY_CD 
+        , '#'                           AS    DST_ORG_CD 
+        , 'H10002'                      AS    HPMS_ID 
+        , '#'                           AS    INVEST_TYPE_CD 
+        , '#'                           AS    APPLICATION 
+        , ITEM_NAME                     AS    ITEM_NAME 
+        , CUSTOMER_CD                   AS    CUSTOMER_CD 
+        , FISCAL_YYYYMM                 AS    YYYYMM 
+        , TRANSACTION_CURRENCY_TYPE_CD  AS    UNIT 
+        , MAX(TRANSACTION_LINE_PRICE)   AS    VAL 
+        , LOCAL_CURRENCY_TYPE_CD        AS    UNIT2 
+        , MAX(LOCAL_LINE_PRICE)         AS    VAL2 
+        , 'JPY'                         AS    UNIT3 
+        , MAX(PLAN_LINE_PRICE)          AS    VAL3 
+        , 'JPY'                         AS    UNIT4 
+        , MAX(REAL_LINE_PRICE)          AS    VAL4 
+        , 1                             AS    VAL_TYPE     
+        , 'BP_HP3D002T_GL'              AS    UPDATE_USER_ID 
+        , 'HP3RF01T_BOX'                AS    UPLOAD_FILE_NAME 
+        , TO_CHAR(NULL)                AS    CALC_MST_VER 
+FROM 
+        HP3RF01T_BOX 
+WHERE 
+        ( 1 = 1 ) 
+  AND   FISCAL_YYYYMM &gt; NVL((SELECT VAL1 FROM HP1M105T 
+                       WHERE CD_TYPE='MONTHLY' AND CD='CONFIRM_YYYYMM'), '999912') 
+GROUP BY 
+          PID 
+       ,  COMPANY_CD 
+       ,  ORG_CD 
+       ,  ITEM_NAME 
+       ,  CUSTOMER_CD 
+       ,  FISCAL_YYYYMM 
+       ,  TRANSACTION_CURRENCY_TYPE_CD 
+       ,  LOCAL_CURRENCY_TYPE_CD</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP3D002T_GL_INS13">Insert into HP_DBA01.HP3D002T (VAL2, VAL4, VAL3, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, UNIT4, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL4# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #UNIT4# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <delete parameterClass="java.util.HashMap" id="BP_HP3D002T_GL_XIUD9">DELETE FROM HP3RF01T_BOX</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_FA_SEL6">SELECT COUNT(1) AS CNT 
+FROM HP3RF02T_BOX</select>
+  <delete parameterClass="java.util.HashMap" id="BP_HP3D002T_FA_XIUD4">DELETE FROM HP3D002T WHERE VAL_TYPE = 2</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_FA_SEL1">SELECT 
+          'ACT'                    AS  DATA_TYPE 
+        , EXP_ACCT_PROJECT_ID      AS  PID 
+        , EXP_ACCT_COMPANY         AS  USE_COMPANY_CD 
+        , EXP_ACCT_ORG             AS  USE_ORG_CD 
+        , EXP_ACCT_COMPANY         AS  REQ_COMPANY_CD 
+        , EXP_ACCT_ORG             AS  REQ_ORG_CD 
+        , '#'                      AS  SRC_COMPANY_CD 
+        , '#'                      AS  SRC_ORG_CD 
+        , '#'                      AS  DST_COMPANY_CD 
+        , '#'                      AS  DST_ORG_CD 
+        , HPMS_ID                  AS  HPMS_ID 
+        , INVEST_TYPE_CD           AS  INVEST_TYPE_CD 
+        , '#'                      AS  APPLICATION 
+        , '#'                      AS  ITEM_NAME 
+        , '#'                      AS  CUSTOMER_CD 
+        , FISCAL_YYYYMM            AS  YYYYMM 
+        , CURRENCY_TYPE_CD         AS  UNIT 
+        , SUM(CURRENT_COST)        AS  VAL 
+        , CURRENCY_TYPE_CD_LOCAL   AS  UNIT2 
+        , SUM(CURRENT_COST_LOCAL)  AS  VAL2 
+        , 'JPY'                    AS  UNIT3 
+        , SUM(CURRENT_COST_PLAN)   AS  VAL3 
+        , 'JPY'                    AS  UNIT4 
+        , SUM(CURRENT_COST_REAL)   AS  VAL4 
+        , 2                        AS  VAL_TYPE     
+        , 'BP_HP3D002T_FA'         AS  UPDATE_USER_ID 
+        , 'HP3RF02T_BOX'           AS  UPLOAD_FILE_NAME 
+        , TO_CHAR(NULL)            AS    CALC_MST_VER 
+FROM 
+        HP3RF02T_BOX 
+WHERE 
+        (1 = 1) 
+  AND   FISCAL_YYYYMM &gt; F_GET_CONFIRM_YYYYMM() 
+GROUP BY 
+          EXP_ACCT_PROJECT_ID 
+        , EXP_ACCT_COMPANY 
+        , EXP_ACCT_ORG 
+        , HPMS_ID 
+        , INVEST_TYPE_CD 
+        , FISCAL_YYYYMM 
+        , CURRENCY_TYPE_CD 
+        , CURRENCY_TYPE_CD_LOCAL</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP3D002T_FA_INS6">Insert into HP_DBA01.HP3D002T (VAL2, VAL4, VAL3, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, UNIT4, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL4# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #UNIT4# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <delete parameterClass="java.util.HashMap" id="BP_HP3D002T_FA_XIUD9">DELETE FROM HP3RF02T_BOX</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_EDA_SEL6">SELECT COUNT(1) AS CNT 
+FROM HP3RF51T_BOX</select>
+  <delete parameterClass="java.util.HashMap" id="BP_HP3D002T_EDA_XIUD4">DELETE FROM HP3D002T WHERE VAL_TYPE = 3</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3D002T_EDA_SEL12">SELECT 
+          'ACT'                    AS  DATA_TYPE 
+        , PID                      AS  PID 
+        , '101'                    AS  USE_COMPANY_CD 
+        , '2468'                   AS  USE_ORG_CD 
+        , '101'                    AS  REQ_COMPANY_CD 
+        , '2468'                   AS  REQ_ORG_CD 
+        , '#'                      AS  SRC_COMPANY_CD 
+        , '#'                      AS  SRC_ORG_CD 
+        , '#'                      AS  DST_COMPANY_CD 
+        , '#'                      AS  DST_ORG_CD 
+        , HPMS_ID                  AS  HPMS_ID 
+        , '#'                      AS  INVEST_TYPE_CD 
+        , '#'                      AS  APPLICATION 
+        , '#'                      AS  ITEM_NAME 
+        , '#'                      AS  CUSTOMER_CD 
+        , SUBSTR(YYYYMMDD, 1, 6）  AS  YYYYMM 
+        , 'JPY'                    AS  UNIT 
+        , SUM(COST)                AS  VAL 
+        , 'JPY'                    AS  UNIT2 
+        , SUM(COST)                AS  VAL2 
+        , 'JPY'                    AS  UNIT3 
+        , SUM(COST)                AS  VAL3 
+        , 'JPY'                    AS  UNIT4 
+        , SUM(COST)                AS  VAL4 
+        , 3                        AS  VAL_TYPE     
+        , 'BP_HP3D002T_EDA'        AS  UPDATE_USER_ID 
+        , 'HP3RF51T_BOX'           AS  UPLOAD_FILE_NAME 
+        , TO_CHAR(NULL)            AS  CALC_MST_VER 
+FROM 
+        HP3RF51T_BOX 
+WHERE 
+        ( 1 = 1 ) 
+  AND   SUBSTR(YYYYMMDD, 1, 6）&gt; F_GET_CONFIRM_YYYYMM() 
+ 
+GROUP BY 
+        PID 
+      , HPMS_ID 
+      , SUBSTR(YYYYMMDD, 1, 6）</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP3D002T_EDA_INS13">Insert into HP_DBA01.HP3D002T (VAL2, VAL4, VAL3, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, UNIT4, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL4# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #UNIT4# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <delete parameterClass="java.util.HashMap" id="BP_HP3D002T_EDA_XIUD9">DELETE FROM HP3RF51T_BOX</delete>
+</sqlMap>
+

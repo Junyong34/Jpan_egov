@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="LoginMgrCheck_2016041114474">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="wizLoginSession_SEL3">SELECT  
+      COUNT(*) AS CNT   
+FROM  HP1M001T 
+WHERE USER_ID =#USER_ID# 
+AND USER_PW= #USER_PW#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="wizLoginSession_SEL1">select  
+     USER_ID, USER_PW, NE_USER,  ID_MAIL_01 
+from  HP1M001T 
+where USER_ID =#USER_ID# 
+and USER_PW= #USER_PW#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="SessionLogInfo_SEL1">SELECT A.USER_ID,
+       A.NE_USER,
+       B.AUTH_CD,
+       A.ID_MAIL_01
+       ,C.ORG_CD
+       ,C.COMPANY_CD
+       ,(SELECT ORG_CD FROM HP1DM03T WHERE 1=1
+            AND ORG_SEQ LIKE  SUBSTR((SELECT ORG_SEQ  FROM HP1DM03T WHERE ORG_CD =C.ORG_CD),0,4)||'%'
+            AND ORG_LVL ='2' AND ACTIVE_FLAG='0')
+        AS COMPANY_ORG_CD
+FROM  HP1M001T A , HP1AU02T B , HP1AU01T C
+WHERE A.USER_ID =#USER_ID#
+AND  A.USER_PW= #USER_PW#
+AND A.USER_ID = B.USER_ID
+AND B.AUTH_CD= C.AUTH_CD
+AND ROWNUM =1</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="System_Developer_Check_SEL3"> SELECT COUNT(*) AS CNT 
+   FROM HP1M001T
+   WHERE 1=1
+   AND USER_ID = #USER_ID#
+   AND NE_USER = 'System'</select>
+</sqlMap>
+

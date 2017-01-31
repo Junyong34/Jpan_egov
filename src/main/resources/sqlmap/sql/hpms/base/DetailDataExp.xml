@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DetailDataExp_20160901091139">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelDownload_EXDN">SELECT * 
+ FROM 
+  ( 
+    SELECT '' Processing_Flag,  
+                DATA_TYPE, 
+                PID, 
+                'PID_THEME' PID_THEME,  
+                USE_COMPANY_CD, 
+                USE_SECTION_CD, 
+                REQ_COMPANY_CD, 
+                REQ_SECTION_CD, 
+                 ITEM_CD, 
+                 'ITEM_NAME'  ITEM_NAME, 
+                 INVESTMENT_TYPE_CD,  
+                 'INVESTMENT_TYPE_NAME' INVESTMENT_TYPE_NAME,  
+                 APPLICATION, 
+                 SC_PARTS, 
+                 CUSTOMER_CD, 
+                 UNIT, 
+                 sysdate UPDATE_TIME, 
+                 'test'  UPDATE_NAME,  
+                 YYYYMM, 
+                 ITEM_VAL FROM HP_DBA01.HP2D001W 
+                WHERE PID=#PID# 
+    ) 
+    PIVOT 
+    ( 
+       SUM(ITEM_VAL) FOR YYYYMM IN ($YYYYMM_NULL$) 
+    ) 
+    ORDER BY DATA_TYPE, PID, ITEM_CD</select>
+</sqlMap>
+

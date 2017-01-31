@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>사원 조회</title>
+        <script><![CDATA[ 
+        function button1_OnClick(myObj)
+        {
+        SEARCH.submit(false);
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" checkbox="" >
+                            <row  EMPLOYEEID=""  NAME=""  EMAIL=""  AGE=""   />
+                        </S1>
+                        <init>
+                            <S1>
+                                <row  EMPLOYEEID=""  NAME=""  EMAIL=""  AGE=""   />
+                            </S1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SEARCH" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_P_Search_DEMO.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="P_Search_DEMO" menuname="사원관리" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<button  location="487,61"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63597459680062106539" visible="True" value="button" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+    
+       <grid  rownum="10" unikey="63598582790934860581" id="grid1" dataset="S1" border="1" width="553" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="79,102"  size="553,202"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  >
+        <heads>
+          <row height="23">
+          <head title="사원 ID" text-align="center" > </head>
+          <head title="이름" text-align="center" > </head>
+          <head title="EMAIL" text-align="center" > </head>
+          <head title="나이" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="EMPLOYEEID" dataset="S1" columnid="EMPLOYEEID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="NAME" dataset="S1" columnid="NAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="EMAIL" dataset="S1" columnid="EMAIL" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AGE" dataset="S1" columnid="AGE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    </div>
+</body>
+</html>

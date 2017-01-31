@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>디자인 샘플</title>
+        <script><![CDATA[ 
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <init>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="24,22"  size="584,65"  font-family="굴림체" font-weight="bold" font-size="18" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label1" bindcolumn=""  binddataset=""  unikey="63596691815600536892" label="각 컨트롤 Class 정보를 보고 확인 하면 됩니다.">    	</output>
+
+        	<output  location="36,95"  size="151,33"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63596691979703923098" label="기준 환율">    	</output>
+
+        	<output  location="57,137"  size="286,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Crimson; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63596692001943195037" label="제목 타이틀 Label Class 명 : titleLabel">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="31,165"  size="543,73"  unikey="63596691799258602186" style="" inputclass="search-box" visible="True" >  
+                	<output  location="59,182"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="serachlabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63596691909199890429" label="기준연도">        	</output>
+    </group>
+        	<output  location="31,256"  size="238,27"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Crimson; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63596691876201002907" label="Group Box Class 명 : search-box">    	</output>
+
+        	<output  location="275,257"  size="322,25"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Crimson; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63596691929928075942" label="Group Box 안에 Label Class 명 :  serachlabel">    	</output>
+
+    </div>
+</body>
+</html>

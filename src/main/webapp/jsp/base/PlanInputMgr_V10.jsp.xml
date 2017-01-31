@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>계획 입력 관리</title>
+        <script><![CDATA[ 
+        $(function(){          
+        	$('#btn_upload').click(function(e){
+        		$("#S1_FILE").val("");
+        		e.preventDefault();   
+        		         
+        		$("#S1_FILE").click();
+        		               
+        	/*	var ext = $("input:file").val().split(".").pop().toLowerCase();
+        		if(ext.length > 0){
+        			if($.inArray(ext, ["gif","png","jpg","jpeg"]) == -1) { 
+        				alert("gif,png,jpg 파일만 업로드 할수 있습니다.");
+        				return false;  
+        			}                  
+        		}
+        		$("input:file").val().toLowerCase();*/
+        	});                         
+        });                                     
+        
+        function FIleUPload_S1_FILE()
+        {
+          if($("#S1_FILE").val() != ""){
+           wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'S1_FILE', 'uploadsubmit', ['xls','xlsx']);
+           }
+        }
+        function S1_FILE_OnChange(myObj)
+        {
+        
+        	//파일 서버로 전송 
+        	FIleUPload_S1_FILE();
+        	
+        }
+        function uploadsubmit(){
+        sbmExcelUpload.submit(false,"aaaa");
+        
+        }
+        function aaaa(){
+        alert("Upload Completed ");
+        }
+        
+        function button1_OnClick(myObj)
+        {
+        
+        	var symd="";
+        	var fromym = $("#S_FROM_YYYYMM").val();
+        	var toym = $("#S_TO_YYYYMM").val();
+        	
+        	if(  $("#S_FROM_YYYYMM").val() == "")
+        	{
+        		alert("Not Found Value: FROM_YYYYMM");
+        		return;
+        	}
+        	if(  $("#S_TO_YYYYMM").val() == "")
+        	{
+        		alert("Not Found Value: TO_YYYYMM");
+        		return;
+        	}
+        	if(parseInt(fromym) > parseInt(toym))
+        	{
+        		alert("Search Date Value Error: FROM_YYYYMM > TO_YYYYMM ");
+        		return;
+        	}
+        	
+        	if(fromym == toym) 
+        	{
+        		symd= fromym;
+        	}
+        	else
+        	{
+        		symd= fromym;
+        		while(true)
+        		{
+        			fromym = plusMonth(fromym);
+        			symd = symd +"," + fromym;
+        			if(parseInt(fromym) >= parseInt(toym))
+        			{
+        				break;
+        			}
+        		}
+        	}
+        	
+        	$("#S_YYYYMM").val(symd);
+            FormSubmit("frm" , "/hpms/20160901091138PlanMgr_planExcelDownload.do" , "S[A]:S" ,"",false); 
+        }
+        
+        
+        function plusMonth(fromym)
+        {
+            var datefmt ="";
+        	var yyyy = parseInt(fromym.substring(0,4));
+        	var mm = 0;
+        	var mc = fromym.substring(4,5);
+        	if(mc == '0')
+        	{
+        		 mm = parseInt(fromym.substring(5));
+        	}
+        	else
+        	{
+        		 mm = parseInt(fromym.substring(4));
+        	}
+        	
+        	if(mm == 12)
+        	{
+        		datefmt = (yyyy+1) + '01';
+        	}
+        	else
+        	{
+        		mm++;
+        		if(mm>9) datefmt = yyyy +"" + mm;
+        		else   datefmt = yyyy +"0" + mm;
+        	}
+        	return datefmt;
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  FILE=""   />
+                        </S1>
+                        <S dateformat="" >
+                            <row  PID=""  ITEM_CD=""  DATA_TYPE=""  FROM_YYYYMM=""  TO_YYYYMM=""  USE_COMPANY_CD=""  USE_SECTION_CD=""  YYYYMM=""   />
+                        </S>
+                        <init>
+                            <S1>
+                                <row  FILE=""   />
+                            </S1>
+                            <S>
+                                <row  PID=""  ITEM_CD=""  DATA_TYPE=""  FROM_YYYYMM=""  TO_YYYYMM=""  USE_COMPANY_CD=""  USE_SECTION_CD=""  YYYYMM=""   />
+                            </S>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmExcelUpload" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901091138PlanMgr_ForeCastUpload.do" encoding="UTF-8" confirm="" menuid="20160901091138" eventid="ForeCastUpload" menuname="40. 계획입력" eventname="01. 계획입력(Excel Upload)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608670328192908501" label="Plan Input Screen">    	</output>
+
+        	<textbox  location="495,34"  size="336,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_YYYYMM" bindcolumn="YYYYMM"  binddataset="S"  unikey="63608699465000000006" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="48,83"  size="297,32"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608670389407409710" label="Plan Data Extraction">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="47,116"  size="852,225"  unikey="63610135156421875051" style="" visible="True" >  
+                	<output  location="704,133"  size="130,21"  font-family="굴림체" font-size="9.75" inputclass="infoText" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63608670496623542189" label="Extracting Period">        	</output>
+                	<output  location="652,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label7" bindcolumn=""  binddataset=""  unikey="63608670513862528214" label="From:YYYYMM">        	</output>
+                	<output  location="360,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63608670479486562061" label="HPMS ID">        	</output>
+                	<output  location="772,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label8" bindcolumn=""  binddataset=""  unikey="63608670521798982133" label="To:YYYYMM">        	</output>
+                	<output  location="508,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63608670485761920974" label="Data Type">        	</output>
+                	<output  location="211,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608670458374354435" label="PID">        	</output>
+                	<textbox  location="211,187"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63608670455448187126" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<combo  location="508,187"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S"  unikey="63608670651997429017" bind="S_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="" itemlabel="" itemcode="" appearance="minimal" >
+        	</combo>
+                	<combo  location="360,187"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_ITEM_CD" bindcolumn="ITEM_CD"  binddataset="S"  unikey="63608670642430881994" bind="S_ITEM_CD_bnd" incremental="True" tabindex="0" itemdataset="" itemlabel="" itemcode="" appearance="minimal" >
+        	</combo>
+                	<calendar  location="773,188"  size="100,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S_TO_YYYYMM" bindcolumn="TO_YYYYMM"  binddataset="S"  unikey="63608670659084834469" visible="True" dateFormat="yymm"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="OK" tabindex="0" >        	</calendar>
+                	<calendar  location="652,188"  size="100,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:en; " id="S_FROM_YYYYMM" bindcolumn="FROM_YYYYMM"  binddataset="S"  unikey="63608670655991657542" visible="True" dateFormat="yymm"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="OK" tabindex="0" >        	</calendar>
+                	<output  location="211,228"  size="129,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63608670696772990078" label="Organization Name">        	</output>
+                	<output  location="93,228"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63608670666981286198" label="Company Name">        	</output>
+                	<textbox  location="360,229"  size="100,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="input2" bindcolumn=""  binddataset=""  unikey="63610135795625000053" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="211,253"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_USE_SECTION_CD" bindcolumn="USE_SECTION_CD"  binddataset="S"  unikey="63608670707661612831" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<combo  location="93,253"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_USE_COMPANY_CD" bindcolumn="USE_COMPANY_CD"  binddataset="S"  unikey="63608670687557462929" bind="S_USE_COMPANY_CD_bnd" incremental="True" tabindex="0" itemdataset="" itemlabel="" itemcode="" appearance="minimal" >
+        	</combo>
+                	<button  location="91,288"  size="99,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63608670722846481470" visible="True" value="Download" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+    </group>
+        	<output  location="48,365"  size="297,32"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63608670745660786311" label="Plan Input">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="47,399"  size="855,72"  unikey="63610135286390625054" style="" visible="True" >  
+                	<button  location="89,417"  size="99,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_upload" label="" type="button" src="" unikey="63608670777844627196" visible="True" value="Upload" tabindex="0"  ></button>
+                	<upload  location="207,422"  size="263,21"  requiredfield="true" requiredmsg="" style="width:0px;height:0px;" inputstyle="width:263px; height:21px;color:Black;" id="S1_FILE" bindcolumn="FILE"  binddataset="S1"  unikey="63608671862214649546" bind="S1_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="S1_FILE_OnChange(this);" ></upload>
+    </group>
+    </div>
+</body>
+</html>

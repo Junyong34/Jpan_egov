@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>Login Screen</title>
+        <script><![CDATA[ 
+        $(document).ready(function() {
+           isclick = true;
+           $("#PassWD").attr("placeholder", "Password");
+           jQuery("#PassWD").bind("keypress", function(e) {
+               if (e.keyCode == "13") {
+        
+                   button1_OnClick(this);
+               }
+           });
+           
+          
+           //쿠키 삭제
+           deleteCookies();
+        
+        });
+        
+        
+        
+        
+        
+        function deleteCookies() {
+           var count = 0; 
+            var expireDate = new Date();
+        /*         var today = new Date();
+          today.setDate( today.getDate() + parseInt( expireDate ) );
+          document.cookie = "park" + "=" + escape( "park" ) + "; path=/; expires=" + today.toGMTString() + ";";*/
+          
+           if (document.cookie != "") {
+               var cookies = document.cookie.split("; ");
+               count = cookies.length;
+        
+              
+              
+               expireDate.setDate(expireDate.getDate() ); 
+         //  alert(expireDate.toGMTString());
+               for (var i = 0; i < count; i++) {
+                   var cookieName = cookies[i].split("=")[0];
+                   alert(cookieName);
+                   document.cookie = cookieName + "=; path=/; expires=" + expireDate.toGMTString()
+               }
+           }
+        
+           return count;
+        }
+        
+             
+             
+        function button1_OnClick(myObj) {
+           isloadingCheck = true;
+           
+           $("#button1").blur();
+           if ($("#UserID").val() == "") {
+               alert("Enter the UserID ");
+               $("#UserID").focus();
+               return;
+           }
+           if ($("#PassWD").val() == "") {
+               alert("Enter the Password ");
+               $("#PassWD").focus();
+               return;
+           }
+           
+           
+           if (isclick) {
+               isclick = false;
+               User_check.submit(false, "logingubun");
+           }
+        
+        
+        
+        }
+        
+           function logingubun() {
+                
+                   if (wizutil.getResultMsg() == 1) {
+                       LoginCheck.submit(false, "callBack");
+                   }else {
+                       var Return_URL ="http://tt-hpms-d10.bit.socionext.com/hpms/2016041114474CookieLoginInfo_CookieMgr.do"; // IPInfo(ex www.xxxx.com)/hpms/2016041114474CookieLoginInfo_CookieMgr.do
+                       $("#MenuFile").val(Return_URL);
+                       
+                       FormSubmit("frm", "https://ttoscar.css.socionext.com/cgi-bin/edonavi/check_id.cgi", "S[A]:S", "", false);
+                       
+                       isclick = true;
+                   }
+                
+                
+                }
+                
+        
+        function callBack() {
+          
+           if (wizutil.getResultMsg() == "Please check UserID Password") {
+        
+               alert(wizutil.getResultMsg());
+               isclick = true;
+               return;
+           }
+           FormSubmit("frm", "/hpms/2016041114474LoginMgrCheck_SessionLogInfo.do", "S[A]:S", "", false);
+        
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  USER_ID=""  USER_PW=""  GUBUN=""   />
+                        </S>
+                        <init>
+                            <S>
+                                <row  USER_ID=""  USER_PW=""  GUBUN=""   />
+                            </S>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_LoginCheck" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114474LoginMgrCheck_wizLoginSession.do" encoding="UTF-8" confirm="" menuid="2016041114474" eventid="wizLoginSession" menuname="10. 로그인" eventname="01. 로그인 체크(빌드X)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_User_check" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016041114474LoginMgrCheck_System_Developer_Check.do" encoding="UTF-8" confirm="" menuid="2016041114474" eventid="System_Developer_Check" menuname="10. Login" eventname="USER_check(Build X)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63610133891690026977" label="Login">    	</output>
+
+        	<output  location="102,88"  size="159,21"  font-family="굴림체" font-size="9.75" inputclass="" inputstyle=" border-width:0px; background-color:Transparent; color:DarkGray; line-height:Center; border-color:Transparent;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607551009369832724" label="Remember ID">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:0px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="63,89"  size="359,152"  unikey="63610135443558788869" style="" visible="True" >  
+                	<button  location="346,142"  size="67,50"  font-family="굴림체" font-size="9.75" inputclass="btn4" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63607547692894141201" visible="True" value="Login" tabindex="3"  onclick="button1_OnClick(this);" ></button>
+                	<userobject  location="80,143"  size="247,43"  visible="True" inputstyle="width:247px; height:43px; border-width:1px; background-color:Transparent; color:Black; border-color:Transparent; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63614123924928552479" value="" navindex="0"  ><![CDATA[ 
+<input class="TextBox-S" id="UserID" name="UserID" style="width:250px;margin-bottom:5px;" type="text" placeholder="ID" maxlength="60" tabindex="0">
+</br>
+<input type="password" class="TextBox-S" style="width:250px;"  id="PassWD" name="PassWD" maxlength="200" tabindex="0" placeholder="Password">
+<input type="hidden" name="MenuFile" value="http://tt-hpms-d10.bit.socionext.com/hpms/2016041114474CookieLoginInfo_CookieMgr.do" />
+<input type="hidden" name="lang" value="jp" />
+]]></userobject>
+    </group>
+    </div>
+</body>
+</html>

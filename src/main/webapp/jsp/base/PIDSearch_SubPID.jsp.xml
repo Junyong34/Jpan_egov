@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>PID Search Screen(subpid Numbering)</title>
+        <script><![CDATA[ 
+        $(document).ready(function(){ 
+            Company_cd.submit(false);
+             org_cd.submit(false);
+               $(document).keydown(function(e){   
+                   
+                   if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });
+        }); 
+        function button1_OnClick(myObj)
+        {
+          sbmCtlRead.submit(false, "PID_Search");
+        
+        }
+        
+        function PID_Search(){
+        // 오류 체크 
+         if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }  
+          var PID_val = $("#S_PID").val();
+        
+         /* if(PID_val != ""){
+             //정규식 체크 
+             if(PatternVal(PID_val,"PID") == -1){
+        		      return;
+        		 }
+          }*/
+        
+          PIDSearch.submit(false);
+        
+        }
+        function grid1_B1_cellonclick_grid1(rowId)
+        {
+        
+        	 var rowIndex=grid1.getRowIndex(rowId);
+        
+        	 var params = "?S1_PID="+ grid1.getCellValue(rowIndex, "PID", true) ;
+        	 	params += "&S1_REGIST_ORG_CD="+ grid1.getCellValue(rowIndex, "REGIST_ORG_CD", true) ;
+        	 	params += "&S1_RD_THEME="+ wizutil.JSONData_Char(grid1.getCellValue(rowIndex, "RD_THEME", true)) ;
+               params += "&S1_PID_STATUS_CD="+ grid1.getCellValue(rowIndex, "PID_STATUS_CD", true) ;
+            var url = "/hpms/20160912111171SubPidInfoMgr_SubPIDPopupPage.do" + params;
+        //	var url = "/hpms/hpms.do?SYSID=HPMS&MENUID=2016082417883&EVENTID=loadPagePopup_sub" + params;
+        	 
+        	   $("#subPIDAdd").attr("frameborder", 0);
+        	   $("#divPopup_subPIDadd").dialog({
+        			autoPoen:false,
+        			height : 480,
+        			//position:[50,300],
+        			width:520,
+        			modal: true, 
+        			title: "sub PID Add",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 	
+              		 $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+               $("#subPIDAdd").attr("src",url);
+        	   $("#divPopup_subPIDadd").dialog("open"); 
+        	  
+        }
+        function dialogClose_subpid(){ //팝업종료및 
+        
+        	$("#divPopup_subPIDadd").dialog("close");
+        	
+        }
+        
+        function S_OWNER_COMPANY_CD_OnChange(myObj)
+        {
+           org_cd.submit(false);
+        }
+        
+        function ErrorCheck(){
+        //오류가 발생할 때 
+        if(ErroMsgDisplay() != 0) {
+            
+           // 메시지 코드드
+           var ERROR_CODE ="";
+           ERROR_CODE= $("#out_message").val();
+           
+           if(ErroMsgDisplay() == 9999){
+                ERROR_CODE= 9999;
+           }
+        
+           var param = ""
+           param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+            
+           var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        	 
+        	   $("#Error_cd").attr("src",url);
+        	   $("#Error_cd").attr("frameborder", 0);
+        	   $("#divPopup_ErrorCode").dialog({
+        			autoPoen:false,
+        			height : 260,
+        			//position:[50,300],
+        			width:530,
+        			modal: true, 
+        			title: "Error Indication",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 
+                 
+        		//	window.location.reload();
+        			// iframe 초기화.
+               $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+        	   $("#divPopup_ErrorCode").dialog("open"); 
+           	}
+        }
+        
+        function S_OWNER_ORG_CD_OnClick(myObj)
+        {
+            if($("#S_OWNER_COMPANY_CD").val() ==""){
+                Return_RTN_MSG("00004","OWNER DepartmentY","S_OWNER_COMPANY_CD");
+                return;
+            }
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  PID=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""  OWNER_ORG_CD=""  OWNER_COMPANY_CD=""   />
+                        </S>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C>
+                        <G1 dateformat="" >
+                            <row  PID=""  PID_STATUS_NM=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""  REGIST_ORG_CD=""  OWNER_ORG_CD=""  PID_STATUS_CD=""  OWNER_ORG_NM=""  REGIST_ORG_NM=""   />
+                        </G1>
+                        <init>
+                            <S>
+                                <row  PID=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""  OWNER_ORG_CD=""  OWNER_COMPANY_CD=""   />
+                            </S>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C>
+                            <G1>
+                                <row  PID=""  PID_STATUS_NM=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  NICKNAME=""  NICKNAME_EXCL=""  REGIST_ORG_CD=""  OWNER_ORG_CD=""  PID_STATUS_CD=""  OWNER_ORG_NM=""  REGIST_ORG_NM=""   />
+                            </G1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_PID_STATUS_CD:SEL2,S_RD_CATEGORY_CD:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_CommonCombo.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="40. 공통코드 관리" eventname="02 공통 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_PIDSearch" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111171SubPidInfoMgr_sub_PID_NumberSearch.do" encoding="UTF-8" confirm="" menuid="20160912111171" eventid="sub_PID_NumberSearch" menuname="12. Sub_PID 관리" eventname="11. sub_PID 번호 지정 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SubPIDSearch" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="grid2:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111171SubPidInfoMgr_Sub_PIDSearch.do" encoding="UTF-8" confirm="" menuid="20160912111171" eventid="Sub_PIDSearch" menuname="12. Sub_PID 관리" eventname="01. subpid 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Company_cd" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_OWNER_COMPANY_CD:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_Company_Org_cd.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="Company_Org_cd" menuname="40. Common Code Manage" eventname="03.Company_Org_Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_org_cd" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S_OWNER_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_ORGCombobox.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="ORGCombobox" menuname="40. Common Code Manage" eventname="05. ORG Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlRead" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_SearchUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="SearchUsingCheck" menuname="50. Common Control" eventname="03. Search Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="15.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607733207978016913" label="SubPID Numbering">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="36,66"  size="456,225"  unikey="63610150237868974988" style="" visible="True" >  
+                	<textbox  location="207,78"  size="177,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63607733557654017315" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="1" >        	</textbox>
+                	<output  location="54,78"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63607733334534255548" label="PID">        	</output>
+                	<combo  location="207,100"  size="177,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:177px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_PID_STATUS_CD" bindcolumn="PID_STATUS_CD"  binddataset="S"  unikey="63607736959499591749" bind="S_PID_STATUS_CD_bnd" incremental="True" tabindex="2" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="54,101"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63607733374661550767" label="PID Status">        	</output>
+                	<combo  location="207,123"  size="177,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:177px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_RD_CATEGORY_CD" bindcolumn="RD_CATEGORY_CD"  binddataset="S"  unikey="63607736962316752863" bind="S_RD_CATEGORY_CD_bnd" incremental="True" tabindex="3" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="54,124"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63607733391125492476" label="R&amp;D Category">        	</output>
+                	<textbox  location="207,147"  size="177,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_RD_THEME" bindcolumn="RD_THEME"  binddataset="S"  unikey="63607736966870013379" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="80" incremental="True" tabindex="4" >        	</textbox>
+                	<output  location="54,147"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63607733410245586082" label="R&amp;D Theme">        	</output>
+                	<textbox  location="207,170"  size="177,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_ITEM_NAME" bindcolumn="ITEM_NAME"  binddataset="S"  unikey="63607736968564110297" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="30" incremental="True" tabindex="5" >        	</textbox>
+                	<output  location="54,170"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63607733430004716195" label="Product">        	</output>
+                	<output  location="54,193"  size="151,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label7" bindcolumn=""  binddataset=""  unikey="63607733442437427210" label="Nickname (For Display)">        	</output>
+                	<textbox  location="207,193"  size="177,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_NICKNAME" bindcolumn="NICKNAME"  binddataset="S"  unikey="63607736969940188917" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="6" >        	</textbox>
+                	<combo  location="207,216"  size="177,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:177px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_OWNER_COMPANY_CD" bindcolumn="OWNER_COMPANY_CD"  binddataset="S"  unikey="63611091774407398187" bind="S_OWNER_COMPANY_CD_bnd" incremental="True" tabindex="8" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S_OWNER_COMPANY_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<output  location="54,227"  size="151,27"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63607733489397113263" label="Owner Department">        	</output>
+                	<button  location="412,239"  size="62,22"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63607737665753987115" visible="True" value="Search" tabindex="10"  onclick="button1_OnClick(this);" ></button>
+                	<combo  location="207,239"  size="177,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:177px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_OWNER_ORG_CD" bindcolumn="OWNER_ORG_CD"  binddataset="S"  unikey="63607736977164602162" bind="S_OWNER_ORG_CD_bnd" incremental="True" tabindex="9" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S_OWNER_ORG_CD_OnClick(this);" appearance="minimal" >
+        	</combo>
+    </group>
+        	<userobject  location="940,171"  size="102,87"  inputstyle="width:102px; height:87px; border-width:0px; background-color:Transparent; color:Black; border-color:Black; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63608345875068243303" value="" navindex="0"  ><![CDATA[ 
+<!-- sub PID 등록 -->
+	<div id="divPopup_subPIDadd" name="divPopup_subPIDadd" style="display:none;background-color:white;">
+	<iframe id="subPIDAdd" name="subPIDAdd" style="width:490px;height:400px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<userobject  location="843,191"  size="69,64"  style="display:none;" visible="True" inputstyle="width:69px; height:64px; border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="user2" bindcolumn=""  binddataset=""  unikey="63611275067263149735" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+    
+       <grid  rownum="1000" unikey="63616200700712002022" id="grid1" dataset="G1" border="1" width="991" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="39,314"  size="991,443"  readonly="false"  statusvisible="false"  allowdelete="false"  visible="true"  paging="true"  rownumber="true"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  >
+        <heads>
+          <row height="23">
+          <head title="PID" text-align="center" > </head>
+          <head title="PID Status" text-align="center" > </head>
+          <head title="R&amp;D Category" text-align="center" > </head>
+          <head title="R&amp;D Theme" text-align="center" > </head>
+          <head title="Product" text-align="center" > </head>
+          <head title="Nickname" text-align="center" > </head>
+          <head title="Owner Department" text-align="center" > </head>
+          <head title="Registrar Department" text-align="center" > </head>
+          <head title="SubPID Numbering" text-align="center" > </head>
+          <head title="PID_STATUS_CD" text-align="center" > </head>
+          <head title="REGIST_ORG_CD " text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="PID" dataset="G1" columnid="PID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="61" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="PID_STATUS_NM" dataset="G1" columnid="PID_STATUS_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="87" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="RD_CATEGORY_NM" dataset="G1" columnid="RD_CATEGORY_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="203" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="RD_THEME" dataset="G1" columnid="RD_THEME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="78" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="ITEM_NAME" dataset="G1" columnid="ITEM_NAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="77" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="NICKNAME" dataset="G1" columnid="NICKNAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="81" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="OWNER_ORG_NM" dataset="G1" columnid="OWNER_ORG_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="112" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="REGIST_ORG_NM" dataset="G1" columnid="REGIST_ORG_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="111" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B1" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="72" type="button"  imagepath="" popupOnclick="grid1_B1_cellonclick_grid1" imagestyle="" text-align="center" >        <events></events>          </column>
+          <column  id="PID_STATUS_CD" dataset="G1" columnid="PID_STATUS_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="REGIST_ORG_CD" dataset="G1" columnid="REGIST_ORG_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    </div>
+</body>
+</html>

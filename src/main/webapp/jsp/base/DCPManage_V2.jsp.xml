@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>DCP 관리</title>
+        <script><![CDATA[ 
+        
+        function button1_OnClick(myObj)
+        {
+        DCPsearch.setRequired(true);
+        DCPsearch.submit(false,"FILE_PID_FOR");
+        
+        }
+        function FileInfosubmit(){
+           FIleInfoAdd.submit(false,"Complete");
+        }
+        function Complete(){
+        alert(" 파일이 첨부 되었습니다 ");
+        }
+        function FILE_PID_FOR(){
+        //파일업로드 키값 전송송
+        $("#F_PID").val($("#S_PID").val());
+        $("#F_FORECAST_NO").val($("#S_FORECAST_NO").val());
+        
+        }
+        function FIleUPload_F_FILE()
+        {
+        // 10 관람시트파일일
+        wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'F_FILE', '', ['ppt','xlsx','xls','pptx']);
+        }
+        function F_FILE_OnChange(myObj)
+        {
+        if($("#S_PID").val() =="" || $("#S_FORECAST_NO").val() == ""){
+           alert(  "PID를 검색 하고 파일을 첨부해주세요.");
+           $('#F_FILE').val("");
+           return;
+        
+        }
+        //파일 업로드 실행 
+        FIleUPload_F_FILE();
+        //파일 테이블 정보 입력력
+        FileInfosubmit();
+        }
+        function FIleUPload_F_FILE1()
+        {
+        wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'F_FILE1', '', ['jpg','html','zip']);
+        }
+        function F_FILE1_OnChange(myObj)
+        {
+        if($("#S_PID").val() =="" || $("#S_FORECAST_NO").val() == ""){
+           alert(  "PID를 검색 하고 파일을 첨부해주세요.");
+           $('#F_FILE1').val("");
+           return;
+        
+        }
+        //파일 업로드 실행 
+        FIleUPload_F_FILE1();
+        //파일 테이블 정보 입력력
+        FileInfosubmit();
+        }
+        function FIleUPload_F_FILE2()
+        {
+        wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'F_FILE2', '', ['jpg','html','zip']);
+        }
+        function F_FILE2_OnChange(myObj)
+        {
+        if($("#S_PID").val() =="" || $("#S_FORECAST_NO").val() == ""){
+           alert(  "PID를 검색 하고 파일을 첨부해주세요.");
+           $('#F_FILE2').val("");
+           return;
+        
+        }
+        //파일 업로드 실행 
+        FIleUPload_F_FILE2();
+        //파일 테이블 정보 입력력
+        FileInfosubmit(;
+        }
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                                <row  PID=""  FORECAST_NO=""   />
+                        </S>
+                        <S1 dateformat="" >
+                                <row  PID=""  PID_STATUS_CD=""  RND_CATEGROY_CD=""  RND_THEME=""  PRODUCT_CD=""  NICKNAME_1=""  NICKNAME_2=""   />
+                        </S1>
+                        <C dateformat="" >
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C>
+                        <G1 dateformat="" >
+                                <row  PID=""  FORECAST_NO=""  DCP_TYPE_CD=""  PLAN_YMD=""  EXEC_YMD=""  EXEC_NUM=""  APPROV_YMD=""   />
+                        </G1>
+                        <G2 dateformat="" >
+                                <row  PID=""  SUB_PID=""  SUB_PID_USE=""  USE_DEPT_CD=""   />
+                        </G2>
+                        <S2 dateformat="" >
+                                <row  LATEST_DCP_TYPE_CD=""  REQ_RETURN_TERM=""  APPROV_AMT=""  REQ_ORDER_AMT=""  BOTTOM_SP_AMT=""  BOTTOM_TP_AMT=""  SALE_COMPANY_MARGIN_RATE=""  APPORV_DEPT_CD=""  REQ_DEPT_CD=""  RESPONIBILITY=""  CHARGE_PERSON_ID=""   />
+                        </S2>
+                        <F dateformat="" >
+                                <row  FILE=""  FILE2=""  FILE1=""  FILE3=""  FILE4=""  FILE5=""  FILE6=""  FILE7=""  FILE8=""  FILE_GBN_CD=""  PID=""  FORECAST_NO=""   />
+                        </F>
+                        <init>
+                            <S>
+                                <row  PID=""  FORECAST_NO=""   />
+                            </S>
+                            <S1>
+                                <row  PID=""  PID_STATUS_CD=""  RND_CATEGROY_CD=""  RND_THEME=""  PRODUCT_CD=""  NICKNAME_1=""  NICKNAME_2=""   />
+                            </S1>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C>
+                            <G1>
+                                <row  PID=""  FORECAST_NO=""  DCP_TYPE_CD=""  PLAN_YMD=""  EXEC_YMD=""  EXEC_NUM=""  APPROV_YMD=""   />
+                            </G1>
+                            <G2>
+                                <row  PID=""  SUB_PID=""  SUB_PID_USE=""  USE_DEPT_CD=""   />
+                            </G2>
+                            <S2>
+                                <row  LATEST_DCP_TYPE_CD=""  REQ_RETURN_TERM=""  APPROV_AMT=""  REQ_ORDER_AMT=""  BOTTOM_SP_AMT=""  BOTTOM_TP_AMT=""  SALE_COMPANY_MARGIN_RATE=""  APPORV_DEPT_CD=""  REQ_DEPT_CD=""  RESPONIBILITY=""  CHARGE_PERSON_ID=""   />
+                            </S2>
+                            <F>
+                                <row  FILE=""  FILE2=""  FILE1=""  FILE3=""  FILE4=""  FILE5=""  FILE6=""  FILE7=""  FILE8=""  FILE_GBN_CD=""  PID=""  FORECAST_NO=""   />
+                            </F>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S1_PID_STATUS_CD:SEL2,S1_RND_CATEGROY_CD:SEL4,S1_LATEST_DCP_TYPE_CD:SEL8" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417883PidInfoMgr_MasterComboList.do" encoding="UTF-8" confirm="" menuid="2016082417883" eventid="MasterComboList" menuname="10. PID관리" eventname="02.사업장마스터 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DCPsearch" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S1:SEL2,S2:SEL4,grid1:SEL6,grid2:SEL8" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_DCPSearchInfo.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="DCPSearchInfo" menuname="30. DCP관리" eventname="02. DCP부대정보 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FIleInfoAdd" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417884DcpInfoMgr_ServiceID00.do" encoding="UTF-8" confirm="" menuid="2016082417884" eventid="ServiceID00" menuname="30. DCP관리" eventname="03.파일첨부" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="36,16"  size="91,33"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63607809325781706315" label="DCP 관리">    	</output>
+
+        	<textbox  location="142,82"  size="100,21"  requiredfield="true" requiredmsg="PID를 입력하시오" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63607809315851138305" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,82"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607809276123866001" label="PID">    	</output>
+
+        	<textbox  location="142,107"  size="100,21"  requiredfield="true" requiredmsg="데이터종별을 입력하시오" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_FORECAST_NO" bindcolumn="FORECAST_NO"  binddataset="S"  unikey="63607809368341140556" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,107"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63607809352605240544" label="테이터종별">    	</output>
+
+        	<button  location="420,108"  size="64,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63607809388896316278" visible="True" value="검색" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+        	<output  location="38,162"  size="129,26"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63607809465692708739" label="DCP 부대정보">    	</output>
+
+        	<combo  location="563,217"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_LATEST_DCP_TYPE_CD" bindcolumn="LATEST_DCP_TYPE_CD"  binddataset="S2"  unikey="63607810924154128029" bind="S1_LATEST_DCP_TYPE_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+    	</combo>
+
+        	<textbox  location="167,217"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_PID" bindcolumn="PID"  binddataset="S1"  unikey="63607809841418199088" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="437,217"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label12" bindcolumn=""  binddataset=""  unikey="63607810508013326127" label="최신 DCP 종별">    	</output>
+
+        	<output  location="40,217"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63607809514036473867" label="PID">    	</output>
+
+        	<textbox  location="563,242"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_REQ_RETURN_TERM" bindcolumn="REQ_RETURN_TERM"  binddataset="S2"  unikey="63607810937338882111" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<combo  location="167,242"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:110px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_PID_STATUS_CD" bindcolumn="PID_STATUS_CD"  binddataset="S1"  unikey="63607810817221011735" bind="S1_PID_STATUS_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+    	</combo>
+
+        	<output  location="437,242"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label13" bindcolumn=""  binddataset=""  unikey="63607810523141191370" label="Required return">    	</output>
+
+        	<output  location="40,242"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63607809596956216656" label="PID 상태">    	</output>
+
+        	<combo  location="167,266"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:110px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_RND_CATEGROY_CD" bindcolumn="RND_CATEGROY_CD"  binddataset="S1"  unikey="63607810826315531966" bind="S1_RND_CATEGROY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+    	</combo>
+
+        	<output  location="40,266"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label7" bindcolumn=""  binddataset=""  unikey="63607809656899645123" label="RnD Category">    	</output>
+
+        	<textbox  location="167,290"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_RND_THEME" bindcolumn="RND_THEME"  binddataset="S1"  unikey="63607810869619008761" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,290"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63607809706291470296" label="Rnd Theme">    	</output>
+
+        	<textbox  location="563,313"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_APPROV_AMT" bindcolumn="APPROV_AMT"  binddataset="S2"  unikey="63607810939451002955" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="437,313"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label14" bindcolumn=""  binddataset=""  unikey="63607810539253112937" label="결제대상금액">    	</output>
+
+        	<textbox  location="167,314"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_PRODUCT_CD" bindcolumn="PRODUCT_CD"  binddataset="S1"  unikey="63607810872491173096" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,314"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63607809729154777923" label="Product">    	</output>
+
+        	<textbox  location="563,337"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_REQ_ORDER_AMT" bindcolumn="REQ_ORDER_AMT"  binddataset="S2"  unikey="63607810941506120401" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="167,337"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_NICKNAME_1" bindcolumn="NICKNAME_1"  binddataset="S1"  unikey="63607810875987373033" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="437,337"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label15" bindcolumn=""  binddataset=""  unikey="63607810550892778684" label="품의주문금액">    	</output>
+
+        	<output  location="40,338"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63607809762874706608" label="Nickname(표시용)">    	</output>
+
+        	<textbox  location="167,362"  size="110,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_NICKNAME_2" bindcolumn="NICKNAME_2"  binddataset="S1"  unikey="63607810878058491472" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,362"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63607809798226728654" label="Nickname(사외용)">    	</output>
+
+        	<textbox  location="563,397"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_BOTTOM_SP_AMT" bindcolumn="BOTTOM_SP_AMT"  binddataset="S2"  unikey="63607810944442288449" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="167,397"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_APPORV_DEPT_CD" bindcolumn="APPORV_DEPT_CD"  binddataset="S2"  unikey="63607810992842056765" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,397"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label19" bindcolumn=""  binddataset=""  unikey="63607810692587883191" label="결재부서코드">    	</output>
+
+        	<output  location="437,397"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label16" bindcolumn=""  binddataset=""  unikey="63607810562941467833" label="BottomSP 금액">    	</output>
+
+        	<textbox  location="563,422"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_BOTTOM_TP_AMT" bindcolumn="BOTTOM_TP_AMT"  binddataset="S2"  unikey="63607810946480404999" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="167,422"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_REQ_DEPT_CD" bindcolumn="REQ_DEPT_CD"  binddataset="S2"  unikey="63607810994739165221" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,422"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label20" bindcolumn=""  binddataset=""  unikey="63607810698740235018" label="선청부서코드">    	</output>
+
+        	<output  location="437,422"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label17" bindcolumn=""  binddataset=""  unikey="63607810572501014559" label="BottomTP 금액">    	</output>
+
+        	<textbox  location="563,446"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_SALE_COMPANY_MARGIN_RATE" bindcolumn="SALE_COMPANY_MARGIN_RATE"  binddataset="S2"  unikey="63607810948306509451" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="167,446"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_RESPONIBILITY" bindcolumn="RESPONIBILITY"  binddataset="S2"  unikey="63607810996762280979" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,446"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label21" bindcolumn=""  binddataset=""  unikey="63607810721699548246" label="Responsibility">    	</output>
+
+        	<output  location="437,446"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label18" bindcolumn=""  binddataset=""  unikey="63607810582004558112" label="판매회사마진율">    	</output>
+
+        	<textbox  location="167,470"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_CHARGE_PERSON_ID" bindcolumn="CHARGE_PERSON_ID"  binddataset="S2"  unikey="63607810998546382939" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="40,470"  size="125,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label22" bindcolumn=""  binddataset=""  unikey="63607810732604171931" label="Person in charge">    	</output>
+
+    
+       <grid  rownum="100" unikey="63607815893498358260" id="grid1" dataset="G1" border="1" width="876" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="41,519"  size="876,140"  readonly="false"  statusvisible="false"  allowdelete="false"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  >
+        <heads>
+          <row height="23">
+          <head title="PID" text-align="center" > </head>
+          <head title="FORECAST번호" text-align="center" > </head>
+          <head title="DCP종별코드" text-align="center" > </head>
+          <head title="예정일" text-align="center" > </head>
+          <head title="실시일" text-align="center" > </head>
+          <head title="실시회수" text-align="center" > </head>
+          <head title="승인일" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="PID" dataset="G1" columnid="PID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="FORECAST_NO" dataset="G1" columnid="FORECAST_NO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="DCP_TYPE_CD" dataset="G1" columnid="DCP_TYPE_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="PLAN_YMD" dataset="G1" columnid="PLAN_YMD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="EXEC_YMD" dataset="G1" columnid="EXEC_YMD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="EXEC_NUM" dataset="G1" columnid="EXEC_NUM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="APPROV_YMD" dataset="G1" columnid="APPROV_YMD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    
+       <grid  rownum="1000" unikey="63607815944391269115" id="grid2" dataset="G2" border="1" width="300" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="45,689"  size="300,136"  readonly="false"  statusvisible="false"  allowdelete="false"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  >
+        <heads>
+          <row height="23">
+          <head title="PID" text-align="center" > </head>
+          <head title="SUB PID" text-align="center" > </head>
+          <head title="용도" text-align="center" > </head>
+          <head title="이용부서코드" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="PID" dataset="G2" columnid="PID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SUB_PID" dataset="G2" columnid="SUB_PID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SUB_PID_USE" dataset="G2" columnid="SUB_PID_USE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="USE_DEPT_CD" dataset="G2" columnid="USE_DEPT_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+        	<output  location="48,846"  size="104,27"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label23" bindcolumn=""  binddataset=""  unikey="63607817012007333224" label="파일첨부">    	</output>
+
+        	<upload  location="537,902"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE1" bindcolumn="FILE1"  binddataset="F"  unikey="63607817182022057563" bind="F_FILE1_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="F_FILE1_OnChange(this);" ></upload>
+
+        	<upload  location="152,902"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE" bindcolumn="FILE"  binddataset="F"  unikey="63607817135121375040" bind="F_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="F_FILE_OnChange(this);" ></upload>
+
+        	<output  location="435,902"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label26" bindcolumn=""  binddataset=""  unikey="63607817066375442982" label="PL시트">    	</output>
+
+        	<output  location="50,902"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label24" bindcolumn=""  binddataset=""  unikey="63607817030727404030" label="관람시트파일">    	</output>
+
+        	<upload  location="152,936"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE2" bindcolumn="FILE2"  binddataset="F"  unikey="63607817172030486093" bind="F_FILE2_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="F_FILE2_OnChange(this);" ></upload>
+
+        	<upload  location="537,936"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE3" bindcolumn="FILE3"  binddataset="F"  unikey="63607817183918166040" bind="F_FILE3_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  ></upload>
+
+        	<output  location="435,936"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label28" bindcolumn=""  binddataset=""  unikey="63607817081255294042" label="견적시트">    	</output>
+
+        	<output  location="50,936"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label27" bindcolumn=""  binddataset=""  unikey="63607817073998879011" label="원가계산시트">    	</output>
+
+        	<upload  location="152,969"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE4" bindcolumn="FILE4"  binddataset="F"  unikey="63607817175686695238" bind="F_FILE4_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  ></upload>
+
+        	<upload  location="537,969"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE5" bindcolumn="FILE5"  binddataset="F"  unikey="63607817185719269018" bind="F_FILE5_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  ></upload>
+
+        	<output  location="435,969"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label25" bindcolumn=""  binddataset=""  unikey="63607817054335754355" label="CHIP사양시트">    	</output>
+
+        	<output  location="50,969"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label29" bindcolumn=""  binddataset=""  unikey="63607817090919846875" label="DR장표시트">    	</output>
+
+        	<upload  location="537,1000"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE7" bindcolumn="FILE7"  binddataset="F"  unikey="63607817187918394897" bind="F_FILE7_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  ></upload>
+
+        	<upload  location="152,1000"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE6" bindcolumn="FILE6"  binddataset="F"  unikey="63607817177798816012" bind="F_FILE6_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  ></upload>
+
+        	<output  location="435,1000"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label31" bindcolumn=""  binddataset=""  unikey="63607817107358787079" label="그외 2">    	</output>
+
+        	<output  location="50,1000"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label30" bindcolumn=""  binddataset=""  unikey="63607817105878702410" label="그외 1">    	</output>
+
+        	<upload  location="152,1033"  size="269,21"  requiredfield="true" requiredmsg="" visible="True" inputstyle="width:269px; height:21px;color:Black;" id="F_FILE8" bindcolumn="FILE8"  binddataset="F"  unikey="63607817180205953687" bind="F_FILE8_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  ></upload>
+
+        	<output  location="50,1033"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label32" bindcolumn=""  binddataset=""  unikey="63607817108846872149" label="그외 3">    	</output>
+
+        	<textbox  location="466,1040"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="F_PID" bindcolumn="PID"  binddataset="F"  unikey="63607820539191076620" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="576,1041"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="F_FORECAST_NO" bindcolumn="FORECAST_NO"  binddataset="F"  unikey="63607819316239127874" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="694,1041"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="F_FILE_GBN_CD" bindcolumn="FILE_GBN_CD"  binddataset="F"  unikey="63607820541143188305" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>pilot</title>
+        <script><![CDATA[ 
+        // onLoad
+        $(document).ready(function(){
+            comboList.submit(false,"cobmoselect");
+        //	$("S1_ACTUAL_CD_2 option:eq(2)").attr("selected", "selected");
+        //	$("#S1_ACTUAL_CD_2").val("B020");
+        
+          // 모두 체크 
+          $("#ACCOUNT_YN").click(function() {
+            
+        			$("input:checkbox").each(function() {
+        			  if($("#ACCOUNT_YN").prop("checked")) {
+        				//해당화면에 전체 checkbox들을 체크해준다
+        			   if(this.className != 'cbox'){
+        				$("#"+this.id).prop("checked",true);
+        				}
+        			// 전체선택 체크박스가 해제된 경우
+        			} else {
+        				//해당화면에 모든 checkbox들의 체크를해제시킨다.
+        				if(this.className != 'cbox'){
+        					$("#"+this.id).prop("checked",false);
+        				}
+        			}
+        			});
+        		});
+        	
+        }) ;
+        function cobmoselect(){
+        	$("#S1_ACTUAL_CD_2").val("B040");
+        }
+        function button1_OnClick(myObj)
+        {
+        
+           if( grid1.getRowCount() == 0 ){
+               alert( "조회를 하고 추가하세요.");
+              return;
+           }
+        	var curowindx = grid1.getCurrentRowIndex();
+        	if(curowindx != -1){	
+        	var rowid = grid1.getGridRowId(curowindx);
+          
+         	grid1.insertRow("after",rowid);
+         	
+         }else{
+         alert( "추가하기 위해서 Row를 선택 해주세요");
+         //	grid1.insertRow("last");
+         }
+        }
+        
+        function button7_OnClick(myObj)
+        {
+          search.submit(true, "selectedCombo");
+        }
+        
+        function selectedCombo()
+        {
+           for(var i=1; i< 13; i++)
+           {
+        	  if(i < 10)
+        	  {
+        	     grid1.setColLabel("AMT_B_0"+i,$('#S1_ACTUAL_CD_1 option:selected').text());
+        	  }else{
+        	    grid1.setColLabel("AMT_B_"+i,$('#S1_ACTUAL_CD_1 option:selected').text());
+        	  }
+           }
+           for(var i=1; i< 13; i++)
+           {
+        	  if(i < 10)
+        	  {
+        	     grid1.setColLabel("AMT_C_0"+i,$('#S1_ACTUAL_CD_2 option:selected').text());
+        	  }else{
+        	   
+        	    grid1.setColLabel("AMT_C_"+i,$('#S1_ACTUAL_CD_2 option:selected').text());
+        	  }
+           }
+        }
+        
+        function grid1_OnLoadComplete()
+        {
+        
+         for(var i=1; i< 13; i++){
+         
+          if(i < 10){
+             grid1.setColLabel("AMT_B_0"+i,"중기");
+             grid1.setColLabel("AMT_C_0"+i,"Forcast1");
+          }else{
+            grid1.setColLabel("AMT_B_"+i,"중기");
+            grid1.setColLabel("AMT_C_"+i,"Forcast1");
+          }
+         }
+         
+        }
+        function S1_ACTUAL_CD_OnChange(myObj)
+        {
+           if($('#S1_ACTUAL_CD_1').val() == $('#S1_ACTUAL_CD_2').val()){
+                alert("선택1, 선택2 는 같은 값을 선택 할 수 없습니다.");
+                $('#S1_ACTUAL_CD_1').val(Select_One);
+                return;
+           }
+          
+        
+          
+        }
+        function S1_ACTUAL_CD_2_OnChange(myObj)
+        {
+         if($('#S1_ACTUAL_CD_1').val() == $('#S1_ACTUAL_CD_2').val()){
+                alert("선택1, 선택2 는 같은 값을 선택 할 수 없습니다.");
+                  $('#S1_ACTUAL_CD_2').val(Select_Two);
+                return;
+           }
+           
+        }
+        function grid1_OnInsertRow(rowIndex)
+        {
+        
+        	var curowindx =  grid1.getCurrentRowIndex();	//var curowindx = grid1.getCurrentRowIndex();
+        
+        	if(curowindx != -1){	
+        
+            var M_ITEM_CD_VAL = grid1.getCellValue(curowindx,  "M_ITEM_CD", false); 
+        	  grid1.setCellValue(rowIndex, "M_ITEM_CD",  M_ITEM_CD_VAL, false);
+        	var M_ITEM_NM_VAL = grid1.getCellValue(curowindx,  "M_ITEM_NM", false); 
+        	  grid1.setCellValue(rowIndex, "M_ITEM_NM",  M_ITEM_NM_VAL, false);
+        	var PID_CD_VAL = grid1.getCellValue(curowindx,  "PID_CD", false); 
+        	  grid1.setCellValue(rowIndex, "PID_CD",  PID_CD_VAL, false);
+        	var PID_NM_VAL = grid1.getCellValue(curowindx,  "PID_NM", false); 
+        	  grid1.setCellValue(rowIndex, "PID_NM",  PID_NM_VAL, false);
+        	var ACCOUNT_CD_VAL = grid1.getCellValue(curowindx,  "ACCOUNT_CD", false); 
+        	  grid1.setCellValue(rowIndex, "ACCOUNT_CD",  ACCOUNT_CD_VAL, false);
+        	var ACCOUNT_NM_VAL = grid1.getCellValue(curowindx,  "ACCOUNT_NM", false); 
+        	  grid1.setCellValue(rowIndex, "ACCOUNT_NM",  ACCOUNT_NM_VAL, false);  
+        	var TYPE_NM_VAL = grid1.getCellValue(curowindx,  "TYPE_NM", false); 
+        	  grid1.setCellValue(rowIndex, "TYPE_NM",  TYPE_NM_VAL, false);
+        	var SEQ_VAL = grid1.getCellValue(curowindx,  "SEQ", false); 
+        	  grid1.setCellValue(rowIndex, "SEQ",  SEQ_VAL, false);
+              
+         	
+         }else{
+         
+         alert( "추가하기 위해서 Row를 선택 해주세요");
+         
+         }
+        
+        }
+        function grid1_OnCellSelect(rowIndex, Colname, cellcontent, e)
+        {
+            var IUDFLAG_VAL = grid1.getCellValue(rowIndex,  "IUDFLAG", false); 
+            //구분명 구분 수정
+            if( IUDFLAG_VAL == "I"){
+            if(Colname == "SEQ") setCellOpt(rowIndex, grid1.getColumnIndex('SEQ'));
+           if(Colname == "TYPE_NM") setCellOpt(rowIndex, grid1.getColumnIndex('TYPE_NM'));
+           }
+        }
+        
+        function button4_OnClick(myObj)
+        {
+        
+        SAVE.submit(false);
+        }
+        // before value set
+        var Select_One ="";
+        var Select_Two ="";
+        
+        function S1_ACTUAL_CD_1_OnMouseOver(myObj)
+        {
+         Select_One =  $('#S1_ACTUAL_CD_1').val();
+        }
+        function S1_ACTUAL_CD_2_OnMouseOver(myObj)
+        {
+        Select_Two = $('#S1_ACTUAL_CD_2').val();
+        }
+        
+        
+        function button2_OnClick(myObj)
+        {
+           var gridid = "grid1";
+                   var hiddencol = true;
+                   var ExcelName = "report1";
+                   var plain_text ="";
+                    // 그리드 헤더 정보 담고 있는 선택자 
+                    var gridCol = $("#gview_"+gridid+ "  table.ui-wizgrid-htable");
+        
+                      plain_text += "&ExcelDown={\"" +"ExcelWizGrid"+ "\":[{ \"headData\":[" ;
+                   // colspan rowsapn 사용된 컬럼 항목 들
+                   var MergeHeadInfo_1 = gridCol.children().children().eq(1).children();
+                    MergeHeadInfo_1.each(function(i) {
+                      if(this.id.substring(6,this.id.length) != "cb" || this.id.substring(6,this.id.length) != "id" || this.id.substring(6,this.id.length) != "IUDFLAG"|| !$(this).text() == "" ){
+                        
+                        plain_text += '{"' + this.id.substring(6,this.id.length) + '":';
+                        plain_text += '"' + wizutil.JSONData_Char($(this).text().trim()) + '",'
+                        if(this.rowSpan >1){
+                        plain_text += '"' + "rowSpan" + '":' +'"' +this.rowSpan + '",';
+                        }
+                        if(this.colSpan >1){
+                        plain_text += '"' + "colSpan" + '":' +'"' +this.colSpan + '",';
+                        }
+                     
+                        plain_text +='},';
+                      }           
+                }) ; 
+                    // 병합 처리 없는 컬럼 리스트
+                 var  MergeHeadInfo_2 = gridCol.children().children().eq(2).children();
+                  MergeHeadInfo_2.each(function(i) {
+                     plain_text += '{"' + this.id.substring(6,this.id.length) + '":';
+                     plain_text += '"' + wizutil.JSONData_Char($(this).text().trim()) + '",';
+                      plain_text +='},';
+        
+                }) ;
+        
+        
+        
+                // 엑설 이름 파리미터 네이밍 WizGridExcelFileName에서 변경되면 서버에서도 수정해줘야함 서버에서는
+              // WizGridExcelFileName 값으로 받고있음
+                plain_text += '{"' + "WizGridExcelFileName"+ '":';
+                plain_text += '"' + ExcelName+ '"},';
+               // plain_text += "&WIZEXCEL_WizGridExcelFileName="+ExcelName;
+                plain_text += " ]}]}" ;
+                        // 헤더 텍스트 명 $(this).text()  헤더 rowspan this.rowspan   colID 값 추출this.id.substring(6,this.id.length);
+                       // alert(gridCol + " @@ "  + gridCol.attr("aria-labelledby"));
+                        alert(plain_text);
+                    }
+                /*
+          if(boolcol){
+                plain_text += wizGrid.getExcelSendParametersHidden();// 그리드 히든 칼럼 포함
+                                        // 데이타 넘김
+                plain_text += "&ExcelDown={\"" +"ExcelWizGrid"+ "\":[{ \"headData\":[" ;
+                  for (var i in HeadName){
+                   if(colSaveName[i]['hidden'] == false || colSaveName[i]['hidden'] == true){
+                    plain_text += '{"' + colSaveName[i]['name'] + '":';
+                    plain_text += '"' + wizutil.JSONData_Char(HeadName[i]) + '"},';
+                  }
+                  }
+              }else{
+                plain_text += wizGrid.getExcelSendParameters(); // 그리드 히든 칼럼 제외 데이타 넘김
+                plain_text += "&ExcelDown={\"" +"ExcelWizGrid"+ "\":[{ \"headData\":[" ;
+                for (var i in HeadName){
+                 if(colSaveName[i]['hidden'] == false){
+                  plain_text += '{"' + colSaveName[i]['name'] + '":';
+                  plain_text += '"' + wizutil.JSONData_Char(HeadName[i]) + '"},';
+                  }
+               }
+        
+              }
+                */
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <C1 dateformat="" checkbox="" >
+                            <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C1>
+                        <S1 dateformat="" checkbox="" >
+                            <row  M_ITEM_CD=""  PID_CD=""  ACCOUNT_CD=""  ACTUAL_CD_1=""  ACTUAL_CD_2=""  BASE_YEAR=""  ACCOUNT_A010_YN=""  ACCOUNT_A020_YN=""  ACCOUNT_A030_YN=""  ACCOUNT_A040_YN=""  ACCOUNT_A050_YN=""  ACCOUNT_A060_YN=""   />
+                        </S1>
+                        <S dateformat="" checkbox="" >
+                            <row  M_ITEM_CD=""  PID_CD=""  ACCOUNT_CD=""  SEQ=""  AMT_A_04=""  AMT_B_04=""  AMT_C_04=""  AMT_A_05=""  AMT_B_05=""  AMT_C_05=""  AMT_A_06=""  AMT_B_06=""  AMT_C_06=""  AMT_A_07=""  AMT_B_07=""  AMT_C_07=""  AMT_A_08=""  AMT_B_08=""  AMT_C_08=""  AMT_A_09=""  AMT_B_09=""  AMT_C_09=""  AMT_A_10=""  AMT_B_10=""  AMT_C_10=""  AMT_A_11=""  AMT_B_11=""  AMT_C_11=""  AMT_A_12=""  AMT_B_12=""  AMT_C_12=""  AMT_A_01=""  AMT_B_01=""  AMT_C_01=""  AMT_A_02=""  AMT_B_02=""  AMT_C_02=""  AMT_A_03=""  AMT_B_03=""  AMT_C_03=""  M_ITEM_NM=""  PID_NM=""  ACCOUNT_NM=""  TYPE_NM=""   />
+                        </S>
+                        <init>
+                            <C1>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C1>
+                            <S1>
+                                <row  M_ITEM_CD=""  PID_CD=""  ACCOUNT_CD=""  ACTUAL_CD_1=""  ACTUAL_CD_2=""  BASE_YEAR=""  ACCOUNT_A010_YN=""  ACCOUNT_A020_YN=""  ACCOUNT_A030_YN=""  ACCOUNT_A040_YN=""  ACCOUNT_A050_YN=""  ACCOUNT_A060_YN=""   />
+                            </S1>
+                            <S>
+                                <row  M_ITEM_CD=""  PID_CD=""  ACCOUNT_CD=""  SEQ=""  AMT_A_04=""  AMT_B_04=""  AMT_C_04=""  AMT_A_05=""  AMT_B_05=""  AMT_C_05=""  AMT_A_06=""  AMT_B_06=""  AMT_C_06=""  AMT_A_07=""  AMT_B_07=""  AMT_C_07=""  AMT_A_08=""  AMT_B_08=""  AMT_C_08=""  AMT_A_09=""  AMT_B_09=""  AMT_C_09=""  AMT_A_10=""  AMT_B_10=""  AMT_C_10=""  AMT_A_11=""  AMT_B_11=""  AMT_C_11=""  AMT_A_12=""  AMT_B_12=""  AMT_C_12=""  AMT_A_01=""  AMT_B_01=""  AMT_C_01=""  AMT_A_02=""  AMT_B_02=""  AMT_C_02=""  AMT_A_03=""  AMT_B_03=""  AMT_C_03=""  M_ITEM_NM=""  PID_NM=""  ACCOUNT_NM=""  TYPE_NM=""   />
+                            </S>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="20160617137108" eventid="PILOT_COMBO" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_search" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160617137108PilotSample_M_ITEM_SEARCH.do" encoding="UTF-8" confirm="" menuid="20160617137108" eventid="M_ITEM_SEARCH" menuname="파일럿" eventname="조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SAVE" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1,grid1[C]:S" outdataset="grid1:PEX66" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160617137108PilotSample_M_ITEM_SAVE.do" encoding="UTF-8" confirm="저장하시겠습니까?" menuid="20160617137108" eventid="M_ITEM_SAVE" menuname="파일럿" eventname="저장_A" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_comboList" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S1_M_ITEM_CD:SEL2,S1_PID_CD:SEL4,S1_ACTUAL_CD_1:SEL6,S1_ACTUAL_CD_2:SEL8" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160617137108PilotSample_PILOT_COMBO.do" encoding="UTF-8" confirm="" menuid="20160617137108" eventid="PILOT_COMBO" menuname="파일럿" eventname="콤보박스 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_excel" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/excelDown.excel" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="0,0"  size="1109,50"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63596850463511097573" label="조회조건">    	</output>
+
+    <group  inputstyle="background-color:WhiteSmoke;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="1,44"  size="1106,47"  unikey="63601768744795776849" style="" visible="True" >  
+                	<combo  location="880,58"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_ACTUAL_CD_2" bindcolumn="ACTUAL_CD_2"  binddataset="S1"  unikey="63601768454475171486" bind="S1_ACTUAL_CD_2_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="ITEM_NM" itemcode="ITEM_CD" onmouseover="S1_ACTUAL_CD_2_OnMouseOver(this);" onchange="S1_ACTUAL_CD_2_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="248,59"  size="100,21"  requiredfield="true" requiredmsg="111111" defaultitem=":: 전체 ::" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_PID_CD" bindcolumn="PID_CD"  binddataset="S1"  unikey="63601768390028485302" bind="S1_PID_CD_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="406,59"  size="70,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label5" bindcolumn=""  binddataset=""  unikey="63600220540106154714" label="기준연도">        	</output>
+                	<output  location="209,59"  size="38,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label2" bindcolumn=""  binddataset=""  unikey="63596867226883313291" label="PID">        	</output>
+                	<output  location="20,59"  size="76,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label3" bindcolumn=""  binddataset=""  unikey="63596867310333860125" label="직제코드">        	</output>
+                	<combo  location="709,59"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_ACTUAL_CD_1" bindcolumn="ACTUAL_CD_1"  binddataset="S1"  unikey="63601768438708269625" bind="S1_ACTUAL_CD_1_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="ITEM_NM" itemcode="ITEM_CD" onmouseover="S1_ACTUAL_CD_1_OnMouseOver(this);" onchange="S1_ACTUAL_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="99,59"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem=":: 전체 ::" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_M_ITEM_CD" bindcolumn="M_ITEM_CD"  binddataset="S1"  unikey="63601768388829416789" bind="S1_M_ITEM_CD_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<numupdown  location="478,59"  size="80,19"  requiredfield="true" requiredmsg="" inputstyle=" border-width:0px; background-color:White; color:Black; border-color:Black; text-align:center;" id="S1_BASE_YEAR" bindcolumn="BASE_YEAR"  binddataset="S1"  unikey="63601768412583775468" value="2016" maxlength="1" visible="True" cnt="1" maxvalue="2016" minvalue="2016" tabindex="0" ></numupdown>
+                	<output  location="649,59"  size="60,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label4" bindcolumn=""  binddataset=""  unikey="63596867357962743902" label="선택1">        	</output>
+                	<output  location="830,59"  size="48,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63601766528947037558" label="선택2">        	</output>
+    </group>
+    <group  inputstyle="background-color:WhiteSmoke;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="1,99"  size="1104,42"  unikey="63602040334140625037" style="" visible="True" >  
+                	<output  location="959,110"  size="51,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label13" bindcolumn=""  binddataset=""  unikey="63602040514406250021" label="NRE">        	</output>
+                	<output  location="440,110"  size="59,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63602040481265625007" label="인건비">        	</output>
+                	<output  location="538,110"  size="95,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63602040501765625053" label="일반재료비">        	</output>
+                	<output  location="668,110"  size="99,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63602040504765625005" label="외주위탁비">        	</output>
+                	<output  location="355,110"  size="51,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label7" bindcolumn=""  binddataset=""  unikey="63602040442328125063" label="매출">        	</output>
+                	<output  location="801,110"  size="126,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label12" bindcolumn=""  binddataset=""  unikey="63602040507937500061" label="EDA 라이선스비">        	</output>
+                	<output  location="216,110"  size="104,21"  font-family="Microsoft Sans Serif" font-size="10" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label15" bindcolumn=""  binddataset=""  unikey="63602041072546875051" label="전체선택/해제">        	</output>
+                	<output  location="9,110"  size="175,21"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63602040963093750061" label="표시항목(계정과목) 선택:">        	</output>
+                	<checkbox  location="939,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="S1_ACCOUNT_A060_YN" bindcolumn=""  binddataset=""  unikey="63602040514406250020" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+                	<checkbox  location="781,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="S1_ACCOUNT_A050_YN" bindcolumn=""  binddataset=""  unikey="63602040507921875060" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+                	<checkbox  location="647,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="S1_ACCOUNT_A040_YN" bindcolumn=""  binddataset=""  unikey="63602040504750000004" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+                	<checkbox  location="519,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="S1_ACCOUNT_A030_YN" bindcolumn=""  binddataset=""  unikey="63602040501765625052" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+                	<checkbox  location="420,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="S1_ACCOUNT_A020_YN" bindcolumn=""  binddataset=""  unikey="63602040481265625006" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+                	<checkbox  location="335,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="S1_ACCOUNT_A010_YN" bindcolumn=""  binddataset=""  unikey="63602040385593750064" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+                	<checkbox  location="198,113"  size="15,15"  falsevalue="N"  truevalue="Y"  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="ACCOUNT_YN" bindcolumn=""  binddataset=""  unikey="63602041072546875050" label=""  tabindex="0"  visible="True" appearance="full"         >        </checkbox>
+    </group>
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group3" name="group3"  location="0,146"  size="1108,39"  unikey="63599000558108146787" style="" inputclass="button-box" visible="True" >  
+                	<button  location="1026,153"  size="73,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button7" label="" type="button" src="" unikey="63599091027568453753" visible="True" value="조회" tabindex="0"  onclick="button7_OnClick(this);" ></button>
+                	<button  location="959,153"  size="60,21"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button4" label="" type="button" src="" unikey="63599000601108606263" visible="True" value="저장" tabindex="0"  onclick="button4_OnClick(this);" ></button>
+                	<button  location="891,153"  size="62,21"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63601767361875678322" visible="True" value="추가" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+    </group>
+    
+       <grid  rownum="100" unikey="63602212285521703257" id="grid1" dataset="S" border="1" width="1112" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="0,201"  size="1112,406"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="true"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="22"  gridbodyheight="22"  oncellselect="grid1_OnCellSelect(this);" onloadcomplete="grid1_OnLoadComplete(this);" oninsertrow="grid1_OnInsertRow(this);" >
+        <heads>
+          <row height="23">
+          <head title="직제코드" text-align="center" > </head>
+          <head title="직제코드명" text-align="center" > </head>
+          <head title="PID코드" text-align="center" > </head>
+          <head title="PID명" text-align="center" > </head>
+          <head title="계정항목" text-align="center" > </head>
+          <head title="계정항목명" text-align="center" > </head>
+          <head title="구분" text-align="center" > </head>
+          <head title="구분명" text-align="center" > </head>
+          <head title="4월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="5월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="6월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="7월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="8월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="9월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="10월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="11월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="12월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="01월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="02월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="03월" text-align="center"  startcolumn="M_ITEM_CD" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+           </row>
+          <row height="23">
+          <head title="직제코드" text-align="center" > </head>
+          <head title="직제코드명" text-align="center" > </head>
+          <head title="PID코드" text-align="center" > </head>
+          <head title="PID명" text-align="center" > </head>
+          <head title="계정항목" text-align="center" > </head>
+          <head title="계정항목명" text-align="center" > </head>
+          <head title="구분" text-align="center" > </head>
+          <head title="구분명" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+          <head title="실적" text-align="center" > </head>
+          <head title="선택1" text-align="center" > </head>
+          <head title="선택2" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="M_ITEM_CD" dataset="S" columnid="M_ITEM_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="M_ITEM_NM" dataset="S" columnid="M_ITEM_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="PID_CD" dataset="S" columnid="PID_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="PID_NM" dataset="S" columnid="PID_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="ACCOUNT_CD" dataset="S" columnid="ACCOUNT_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="ACCOUNT_NM" dataset="S" columnid="ACCOUNT_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SEQ" dataset="S" columnid="SEQ" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="TYPE_NM" dataset="S" columnid="TYPE_NM" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_04" dataset="S" columnid="AMT_A_04" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_04" dataset="S" columnid="AMT_B_04" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_04" dataset="S" columnid="AMT_C_04" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_05" dataset="S" columnid="AMT_A_05" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_05" dataset="S" columnid="AMT_B_05" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_05" dataset="S" columnid="AMT_C_05" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_06" dataset="S" columnid="AMT_A_06" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_06" dataset="S" columnid="AMT_B_06" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_06" dataset="S" columnid="AMT_C_06" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_07" dataset="S" columnid="AMT_A_07" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_07" dataset="S" columnid="AMT_B_07" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_07" dataset="S" columnid="AMT_C_07" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_08" dataset="S" columnid="AMT_A_08" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_08" dataset="S" columnid="AMT_B_08" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_08" dataset="S" columnid="AMT_C_08" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_09" dataset="S" columnid="AMT_A_09" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_09" dataset="S" columnid="AMT_B_09" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_09" dataset="S" columnid="AMT_C_09" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_10" dataset="S" columnid="AMT_A_10" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_10" dataset="S" columnid="AMT_B_10" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_10" dataset="S" columnid="AMT_C_10" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_11" dataset="S" columnid="AMT_A_11" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_11" dataset="S" columnid="AMT_B_11" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_11" dataset="S" columnid="AMT_C_11" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_12" dataset="S" columnid="AMT_A_12" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_12" dataset="S" columnid="AMT_B_12" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_12" dataset="S" columnid="AMT_C_12" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_01" dataset="S" columnid="AMT_A_01" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_01" dataset="S" columnid="AMT_B_01" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_01" dataset="S" columnid="AMT_C_01" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_02" dataset="S" columnid="AMT_A_02" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_02" dataset="S" columnid="AMT_B_02" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_02" dataset="S" columnid="AMT_C_02" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_A_03" dataset="S" columnid="AMT_A_03" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_B_03" dataset="S" columnid="AMT_B_03" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AMT_C_03" dataset="S" columnid="AMT_C_03" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+        	<button  location="784,623"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63602038577845192467" visible="True" value="button" tabindex="0"  onclick="button2_OnClick(this);" ></button>
+
+    </div>
+</body>
+</html>

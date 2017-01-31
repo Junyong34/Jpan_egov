@@ -1,0 +1,235 @@
+/* Type Selector 
+* {margin:0; padding:0; border:none;-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box ;}
+html	{height : 100%}*/
+/*body	{width : 100% ;height : 100% ; position : relative ; background-color : #eeeeee } 원가팀 삭제 */ 
+input[type=password] { border : solid 1px #a0c3f5 ; height:17px;}
+li {list-style:none; }
+img, input, span, select {vertical-align:middle;}
+img, input, fieldset, button  {border:none;margin:0}
+hr, button, caption {}
+textarea {overflow:auto; border:0; color:#444;  resize:none; margin : 5px 0 5px 0 }
+legend {visibility:hidden; position:absolute; top:0; left:0; width:1px; height:1px; font-size:0; } 
+/* div {overflow:hidden;} */
+iframe{border:none;}
+/* common */
+* { font-family : 'Malgun Gothic','굴림','Verdana','NanumGothic' ; font-size : 12px }
+body { margin : 0 ; padding-top : 79px ; color : #666666 }
+label { cursor : pointer }
+a { text-decoration : none }
+a:link,a:visited { color : #232323 }
+a:hover { color : #0064af }
+
+/*input,select,textarea { outline-width:0 ; transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }*/
+input:focus,select:focus,textarea:focus {-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
+
+.padding-top-5 { padding-top : 5px !important }
+.padding-top-8 { padding-top : 8px !important }
+.margin-left-15 { margin-left : 15px !important }
+.float-left { float : left }
+.float-right { float : right }
+
+/* 버튼 */
+/* 원가팀 변경 이동
+.btn { display : inline-block ; min-width : 59px ; height:25px ; background : #6382c3 ; border-radius : 3px ; vertical-align : middle ; color : #ffffff !important ; font-weight : 600 ; font-size : 11px ; text-align : center ; padding : 0 8px 0 5px }
+.btn img { display : inline-block ; vertical-align : inherit !important ; margin-right : 3px }
+.btn span { display : inline-block ; height : 25px ; padding-top : 5px }
+.btn.blue { background : #374e7f }
+.btn:hover,.btn2:hover,.btn3:hover { opacity : 0.9 }
+
+.btn2 { min-width : 108px ; height : 30px ; border-radius : 5px ; text-align : center ; color : #516eaa !important ; font-size : 12px ; background : url('../jsp/menu/img/btn-bg.png') ; display : inline-block ; vertical-align : middle ; font-weight : 600 ; font-size : 12px ; border : solid 1px #a0c3f5 ; padding-top : 2px }
+.btn2 img { display : inline-block ; vertical-align : inherit !important ; margin-right : 10px }
+.btn2 span { display : inline-block ; height : 22px ; padding-top : 5px ; padding-right : 2px }
+
+.btn3 { height : 32px ; border-radius : 5px ; text-align : center ; color : #ffffff !imporatnt ; font-size : 12px ; font-weight : 600 ; display : inline-block ; border : solid 1px #4273ba ; box-shadow : 0 2px #dddddd ; vertical-align : middle ; background : url('../jsp/menu/img/main/btn3-bg.png') left top ; padding : 3px 10px }
+.btn3 img { display : inline-block ; vertical-align : inherit !important ; margin-right : 8px }
+.btn3 span { display : inline-block ; height : 22px ; padding-top : 5px ; padding-right : 2px ; color : #ffffff }
+*/
+/* 로긴 */
+#login-box { width : 590px ; height : 400px ; position : absolute ; left : 50% ; margin-left : -295px ; top : 50% ; margin-top : -200px }
+#login-box div.header { width : 590px ; height : 70px ; display : table-cell ; background-color : #4576bd ; border-radius : 5px 5px 0 0 ; text-align : center ; vertical-align : middle  }
+#login-box div.cont { width : 590px ; height : 330px ; background : url('../jsp/menu/img/login/login.png') top center no-repeat #ffffff ; border-radius : 0 0 5px 5px ; padding-top : 150px}
+#login-box div.cont .row { width : 302px ; margin : auto ; padding-top : 8px }
+#login-box div.cont .row .left,#login-box div.cont .row .right { display : table-cell ; width : 100% }
+#login-box div.cont .row .right { text-align : right }
+
+#login-box input[type=text],#login-box input[type=password] { width : 100% ; height : 38px ; border : solid 1px #a0c3f5 ; border-radius : 4px ; padding : 0 15px }
+#login-box input[type=checkbox] { margin-right : 14px }
+#login-box input[name=S_USER_ID] { background : url('../jsp/menu/img/login/id.png') 15px center no-repeat }
+#login-box input[name=S_USER_PW] { background : url('../jsp/menu/img/login/password.png') 15px center no-repeat }
+#login-box input.inp,#login-box input[name=S_USER_ID]:focus,#login-box input[name=S_USER_PW]:focus { background : none !important }
+
+#layer{position:absolute;top:0;left:0;width:100%;height:100%;text-align:center}
+#layer .content{display:inline-block;background:#f00;vertical-align:middle}
+#layer .blank{display:inline-block;width:0;height:100%;vertical-align:middle}
+
+/* 메인 */
+#header,#container { min-width : 1240px }
+#header { width : 100% ; height : 79px ; position : absolute ; top : 0 ; border-bottom : solid 4px #6382c3 ; background : url('../jsp/menu/img/header_pattern.png') top left }
+#header > div.logo { height : 100%; padding : 13px 0 0 42px ; float : left ; background : url('../jsp/menu/img/header.png') top left no-repeat }
+#header > div.logo > .nsystems { margin-right : 212px }
+#header > div.btns { float : right ; padding : 23px 74px 0 0 }
+#header > div.btns > .dot { padding : 0 8px ; margin-top : -4px ; display : inline-block }
+#header > div.btns > .user { font-weight : 600 ; padding-right : 15px ; color : #ffffff !important }
+#header > div.btns a { color : #ffffff }
+
+#snb { background-color : #f1f6fe ; position : absolute ; width : 252px ; height : 100% ; left : 0 }
+#snb div.divide { width : 9px ; height : 100% ; position : absolute ; left : 252px ; background : url('../jsp/menu/img/main/divide.png') top center repeat-y }
+#snb div.divide > .handle { width : 9px ; height : 78px ; position : absolute ; top : 50% ; margin-top : -39px ; background : url('../jsp/menu/img/main/divide-handle.png') }
+#snb .search { text-align : center ; padding : 8px 0 }
+#snb .search input[type=text] { width : 137px ; height : 25px ; background : #efefef ; border : solid 1px #bcd0f1 ; padding : 0 5px }
+#snb .tree { border-top : solid 1px #6382c3   }
+#snb .tree > .tree-head { background : #dfe9ff ; width : 252px ; height : 30px ; position : absolute }
+#snb .tree ul { width : 252px ; margin-left : 20px ; position : relative }
+#snb .tree ul li { color : #000000 !important }
+#snb .tree ul li.has-friend { background:url('../jsp/menu/img/tree/child-brench.png') left 4px repeat-y }
+#snb .tree ul li a { display  :inline-block ; height : 22px ; color : #000000 !important ; cursor : pointer }
+#snb .tree ul li a > .head { width : 22px ; height : 22px ; display : inline-block ; vertical-align : middle }
+#snb .tree ul li a > .head.has-child-close { background:url('../jsp/menu/img/tree/close-has-child.png') 4px 6px no-repeat,url('../jsp/menu/img/tree/child.png') top left no-repeat }
+#snb .tree ul li a > .head.has-child-open { background:url('../jsp/menu/img/tree/open-has-child.png') 4px 6px no-repeat,url('../jsp/menu/img/tree/child.png') top left no-repeat }
+#snb .tree ul > li:last-child > a > .head.has-child-open-menu { background:url('../jsp/menu/img/tree/open-has-child.png') 4px 6px no-repeat,url('../jsp/menu/img/tree/child-menu.png') top left no-repeat }
+#snb .tree ul > li:last-child > a > .head.has-child-close-menu { background:url('../jsp/menu/img/tree/close-has-child.png') 4px 6px no-repeat,url('../jsp/menu/img/tree/child-menu.png') top left no-repeat }
+#snb .tree ul > li:last-child > a > .head.has-child-open { background:url('../jsp/menu/img/tree/open-has-child.png') 4px 6px no-repeat,url('../jsp/menu/img/tree/child-last.png') top left no-repeat }
+#snb .tree ul > li:last-child > a > .head.has-child-close { background:url('../jsp/menu/img/tree/close-has-child.png') 4px 6px no-repeat,url('../jsp/menu/img/tree/child-last.png') top left no-repeat }
+#snb .tree ul li img { vertical-align : middle ; margin-right : 5px }
+#snb .tree ul li span { color : #000000 !important ; padding : 3px }
+#snb .tree ul li.now span { background : #ccd7ed }
+#snb .tree a.open-child { background : url('../jsp/menu/img/tree/child-brench.png') 20px 24px no-repeat }
+#snb .tree .btn-refresh { float : right ; margin-right : 25px ; cursor : pointer }
+
+#container { width : 100% ; position : relative ; padding-left : 252px ; background-color : #ffffff }
+#contents { width : 100% ; padding : 0px 74px 0 45px }
+/* 원가팀영역으로 변경 이동
+#contents div.title { width : 100% ; display : inline-block ; border-bottom : solid 2px #4576bd ; padding : 20px 0 15px 8px ; margin-bottom : 22px }
+#contents div.title h2 { font-family : 'NanumGothic' ; font-size : 19px ; color : #4576bd ; font-weight : 600 ; letter-spacing : 0.1em ; float : left }
+*/
+ul.nav { margin-top : 5px }
+ul.nav li { float : right ; color : #98a5b7 ; font-size : 11px ; padding-left : 25px ; background : url('../jsp/menu/img/main/nav-arrow.png') 10px center no-repeat }
+ul.nav li:first-child { color : #7c8ea9 ; font-weight : 600 }
+ul.nav li:last-child { background : url('../jsp/menu/img/main/nav-home.png') 6px top no-repeat }
+/*
+div.search-box { width : 100% ; height : 76px ; background : url('../jsp/menu/img/main/searchbox-left.png') left top no-repeat,url('../jsp/menu/img/main/searchbox-right.png') right top no-repeat,url('../jsp/menu/img/main/searchbox.png') left top repeat-x  ; padding : 19px 22px 0 38px }
+*/
+/* 원가팀 변경 이동 */
+/*
+div.search-box { width : 100% ; min-height : 76px ; background-color : #fafafa ; border : solid 2px #ffffff ; box-shadow : 0 0 1px #555555 ; border-radius : 5px ; padding : 19px 22px 19px 38px }
+div.search-box .item { background : url('../jsp/menu/img/main/searchbox-head.png') left center no-repeat ; padding-left : 13px ; font-size : 14px ; color : #0054a6 ; font-weight : 600 }
+div.search-box .row { padding : 4px 0 }
+div.search-box .row:first-child { padding-top : 0 }
+div.search-box .row:last-child { padding-bottom : 0 }
+div.search-box select { border : solid 1px #b8b8b8 ; height : 32px ; min-width : 107px ; margin : 0 14px }
+*/
+
+
+table.list { width : 100% ; border-top : solid 2px #6382c3;}
+table.list th { border-bottom : solid 1px #a1b5e1 ; height : 38px ; background-color : #dfe9ff ; text-align : center ; font-weight : 600 ; color : #6382c3 }
+table.list th,table.list td { border-right : dotted 1px #c7c7c7 }
+table.list th:last-child,table.list td:last-child { border-right : none }
+table.list th input[type=checkbox] { border : solid 1px #6382c3 ; width : 15px ; height : 15px }
+table.list td { border-bottom : dotted 1px #c7c7c7 ; height : 31px ; text-align : center }
+table.list tr:nth-child(odd) { background-color : #fbfcff }
+table.list tr:last-child td { border-bottom : solid 1px #c7c7c7 }
+table.list tr.selected { background-color : #efefef }
+.table-header { width : 100% ; display : inline-block ; padding-top : 18px ; padding-bottom : 7px }
+.table-header .left { float : left }
+.table-header .right { float : right }
+.table-header .right a { margin-left : 2px }
+.table-footer { width : 100% ; position : relative ; display : inline-block ; padding-top : 25px }
+.table-footer .left,.table-footer .center,.table-footer .right { display : inline-block ; float:left }
+.table-footer .left,.table-footer .right { width:25% }
+.table-footer .right { text-align : right }
+.table-footer .center { width:50% ; text-align : center }
+
+.paging a { font-family : 'MalgunGothic' ; text-align : center ; width : 25px ; height : 24px ; background : url('../jsp/menu/img/board/page.png') ; display : inline-block ; vertical-align : middle ; color : #556270 ; cursor : pointer ; padding-top : 3px }
+.paging a.first { background : url('../jsp/menu/img/board/first.png') }
+.paging a.prev { background : url('../jsp/menu/img/board/prev.png') }
+.paging a.next { background : url('../jsp/menu/img/board/next.png') }
+.paging a.last { background : url('../jsp/menu/img/board/last.png') }
+
+#footer { display : inline-block ; width : 100% ; height : 30px }
+.footer-tabs { display : inline-block ; margin-left : 19px }
+.footer-tabs li { min-width : 133px ; height : 30px ; background : url('../jsp/menu/img/main/tab2-off.png') top right no-repeat ; border-left : solid 1px  #aab8d7 ; padding : 9px 30px 0 20px ; float : right ; margin-left : -10px ; text-align : center ; color :#4f4f4f ; }
+.footer-tabs li.on { background : url('../jsp/menu/img/main/tab2-on.png') top right no-repeat ; border-left : solid 1px  #415e99 ; font-weight : 600 ; color : #ffffff }
+
+/**************************** 
+원가팀 추가 작성 영역 
+/****************************/
+/* 전체컨텐츠 div 영역 */
+#mainlist { margin:0 0 0 20px; }
+
+#container { padding-left:0px;}
+
+input:read-only { 
+    background-color: #EBF7FF;
+}
+
+input.infoText { 
+    background-color: #EAEAEA;
+}
+.selectbox {
+	border: 1px solid #a0c3f5 ; min-height:22px;
+}
+
+/* 타이틀 라벨 */
+.titleLabel { width : 100% ; display : inline-block ; border-bottom : solid 2px #4576bd ; margin:0 0 0 0; }
+.titleLabel label { font-family : 'NanumGothic' ; font-size : 19px ; color : #4576bd ; font-weight : 600 ; letter-spacing : 0.1em ; float : left }
+
+/* 조회조건 박스*/
+div.search-box { width : 100% ; min-height : 40px ; background-color : #fafafa ; border : solid 2px #ffffff ; box-shadow : 0 0 1px #555555 ; border-radius : 5px ; margin:10px 0 0 0; }
+div.search-box .row { padding : 4px 0 }
+div.search-box .row:first-child { padding-top : 0 }
+div.search-box .row:last-child { padding-bottom : 0 }
+
+/* 설명 박스*/
+div.desc-box { width : 100% ; min-height : 40px ; background-color : #F6FFCC ; border : solid 2px #E4F7BA ; box-shadow : 0 0 1px #555555 ; border-radius : 5px ; margin:10px 0 0 0; }
+div.desc-box .row { padding : 4px 0 }
+div.desc-box .row:first-child { padding-top : 0 }
+div.desc-box .row:last-child { padding-bottom : 0 }
+
+/* 조회조건 박스 - inner*/
+.search-box-inner { width : 100% ; }
+
+/* 조회조건 라벨*/
+.searchLabel { background : url('../jsp/menu/img/main/searchbox-head.png') left center no-repeat ; padding-left : 13px ; font-size : 14px ; color : #0054a6 ; font-weight : 600 }
+
+/* 정보성 라벨*/
+.infoLabel { font-size : 14px ; color : #0054a6 ; font-weight : 600 }
+
+/* 조회조건 콤보박스*/
+div.search-box select { border : solid 1px #a0c3f5 ; min-height:22px; height : 32px ; min-width : 107px ; margin : 0 14px }
+
+/* 버튼 박스*/
+div.button-box { width : 100% ; margin:15px 0 0 0; }
+div.button-box input { }
+
+/* 그리드 */
+.ui-wizgrid.ui-widget.ui-widget-content-grid.ui-corner-all-grid { margin:10px 0 0 0px;}
+
+/* 버튼 */
+.btn { display : inline-block ; min-width : 59px ; height:25px ; background : #6382c3 ; border-radius : 3px ; vertical-align : middle ; color : #ffffff !important ; font-weight : 600 ; font-size : 11px ; text-align : center ; }
+.btn img { display : inline-block ; vertical-align : inherit !important ; margin-right : 3px }
+.btn span { display : inline-block ; height : 25px ; padding-top : 5px }
+.btn.blue { background : #374e7f }
+
+.btn2 { min-width : 108px ; height : 30px ; border-radius : 5px ; text-align : center ; color : #516eaa !important ; font-size : 12px ; background : url('../jsp/menu/img/btn-bg.png') ; display : inline-block ; vertical-align : middle ; font-weight : 600 ; font-size : 12px ; border : solid 1px #a0c3f5 ; padding-top : 2px }
+.btn2 img { display : inline-block ; vertical-align : inherit !important ; margin-right : 10px }
+.btn2 span { display : inline-block ; height : 22px ; padding-top : 5px ; padding-right : 2px }
+
+.btn3 { height : 32px ; border-radius : 5px ; text-align : center ; color : white !imporatnt ; font-size : 12px ; font-weight : 600 ; display : inline-block ; border : solid 1px #4273ba ; box-shadow : 0 2px #dddddd ; vertical-align : middle ;  }
+.btn3 img { display : inline-block ; vertical-align : inherit !important ; margin-right : 8px }
+.btn3 span { display : inline-block ; height : 22px ; padding-top : 5px ; padding-right : 2px ; color : #ffffff }
+
+.btn4 { display : inline-block ; min-width : 59px ; height:25px ; background : #374e7f ; border-radius : 3px ; vertical-align : middle ; color : #ffffff !important ; font-weight : 600 ; font-size : 11px ; text-align : center ; }
+.btn4 img { display : inline-block ; vertical-align : inherit !important ; margin-right : 3px }
+.btn4 span { display : inline-block ; height : 25px ; padding-top : 5px }
+
+.btn:hover,.btn2:hover,.btn3:hover,.btn4:hover { opacity : 0.9 }
+
+/* 돋보기 조회*/
+.btn-search-s { background : url('../wizware/js/search2.png') no-repeat ; cursor:pointer;}
+
+/* input box 임시 */
+input[type=text] { border : solid 1px #a0c3f5 ;}
+
+.TextBox-S_center{
+ text-align:center;
+}

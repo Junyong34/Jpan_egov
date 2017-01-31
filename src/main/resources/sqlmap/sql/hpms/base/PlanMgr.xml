@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PlanMgr_20160901091138">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL1">SELECT                                                                                                          
+  ERR_MSG                                                                                                       
+  ,ERR_FLAG                                                                                                      
+  ,DATA_TYPE                                                                                                     
+  ,PID                                                                                                           
+  ,USE_COMPANY_CD                                                                                                
+  ,USE_ORG_CD                                                                                                    
+  ,REQ_COMPANY_CD                                                                                                
+  ,REQ_ORG_CD                                                                                                    
+  ,HPMS_ID                                                                                                       
+  ,CUSTOMER_CD                                                                                                   
+  ,INVEST_TYPE_CD                                                                                                                                                                                                         
+  ,ITEM_NAME                                                                                                     
+  ,APPLICATION 
+  ,UNIT                                                                                                                                                                                                                                                                                                                    
+  ,UPLOAD_FILE_NAME                                                                                              
+FROM                                                                                                            
+(                                                                                                               
+  SELECT                                                                                                        
+    '0' FLAG                                                                                                    
+    ,'ERR_MSG'          ERR_MSG                                                                                 
+    ,'ERR_FLAG'         ERR_FLAG                                                                                
+    ,'DATA_TYPE'        DATA_TYPE                                                                               
+    ,'PID'              PID                                                                                     
+    ,'USE_COMPANY_CD'   USE_COMPANY_CD                                                                          
+    ,'USE_ORG_CD'       USE_ORG_CD                                                                              
+    ,'REQ_COMPANY_CD'   REQ_COMPANY_CD                                                                          
+    ,'REQ_ORG_CD'       REQ_ORG_CD                                                                              
+    ,'HPMS_ID'          HPMS_ID                                                                                 
+    ,'CUSTOMER_CD'      CUSTOMER_CD                                                                             
+    ,'INVEST_TYPE_CD'   INVEST_TYPE_CD                                                                                                                                                         
+    ,'ITEM_NAME'        ITEM_NAME                                                                               
+    ,'APPLICATION'      APPLICATION  
+,'UNIT'  UNIT                                                                                                                                                            
+    ,'UPLOAD_FILE_NAME' UPLOAD_FILE_NAME                                                                        
+  FROM DUAL                                                                                                     
+  UNION ALL                                                                                                     
+  SELECT DISTINCT                                                                                                       
+    '1' FLAG                                                                                                    
+    , ERR_MSG                                                                                                   
+    ,TO_CHAR(ERR_FLAG) ERR_FLAG                                                                                                   
+    ,DATA_TYPE                                                                                                  
+    ,PID                                                                                                        
+    ,USE_COMPANY_CD                                                                                             
+    ,USE_ORG_CD                                                                                                 
+    ,REQ_COMPANY_CD                                                                                             
+    ,REQ_ORG_CD                                                                                                 
+    ,HPMS_ID                                                                                                    
+    ,CUSTOMER_CD                                                                                                
+    ,INVEST_TYPE_CD                                                                                                                                                                                                  
+    ,ITEM_NAME                                                                                                  
+    ,APPLICATION 
+    ,UNIT                                                                                                                                                                                                                                                                                                      
+    ,UPLOAD_FILE_NAME                                                                                           
+  FROM  HP2D001W                                                                                         
+  WHERE LOG_SEQ =#LOG_SEQ# 
+   AND ERR_FLAG=1                                                                                             
+)                                                                                                               
+ORDER BY FLAG, ERR_MSG, ERR_FLAG, DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL5">SELECT  TO_CHAR(SYSDATE,'yyyy-mm-dd hh24.mi.ss') AS CDATE FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL3">SELECT ( COMPANY_CD || ORG_CD ) AS ITEM_CD 
+      ,ORG_NM_S ITEM_NM 
+FROM HP1DM03T 
+WHERE  ORG_LVL =2 
+AND ACTIVE_FLAG='0' 
+ORDER BY ORG_SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL5">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL6">SELECT DISTINCT 
+  HP1DM04T.HPMS_GRP_ID as ITEM_CD, 
+  HP1DM04T.HPMS_GRP_ID||':'||HP1M105T.VAL1 AS ITEM_NM 
+ FROM HP1DM04T, 
+  HP1M105T 
+ WHERE HP1DM04T.HPMS_GRP_ID = HP1M105T.CD 
+ AND HP1M105T.CD_TYPE='HPMS_GRP_ID'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_ER01">select LOG_SEQ.nextval LOG_SEQ  , #LOG_CODE# AS LOG_CODE FROM DUAL</select>
+  <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_INS28">Insert into HP_DBA01.HP2D001W (LOG_SEQ, CUSTOMER_CD, UNIT, USER_ID, ERR_MSG, PID, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, INVEST_TYPE_CD, VAL, PROCESSING_FLAG, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#LOG_SEQ# , #CUSTOMER_CD# , #UNIT# , #USER_ID# , #ERR_MSG# , #PID# , #APPLICATION# , #HPMS_ID# , #UPDATE_TIME# , #ERR_FLAG# , #INVEST_TYPE_CD# , #VAL# , #PROCESSING_FLAG# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_SEL80">SELECT 
+   Z.PID_ERROR, 
+   Z.PID, 
+   Z.DATA_TYPE_ERROR, 
+   Z.DATA_TYPE, 
+   Z.USE_COMPANY_CD_ERROR, 
+   Z.USE_COMPANY_CD, 
+   Z.REQ_COMPANY_CD_ERROR, 
+   Z.REQ_COMPANY_CD, 
+   Z.HPMS_ID_ERROR, 
+   Z.HPMS_ID, 
+   Z.INVEST_TYPE_CD_ERROR, 
+   Z.INVEST_TYPE_CD, 
+   Z.ITEM_NAME_ERROR, 
+   Z.ITEM_NAME, 
+   Z.CUSTOMER_CD_ERROR, 
+   Z.CUSTOMER_CD, 
+   Z.DATA_TYPE_ERROR_1, 
+   Z.UNIT_ERROR, 
+   Z.UNIT, 
+   Z.USE_ORG_CD, 
+   Z.REQ_ORG_CD, 
+   Z.LOG_SEQ, 
+   Z.PROCESSING_FLAG, 
+   Z.APPLICATION, 
+   DECODE(Z.AUTH_ERROR,'','',Z.AUTH_ERROR) AS AUTH_ERROR 
+   
+FROM 
+ 
+(  
+      
+    SELECT  
+            DECODE(X.PID_CNT,0,'PID Not Found','') AS PID_ERROR, 
+            X.PID, 
+            DECODE(X.DATA_TYPE_CNT,0,'DataType Error(NotFound)','') AS DATA_TYPE_ERROR, 
+            X.DATA_TYPE, 
+            DECODE(X.USE_COMPANY_CD_CNT,0,'USE_COMPANY/ORG Not Found.','') AS USE_COMPANY_CD_ERROR, 
+            X.USE_COMPANY_CD, 
+            DECODE(X.REQ_COMPANY_CD_CNT,0,'REQ_COMPANY/ORG Not Found.','') AS REQ_COMPANY_CD_ERROR, 
+            X.REQ_COMPANY_CD, 
+            DECODE(X.HPMS_ID_CNT,0,'HPMS_ID Not Found',1,'') AS HPMS_ID_ERROR, 
+            X.HPMS_ID, 
+            DECODE(X.INVEST_TYPE_CD_CNT,0,'Investment code Not Found.','') AS INVEST_TYPE_CD_ERROR, 
+            X.INVEST_TYPE_CD, 
+            DECODE(X.ITEM_NAME_CNT,0,'Item code Not Found.','') AS ITEM_NAME_ERROR, 
+            X.ITEM_NAME, 
+            DECODE(X.CUSTOMER_CD_CNT,0,'Customer Code Not Found.','') AS CUSTOMER_CD_ERROR, 
+            X.CUSTOMER_CD, 
+            DECODE(X.DATA_TYPE_CNT2,0,'DATA TYPE(AUTH) Not Found.','') AS DATA_TYPE_ERROR_1, 
+            DECODE(X.UNIT_CNT,0,'UNIT code Not Found.','') AS UNIT_ERROR, 
+            X.UNIT, 
+            X.USE_ORG_CD, 
+            X.REQ_ORG_CD, 
+            X.LOG_SEQ, 
+            X.PROCESSING_FLAG, 
+               X.APPLICATION, 
+          DECODE( 
+             DECODE( 
+                        X.EXCEL_OURG_SEQ,'ALL','1', (SELECT COUNT(*) AS CNT FROM(                      
+                              (SELECT  SUBSTR(D.ORG_SEQ, 0,8)||'00' AS ORG_LVL_4 
+                               FROM US0M001T_V01 S, HP1DM03T D 
+                              WHERE S.USER_ID = #USER_ID# 
+                                AND S.COMPANY_INFO_CODE = D.COMPANY_CD 
+                                AND S.OFFICE_CODE  = D.ORG_CD ) 
+                           ) Y 
+                     WHERE X.EXCEL_OURG_SEQ = Y.ORG_LVL_4) 
+                     ) ,0,'UD Check authority','') AS AUTH_ERROR 
+                     
+                    
+    FROM 
+    ( 
+     SELECT 
+           (( SELECT COUNT (A1.PID) FROM HP1DM01T A1 WHERE A1.PID = A.PID ) 
+            + (SELECT COUNT (*) PID_CNT FROM HP1M105T WHERE CD_TYPE = 'NO_PID'AND CD = A.PID) 
+                  ) AS PID_CNT, 
+              A.PID, 
+           (SELECT COUNT (*) CNT 
+              FROM HP1DM06T A1 
+             WHERE A1.DATA_TYPE = A.DATA_TYPE) 
+              AS DATA_TYPE_CNT, 
+              A.DATA_TYPE, 
+           (SELECT COUNT (*) USE_COMPANY_CNT 
+              FROM HP1DM03T A1 
+             WHERE A1.COMPANY_CD = A.USE_COMPANY_CD AND A1.ORG_CD = A.USE_ORG_CD) 
+              AS USE_COMPANY_CD_CNT, 
+              A.USE_COMPANY_CD, 
+           (SELECT COUNT (*) USE_COMPANY_CNT 
+              FROM HP1DM03T A1 
+             WHERE A1.COMPANY_CD = A.REQ_COMPANY_CD AND A1.ORG_CD = A.REQ_ORG_CD) 
+              AS REQ_COMPANY_CD_CNT, 
+              A.REQ_COMPANY_CD, 
+           (SELECT COUNT (*) HPMS_ID_CNT 
+              FROM HP1DM04T A1 
+             WHERE A1.HPMS_ID = A.HPMS_ID) 
+              AS HPMS_ID_CNT, 
+              A.HPMS_ID, 
+           DECODE(A.INVEST_TYPE_CD,'##',1,(SELECT COUNT (*) INVEST_TYPE_CNT 
+              FROM HP1DM07T A1 
+             WHERE A1.INVEST_TYPE_CD = A.INVEST_TYPE_CD)) 
+              AS INVEST_TYPE_CD_CNT, 
+              A.INVEST_TYPE_CD, 
+           DECODE(A.ITEM_NAME ,'##',1,(SELECT COUNT (*) CNT 
+              FROM HP1DM10T A1 
+             WHERE A1.ITEM_NAME = A.ITEM_NAME)) 
+              AS ITEM_NAME_CNT, 
+              A.ITEM_NAME, 
+           DECODE(A.CUSTOMER_CD,'##',1,(SELECT COUNT (*) CUSTOMER_CNT 
+              FROM HP1DM20T A1 
+             WHERE A1.CUSTOMER_CD = A.CUSTOMER_CD)) 
+              AS CUSTOMER_CD_CNT, 
+              A.CUSTOMER_CD, 
+           (SELECT COUNT (*) FCST_CNT 
+              FROM HP1AU03T A1 
+             WHERE A1.AUTH_CD = A.AUTH_CD AND A1.DATA_TYPE = A.DATA_TYPE AND CD_TYPE='DTYPE') 
+              AS DATA_TYPE_CNT2, 
+           DECODE( A.UNIT ,'',1, (SELECT COUNT (*) CNT 
+              FROM HP1DM30T A1 
+             WHERE A1.CURRENCY_CD = A.UNIT) ) 
+              AS UNIT_CNT, 
+              A.UNIT, 
+              A.REQ_ORG_CD, 
+              A.USE_ORG_CD, 
+              A.LOG_SEQ, 
+               A.PROCESSING_FLAG, 
+               A.APPLICATION, 
+          CASE A.PROCESSING_FLAG WHEN 'I' THEN 'ALL' 
+                                      ELSE DECODE(A.AUTH_CD,'50',(SELECT  SUBSTR (C.ORG_SEQ, 0, 8) || '00' AS ORG_LVL_4 
+                                           FROM HP1DM03T C 
+                                           WHERE C.COMPANY_CD || C.ORG_CD = A.USE_COMPANY_CD || A.USE_ORG_CD ) ,'ALL') 
+              END EXCEL_OURG_SEQ           
+      FROM  
+      ( 
+          SELECT 
+               DISTINCT 
+                  PID, 
+                  DATA_TYPE, 
+                  USE_COMPANY_CD, 
+                  USE_ORG_CD, 
+                  REQ_COMPANY_CD, 
+                  REQ_ORG_CD, 
+                  HPMS_ID, 
+                  INVEST_TYPE_CD, 
+                  ITEM_NAME, 
+                  CUSTOMER_CD, 
+                  UNIT, 
+                  #AUTH_CD# AS AUTH_CD, 
+                  LOG_SEQ, 
+                  PROCESSING_FLAG, 
+               APPLICATION 
+          FROM HP2D001W 
+         WHERE LOG_SEQ = #LOG_SEQ# 
+         ) A 
+      ) X 
+    )Z 
+ WHERE Z.PID_ERROR IS NOT NULL OR Z.DATA_TYPE_ERROR IS NOT NULL 
+ OR Z.USE_COMPANY_CD_ERROR  IS NOT NULL OR Z.REQ_COMPANY_CD_ERROR  IS NOT NULL 
+ OR Z.HPMS_ID_ERROR  IS NOT NULL OR Z.INVEST_TYPE_CD_ERROR  IS NOT NULL 
+ OR Z.ITEM_NAME_ERROR  IS NOT NULL OR Z.CUSTOMER_CD_ERROR  IS NOT NULL 
+ OR Z.UNIT_ERROR  IS NOT NULL OR AUTH_ERROR  IS NOT NULL OR Z.DATA_TYPE_ERROR_1 IS NOT NULL</select>
+  <update parameterClass="java.util.HashMap" id="ExcelNoChecking_UPD68">Update HP_DBA01.HP2D001W  set  ERR_MSG=#ERR_MSG#  , ERR_FLAG=#ERR_FLAG#  where LOG_SEQ=#LOG_SEQ#  and CUSTOMER_CD=#CUSTOMER_CD#  and USER_ID=#USER_ID#  and PID=#PID#  and APPLICATION=#APPLICATION#  and HPMS_ID=#HPMS_ID#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and PROCESSING_FLAG=#PROCESSING_FLAG#  and ITEM_NAME=#ITEM_NAME#  and REQ_ORG_CD=#REQ_ORG_CD#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</update>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_SEL78">SELECT COUNT(*) CNT 
+  FROM HP2D001W 
+ WHERE LOG_SEQ = #LOG_SEQ# 
+AND  ERR_FLAG =1</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_SEL74">SELECT    
+       COUNT(*) AS CNT 
+  FROM HP2D001W  A, HP2D001T B 
+  WHERE A.LOG_SEQ = #LOG_SEQ# 
+    AND A.DATA_TYPE =B.DATA_TYPE 
+    AND A.PID =B.PID 
+    AND A.USE_COMPANY_CD =B.USE_COMPANY_CD 
+    AND A.USE_ORG_CD =B.USE_ORG_CD 
+    AND A.REQ_COMPANY_CD =B.REQ_COMPANY_CD 
+    AND A.REQ_ORG_CD =B.REQ_ORG_CD 
+    AND A.HPMS_ID =B.HPMS_ID 
+    AND A.INVEST_TYPE_CD =B.INVEST_TYPE_CD 
+    AND A.APPLICATION =B.APPLICATION 
+    AND A.ITEM_NAME =B.ITEM_NAME 
+    AND A.CUSTOMER_CD =B.CUSTOMER_CD 
+    AND A.YYYYMM =B.YYYYMM 
+      AND A.PROCESSING_FLAG = 'I'</select>
+  <update parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD114">MERGE INTO HP2D001W X 
+USING 
+  ( SELECT A.USER_ID, 
+          #ERR_FLAG# AS ERR_FLAG , 
+          #ERR_MSG# AS ERR_MSG, 
+          A.PROCESSING_FLAG, 
+          A.DATA_TYPE, 
+          A.PID, 
+          A.USE_COMPANY_CD, 
+          A.USE_ORG_CD, 
+          A.REQ_COMPANY_CD, 
+          A.REQ_ORG_CD, 
+          A.HPMS_ID, 
+          A.INVEST_TYPE_CD, 
+          A.APPLICATION, 
+          A.ITEM_NAME, 
+          A.CUSTOMER_CD , 
+           A.YYYYMM 
+     FROM HP2D001W A, HP2D001T B 
+     WHERE     A.LOG_SEQ = #LOG_SEQ# 
+          AND A.DATA_TYPE = B.DATA_TYPE 
+          AND A.PID = B.PID 
+          AND A.USE_COMPANY_CD = B.USE_COMPANY_CD 
+          AND A.USE_ORG_CD = B.USE_ORG_CD 
+          AND A.REQ_COMPANY_CD = B.REQ_COMPANY_CD 
+          AND A.REQ_ORG_CD = B.REQ_ORG_CD 
+          AND A.HPMS_ID = B.HPMS_ID 
+          AND A.INVEST_TYPE_CD = B.INVEST_TYPE_CD 
+          AND A.APPLICATION = B.APPLICATION 
+          AND A.ITEM_NAME = B.ITEM_NAME 
+          AND A.CUSTOMER_CD = B.CUSTOMER_CD 
+          AND A.YYYYMM = B.YYYYMM 
+          AND A.PROCESSING_FLAG='I' 
+    ) Y 
+    ON (    X.DATA_TYPE = Y.DATA_TYPE 
+          AND X.PID = Y.PID 
+          AND X.USE_COMPANY_CD = Y.USE_COMPANY_CD 
+          AND X.USE_ORG_CD = Y.USE_ORG_CD 
+          AND X.REQ_COMPANY_CD = Y.REQ_COMPANY_CD 
+          AND X.REQ_ORG_CD = Y.REQ_ORG_CD 
+          AND X.HPMS_ID = Y.HPMS_ID 
+          AND X.INVEST_TYPE_CD = Y.INVEST_TYPE_CD 
+          AND X.APPLICATION = Y.APPLICATION 
+          AND X.ITEM_NAME = Y.ITEM_NAME 
+          AND X.CUSTOMER_CD = Y.CUSTOMER_CD 
+          AND X.YYYYMM = Y.YYYYMM 
+    ) 
+when matched then 
+UPDATE SET X.ERR_FLAG = Y.ERR_FLAG, X.ERR_MSG=Y.ERR_MSG</update>
+  <update parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD116">MERGE INTO HP2D001T  X 
+USING 
+  ( SELECT A.USER_ID , 
+          A.PROCESSING_FLAG, 
+          A.DATA_TYPE, 
+          A.PID, 
+          A.USE_COMPANY_CD, 
+          A.USE_ORG_CD, 
+          A.REQ_COMPANY_CD, 
+          A.REQ_ORG_CD, 
+          A.HPMS_ID, 
+          A.INVEST_TYPE_CD, 
+          A.APPLICATION, 
+          A.ITEM_NAME, 
+          A.CUSTOMER_CD , 
+          A.YYYYMM , 
+          A.VAL, 
+          A.UNIT, 
+          A.UPLOAD_FILE_NAME, 
+          A.UPDATE_TIME  
+     FROM HP2D001W A 
+     WHERE     A.LOG_SEQ = #LOG_SEQ#  
+    ) Y 
+    ON (    X.DATA_TYPE = Y.DATA_TYPE 
+          AND X.PID = Y.PID 
+          AND X.USE_COMPANY_CD = Y.USE_COMPANY_CD 
+          AND X.USE_ORG_CD = Y.USE_ORG_CD 
+          AND X.REQ_COMPANY_CD = Y.REQ_COMPANY_CD 
+          AND X.REQ_ORG_CD = Y.REQ_ORG_CD 
+          AND X.HPMS_ID = Y.HPMS_ID 
+          AND X.INVEST_TYPE_CD = Y.INVEST_TYPE_CD 
+          AND X.APPLICATION = Y.APPLICATION 
+          AND X.ITEM_NAME = Y.ITEM_NAME 
+          AND X.CUSTOMER_CD = Y.CUSTOMER_CD 
+          AND X.YYYYMM = Y.YYYYMM 
+    ) 
+when matched then 
+UPDATE SET 
+          X.UPDATE_USER_ID =  Y.USER_ID, 
+          X.VAL=Y.VAL, 
+          X.UNIT=Y.UNIT, 
+          X.UPLOAD_FILE_NAME=Y.UPLOAD_FILE_NAME, 
+          X.UPDATE_TIME =Y.UPDATE_TIME 
+when NOT matched then 
+INSERT (  X.UPDATE_USER_ID ,  
+          X.DATA_TYPE, 
+          X.PID, 
+          X.USE_COMPANY_CD, 
+          X.USE_ORG_CD, 
+          X.REQ_COMPANY_CD, 
+          X.REQ_ORG_CD, 
+          X.HPMS_ID, 
+          X.INVEST_TYPE_CD, 
+          X.APPLICATION, 
+          X.ITEM_NAME, 
+          X.CUSTOMER_CD , 
+          X.YYYYMM , 
+          X.VAL, 
+          X.UNIT, 
+          X.UPLOAD_FILE_NAME, 
+          X.UPDATE_TIME 
+           ) 
+           VALUES 
+           ( 
+          Y.USER_ID , 
+          Y.DATA_TYPE, 
+          Y.PID, 
+          Y.USE_COMPANY_CD, 
+          Y.USE_ORG_CD, 
+          Y.REQ_COMPANY_CD, 
+          Y.REQ_ORG_CD, 
+          Y.HPMS_ID, 
+          Y.INVEST_TYPE_CD, 
+          Y.APPLICATION, 
+          Y.ITEM_NAME, 
+          Y.CUSTOMER_CD , 
+          Y.YYYYMM , 
+          Y.VAL, 
+          Y.UNIT, 
+          Y.UPLOAD_FILE_NAME, 
+          Y.UPDATE_TIME )</update>
+  <delete parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD118">DELETE FROM HP2D001T X WHERE (  X.DATA_TYPE, 
+          X.PID, 
+          X.USE_COMPANY_CD, 
+          X.USE_ORG_CD, 
+          X.REQ_COMPANY_CD, 
+          X.REQ_ORG_CD, 
+          X.HPMS_ID, 
+          X.INVEST_TYPE_CD, 
+          X.APPLICATION, 
+          X.ITEM_NAME, 
+          X.CUSTOMER_CD ) 
+           IN (SELECT  X.DATA_TYPE, 
+          X.PID, 
+          X.USE_COMPANY_CD, 
+          X.USE_ORG_CD, 
+          X.REQ_COMPANY_CD, 
+          X.REQ_ORG_CD, 
+          X.HPMS_ID, 
+          X.INVEST_TYPE_CD, 
+          X.APPLICATION, 
+          X.ITEM_NAME, 
+          X.CUSTOMER_CD  FROM HP2D001W X 
+           WHERE X.LOG_SEQ = #LOG_SEQ# 
+           AND X.PROCESSING_FLAG='D')</delete>
+  <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_INS27">Insert into HP_DBA01.HP2D001W (LOG_SEQ, CUSTOMER_CD, UNIT, USER_ID, ERR_MSG, PID, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, INVEST_TYPE_CD, VAL, PROCESSING_FLAG, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#LOG_SEQ# , #CUSTOMER_CD# , #UNIT# , #USER_ID# , #ERR_MSG# , #PID# , #APPLICATION# , #HPMS_ID# , #UPDATE_TIME# , #ERR_FLAG# , #INVEST_TYPE_CD# , #VAL# , #PROCESSING_FLAG# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_SEL3">SELECT SUBSTR(ORG_SEQ, 0,  ( SELECT ORG_LVL*2  
+                                                FROM HP1DM03T 
+                                                WHERE COMPANY_CD=#COMPANY_CD# 
+                                                AND ORG_CD = #ORG_CD#  ))  ORG_SEQ 
+FROM HP1DM03T 
+WHERE COMPANY_CD = #COMPANY_CD# 
+AND   ORG_CD=#ORG_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN2">
+    SELECT * 
+FROM 
+( 
+    SELECT 
+         '' Processing_Flag,  
+         A.DATA_TYPE, 
+         A.PID, 
+        (SELECT RD_THEME   FROM HP1DM01T WHERE PID=A.PID)  PID_THEME,  
+         A.USE_COMPANY_CD, 
+         A.USE_ORG_CD, 
+         A.REQ_COMPANY_CD, 
+         A.REQ_ORG_CD, 
+         A.HPMS_ID, 
+        (SELECT HPMS_ID_NM_JP    FROM  HP1DM04T WHERE HPMS_ID =A.HPMS_ID)  HPMS_NAME, 
+         A.INVEST_TYPE_CD,  
+        (SELECT INVEST_TYPE_NM FROM  HP1DM07T  WHERE INVEST_TYPE_CD = A.INVEST_TYPE_CD)  INVESTMENT_TYPE_NAME,  
+         A.APPLICATION, 
+         A.ITEM_NAME, 
+         A.CUSTOMER_CD, 
+         A.UNIT,   
+         A.YYYYMM, 
+         VAL 
+    FROM  HP2D001T  A 
+    WHERE A.YYYYMM BETWEEN #FROM_YYYYMM# AND #TO_YYYYMM# 
+    AND  (       A.USE_ORG_CD IN ( SELECT ORG_CD   FROM HP1DM03T WHERE ORG_SEQ LIKE #ORG_SEQ# || '%'  ) 
+                       OR   A.REQ_ORG_CD IN ( SELECT ORG_CD   FROM HP1DM03T WHERE ORG_SEQ LIKE #ORG_SEQ# || '%'   ) 
+                     )
+    <dynamic>
+      <isNotEmpty property="PID">AND  ( A.PID =#PID# or A.PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</isNotEmpty>
+      <isNotEmpty property="HPMS_GRP_ID">AND A.HPMS_ID IN ( SELECT HPMS_ID FROM HP1DM04T WHERE HPMS_GRP_ID =#HPMS_GRP_ID# )</isNotEmpty>
+      <isNotEmpty property="HPMS_ID">AND A.HPMS_ID =#HPMS_ID#</isNotEmpty>
+      <isNotEmpty property="DATA_TYPE">AND A.DATA_TYPE =#DATA_TYPE#</isNotEmpty>
+      <isNotEmpty property="COMPANY_CD">AND  ( A.USE_COMPANY_CD =#COMPANY_CD# OR A.REQ_COMPANY_CD =#COMPANY_CD# )</isNotEmpty>
+    </dynamic>
+    ) 
+  PIVOT 
+  ( 
+     SUM(VAL) FOR YYYYMM IN ( $YYYYMM_NULL$ ) 
+  ) 
+  ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN1">
+    SELECT * 
+FROM 
+( 
+    SELECT 
+         '' Processing_Flag,  
+         A.DATA_TYPE, 
+         A.PID, 
+        (SELECT RD_THEME   FROM HP1DM01T WHERE PID=A.PID)  PID_THEME,  
+         A.USE_COMPANY_CD, 
+         A.USE_ORG_CD, 
+         A.REQ_COMPANY_CD, 
+         A.REQ_ORG_CD, 
+         A.HPMS_ID, 
+        (SELECT HPMS_ID_NM_JP    FROM  HP1DM04T WHERE HPMS_ID =A.HPMS_ID)  HPMS_NAME, 
+         A.INVEST_TYPE_CD,  
+        (SELECT INVEST_TYPE_NM FROM  HP1DM07T  WHERE INVEST_TYPE_CD = A.INVEST_TYPE_CD)  INVESTMENT_TYPE_NAME,  
+         A.APPLICATION, 
+         A.ITEM_NAME, 
+         A.CUSTOMER_CD, 
+         A.UNIT,   
+         A.YYYYMM, 
+         VAL 
+    FROM   HP2D001T  A 
+    WHERE A.YYYYMM BETWEEN #FROM_YYYYMM# AND #TO_YYYYMM#
+    <dynamic>
+      <isNotEmpty property="PID">AND  ( A.PID =#PID# or A.PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</isNotEmpty>
+      <isNotEmpty property="HPMS_GRP_ID">AND A.HPMS_ID IN ( SELECT HPMS_ID FROM HP1DM04T WHERE HPMS_GRP_ID =#HPMS_GRP_ID# )</isNotEmpty>
+      <isNotEmpty property="HPMS_ID">AND A.HPMS_ID =#HPMS_ID#</isNotEmpty>
+      <isNotEmpty property="DATA_TYPE">AND A.DATA_TYPE =#DATA_TYPE#</isNotEmpty>
+    </dynamic>
+    ) 
+  PIVOT 
+  ( 
+     SUM(VAL) FOR YYYYMM IN ( $YYYYMM_NULL$ ) 
+  ) 
+  ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
+  </select>
+</sqlMap>
+

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ForecastInfoMgr_2016082417899">
+  <update parameterClass="java.util.HashMap" id="ForecastTitleSet_UNI3_UPD">Update HP_DBA01.HP1D003T  set  DATA_TYPE_NM=#DATA_TYPE_NM#  where PID=#PID#  and DATA_TYPE=#DATA_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="ForecastTitleSet_UNI3_INS">Insert into HP_DBA01.HP1D003T (PID, DATA_TYPE_NM, DATA_TYPE)  values(#PID# , #DATA_TYPE_NM# , #DATA_TYPE# )</insert>
+  <update parameterClass="java.util.HashMap" id="ForecastTitleSet2_UNI2_UPD">Update HP_DBA01.HP1D004T  set  DATA_TYPE_NM=#DATA_TYPE_NM#  where ORG_CD=#ORG_CD#  and COMPANY_CD=#COMPANY_CD#  and DATA_TYPE=#DATA_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="ForecastTitleSet2_UNI2_INS">Insert into HP_DBA01.HP1D004T (ORG_CD, DATA_TYPE_NM, COMPANY_CD, DATA_TYPE)  values(#ORG_CD# , #DATA_TYPE_NM# , #COMPANY_CD# , #DATA_TYPE# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID00_SEL3">SELECT ( COMPANY_CD || ORG_CD ) AS ITEM_CD 
+      ,ORG_NM ITEM_NM 
+FROM HP1DM03T 
+WHERE  ORG_LVL =2 
+AND ACTIVE_FLAG='0' 
+ORDER BY COMPANY_CD</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID00_SEL5">SELECT DATA_TYPE   ITEM_CD, 
+       DATA_TYPE   ITEM_NM 
+FROM   HP1AU03T 
+WHERE  AUTH_CD=#AUTH_CD# 
+AND     CD_TYPE='DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCSTCOPYCombo_SEL1">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN('LMP','MP','MTP') 
+       
+UNION 
+ 
+SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL2">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE  AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL4">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL6">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE   AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL9">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN('A.DCP','P.DCP','T.DCP','M.DCP','E.DCP') 
+       
+UNION 
+ 
+SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D004T B 
+            WHERE  1=1 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND B.COMPANY_CD = #COMPANY_CD# 
+                  AND B.ORG_CD =  #ORG_CD# 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL8">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+            FROM HP1AU03T A, HP1D004T B 
+            WHERE  1=1 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND B.COMPANY_CD = #COMPANY_CD# 
+                  AND B.ORG_CD =  #ORG_CD# 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Forecast_PIDcheck_SEL2">SELECT COUNT(*) AS CNT FROM( 
+                SELECT Y.USER_ID, X.ORG_LVL_4 
+                  FROM ( 
+                         SELECT COMPANY_CD, ORG_CD, SUBSTR (ORG_SEQ, 0, 8) || '00' AS ORG_LVL_4 
+                          FROM HP1DM03T 
+                         WHERE COMPANY_CD || ORG_CD = (SELECT OWNER_COMPANY_CD||OWNER_ORG_CD 
+                                                          FROM HP1DM01T WHERE PID = #PID# ) 
+                       ) X 
+                     , ( 
+                         SELECT A.USER_ID, B.COMPANY_CD, B.ORG_CD, SUBSTR(B.ORG_SEQ, 0,8)||'00' AS ORG_LVL_4 
+                           FROM US0M001T_V01 A, HP1DM03T B 
+                          WHERE A.USER_ID = #USER_ID# 
+                            AND A.COMPANY_INFO_CODE = B.COMPANY_CD 
+                            AND A.OFFICE_CODE  = B.ORG_CD 
+                       ) Y 
+                 WHERE X.ORG_LVL_4 = Y.ORG_LVL_4)</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Forecast_PIDcheck_SEL4">SELECT  '0' AS CNT FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Forecast_ORGCheck_SEL2">SELECT COUNT(*) AS CNT FROM( 
+                SELECT Y.USER_ID, X.ORG_LVL_4 
+                  FROM ( 
+                             SELECT COMPANY_CD, ORG_CD, SUBSTR (ORG_SEQ, 0, 8) || '00' AS ORG_LVL_4 
+                          FROM HP1DM03T 
+                         WHERE COMPANY_CD || ORG_CD = #COMPANY_CD#||#ORG_CD# 
+                       ) X 
+                     , ( 
+                         SELECT A.USER_ID, B.COMPANY_CD, B.ORG_CD, SUBSTR(B.ORG_SEQ, 0,8)||'00' AS ORG_LVL_4 
+                           FROM US0M001T_V01 A, HP1DM03T B 
+                          WHERE A.USER_ID = #USER_ID# 
+                            AND A.COMPANY_INFO_CODE = B.COMPANY_CD 
+                            AND A.OFFICE_CODE  = B.ORG_CD 
+                       ) Y 
+                 WHERE X.ORG_LVL_4 = Y.ORG_LVL_4)</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Forecast_ORGCheck_SEL4">SELECT  '0' AS CNT FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL9">SELECT ORG_CD 
+  FROM HP1DM03T 
+ WHERE ORG_SEQ LIKE 
+             (SELECT SUBSTR ( 
+                        ORG_SEQ, 
+                        0, 
+                        (SELECT ORG_LVL * 2 
+                           FROM HP1DM03T 
+                          WHERE     COMPANY_CD = AZ.COMPANY_CD 
+                                AND ORG_CD = AZ.ORG_CD)) 
+                FROM HP1DM03T AZ 
+               WHERE AZ.COMPANY_CD = #COMPANY_CD# AND AZ.ORG_CD = #ORG_CD#)|| '%' 
+               AND COMPANY_CD=#COMPANY_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL39">
+    SELECT MAX ( DATA_TYPE) AS  DATA_TYPE 
+          FROM HP2D002T_TZ 
+   WHERE     1 = 1 
+         AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+         AND USE_ORG_CD = #USE_ORG_CD#
+    <dynamic>
+      <isEqual property="S4_FROM" compareValue="LMP">AND DATA_TYPE  LIKE #FROM# ||'%'</isEqual>
+      <isEqual property="S4_FROM" compareValue="MP">AND DATA_TYPE  LIKE #FROM# ||'%'  AND LENGTH(DATA_TYPE) = 7</isEqual>
+      <isEqual property="S4_FROM" compareValue="MTP">AND DATA_TYPE  LIKE #FROM# ||'%'  AND LENGTH(DATA_TYPE) = 8</isEqual>
+    </dynamic>
+    AND VAL_TYPE = 0
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL47">SELECT  #TO# AS DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME 
+       FROM HP2D002T_TZ  
+       WHERE 1=1 
+       AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+       AND USE_ORG_CD = #USE_ORG_CD# 
+       AND DATA_TYPE = #DATA_TYPE# 
+       AND VAL_TYPE = 0</select>
+  <delete parameterClass="java.util.HashMap" id="ForecastDataCopy2_DEL46">Delete from HP_DBA01.HP2D001T  where CUSTOMER_CD=#CUSTOMER_CD#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and REQ_ORG_CD=#REQ_ORG_CD#  and APPLICATION=#APPLICATION#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and HPMS_ID=#HPMS_ID#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL16">SELECT   DATA_TYPE , 
+         PID, 
+         USE_COMPANY_CD, 
+         USE_ORG_CD, 
+         REQ_COMPANY_CD, 
+         REQ_ORG_CD, 
+         HPMS_ID, 
+         INVEST_TYPE_CD, 
+         APPLICATION, 
+         ITEM_NAME, 
+         CUSTOMER_CD, 
+         YYYYMM, 
+         UNIT, 
+         VAL, 
+         UPDATE_TIME, 
+         UPDATE_USER_ID, 
+         UPLOAD_FILE_NAME 
+    FROM HP2D002T_TZ 
+   WHERE     1 = 1 
+         AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+         AND USE_ORG_CD = #USE_ORG_CD# 
+         AND DATA_TYPE  =#FROM# 
+         AND VAL_TYPE = 0</select>
+  <insert parameterClass="java.util.HashMap" id="ForecastDataCopy2_INS17">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL23">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME 
+       FROM HP2D001T 
+       WHERE 1=1 
+       AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+       AND USE_ORG_CD = #USE_ORG_CD# 
+       AND DATA_TYPE = #TO#</select>
+  <delete parameterClass="java.util.HashMap" id="ForecastDataCopy2_DEL22">Delete from HP_DBA01.HP2D001T  where CUSTOMER_CD=#CUSTOMER_CD#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and REQ_ORG_CD=#REQ_ORG_CD#  and APPLICATION=#APPLICATION#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and HPMS_ID=#HPMS_ID#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL12">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME 
+       FROM HP2D001T 
+       WHERE 1=1 
+       AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+       AND USE_ORG_CD = #USE_ORG_CD# 
+       AND DATA_TYPE = #FROM#</select>
+  <insert parameterClass="java.util.HashMap" id="ForecastDataCopy2_INS14">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL40">SELECT  #FROM#||'_'||  MAX (APPROVAL_YYYYMMDD) AS DATA_TYPE 
+    FROM HP2D002T_TZ 
+   WHERE     1 = 1 
+         AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+         AND USE_ORG_CD = #USE_ORG_CD# 
+         AND DATA_TYPE LIKE #FROM#  ||'%' 
+         AND VAL_TYPE = 0</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL21">SELECT  #TO# AS DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME 
+       FROM HP2D002T_TZ  
+       WHERE 1=1 
+       AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+       AND USE_ORG_CD = #USE_ORG_CD# 
+       AND DATA_TYPE = #DATA_TYPE#</select>
+  <delete parameterClass="java.util.HashMap" id="ForecastDataCopy2_DEL10">Delete from HP_DBA01.HP2D001T  where CUSTOMER_CD=#CUSTOMER_CD#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and REQ_ORG_CD=#REQ_ORG_CD#  and APPLICATION=#APPLICATION#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and HPMS_ID=#HPMS_ID#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy2_SEL20">SELECT   DATA_TYPE, 
+         PID, 
+         USE_COMPANY_CD, 
+         USE_ORG_CD, 
+         REQ_COMPANY_CD, 
+         REQ_ORG_CD, 
+         HPMS_ID, 
+         INVEST_TYPE_CD, 
+         APPLICATION, 
+         ITEM_NAME, 
+         CUSTOMER_CD, 
+         YYYYMM, 
+         UNIT, 
+         VAL, 
+         UPDATE_TIME, 
+         UPDATE_USER_ID, 
+         UPLOAD_FILE_NAME 
+    FROM HP2D002T_TZ 
+   WHERE     1 = 1 
+         AND USE_COMPANY_CD = #USE_COMPANY_CD# 
+         AND USE_ORG_CD = #USE_ORG_CD# 
+         AND DATA_TYPE=#FROM#  
+         AND VAL_TYPE = 0</select>
+  <insert parameterClass="java.util.HashMap" id="ForecastDataCopy2_INS21">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL11">SELECT MAX (DATA_TYPE) AS DATA_TYPE     
+    FROM HP2D002T_TZ 
+   WHERE 1 = 1 
+ AND DATA_TYPE LIKE #DATA_TYPE# || '%' 
+ AND PID = #PID# 
+ AND VAL_TYPE=0</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL17">SELECT   DATA_TYPE, 
+         PID, 
+         USE_COMPANY_CD, 
+         USE_ORG_CD, 
+         REQ_COMPANY_CD, 
+         REQ_ORG_CD, 
+         HPMS_ID, 
+         INVEST_TYPE_CD, 
+         APPLICATION, 
+         ITEM_NAME, 
+         CUSTOMER_CD, 
+         YYYYMM, 
+         UNIT, 
+         VAL, 
+         UPDATE_TIME, 
+         UPDATE_USER_ID, 
+         UPLOAD_FILE_NAME 
+    FROM HP2D002T_TZ 
+   WHERE 1 = 1 
+AND DATA_TYPE =#DATA_TYPE# 
+ AND PID = #PID# 
+ AND VAL_TYPE=0</select>
+  <insert parameterClass="java.util.HashMap" id="ForecastDataCopy_INS15">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL20">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME 
+       FROM HP2D001T 
+       WHERE 1=1 
+       AND (PID=#PID# OR PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) ) 
+       AND DATA_TYPE = #TO#</select>
+  <delete parameterClass="java.util.HashMap" id="ForecastDataCopy_DEL10">Delete from HP_DBA01.HP2D001T  where CUSTOMER_CD=#CUSTOMER_CD#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and REQ_ORG_CD=#REQ_ORG_CD#  and APPLICATION=#APPLICATION#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and HPMS_ID=#HPMS_ID#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL12">SELECT DATA_TYPE, 
+       PID, 
+       USE_COMPANY_CD, 
+       USE_ORG_CD, 
+       REQ_COMPANY_CD, 
+       REQ_ORG_CD, 
+       HPMS_ID, 
+       INVEST_TYPE_CD, 
+       APPLICATION, 
+       ITEM_NAME, 
+       CUSTOMER_CD, 
+       YYYYMM, 
+       UNIT, 
+       VAL, 
+       UPDATE_TIME, 
+       UPDATE_USER_ID, 
+       UPLOAD_FILE_NAME 
+       FROM HP2D001T 
+       WHERE 1=1 
+       AND (PID=#PID# OR PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) ) 
+       AND DATA_TYPE = #FROM#</select>
+  <insert parameterClass="java.util.HashMap" id="ForecastDataCopy_INS14">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL13">SELECT  max(DATA_TYPE) AS DATA_TYPE 
+         FROM HP2D002T_TZ 
+   WHERE 1 = 1 
+AND DATA_TYPE LIKE #DATA_TYPE# || '%' 
+ AND (PID = #PID#  OR PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#)) 
+ AND VAL_TYPE=0</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL41">SELECT   #TO# AS DATA_TYPE, 
+         PID, 
+         USE_COMPANY_CD, 
+         USE_ORG_CD, 
+         REQ_COMPANY_CD, 
+         REQ_ORG_CD, 
+         HPMS_ID, 
+         INVEST_TYPE_CD, 
+         APPLICATION, 
+         ITEM_NAME, 
+         CUSTOMER_CD, 
+         YYYYMM, 
+         UNIT, 
+         VAL, 
+         UPDATE_TIME, 
+         UPDATE_USER_ID, 
+         UPLOAD_FILE_NAME 
+    FROM HP2D002T_TZ 
+   WHERE 1 = 1 
+    and VAL_TYPE=0 
+     AND( PID = #PID# or PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#)) 
+    AND DATA_TYPE = #DATA_TYPE#</select>
+  <delete parameterClass="java.util.HashMap" id="ForecastDataCopy_DEL39">Delete from HP_DBA01.HP2D001T  where CUSTOMER_CD=#CUSTOMER_CD#  and INVEST_TYPE_CD=#INVEST_TYPE_CD#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and REQ_ORG_CD=#REQ_ORG_CD#  and APPLICATION=#APPLICATION#  and REQ_COMPANY_CD=#REQ_COMPANY_CD#  and HPMS_ID=#HPMS_ID#  and USE_ORG_CD=#USE_ORG_CD#  and DATA_TYPE=#DATA_TYPE#  and USE_COMPANY_CD=#USE_COMPANY_CD#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ForecastDataCopy_SEL18">SELECT   DATA_TYPE, 
+         PID, 
+         USE_COMPANY_CD, 
+         USE_ORG_CD, 
+         REQ_COMPANY_CD, 
+         REQ_ORG_CD, 
+         HPMS_ID, 
+         INVEST_TYPE_CD, 
+         APPLICATION, 
+         ITEM_NAME, 
+         CUSTOMER_CD, 
+         YYYYMM, 
+         UNIT, 
+         VAL, 
+         UPDATE_TIME, 
+         UPDATE_USER_ID, 
+         UPLOAD_FILE_NAME 
+    FROM HP2D002T_TZ 
+   WHERE 1 = 1 
+AND DATA_TYPE = #DATA_TYPE# 
+  AND (PID=#PID# OR PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) ) 
+   and VAL_TYPE=0</select>
+  <insert parameterClass="java.util.HashMap" id="ForecastDataCopy_INS16">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
+</sqlMap>
+

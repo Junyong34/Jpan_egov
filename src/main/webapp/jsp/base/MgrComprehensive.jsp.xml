@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>Total Management Report</title>
+        <script><![CDATA[ 
+        $(document).ready(function() {
+             // Combo2.submit(false);  
+             
+              $(document).keydown(function(e){   
+                   
+                    if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });
+        
+         });
+              
+        
+        function btn_download_OnClick(myObj)
+        {
+        	sbmCtlRead.submit(false, "download");
+        }
+        function download()
+        {
+        	if( $("#out_message").val() != "" )
+        	{
+        	    ErrorCheck();
+        	    return;
+        	}
+        
+           
+        	
+        	if(  $("#S_COMPANY_CD").val() == "")
+        	{
+        		Return_RTN_MSG("00004","Company NAME","S_COMPANY_CD");
+        		return;
+        	}
+        	
+        	if(  $("#S_ORG_CD").val() == "")
+        	{
+        		Return_RTN_MSG("00004","Organization Name","S_ORG_CD");
+        		return;
+        	}
+        	
+        	if(  $("#S_DATA_TYPE").val() == "")
+        	{
+        		Return_RTN_MSG("00004","Data Type","S_DATA_TYPE");
+        		return;
+        	}
+        	 if(  $("#S_YYYYMM").val() == "")
+        	{
+        		Return_RTN_MSG("00003","Month","S_YYYYMM");
+        		return;
+        	}
+        	
+        	if(!isValidDate( $("#S_YYYYMM").val())){
+        	   Return_RTN_MSG("00006","" ,"S_YYYYMM");
+                	return ;
+        	}
+        	
+        	
+        	if(  $("#S_DATA_TYPE").val() =="MP" ||  $("#S_DATA_TYPE").val() =="MTP" )
+        	{
+        	   var yyyy = $("#S_YYYYMM").val().substring(0,4);   
+        	   var fromyyymm = yyyy +"03";
+               var toyymm = ( parseInt(yyyy)+ 1 ) +"04";
+              
+        	   $("#S_FROM_YYYYMM").val(fromyyymm);
+        	   $("#S_TO_YYYYMM").val(toyymm);
+        	}
+        
+        	FormSubmit("frm" , "/hpms/20160901101144ManagementComprehensive_buildSheet.do" , "S[A]:S" ,"",false); 
+        }
+        
+        
+        
+        function S_ORG_CD_OnClick(myObj)
+        {
+           if($("#S_COMPANY_CD").val() == ""){
+                Return_RTN_MSG("00004","Company Name","S_COMPANY_CD");
+                return;
+           }
+        }
+        
+        
+        function ErrorCheck()
+        {
+        	if(ErroMsgDisplay() != 0) 
+        	{
+        	    
+        	   var ERROR_CODE ="";
+        	   ERROR_CODE= $("#out_message").val();
+        	   
+        	   if(ErroMsgDisplay() == 9999){
+        	    ERROR_CODE= 9999;
+        	   }
+        	
+        	   var param = ""
+        	   param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+        	
+        	   var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        		 
+        		   $("#Error_cd").attr("src",url);
+        		   $("#Error_cd").attr("frameborder", 0);
+        		   $("#divPopup_ErrorCode").dialog({
+        				autoPoen:false,
+        				height : 260,
+        				//position:[50,300],
+        				width:530,
+        				modal: true, 
+        				title: "Error Indication",
+        				resizable: true,
+        				closeOnEscape:true ,
+        			 
+        			close: function(){ 
+        	     
+        			//	window.location.reload();
+        				// iframe 초기화.
+        	   $("#" + this.id).find('iframe').contents().find('body').html('');
+        	  	}
+        	  	});
+        		   $("#divPopup_ErrorCode").dialog("open"); 
+        	 }
+        	 else
+        	 {
+        	     //오류업시 성공적으로 업로드 완료 했을 때    	
+        	   	  alert("Upload complete");
+             }
+        }
+        	
+        function dialogClose_MYPAGE(){ //팝업종료및 
+        	$("#divPopup_ErrorCode").dialog("close");
+        }
+        
+        
+        function S_ORG_CD_OnChange(myObj)
+        {
+         if( $("#S_ORG_CD").val() != ""){
+               FCST_TITLE_Combo.submit(false);
+           } 
+        }
+        function S_DATA_TYPE_OnClick(myObj)
+        {
+        if($("#S_DATA_TYPE  option:eq(0)").text() !="--Choice--"){
+            Return_RTN_MSG("00004","Organization Name","S_ORG_CD");
+             return;
+          } 
+        }
+        
+        //날짜유효성검사
+        function isValidDate(param) {
+                try
+                {
+                    //param = param.replace(/-/g,'');
+         
+                    // 자리수가 맞지않을때
+                    if( isNaN(param) || param.length!=6 ) {
+                        return false;
+                    }
+                     
+                    var year = Number(param.substring(0, 4));
+                    var month = Number(param.substring(4, 6));
+                    //var day = Number(param.substring(6, 8));
+         
+                    //var dd = day / 0;
+         
+                     
+                    if( month<1 || month>12 ) {
+                        return false;
+                    }     
+                
+                    return true;
+         
+                } catch (err) {
+                    return false;
+                }                       
+            }
+        
+        function S_COMPANY_CD_OnChange(myObj)
+        {
+          ORG_COMBO.submit(false);
+        }
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  YYYYMM=""  DATA_TYPE=""  USE_COMPANY_CD=""  USE_SECTION_CD=""  COMPANY_CD=""  ORG_CD=""  FROM_YYYYMM=""  TO_YYYYMM=""   />
+                        </S>
+                        <C dateformat="" >
+                            <row  ITEM_NM=""  ITEM_CD=""   />
+                        </C>
+                        <init>
+                            <S>
+                                <row  YYYYMM=""  DATA_TYPE=""  USE_COMPANY_CD=""  USE_SECTION_CD=""  COMPANY_CD=""  ORG_CD=""  FROM_YYYYMM=""  TO_YYYYMM=""   />
+                            </S>
+                            <C>
+                                <row  ITEM_NM=""  ITEM_CD=""   />
+                            </C>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_COMPANY_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101144ManagementComprehensive_initCombo.do" encoding="UTF-8" confirm="" menuid="20160901101144" eventid="initCombo" menuname="91. Total Management Report" eventname="02. init Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Combo2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_DATA_TYPE:SEL10" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_CommonCombo.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="40. 공통코드 관리" eventname="02 공통 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_CODE" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S1" outdataset="S_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_ORGCombobox.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="ORGCombobox" menuname="40. Common Code Manage" eventname="05. ORG Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlRead" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_SearchUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="SearchUsingCheck" menuname="50. Common Control" eventname="03. Search Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_TITLE_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S_DATA_TYPE:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101144ManagementComprehensive_FCST_Title_ComboMgr.do" encoding="UTF-8" confirm="" menuid="20160901101144" eventid="FCST_Title_ComboMgr" menuname="91. Total Management Report" eventname="03. FCST_Title Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_COMBO" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S_ORG_CD:SEL3" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101144ManagementComprehensive_initCombo.do" encoding="UTF-8" confirm="" menuid="20160901101144" eventid="initCombo" menuname="91. Total Management Report" eventname="02. init Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="470,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608757345678023960" label="Total Management Report Output">    	</output>
+
+        	<userobject  location="549,24"  size="100,100"  inputstyle="width:100px; height:100px; border-width:1px; background-color:Transparent; color:Black; border-color:Transparent; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63611265504437636503" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<combo  location="187,107"  size="144,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:144px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_COMPANY_CD" bindcolumn="COMPANY_CD"  binddataset="S"  unikey="63608757478452618293" bind="S_COMPANY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S_COMPANY_CD_OnChange(this);" appearance="minimal" >
+    	</combo>
+
+        	<output  location="58,107"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608757438925357463" label="Company Name">    	</output>
+
+        	<output  location="58,160"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608757445525734968" label="Organization Name">    	</output>
+
+        	<combo  location="184,161"  size="144,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:144px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_ORG_CD" bindcolumn="ORG_CD"  binddataset="S"  unikey="63608757485893043810" bind="S_ORG_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S_ORG_CD_OnClick(this);" onchange="S_ORG_CD_OnChange(this);" appearance="minimal" >
+    	</combo>
+
+        	<output  location="58,203"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63608758797196046064" label="Data Type">    	</output>
+
+        	<combo  location="184,204"  size="144,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:144px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S"  unikey="63608758810659816172" bind="S_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S_DATA_TYPE_OnClick(this);" appearance="minimal" >
+    	</combo>
+
+        	<textbox  location="356,246"  size="65,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_FROM_YYYYMM" bindcolumn="FROM_YYYYMM"  binddataset="S"  unikey="63611695632515625022" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<calendar  location="184,247"  size="144,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonth; text-align:left; lang-type:en; " id="S_YYYYMM" bindcolumn="YYYYMM"  binddataset="S"  unikey="63608758826291710216" visible="True" dateFormat="yymm"     constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"     showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="OK" tabindex="0" >    	</calendar>
+
+        	<output  location="58,247"  size="124,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63608758815947118597" label="Year Month">    	</output>
+
+        	<textbox  location="429,248"  size="52,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_TO_YYYYMM" bindcolumn="TO_YYYYMM"  binddataset="S"  unikey="63611695641062500063" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<button  location="195,307"  size="130,26"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_download" label="" type="button" src="" unikey="63608757514188662221" visible="True" value="Download" tabindex="0"  onclick="btn_download_OnClick(this);" ></button>
+
+    </div>
+</body>
+</html>

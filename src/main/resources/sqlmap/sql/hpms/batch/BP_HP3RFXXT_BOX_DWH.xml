@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BP_HP3RFXXT_BOX_20160930162712DWH">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3RF01T_BOX_SEL4">SELECT 
+        COUNT(*) AS CNT 
+  FROM 
+        BS1C001T_HPM_V01 
+ WHERE 
+        EXEC_ID     = 'BX2DF01T_HPM_V01'  
+   AND  EXEC_STATUS = 'OK'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3RF01T_BOX_SEL1">SELECT 
+          FISCAL_YYYYMMDD 
+        , FISCAL_YYYYMM 
+        , HPMS_ID 
+        , JOURNAL_NAME 
+        , COMPANY_CD 
+        , ORG_CD 
+        , ACCOUNT_CD 
+        , SUB_ACCOUNT_CD 
+        , PARTNER_CD 
+        , PID 
+        , DUMMY_CD 
+        , COMPANY_NM 
+        , ORG_NM 
+        , ACCOUNT_NM 
+        , SUB_ACCOUNT_NM 
+        , PARTNER_NM 
+        , PID_NM 
+        , DUMMY_NM 
+        , ITEM_NAME 
+        , CUSTOMER_CD 
+        , CUSTOMER_NM 
+        , TRANSACTION_QTY 
+        , TRANSACTION_CURRENCY_TYPE_CD 
+        , TRANSACTION_DEBIT 
+        , TRANSACTION_CREDIT 
+        , LOCAL_CURRENCY_TYPE_CD 
+        , LOCAL_REAL_RATE 
+        , LOCAL_DEBIT 
+        , LOCAL_CREDIT 
+        , PLAN_RATE 
+        , PLAN_DEBIT_YEN 
+        , PLAN_CREDIT_YNE 
+        , REAL_RATE 
+        , REAL_DEBIT_YEN 
+        , REAL_CREDIT_YEN                   
+        , TRANSACTION_LINE_PRICE 
+        , LOCAL_LINE_PRICE 
+        , PLAN_LINE_PRICE 
+        , REAL_LINE_PRICE 
+        , TRANSACTION_LINE_AMT 
+        , LOCAL_LINE_AMT 
+        , PLAN_LINE_AMT 
+        , REAL_LINE_AMT 
+FROM 
+        BX2DF01T_HPM_V01        
+WHERE 
+        FISCAL_YYYYMMDD &gt; TO_CHAR(ADD_MONTHS(SYSDATE, -2),'YYYYMMDD')</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3RF02T_BOX_SEL4">SELECT 
+        COUNT(*) AS CNT 
+  FROM 
+        BS1C001T_HPM_V01 
+ WHERE 
+        EXEC_ID     = 'BX2DF31T_HPM_V01'        
+   AND  EXEC_STATUS = 'OK'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3RF02T_BOX_SEL2">SELECT 
+          FISCAL_YYYYMM 
+        , FISCAL_YEAR 
+        , HPMS_ID 
+        , INVEST_TYPE_CD 
+        , ASSET_NUMBER 
+        , DESCRIPTION1 
+        , TAG_NUMBER 
+        , ASST_CAT_COMPANY 
+        , ASST_CAT_COMPANY_DESC 
+        , ASST_CAT_USER_TYPE 
+        , ASST_CAT_USER_TYPE_DESC 
+        , ASST_CAT_ASSET_TYPES 
+        , ASST_CAT_ASSET_TYPES_DESC 
+        , ASST_CAT_DEP_ASST_TYPES 
+        , ASST_CAT_DEP_ASST_TYPES_DESC 
+        , DATE_OF_ACQUISITION 
+        , PROPERTY_TYPE 
+        , CURRENCY_TYPE_CD 
+        , CURRENT_COST 
+        , CURRENCY_TYPE_CD_LOCAL 
+        , CURRENT_COST_LOCAL 
+        , CURRENT_COST_PLAN 
+        , CURRENT_COST_REAL 
+        , EXP_ACCT_COMPANY 
+        , EXP_ACCT_ORG 
+        , EXP_ACCT_ACCT 
+        , EXP_ACCT_SUB_ACCT 
+        , EXP_ACCT_PARTNER 
+        , EXP_ACCT_PROJECT_ID 
+        , EXP_ACCT_COMPANY_DESC 
+        , EXP_ACCT_ORG_DESC 
+        , EXP_ACCT_ACCT_DESC 
+        , EXP_ACCT_SUB_ACCT_DESC 
+        , EXP_ACCT_PARTNER_DESC 
+        , EXP_ACCT_PROJECT_ID_DESC 
+FROM 
+          BX2DF31T_HPM_V01            
+WHERE 
+        ( 1 = 1 )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3RF51T_BOX_SEL4">SELECT 
+        COUNT(*) AS CNT 
+  FROM 
+        BS1C001T_HPM_V01 
+ WHERE 
+        EXEC_ID     = 'BX2DF51T_HPM_V01'      
+   AND  EXEC_STATUS = 'OK'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP3RF51T_BOX_SEL2">SELECT 
+          YYYYMMDD 
+        , EPD_CODE 
+        , HPMS_ID 
+        , PID 
+        , PID_THEME 
+        , COST_TYPE 
+        , CAD_DAEMON 
+        , CAD_FEATURE 
+        , CAD_VENDOR 
+        , CAD_PRODUCT 
+        , ACCOUNT_NM 
+        , COMPANY_CD 
+        , ORG_CD 
+        , ORG_NM 
+        , USER_NM 
+        , RUN_TIME 
+        , DISK_PATH 
+        , DISK_QUOTA 
+        , COST 
+FROM 
+        BX2DF51T_HPM_V01         
+WHERE 
+        YYYYMMDD &gt; TO_CHAR(ADD_MONTHS(SYSDATE, -2),'YYYYMMDD')</select>
+</sqlMap>
+

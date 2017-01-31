@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MasterInOut_20160901091140">
+  <delete parameterClass="java.util.HashMap" id="CurrencyExcelUpload_DEL13">Delete from HPMSDB.UPLOAD_TEMP  where PGM_ID=#PGM_ID#</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CurrencyExcelUpload_SEL21">SELECT COUNT(*) AS CNT 
+FROM CURRENCY_MST 
+where 1=1 
+and CURRENCY_CODE =#COL1#</select>
+  <insert parameterClass="java.util.HashMap" id="CurrencyExcelUpload_INS42">Insert into HPMSDB.CURRENCY_MST (CURRENCY_NAME, CURRENCY_CODE)  values(#CURRENCY_NAME# , #CURRENCY_CODE# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="MasterExcelDown_SEL1">SELECT 'USD' CODE, 'USD' NAME FROM dual 
+union all 
+SELECT 'JPY' CODE, 'JPY' NAME FROM dual</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="MasterExcelDown_SEL2">SELECT 'Aply1' CODE, '용도1' NAME FROM dual 
+union all 
+SELECT 'aply2' CODE, '용도2' NAME FROM dual</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="MasterExcelDown_SEL3">SELECT 'dept1' CODE, '부서1' NAME FROM dual 
+union all 
+SELECT 'dept2' CODE, '부서2' NAME FROM dual</select>
+</sqlMap>
+

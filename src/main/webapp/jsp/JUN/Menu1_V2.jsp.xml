@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>File4</title>
+        <script><![CDATA[ 
+        function EMPLOYEEID_POPUP_cellonclick_grid1(myObj)
+        {
+        }
+        
+        function button1_OnClick(myObj)
+        {
+        //alert($('#S1_MENU_NM').val());//
+        //bbb.setRequired(true);
+        bbb.submit(false);
+        }
+        
+        function button2_OnClick(myObj)
+        { 
+         // grid1.hideColumn( ["AGE","NAME"]);
+        
+         grid1.insertRow("first");
+        // 숨기기
+        //$("#grid1").wizGrid("hideCol", ["AGE","NAME"]);
+        }
+        function grid1_OnAfterInsertRow(rowIndex)
+        {
+        var gridId = grid1.getGridRowId(rowIndex);
+          $("#grid1t tr").eq(gridId).children("td:eq(5)").attr("disabled", "disabled");
+         // alert(  $("#grid1t tr").eq(gridId).children("td:eq(4)").attr("id"));
+        /*var specificValue = $("#grid1 tr").eq(rowid).children("td:eq(8)").text();
+                            
+        if ($.trim(specificValue) != "") 
+            //editable 이 설정 된 셀(td) 부분 
+            $("#tbNewRegList tr").eq(rowid).children("td:eq(4)").attr("disabled", "disabled");
+         }*/
+        
+        }
+        function grid1_OnCellSelect(rowIndex, Colname, cellcontent, e)
+        {
+         var gridId = grid1.getGridRowId(rowIndex);
+                var rowval = grid1.getCellValue(rowIndex, Colname, true);
+               
+        		var colindex = grid1.getColumnIndex(Colname);
+        
+                
+        		if(Colname =="NAME"){
+        			// Celloption 값 tnwjd 
+        			var VAL2 = grid1.getCellValue(rowIndex, "AGE", true);
+        		    var IUDFLDG_VAL = grid1.getCellValue(rowIndex, "IUDFLAG", true);
+        		    
+        		    if(IUDFLDG_VAL == "I"){
+        		        setcellopt(rowIndex,colindex);
+        		    }
+        			if(VAL2 == "15"){
+        			
+        				setcellopt(rowIndex,colindex);
+        				
+        			}
+        			}
+        			
+        }
+        function aaaa(){
+         grid1.editCellClose();
+        }
+        
+        function button3_OnClick(myObj)
+        {
+        // 표시하기
+        //grid1.showColumn( ["AGE","NAME"]);
+         grid1.editCellClose();
+        }
+        function grid1_OndblClickRow(rowIndex)
+        {
+         // alert(rowIndex);
+        }
+        
+        function AGE_POPUP_cellonclick_grid1(rowId,rowIndex)
+        {
+        
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S2 dateformat="" checkbox="" >
+                            <row  NAME="a"  CODE="a"   />
+                            <row  NAME="b"  CODE="c"   />
+                        </S2>
+                        <S1 dateformat="" checkbox="" >
+                            <row  NAME=""   />
+                        </S1>
+                        <S dateformat="" checkbox="" >
+                            <row  MENU_ID=""  MENU_NM=""  P_MENU_ID=""  GRID1=""   />
+                        </S>
+                        <S3 dateformat="" checkbox="" >
+                            <row  EMPLOYEEID=""  AGE=""  NAME=""  EMAIL=""  UPDATEDATE=""   />
+                        </S3>
+                        <init>
+                            <S2>
+                                <row  NAME=""  CODE=""   />
+                            </S2>
+                            <S1>
+                                <row  NAME=""   />
+                            </S1>
+                            <S>
+                                <row  MENU_ID=""  MENU_NM=""  P_MENU_ID=""  GRID1=""   />
+                            </S>
+                            <S3>
+                                <row  EMPLOYEEID=""  AGE=""  NAME=""  EMAIL=""  UPDATEDATE=""   />
+                            </S3>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="20160412101097" eventid="loadPage" menuname="30. 메인 화면" eventname="01. loadPage" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_aaa33" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_MENU_NM:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160412101097MainScreenMgr_loadPage.do" encoding="UTF-8" confirm="" menuid="20160412101097" eventid="loadPage" menuname="30. 메인 화면" eventname="01. loadPage" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_bbb" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="grid1:SEL7" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_SAWONLIST.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="SAWONLIST" menuname="박준용" eventname="사원조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<picture location="803,18"  size="100,100"  visible="True" inputstyle=" cursor:Pointer; width:100px; height:100px; border-width:0px; background-color:White; border-color:Black;" id="pic1" bindcolumn=""  binddataset=""  unikey="63596697926855080564" src="/wizware/js/cal.gif"></picture>
+
+        	<button  location="361,33"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63596582347116297693" visible="True" value="button" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+        	<button  location="192,59"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63596343491754552466" visible="True" value="추가" tabindex="0"  onclick="button2_OnClick(this);" ></button>
+
+        	<button  location="62,61"  size="100,21"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" style="asd" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63596247767671413793" visible="True" value="button" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+        	<radiobox  location="630,63"  size="15,15"   visible="True" inputstyle="width:15px; height:15px;border-width:0px;background-color:#000000; color:Black;border-color:#000000;text-align:left;"  id="radio1" bindcolumn=""  binddataset=""  unikey="63596610021091158527" name="radioBtn" bind="radio1_bnd" label=""  tabindex="0"  appearance="full"     >    </radiobox>
+
+        	<combo  location="459,74"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="combo2" bindcolumn=""  binddataset=""  unikey="63596673411090859046" bind="combo2_bnd" incremental="True" tabindex="0" itemdataset="S2" itemlabel="NAME" itemcode="CODE" appearance="minimal" >
+    	</combo>
+
+        	<combo  location="302,79"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:0px; border-color:Black; text-align:left;" id="combo1" bindcolumn=""  binddataset=""  unikey="63596673409124746639" bind="combo1_bnd" incremental="True" tabindex="0" itemdataset="S2" itemlabel="NAME" itemcode="CODE" appearance="minimal" >
+    	</combo>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="86,129"  size="688,141"  unikey="63596687412104671213" style="" inputclass="search-box" visible="True" >  
+                	<output  location="111,145"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="serachlabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63596691005847221565" label="aaaa">        	</output>
+    </group>
+    
+       <grid  rownum="10" unikey="63596743920204749721" id="grid1" dataset="S3" border="1" width="670" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="84,280"  size="670,271"  readonly="false"  statusvisible="true"  allowdelete="false"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  oncellselect="grid1_OnCellSelect(this);" >
+        <heads>
+          <row height="23">
+          <head title="사원 ID" text-align="center" > </head>
+          <head title="나이" text-align="center" > </head>
+          <head title="이름" text-align="center" > </head>
+          <head title="EMAIL" text-align="center" > </head>
+          <head title="UPDATEDATE" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="EMPLOYEEID" dataset="S3" columnid="EMPLOYEEID" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="AGE" dataset="S3" columnid="AGE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="PopUp"  imagepath="" popupOnclick="AGE_POPUP_cellonclick_grid1" text-align="center" >        <events></events>          </column>
+          <column  id="NAME" dataset="S3" columnid="NAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="EMAIL" dataset="S3" columnid="EMAIL" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="UPDATEDATE" dataset="S3" columnid="UPDATEDATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+        	<href  location="942,297"  size="96,21"  font-family="굴림체" font-size="9.75" visible="True" inputstyle=" border-width:1px; background-color:White; border-color:Black; color:Black;" id="href1" bindcolumn=""  binddataset=""  unikey="63596698536203933306" href="#" target="_self">    </href>
+
+        	<href  location="872,338"  size="96,21"  font-family="굴림체" font-size="9.75" visible="True" inputstyle=" border-width:0px; background-color:White; border-color:Black; color:Black;" id="href2" bindcolumn=""  binddataset=""  unikey="63596698539442118518" href="#" target="_self">    </href>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="81,567"  size="688,141"  unikey="63596690938367361932" style="" visible="True" >  
+    </group>
+    </div>
+</body>
+</html>

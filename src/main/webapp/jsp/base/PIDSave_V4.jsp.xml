@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>PID 번호 지정</title>
+        <script><![CDATA[ 
+        $(document).ready(function() {
+              
+             
+              
+              });
+        
+        function button3_OnClick(myObj)
+        {
+        
+        /***** 
+        등록값이 널일 경우 체크 로직 추가해야함. Are you sure you want to Save?
+        *****/
+        	if($("#S_PID_STATUS_CD").val() == "Z"){
+        	Return_RTN_MSG("00004" ,"PID Status","S_PID_STATUS_CD");
+        	return;
+        	}
+        	if($("#S_RD_CATEGORY_CD").val() == "Z"){
+        	Return_RTN_MSG("00004" ,"R&D Category","S_RD_CATEGORY_CD");
+        	return;
+        	}
+        	if($("#S_RD_THEME").val() == ""){
+        	Return_RTN_MSG("00003" ,"R&D Theme","S_RD_THEME");
+        	return;
+        	}
+        	if($("#S_ITEM_NAME").val() == ""){
+        	Return_RTN_MSG("00003" ,"Product","S_ITEM_NAME");
+        	return;
+        	}
+        	if($("#S_NICKNAME").val() == ""){
+        	Return_RTN_MSG("00003" ,"Nickname (For Diplay)","S_NICKNAME");
+        	return;
+        	}
+        	if($("#S_NICKNAME_EXCL").val() == ""){
+        	Return_RTN_MSG("00003" ,"Nickname (For Outside)","S_NICKNAME_EXCL");
+        	return;
+        	}
+        	if($("#S_OWNER_ORG_CD").val() == "Z"){
+        	Return_RTN_MSG("00004" ,"Owner Department","S_OWNER_ORG_CD");
+        	return;
+        	}
+        	
+        	if(confirm(confirm_MSG("00001"))){
+        	
+        
+        		
+        	//PIDAdd.submit(false,"complete_save");
+        	complete_save();
+        	}
+        
+        
+        
+        }
+        
+        function complete_save(){
+        
+         //Return_RTN_MSG("00001");
+        
+        
+          // FormSubmit("frm" , "/hpms/hpms.do?SYSID=HPMS&amp;amp;amp;amp;MENUID=2016082417883&amp;amp;amp;amp;EVENTID=CompletePage&amp;amp;amp;amp;PID="+PID , "" ,"frm",false); 
+          var param = ""
+              param += "?S_PID_STATUS_CD="+$("#S_PID_STATUS_CD").val()+"&S_RD_CATEGORY_CD="+$("#S_RD_CATEGORY_CD").val()+"&S_RD_THEME="+$("#S_RD_THEME").val();
+              param +="&S_ITEM_NAME="+$("#S_ITEM_NAME").val()+"&S_NICKNAME="+$("#S_NICKNAME").val()+"&S_NICKNAME_EXCL="+$("#S_NICKNAME_EXCL").val()+"&S_OWNER_ORG_CD="+$("#S_OWNER_ORG_CD").val()+"&S_REGIST_ORG_CD="+$("#S_REGIST_ORG_CD").val();
+          var url = "/hpms/2016082417883PidInfoMgr_CompletePage.do"+param;
+        	 
+        	   $("#mypage").attr("src",url);
+        	   $("#mypage").attr("frameborder", 0);
+        	   $("#divPopup_mypage").dialog({
+        			autoPoen:false,
+        			height : 400,
+        			//position:[50,300],
+        			width:530,
+        			modal: true, 
+        			title: "PID Save Result",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 
+                 reset();
+        		//	window.location.reload();
+        			// iframe 초기화.
+               $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+        	   $("#divPopup_mypage").dialog("open"); 
+           	
+        }
+        function dialogClose_MYPAGE(){ //팝업종료및 
+        
+        	$("#divPopup_mypage").dialog("close");
+        	//웹페이지 캐쉬 찾고캐쉬 있으면 그걸로 리로드 없으면 그냥 리로드드
+        	//window.location.reload(true);
+        	reset();
+        }
+        
+        function reset(){
+          $('#S_PID_STATUS_CD').val("Z");
+          $('#S_RD_CATEGORY_CD').val("Z");
+          $('#S_RD_THEME').val("");
+        	 $('#S_ITEM_NAME').val("");
+        	 $('#S_NICKNAME').val("");
+        	 $('#S_NICKNAME_EXCL').val("");
+        	 $('#S_OWNER_ORG_CD').val("Z");
+         
+          
+        
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  PID=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  OWNER_ORG_CD=""  REGIST_ORG_CD=""  NICKNAME=""  NICKNAME_EXCL=""   />
+                        </S>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C>
+                        <G1 dateformat="" >
+                            <row  PID=""  PID_STATUS_NM=""  RND_CATEGROY_NM=""  RND_THEME=""  PRODUCT_CD=""  NICKNAME_1=""  REG_DEPT_CD=""  OWNER_DEPT_NM=""   />
+                        </G1>
+                        <init>
+                            <S>
+                                <row  PID=""  PID_STATUS_CD=""  RD_CATEGORY_CD=""  RD_THEME=""  ITEM_NAME=""  OWNER_ORG_CD=""  REGIST_ORG_CD=""  NICKNAME=""  NICKNAME_EXCL=""   />
+                            </S>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C>
+                            <G1>
+                                <row  PID=""  PID_STATUS_NM=""  RND_CATEGROY_NM=""  RND_THEME=""  PRODUCT_CD=""  NICKNAME_1=""  REG_DEPT_CD=""  OWNER_DEPT_NM=""   />
+                            </G1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_PID_STATUS_CD:SEL2,S_RD_CATEGORY_CD:SEL4,S_OWNER_ORG_CD:SEL6" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_CommonCombo.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="40. 공통코드 관리" eventname="02 공통 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607733207978016913" label="Pid Numbering">    	</output>
+
+    <layout  inputstyle="background-color:White;border-width:0px;border-style:solid;border-color:Black;" id="layout1" name="layout1"  location="29,94"  size="340,180"  unikey="63607733242447988519" style="" visible="True" columnsize="2" rowsize="8" equalsheight="True" equalswidth="False" >  
+    	<column  width="157" align="Center_Right" bgcolor="White" columnIndex="0" dockfull="True" classname="">
+    	</column>
+    	<column  width="157" align="Center_Right" bgcolor="White" columnIndex="1" dockfull="True" classname="">
+    	</column>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,94" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="0" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,94" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="0" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,116" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="1" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,116" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="1" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,138" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="2" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,138" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="2" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,160" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="3" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,160" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="3" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,182" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="4" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,182" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="4" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,204" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="5" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,204" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="5" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,226" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="6" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,226" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="6" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="29,248" size="157,22" rowspan="1" colspan="1" xpoint="0" ypoint="7" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="186,248" size="183,22" rowspan="1" colspan="1" xpoint="1" ypoint="7" dockfull="True">
+    		</cell>
+    	</row>
+    	<child>
+                	<output  location="32,97"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63607733334534255548" label="PID">        	</output>
+                	<output  location="189,97"  size="177,16"  font-family="굴림체" font-weight="bold" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63608944275796400780" label="Automatic Numbering">        	</output>
+                	<combo  location="189,119"  size="177,16"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:177px; height:16px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_PID_STATUS_CD" bindcolumn="PID_STATUS_CD"  binddataset="S"  unikey="63607736959499591749" bind="S_PID_STATUS_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="32,119"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63607733374661550767" label="PID Status">        	</output>
+                	<combo  location="189,141"  size="177,16"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:177px; height:16px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_RD_CATEGORY_CD" bindcolumn="RD_CATEGORY_CD"  binddataset="S"  unikey="63607736962316752863" bind="S_RD_CATEGORY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="32,141"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63607733391125492476" label="R&amp;D Category">        	</output>
+                	<textbox  location="189,163"  size="177,16"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_RD_THEME" bindcolumn="RD_THEME"  binddataset="S"  unikey="63607736966870013379" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="80" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="32,163"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63607733410245586082" label="R&amp;D Theme">        	</output>
+                	<textbox  location="189,185"  size="177,16"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_ITEM_NAME" bindcolumn="ITEM_NAME"  binddataset="S"  unikey="63607736968564110297" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="30" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="32,185"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63607733430004716195" label="Product">        	</output>
+                	<textbox  location="189,207"  size="177,16"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_NICKNAME" bindcolumn="NICKNAME"  binddataset="S"  unikey="63607736969940188917" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="32,207"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label7" bindcolumn=""  binddataset=""  unikey="63607733442437427210" label="Nickname (For Diplay)">        	</output>
+                	<textbox  location="189,229"  size="177,16"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_NICKNAME_EXCL" bindcolumn="NICKNAME_EXCL"  binddataset="S"  unikey="63607736971500278139" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="32,229"  size="151,16"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63607733462916598635" label="Nickname (For Outside)">        	</output>
+    	</child>
+    </layout>
+        	<userobject  location="648,176"  size="100,100"  inputstyle="width:100px; height:100px; border-width:0px; background-color:Transparent; color:Black; border-color:Black; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63608341980174468164" value="" navindex="0"  ><![CDATA[ 
+<div id="divPopup_mypage" name="divPopup_mypage" style="display:none;background-color:white;">
+	<iframe id="mypage" name="mypage" style="width:500px;height:330px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<output  location="31,278"  size="156,23"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63607733489397113263" label="Owner Department">    	</output>
+
+        	<combo  location="187,279"  size="180,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:180px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_OWNER_ORG_CD" bindcolumn="OWNER_ORG_CD"  binddataset="S"  unikey="63607736977164602162" bind="S_OWNER_ORG_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+    	</combo>
+
+        	<textbox  location="187,303"  size="180,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_REGIST_ORG_CD" bindcolumn="REGIST_ORG_CD"  binddataset="S"  unikey="63608333716531814879" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="30,303"  size="156,23"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:CornflowerBlue; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63608333679771712227" label="Registrar Department">    	</output>
+
+        	<button  location="305,334"  size="62,22"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63607739275756074019" visible="True" value="Save" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+    </div>
+</body>
+</html>

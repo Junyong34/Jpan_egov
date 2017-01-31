@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+  <settings enhancementEnabled="true" useStatementNamespaces="true" />
+  <sqlMap resource="sqlmap/sql/hpms/base/PidInfoMgr.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/PidListMgr.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/SubPidInfoMgr.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/ForecastInfoMgr.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/ProjectAllocationRate.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/PLSheetOutput.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/ManagementComprehensive.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/MasterInOut.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/DetailDataExp.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/CostInput.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/DcpInfoMgr.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/BatchControl.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/PlanMgr.xml" />
+  <sqlMap resource="sqlmap/sql/hpms/base/WorkDataInput.xml" />
+</sqlMapConfig>
+

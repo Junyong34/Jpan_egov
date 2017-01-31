@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>sub_PID Result</title>
+        <script><![CDATA[ 
+        $(document).ready(function(){ 
+             isloadingCheck =true;
+              if("$(MESSAGE}" == "00009")Return_RTN_MSG("00009");
+              $("#OWNER_COMPANY").val(wizutil.DecodeData( getParamdata('OWNER_COMPANY')));
+              $("#OWNER_ORG").val( wizutil.DecodeData(getParamdata('OWNER_ORG')));
+              $("#REG_COMPANY").val( wizutil.DecodeData(getParamdata('REG_COMPANY')));
+              $("#REG_ORG").val(wizutil.DecodeData( getParamdata('REG_ORG')));
+                 $("#S1_SUB_PID").val($("#S_SUB_PID").val());
+                $("#button1").click();
+               if(getParamdata('REG_COMPANY') != undefined){
+                //  Return_RTN_MSG("00001");
+                  }
+        }); 
+        
+        
+        function button3_OnClick(myObj)
+        {
+        	parent.dialogClose_subpid();
+        }
+        
+        function button1_OnClick(myObj)
+        {
+        isloadingCheck = true;
+        Result_search.submit(false);
+        }
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  PID=""  SUB_PID=""  APPLICATION=""  OWNER_ORG_CD=""  NOTE=""  REGIST_ORG_CD=""  RD_THEME=""  RD_CATEGROY_NM=""   />
+                        </S>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C>
+                        <S1 dateformat="" >
+                                <row  SUB_PID=""   />
+                        </S1>
+                        <init>
+                            <S>
+                                <row  PID=""  SUB_PID=""  APPLICATION=""  OWNER_ORG_CD=""  NOTE=""  REGIST_ORG_CD=""  RD_THEME=""  RD_CATEGROY_NM=""   />
+                            </S>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C>
+                            <S1>
+                                <row  SUB_PID=""   />
+                            </S1>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="20160912111171" eventid="Result_loadPage" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_subPID_Ret" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111171SubPidInfoMgr_Sub_PIDSearch.do" encoding="UTF-8" confirm="" menuid="20160912111171" eventid="Sub_PIDSearch" menuname="12. Sub_PID 관리" eventname="01. subpid 조회" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Result_search" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="S:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111171SubPidInfoMgr_Result_loadPage.do" encoding="UTF-8" confirm="" menuid="20160912111171" eventid="Result_loadPage" menuname="11. Sub_PID  Numbering" eventname="15. Result_loadPage" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="15.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607733207978016913" label="SubPID Nubering Result">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="45,80"  size="353,281"  unikey="63610150330700284617" style="" visible="True" >  
+                	<output  location="67,101"  size="131,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63607733374661550767" label="SUB_PID">        	</output>
+                	<textbox  location="200,101"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_SUB_PID" bindcolumn="SUB_PID"  binddataset="S"  unikey="63608407429601738296" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" value="${SEL2.SUB_PID}" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="67,124"  size="131,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63607733334534255548" label="PID">        	</output>
+                	<textbox  location="200,124"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63608407433327951320" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" value="${SEL2.PID}" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="67,147"  size="131,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63607733489397113263" label="R&amp;D Theme">        	</output>
+                	<textbox  location="200,147"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_RND_THEME" bindcolumn="RND_THEME"  binddataset="S"  unikey="63608407436496132548" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" value="${SEL2.RD_THEME}" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="200,170"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_APPLICATION" bindcolumn="APPLICATION"  binddataset="S"  unikey="63608407440000332980" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" value="${SEL2.APPLICATION}" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="67,170"  size="131,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63608424910822606830" label="Purpose">        	</output>
+                	<textbox  location="200,217"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="OWNER_COMPANY" bindcolumn=""  binddataset="S"  unikey="63608424183768021792" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="66,221"  size="131,36"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63608407399695027641" label="Owner Department">        	</output>
+                	<textbox  location="200,240"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="OWNER_ORG" bindcolumn=""  binddataset=""  unikey="63610682132361858779" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="200,268"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="REG_COMPANY" bindcolumn=""  binddataset="S"  unikey="63608407444159570833" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="67,272"  size="131,36"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63608407405624366758" label="Registrar Department">        	</output>
+                	<button  location="55,290"  size="8,12"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:0px; background-color:Transparent; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63613863200092004058" visible="True" value="" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+                	<textbox  location="200,291"  size="179,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="REG_ORG" bindcolumn=""  binddataset=""  unikey="63610682151313942708" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="85,322"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_SUB_PID" bindcolumn="SUB_PID"  binddataset="S1"  unikey="63613863201299073186" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<button  location="311,323"  size="62,22"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63607739275756074019" visible="True" value="Close" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+    </group>
+    </div>
+</body>
+</html>

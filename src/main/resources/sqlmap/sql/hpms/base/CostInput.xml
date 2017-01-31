@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CostInput_20160901101142">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID00_SEL33">select LOG_SEQ.nextval LOG_SEQ FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ServiceID00_SEL17">SELECT   Z01.PID_CNT 
+       , Z05.HPMS_ID_CNT 
+       , Z07.ITEM_NAME_CNT 
+       , Z08.CURRENCY_CNT 
+FROM 
+( 
+  SELECT COUNT(PID)  PID_CNT 
+  FROM HP1DM01T 
+  WHERE PID=#PID# 
+) Z01,  
+( 
+  SELECT COUNT(*) HPMS_ID_CNT      
+  FROM  HP1DM04T 
+  WHERE HPMS_ID =#HPMS_ID# 
+) Z05, 
+( 
+  SELECT COUNT(*)  ITEM_NAME_CNT 
+  FROM HP1DM10T 
+  WHERE ITEM_NAME =#ITEM_NAME# 
+) Z07, 
+( 
+  SELECT COUNT(*) CURRENCY_CNT 
+  FROM HP1DM30T 
+  WHERE COMPANY_CD =#USE_COMPANY_CD# 
+  AND   YYYYMM=#YYYYMM# 
+  AND   CURRENCY_CD=#UNIT# 
+) 
+Z08</select>
+  <update parameterClass="java.util.HashMap" id="ServiceID00_UNI38_UPD">Update HP_DBA01.HP2DM11W  set  LOG_SEQ=#LOG_SEQ#  , VAL=#VAL#  , UNIT=#UNIT#  , ERR_MSG=#ERR_MSG#  , UPDATE_TIME=SYSDATE , ERR_FLAG=#ERR_FLAG#  , UPLOAD_FILE_NAME=#UPLOAD_FILE_NAME#  where PROCESSING_FLAG=#PROCESSING_FLAG#  and USER_ID=#USER_ID#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and APPLICATION=#APPLICATION#  and HPMS_ID=#HPMS_ID#  and DATA_TYPE=#DATA_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="ServiceID00_UNI38_INS">Insert into HP_DBA01.HP2DM11W (LOG_SEQ, VAL, UNIT, PROCESSING_FLAG, ERR_MSG, USER_ID, PID, YYYYMM, ITEM_NAME, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, DATA_TYPE, UPLOAD_FILE_NAME)  values(#LOG_SEQ# , #VAL# , #UNIT# , #PROCESSING_FLAG# , #ERR_MSG# , #USER_ID# , #PID# , #YYYYMM# , #ITEM_NAME# , #APPLICATION# , #HPMS_ID# , SYSDATE, #ERR_FLAG# , #DATA_TYPE# , #UPLOAD_FILE_NAME# )</insert>
+  <delete parameterClass="java.util.HashMap" id="ServiceID00_DEL29">Delete from HP_DBA01.HP2DM11T  where PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and APPLICATION=#APPLICATION#  and HPMS_ID=#HPMS_ID#  and DATA_TYPE=#DATA_TYPE#</delete>
+  <insert parameterClass="java.util.HashMap" id="ServiceID00_INS31">Insert into HP_DBA01.HP2DM11T (VAL, UNIT, PID, YYYYMM, ITEM_NAME, APPLICATION, HPMS_ID, DATA_TYPE)  values(#VAL# , #UNIT# , #PID# , #YYYYMM# , #ITEM_NAME# , #APPLICATION# , #HPMS_ID# , #DATA_TYPE# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Condition_Combo_SEL2">SELECT HP1M105T.CD AS ITEM_CD ,  HP1M105T.CD AS ITEM_NM 
+ FROM HP1M105T 
+ WHERE HP1M105T.CD_TYPE='COST_INPUT'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL1">SELECT                                                                                                                                                                                                     
+    ERR_FLAG          
+   , ERR_MSG           
+   , DATA_TYPE         
+   , PID               
+   , HPMS_ID           
+   , APPLICATION       
+   , ITEM_NAME                                                                                                                  
+   , UPLOAD_FILE_NAME                                                                                                
+FROM                                                                                                            
+(                                                                                                               
+  SELECT                                                                                                        
+    '0' FLAG                                                                                                    
+     , 'ERR_FLAG'          ERR_FLAG          
+     , 'ERR_MSG'           ERR_MSG           
+     , 'DATA_TYPE'         DATA_TYPE         
+     , 'PID'               PID               
+     , 'HPMS_ID'           HPMS_ID           
+     , 'APPLICATION'       APPLICATION       
+     , 'ITEM_NAME'         ITEM_NAME                      
+     , 'UPLOAD_FILE_NAME'  UPLOAD_FILE_NAME                                                                     
+  FROM DUAL                                                                                                     
+  UNION ALL                                                                                                     
+  SELECT      DISTINCT                                                                                             
+     '1' FLAG                                                                                                    
+     , TO_CHAR(ERR_FLAG) ERR_FLAG          
+     , ERR_MSG           
+     , DATA_TYPE         
+     , PID               
+     , HPMS_ID           
+     , APPLICATION       
+     , ITEM_NAME                                                                                                                           
+     , UPLOAD_FILE_NAME                                                                                           
+  FROM  HP2DM11W                                                                                         
+  WHERE LOG_SEQ =#LOG_SEQ#                                                                                       
+)                                                                                                               
+ORDER BY FLAG, ERR_MSG, ERR_FLAG, DATA_TYPE, PID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="errorConfirm_SEL5">SELECT  TO_CHAR(SYSDATE,'yyyy-mm-dd hh24.mi.ss') AS CDATE FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="csvdownload_SEL1">SELECT DATA_TYPE, 
+         PID, 
+         HPMS_ID, 
+         HPMS_ID_NM_JP, 
+          APPLICATION, 
+          ITEM_NAME, 
+         YYYYMM, 
+         UNIT, 
+         VAL 
+ FROM ( 
+    SELECT '0' ORD, 
+                 'DATA TYPE' DATA_TYPE, 
+                  'PID' PID, 
+                 'HPMS_ID' HPMS_ID, 
+                 'HPMS_NM' HPMS_ID_NM_JP, 
+                 'APPLICATION' APPLICATION, 
+                 'ITEM_NAME' ITEM_NAME, 
+                 'YYYYMM' YYYYMM, 
+                 'UNIT' UNIT, 
+                 'VALUE' VAL    
+            FROM DUAL 
+          UNION 
+          SELECT '1' ORD, 
+                 DATA_TYPE, 
+                 PID, 
+                 HPMS_ID, 
+                 (SELECT HPMS_ID_NM_JP      FROM HP1DM04T    WHERE HPMS_ID = A.HPMS_ID)  HPMS_ID_NM_JP, 
+                  APPLICATION, 
+                 ITEM_NAME, 
+                 YYYYMM, 
+                 UNIT, 
+                 TO_CHAR (VAL) VAL 
+            FROM HP2DM11T A 
+           WHERE DATA_TYPE = #DATA_TYPE#) 
+ORDER BY ORD, DATA_TYPE, HPMS_ID,YYYYMM,UNIT</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="csvdownload_SEL5">SELECT  TO_CHAR(SYSDATE,'yyyy-mm-dd hh24.mi.ss') AS CDATE FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CostUpload_SEL33">select LOG_SEQ.nextval LOG_SEQ FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CostUpload_SEL17">SELECT    ( Z01_1.PID_CNT +Z01_2.PID_CNT) AS PID_CNT 
+        , Z05.HPMS_ID_CNT 
+        , Z07.ITEM_NAME_CNT 
+       
+FROM 
+( 
+  SELECT COUNT(PID)  PID_CNT 
+  FROM HP1DM01T 
+  WHERE PID=#PID# 
+) Z01_1 
+, 
+( 
+ SELECT COUNT (*) PID_CNT FROM HP1M105T WHERE CD_TYPE = 'NO_PID'AND CD = #PID# 
+) Z01_2 
+, 
+( 
+  SELECT COUNT(*) HPMS_ID_CNT      
+  FROM  HP1DM04T 
+  WHERE HPMS_ID =#HPMS_ID# 
+) Z05, 
+( 
+  SELECT COUNT(*)  ITEM_NAME_CNT 
+  FROM HP1DM10T 
+  WHERE ITEM_NAME =#ITEM_NAME# 
+) Z07</select>
+  <update parameterClass="java.util.HashMap" id="CostUpload_UNI38_UPD">Update HP_DBA01.HP2DM11W  set  LOG_SEQ=#LOG_SEQ#  , VAL=#VAL#  , UNIT=#UNIT#  , ERR_MSG=#ERR_MSG#  , UPDATE_TIME=SYSDATE , ERR_FLAG=#ERR_FLAG#  , UPLOAD_FILE_NAME=#UPLOAD_FILE_NAME#  where PROCESSING_FLAG=#PROCESSING_FLAG#  and USER_ID=#USER_ID#  and PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and APPLICATION=#APPLICATION#  and HPMS_ID=#HPMS_ID#  and DATA_TYPE=#DATA_TYPE#</update>
+  <insert parameterClass="java.util.HashMap" id="CostUpload_UNI38_INS">Insert into HP_DBA01.HP2DM11W (LOG_SEQ, VAL, UNIT, PROCESSING_FLAG, ERR_MSG, USER_ID, PID, YYYYMM, ITEM_NAME, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, DATA_TYPE, UPLOAD_FILE_NAME)  values(#LOG_SEQ# , #VAL# , #UNIT# , #PROCESSING_FLAG# , #ERR_MSG# , #USER_ID# , #PID# , #YYYYMM# , #ITEM_NAME# , #APPLICATION# , #HPMS_ID# , SYSDATE, #ERR_FLAG# , #DATA_TYPE# , #UPLOAD_FILE_NAME# )</insert>
+  <delete parameterClass="java.util.HashMap" id="CostUpload_DEL29">Delete from HP_DBA01.HP2DM11T  where PID=#PID#  and YYYYMM=#YYYYMM#  and ITEM_NAME=#ITEM_NAME#  and APPLICATION=#APPLICATION#  and HPMS_ID=#HPMS_ID#  and DATA_TYPE=#DATA_TYPE#</delete>
+  <insert parameterClass="java.util.HashMap" id="CostUpload_INS31">Insert into HP_DBA01.HP2DM11T (VAL, UNIT, PID, YYYYMM, ITEM_NAME, APPLICATION, HPMS_ID, DATA_TYPE)  values(#VAL# , #UNIT# , #PID# , #YYYYMM# , #ITEM_NAME# , #APPLICATION# , #HPMS_ID# , #DATA_TYPE# )</insert>
+</sqlMap>
+

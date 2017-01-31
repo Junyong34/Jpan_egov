@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+<ResourceLink 
+            name="HPMS"
+            global="jdbc/HPMSDB"
+            type="javax.sql.DataSource"
+          />      
+          <ResourceLink 
+            name="HPMSCTL"
+            global="jdbc/ctldb"
+            type="javax.sql.DataSource"
+          />      
+</Context>

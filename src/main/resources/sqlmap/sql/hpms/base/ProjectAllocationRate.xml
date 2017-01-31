@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProjectAllocationRate_20160901091141">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="RateDownload_SEL1">SELECT  'PID' PID,'Theme' PID_Theme, 'Section' USE_SECTION_CD ,'Rate' RATE  FROM DUAL 
+UNION ALL 
+select 'P00001' PID, 'A THEME'  PID_Theme, 'PART01' USE_SECTION_CD , TO_CHAR(20) RATE 
+FROM dual</select>
+</sqlMap>
+

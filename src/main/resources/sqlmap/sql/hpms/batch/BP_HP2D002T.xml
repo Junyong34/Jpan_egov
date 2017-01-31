@@ -1,0 +1,1102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BP_HP2D002T_20160930162723">
+  <delete parameterClass="java.util.HashMap" id="BP_HP2D002T_XIUD16">DELETE FROM HP2D002T 
+WHERE (1=1) 
+AND VAL_TYPE = 0 
+AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%'</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_SEL3">
+    SELECT 
+          DATA_TYPE                 AS DATA_TYPE 
+        , PID                       AS PID 
+        , USE_COMPANY_CD            AS USE_COMPANY_CD 
+        , USE_ORG_CD                AS USE_ORG_CD 
+        , REQ_COMPANY_CD            AS REQ_COMPANY_CD 
+        , REQ_ORG_CD                AS REQ_ORG_CD 
+        , '#'                       AS SRC_COMPANY_CD 
+        , '#'                       AS SRC_ORG_CD 
+        , '#'                       AS DST_COMPANY_CD 
+        , '#'                       AS DST_ORG_CD 
+        , HPMS_ID                   AS HPMS_ID 
+        , INVEST_TYPE_CD            AS INVEST_TYPE_CD 
+        , APPLICATION               AS APPLICATION 
+        , ITEM_NAME                 AS ITEM_NAME 
+        , CUSTOMER_CD               AS CUSTOMER_CD 
+        , YYYYMM                    AS YYYYMM 
+        , UNIT                      AS UNIT 
+        , VAL                       AS VAL 
+        , F_GET_CURRENCY_TRANS('PLAN', USE_COMPANY_CD, UNIT, YYYYMM, VAL, '2U') AS UNIT2 
+        , decode(UNIT, '', VAL, nvl(TO_NUMBER(F_GET_CURRENCY_TRANS('PLAN', USE_COMPANY_CD, UNIT, YYYYMM, VAL, '2V')),0)) AS VAL2 
+        , F_GET_CURRENCY_TRANS('PLAN', USE_COMPANY_CD, UNIT, YYYYMM, VAL, '3U') AS UNIT3 
+        , decode(UNIT, '', VAL, nvl(TO_NUMBER(F_GET_CURRENCY_TRANS('PLAN', USE_COMPANY_CD, UNIT, YYYYMM, VAL, '3V')),0)) AS VAL3 
+        , 0                         AS VAL_TYPE 
+        , 'BP_HP2D002T'             AS UPDATE_USER_ID 
+        , UPLOAD_FILE_NAME          AS UPLOAD_FILE_NAME 
+        , TO_CHAR(NULL)             AS CALC_MST_VER 
+        
+FROM 
+        HP2D001T 
+WHERE 
+        (1=1)
+    <dynamic>
+      <isNotEmpty property="DATA_TYPE">AND DATA_TYPE = #DATA_TYPE#</isNotEmpty>
+    </dynamic>
+    AND   YYYYMM &gt; F_GET_CONFIRM_YYYYMM()
+  </select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_INS14">Insert into HP_DBA01.HP2D002T (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <delete parameterClass="java.util.HashMap" id="BP_HP2D002T_DPR_XIUD2">DELETE FROM HP2D002T 
+WHERE VAL_TYPE = 20 
+AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%'</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL3">
+    SELECT 
+                DATA_TYPE 
+              , PID 
+              , USE_COMPANY_CD 
+              , USE_ORG_CD 
+              , REQ_COMPANY_CD 
+              , REQ_ORG_CD 
+              , SRC_COMPANY_CD 
+              , SRC_ORG_CD 
+              , DST_COMPANY_CD 
+              , DST_ORG_CD 
+              , HPMS_ID 
+              , INVEST_TYPE_CD 
+              , APPLICATION 
+              , ITEM_NAME 
+              , CUSTOMER_CD 
+              , YYYYMM 
+              , UNIT 
+              , VAL 
+              , UNIT2 
+              , VAL2 
+              , UNIT3 
+              , VAL3 
+              , VAL_TYPE 
+              , CALC_MST_VER 
+              , 'IV' AS GBN 
+  FROM HP2D002T 
+ WHERE VAL_TYPE = 0 
+   AND VAL &gt; 0  
+   AND HPMS_ID IN ( SELECT SRC_HPMS_ID FROM HP1DM08T WHERE CALC_TYPE = 20) 
+   AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()
+    <dynamic>
+      <isNotEmpty property="DATA_TYPE">AND DATA_TYPE = #DATA_TYPE#</isNotEmpty>
+    </dynamic>
+    UNION ALL 
+ 
+SELECT 
+                DATA_TYPE 
+              , PID 
+              , USE_COMPANY_CD 
+              , USE_ORG_CD 
+              , REQ_COMPANY_CD 
+              , REQ_ORG_CD 
+              , SRC_COMPANY_CD 
+              , SRC_ORG_CD 
+              , DST_COMPANY_CD 
+              , DST_ORG_CD 
+              , HPMS_ID 
+              , INVEST_TYPE_CD 
+              , APPLICATION 
+              , ITEM_NAME 
+              , CUSTOMER_CD 
+              , YYYYMM 
+              , UNIT 
+              , VAL 
+              , UNIT2 
+              , VAL2 
+              , UNIT3 
+              , VAL3 
+              , VAL_TYPE 
+              , CALC_MST_VER 
+              , 'RD' AS GBN 
+  FROM HP2D002T 
+WHERE  VAL_TYPE = 0 
+    AND HPMS_ID IN ( SELECT DISTINCT RD_HPMS_ID FROM HP1DM08T WHERE CALC_TYPE = 20) 
+    AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()
+    <dynamic>
+      <isNotEmpty property="DATA_TYPE">AND DATA_TYPE = #DATA_TYPE#</isNotEmpty>
+    </dynamic>
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL4">SELECT 
+          INVEST_TYPE_CD 
+        , INVEST_TYPE_NM 
+        , DEPRECIATION_MONTHS 
+FROM 
+        HP1DM07T 
+WHERE 
+        INVEST_TYPE_CD = #INVEST_TYPE_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL11">SELECT 
+          PID 
+        , DCP_TYPE 
+        , APPROVAL_YYYYMMDD 
+        , SUBSTR(M_DCP_PLAN_YYYYMMDD, 1, 6) AS M_DCP_PLAN_YYYYMM 
+FROM 
+        HP1D001T_TZ 
+WHERE 
+        PID = #PID# 
+   AND APPROVAL_YYYYMMDD||TO_CHAR(REGIST_TIME, 'YYYYMMDDHH24MISS') 
+          = ( SELECT MAX(APPROVAL_YYYYMMDD||TO_CHAR(REGIST_TIME, 'YYYYMMDDHH24MISS')) 
+               FROM HP1D001T_TZ 
+              WHERE PID = #PID# 
+              GROUP BY PID 
+            ) 
+   AND ROWNUM = 1</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL5">SELECT 
+          PID 
+        , DCP_TYPE 
+        , APPROVAL_YYYYMMDD 
+        , SUBSTR(M_DCP_PLAN_YYYYMMDD, 1, 6) AS M_DCP_PLAN_YYYYMM 
+FROM 
+        HP1D001T_TZ 
+WHERE 
+        PID = #PID# 
+   AND APPROVAL_YYYYMMDD||TO_CHAR(REGIST_TIME, 'YYYYMMDDHH24MISS') 
+          = ( SELECT MAX(APPROVAL_YYYYMMDD||TO_CHAR(REGIST_TIME, 'YYYYMMDDHH24MISS')) 
+               FROM HP1D001T_TZ 
+              WHERE PID = #PID# 
+              GROUP BY PID 
+            ) 
+   AND ROWNUM = 1</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL21">SELECT 
+          COMPANY_CD 
+        , ORG_CD 
+        , COST_COMPANY_CD 
+        , COST_ORG_CD 
+FROM 
+        HP1DM03T 
+WHERE 
+        COMPANY_CD = #COMPANY_CD# 
+  AND   ORG_CD = #ORG_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL6">SELECT 
+          COMPANY_CD 
+        , ORG_CD 
+        , COST_COMPANY_CD 
+        , COST_ORG_CD 
+FROM 
+        HP1DM03T 
+WHERE 
+        COMPANY_CD = #COMPANY_CD# 
+  AND   ORG_CD = #ORG_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL20">SELECT 
+          Z.DATA_TYPE 
+        , Z.PID 
+        , Z.USE_COMPANY_CD          AS OLD_USE_COMPANY_CD 
+        , Z.USE_ORG_CD                  AS OLD_USE_ORG_CD 
+        , NVL(#COST_COMPANY_CD#, Z.USE_COMPANY_CD)       AS  USE_COMPANY_CD    
+        , NVL(#COST_ORG_CD#, Z.USE_ORG_CD)               AS  USE_ORG_CD       
+        , Z.REQ_COMPANY_CD 
+        , Z.REQ_ORG_CD 
+        , Z.SRC_COMPANY_CD            AS SRC_COMPANY_CD 
+        , Z.SRC_ORG_CD                AS SRC_ORG_CD 
+        , Z.DST_COMPANY_CD            AS DST_COMPANY_CD 
+        , Z.DST_ORG_CD                AS DST_ORG_CD   
+        , Z.HPMS_ID     AS OLD_HPMS_ID 
+        , H.MASS_HPMS_ID        AS  HPMS_ID      
+        , Z.INVEST_TYPE_CD 
+        , Z.APPLICATION 
+        , Z.ITEM_NAME 
+        , Z.CUSTOMER_CD 
+        , Z.YYYYMM               
+        , Z.UNIT 
+        , Z.VAL 
+        , Z.UNIT2 
+        , Z.VAL2 
+        , Z.UNIT3 
+        , Z.VAL3 
+        , 20                                                                            AS VAL_TYPE 
+        , Z.CALC_MST_VER 
+   FROM ( 
+            SELECT    #DATA_TYPE#         AS DATA_TYPE 
+                    , #PID#               AS PID 
+                    , #USE_COMPANY_CD#    AS USE_COMPANY_CD 
+                    , #USE_ORG_CD#        AS USE_ORG_CD 
+                    , #REQ_COMPANY_CD#    AS REQ_COMPANY_CD 
+                    , #REQ_ORG_CD#        AS REQ_ORG_CD 
+                    , #SRC_COMPANY_CD#    AS SRC_COMPANY_CD 
+                    , #SRC_ORG_CD#        AS SRC_ORG_CD 
+                    , #DST_COMPANY_CD#    AS DST_COMPANY_CD 
+                    , #DST_ORG_CD#        AS DST_ORG_CD 
+                    , #HPMS_ID#           AS HPMS_ID 
+                    , #INVEST_TYPE_CD#    AS INVEST_TYPE_CD 
+                    , #APPLICATION#       AS APPLICATION 
+                    , #ITEM_NAME#         AS ITEM_NAME 
+                    , #CUSTOMER_CD#       AS CUSTOMER_CD 
+                    , #YYYYMM#            AS YYYYMM 
+                    , #UNIT#              AS UNIT 
+                    , #VAL#               AS VAL 
+                    , #UNIT2#             AS UNIT2 
+                    , #VAL2#              AS VAL2 
+                    , #UNIT3#             AS UNIT3 
+                    , #VAL3#              AS VAL3 
+                    , #VAL_TYPE#          AS VAL_TYPE 
+                    , #CALC_MST_VER#      AS CALC_MST_VER 
+              FROM 
+                     DUAL 
+           ) Z 
+         , ( 
+            SELECT 
+                     SRC_HPMS_ID 
+                   , RD_HPMS_ID 
+                   , MASS_HPMS_ID 
+              FROM 
+                    HP1DM08T 
+             WHERE 
+                    RD_HPMS_ID = #HPMS_ID# 
+              AND ROWNUM = 1 
+          ) H</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_SEL10">SELECT 
+          Z.RNO 
+        , Z.DATA_TYPE 
+        , Z.PID 
+        , Z.USE_COMPANY_CD              AS OLD_USE_COMPANY_CD 
+        , Z.USE_ORG_CD                  AS OLD_USE_ORG_CD 
+        , CASE WHEN Z.DEPRECIATION_YYYYMM &gt;= NVL(#M_DCP_PLAN_YYYYMM#, '999912') 
+                    THEN NVL(#COST_COMPANY_CD#, Z.USE_COMPANY_CD)          
+                    ELSE  Z.USE_COMPANY_CD           
+          END                                                                      AS  USE_COMPANY_CD 
+        , CASE WHEN Z.DEPRECIATION_YYYYMM &gt;= NVL(#M_DCP_PLAN_YYYYMM#, '999912') 
+                    THEN NVL(#COST_ORG_CD#, Z.USE_ORG_CD)          
+                    ELSE Z.USE_ORG_CD             
+          END                                                                      AS  USE_ORG_CD 
+        , Z.REQ_COMPANY_CD 
+        , Z.REQ_ORG_CD 
+ 
+        , Z.SRC_COMPANY_CD            AS SRC_COMPANY_CD 
+        , Z.SRC_ORG_CD                AS SRC_ORG_CD 
+        , Z.DST_COMPANY_CD            AS DST_COMPANY_CD 
+        , Z.DST_ORG_CD                AS DST_ORG_CD   
+        , Z.HPMS_ID                                                                AS OLD_HPMS_ID 
+        , CASE WHEN Z.DEPRECIATION_YYYYMM &gt;= NVL(#M_DCP_PLAN_YYYYMM#, '999912') 
+                    THEN H.MASS_HPMS_ID          
+                    ELSE  H.RD_HPMS_ID           
+          END                                                                      AS  HPMS_ID 
+        , Z.INVEST_TYPE_CD 
+        , Z.APPLICATION 
+        , Z.ITEM_NAME 
+        , Z.CUSTOMER_CD 
+        , Z.YYYYMM                  AS OLD_YYYYMM 
+        , Z.DEPRECIATION_YYYYMM     AS YYYYMM 
+        , Z.UNIT 
+        , Z.VAL                     AS OLD_VAL 
+        , (Z.VAL / NVL(Z.DEPRECIATION_MONTHS,1)) AS VAL 
+        , Z.UNIT2 
+        , Z.VAL2                    AS OLD_VAL2 
+        , (Z.VAL2 / NVL(Z.DEPRECIATION_MONTHS,1)) AS VAL2 
+        , Z.UNIT3 
+        , Z.VAL3                    AS OLD_VAL3 
+        , (Z.VAL3 / NVL(Z.DEPRECIATION_MONTHS,1)) AS VAL3 
+        , 20                                                                       AS VAL_TYPE 
+        , Z.CALC_MST_VER 
+   FROM ( 
+            SELECT    Y.RNO              AS RNO 
+                    ,  #DATA_TYPE#         AS DATA_TYPE 
+                    , #PID#               AS PID 
+                    , #USE_COMPANY_CD#    AS USE_COMPANY_CD 
+                    , #USE_ORG_CD#        AS USE_ORG_CD 
+                    , #REQ_COMPANY_CD#    AS REQ_COMPANY_CD 
+                    , #REQ_ORG_CD#        AS REQ_ORG_CD 
+                    , #SRC_COMPANY_CD#    AS SRC_COMPANY_CD 
+                    , #SRC_ORG_CD#        AS SRC_ORG_CD 
+                    , #DST_COMPANY_CD#    AS DST_COMPANY_CD 
+                    , #DST_ORG_CD#        AS DST_ORG_CD 
+                    , #HPMS_ID#           AS HPMS_ID 
+                    , #INVEST_TYPE_CD#    AS INVEST_TYPE_CD 
+                    , #APPLICATION#       AS APPLICATION 
+                    , #ITEM_NAME#         AS ITEM_NAME 
+                    , #CUSTOMER_CD#       AS CUSTOMER_CD 
+                    , #YYYYMM#            AS YYYYMM 
+                    , #UNIT#              AS UNIT 
+                    , #VAL#               AS VAL 
+                    , #UNIT2#             AS UNIT2 
+                    , #VAL2#              AS VAL2 
+                    , #UNIT3#             AS UNIT3 
+                    , #VAL3#              AS VAL3 
+                    , #VAL_TYPE#          AS VAL_TYPE 
+                    , #CALC_MST_VER#      AS CALC_MST_VER 
+                    , TO_CHAR(ADD_MONTHS(TO_DATE(#YYYYMM#, 'YYYYMM'), Y.RNO - 1), 'YYYYMM') AS  DEPRECIATION_YYYYMM 
+                    , Y.DEPRECIATION_MONTHS 
+              FROM 
+                     DUAL 
+                 , (SELECT ROWNUM AS RNO, #DEPRECIATION_MONTHS# AS DEPRECIATION_MONTHS 
+                      FROM DUAL 
+                    CONNECT BY ROWNUM &lt;= #DEPRECIATION_MONTHS# 
+                   ) Y 
+             ORDER BY RNO 
+           ) Z 
+         , ( 
+            SELECT 
+                     SRC_HPMS_ID 
+                   , RD_HPMS_ID 
+                   , MASS_HPMS_ID 
+              FROM 
+                    HP1DM08T 
+             WHERE 
+                    SRC_HPMS_ID = #HPMS_ID# 
+          ) H</select>
+  <update parameterClass="java.util.HashMap" id="BP_HP2D002T_DPR_XIUD26">UPDATE HP2D002T 
+SET 
+    USE_COMPANY_CD = #USE_COMPANY_CD# 
+  , USE_ORG_CD     = #USE_ORG_CD# 
+  , HPMS_ID        = #HPMS_ID# 
+  , VAL_TYPE       = #VAL_TYPE# 
+  , UPDATE_TIME = SYSDATE 
+WHERE 
+        DATA_TYPE = #DATA_TYPE# 
+  AND   PID = #PID# 
+  AND   USE_COMPANY_CD = #OLD_USE_COMPANY_CD# 
+  AND   USE_ORG_CD     = #OLD_USE_ORG_CD# 
+  AND   REQ_COMPANY_CD = #REQ_COMPANY_CD# 
+  AND   REQ_ORG_CD     = #REQ_ORG_CD# 
+  AND   SRC_COMPANY_CD = #SRC_COMPANY_CD# 
+  AND   SRC_ORG_CD     = #SRC_ORG_CD# 
+  AND   DST_COMPANY_CD = #DST_COMPANY_CD# 
+  AND   DST_ORG_CD     = #DST_ORG_CD#  
+  AND   HPMS_ID        = #OLD_HPMS_ID#    
+  AND   INVEST_TYPE_CD = #INVEST_TYPE_CD#    
+  AND   APPLICATION    = #APPLICATION#    
+  AND   ITEM_NAME      = #ITEM_NAME#    
+  AND   CUSTOMER_CD    = #CUSTOMER_CD#    
+  AND   YYYYMM         = #YYYYMM#    
+  AND   VAL_TYPE = 0</update>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_DPR_INS13">Insert into HP_DBA01.HP2D002T (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_NEW_DRP2">SELECT 
+          DATA_TYPE         
+        , PID               
+        , USE_COMPANY_CD    
+        , USE_ORG_CD        
+        , REQ_COMPANY_CD    
+        , REQ_ORG_CD        
+        , SRC_COMPANY_CD    
+        , SRC_ORG_CD        
+        , DST_COMPANY_CD    
+        , DST_ORG_CD        
+        , HPMS_ID           
+        , INVEST_TYPE_CD    
+        , APPLICATION       
+        , ITEM_NAME         
+        , CUSTOMER_CD       
+        , YYYYMM            
+        , UNIT              
+        , VAL               
+        , UNIT2             
+        , VAL2              
+        , UNIT3             
+        , VAL3              
+        , VAL_TYPE          
+        , UPDATE_TIME       
+        , UPDATE_USER_ID    
+        , UPLOAD_FILE_NAME  
+        , CALC_MST_VER      
+FROM 
+        HP2D002T 
+WHERE 
+        DATA_TYPE = #DATA_TYPE# 
+    AND PID = #PID# 
+    AND VAL_TYPE = '20'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_DPR_NEW_DRP">SELECT 
+          DATA_TYPE         
+        , PID               
+        , USE_COMPANY_CD    
+        , USE_ORG_CD        
+        , REQ_COMPANY_CD    
+        , REQ_ORG_CD        
+        , SRC_COMPANY_CD    
+        , SRC_ORG_CD        
+        , DST_COMPANY_CD    
+        , DST_ORG_CD        
+        , HPMS_ID           
+        , INVEST_TYPE_CD    
+        , APPLICATION       
+        , ITEM_NAME         
+        , CUSTOMER_CD       
+        , YYYYMM            
+        , UNIT              
+        , VAL               
+        , UNIT2             
+        , VAL2              
+        , UNIT3             
+        , VAL3              
+        , VAL_TYPE          
+        , UPDATE_TIME       
+        , UPDATE_USER_ID    
+        , UPLOAD_FILE_NAME  
+        , CALC_MST_VER      
+FROM 
+        HP2D002T 
+WHERE 
+        DATA_TYPE = #DATA_TYPE# 
+    AND PID = #PID# 
+    AND VAL_TYPE = '20'</select>
+  <delete parameterClass="java.util.HashMap" id="BP_HP2D002T_CAL_XIUD1">DELETE FROM HP2D002T 
+WHERE VAL_TYPE = 10 
+AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%'</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_CAL_SEL2">SELECT 
+           SEQ 
+         , HPMS_GRP_ID 
+         , HPMS_ID 
+         , CALC_FUNC 
+         , CALC_COL1 
+         , CALC_COL2 
+FROM 
+            HP1M103T 
+WHERE 
+         (1=1) 
+ 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_CAL_SUM_SRC">SELECT 
+          DATA_TYPE, PID 
+        , USE_COMPANY_CD, USE_ORG_CD 
+        , HPMS_ID 
+        , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+        , YYYYMM 
+        , UNIT 
+        , VAL      
+        , UNIT2 
+        , VAL2 
+        , UNIT3 
+        , VAL3 
+FROM 
+      HP2D002T 
+WHERE 
+      HPMS_ID IN ( SELECT REGEXP_SUBSTR( REPLACE(#CALC_COL1#, ' ', ''), '[^,]+', 1, LEVEL) 
+                     FROM DUAL 
+                  CONNECT BY REGEXP_SUBSTR( REPLACE(#CALC_COL1#, ' ', ''), '[^,]+', 1, LEVEL) IS NOT NULL 
+                ) 
+   AND VAL_TYPE IN (0, 10, 20) 
+   AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%' 
+ 
+AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_CAL_OPR_SRC">
+    SELECT 
+        DATA_TYPE, PID 
+      , USE_COMPANY_CD, USE_ORG_CD 
+      , HPMS_ID 
+      , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+      , YYYYMM 
+      , UNIT 
+      , VAL      
+      , UNIT2 
+      , VAL2 
+      , UNIT3 
+      , VAL3 
+FROM 
+    HP2D002T 
+WHERE 
+    (HPMS_ID = #CALC_COL1# or HPMS_ID = #CALC_COL2#) 
+ AND VAL_TYPE IN (0, 10, 20) 
+ AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()
+    <dynamic>
+      <isNotEmpty property="DATA_TYPE">AND DATA_TYPE = #DATA_TYPE#</isNotEmpty>
+    </dynamic>
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_CAL_SEL9">SELECT 
+          DATA_TYPE, PID 
+        , USE_COMPANY_CD, USE_ORG_CD 
+        , REQ_COMPANY_CD, REQ_ORG_CD 
+        , '#' AS SRC_COMPANY_CD, '#' AS SRC_ORG_CD 
+        , '#' AS DST_COMPANY_CD, '#' AS DST_ORG_CD 
+        , #NEW_HPMS_ID# AS HPMS_ID 
+        , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+        , YYYYMM 
+        , MAX(UNIT)  AS UNIT , NVL(SUM(VAL), 0)  AS VAL 
+        , MAX(UNIT2) AS UNIT2, NVL(SUM(VAL2), 0) AS VAL2 
+        , MAX(UNIT3) AS UNIT3, NVL(SUM(VAL3), 0) AS VAL3 
+        , 10   AS   VAL_TYPE 
+    FROM ( 
+            SELECT 
+                      DATA_TYPE, PID 
+                    , USE_COMPANY_CD, USE_ORG_CD 
+                    , REQ_COMPANY_CD, REQ_ORG_CD 
+                    , HPMS_ID 
+                    , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+                    , YYYYMM 
+                    , MAX(UNIT)  AS UNIT   , NVL(SUM(VAL), 0) AS VAL 
+                    , MAX(UNIT2) AS UNIT2 , NVL(SUM(VAL2), 0) AS VAL2 
+                    , MAX(UNIT3) AS UNIT3 , NVL(SUM(VAL3), 0) AS VAL3 
+            FROM 
+                  HP2D002T 
+            WHERE 1=1 
+              AND HPMS_ID IN ( SELECT REGEXP_SUBSTR( REPLACE(#CALC_COL1#, ' ', ''), '[^,]+', 1, LEVEL) 
+                                 FROM DUAL 
+                              CONNECT BY REGEXP_SUBSTR( REPLACE(#CALC_COL1#, ' ', ''), '[^,]+', 1, LEVEL) IS NOT NULL 
+                            ) 
+              AND VAL_TYPE IN (0, 10, 20) 
+              AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM() 
+              AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%' 
+ 
+             GROUP BY 
+                      DATA_TYPE, PID 
+                    , USE_COMPANY_CD, USE_ORG_CD 
+                    , REQ_COMPANY_CD, REQ_ORG_CD 
+                    , HPMS_ID 
+                    , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+                    , YYYYMM 
+        ) 
+GROUP BY 
+        DATA_TYPE, PID 
+      , USE_COMPANY_CD, USE_ORG_CD 
+      , REQ_COMPANY_CD, REQ_ORG_CD 
+      , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+      , YYYYMM</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_CAL_SEL13">
+    SELECT 
+          DATA_TYPE, PID 
+        , USE_COMPANY_CD, USE_ORG_CD 
+        , REQ_COMPANY_CD, REQ_ORG_CD 
+        , '#' AS SRC_COMPANY_CD  , '#' AS SRC_ORG_CD 
+        , '#' AS DST_COMPANY_CD  , '#' AS DST_ORG_CD 
+        , HPMS_ID 
+        , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+        , YYYYMM 
+        , UNIT  , VAL         
+        , UNIT2 , VAL2 
+        , UNIT3 , VAL3       
+        , 10                  AS VAL_TYPE 
+FROM ( 
+ 
+      SELECT 
+                DECODE(X.DATA_TYPE     , NULL, Y.DATA_TYPE     , X.DATA_TYPE     ) AS DATA_TYPE 
+              , DECODE(X.PID           , NULL, Y.PID           , X.PID           ) AS PID 
+              , DECODE(X.USE_COMPANY_CD, NULL, Y.USE_COMPANY_CD, X.USE_COMPANY_CD) AS USE_COMPANY_CD 
+              , DECODE(X.USE_ORG_CD    , NULL, Y.USE_ORG_CD    , X.USE_ORG_CD    ) AS USE_ORG_CD 
+              , DECODE(X.REQ_COMPANY_CD, NULL, Y.REQ_COMPANY_CD, X.REQ_COMPANY_CD) AS REQ_COMPANY_CD 
+              , DECODE(X.REQ_ORG_CD    , NULL, Y.REQ_ORG_CD    , X.REQ_ORG_CD    ) AS REQ_ORG_CD 
+              , #NEW_HPMS_ID#                 AS HPMS_ID 
+              , DECODE(X.INVEST_TYPE_CD, NULL, Y.INVEST_TYPE_CD, X.INVEST_TYPE_CD) AS INVEST_TYPE_CD 
+              , DECODE(X.APPLICATION   , NULL, Y.APPLICATION   , X.APPLICATION   ) AS APPLICATION 
+              , DECODE(X.ITEM_NAME     , NULL, Y.ITEM_NAME     , X.ITEM_NAME     ) AS ITEM_NAME 
+              , DECODE(X.CUSTOMER_CD   , NULL, Y.CUSTOMER_CD   , X.CUSTOMER_CD   ) AS CUSTOMER_CD 
+              , DECODE(X.YYYYMM        , NULL, Y.YYYYMM        , X.YYYYMM        ) AS YYYYMM 
+              , DECODE(X.UNIT          , NULL, Y.UNIT          , X.UNIT          ) AS UNIT 
+              , DECODE(X.UNIT2         , NULL, Y.UNIT2         , X.UNIT2         ) AS UNIT2 
+              , DECODE(X.UNIT3         , NULL, Y.UNIT3         , X.UNIT3         ) AS UNIT3 
+              , CASE #CALC_FUNC# WHEN '/' THEN DECODE(NVL(Y.VAL, 0), 0 , -999999, ( NVL(X.VAL, 0) / Y.VAL ) ) 
+                                            WHEN '*' THEN ( NVL(X.VAL, 0) * NVL(Y.VAL, 0) ) 
+                                            WHEN '-' THEN ( NVL(X.VAL, 0) - NVL(Y.VAL, 0) ) 
+                                            ELSE  ( NVL(X.VAL, 0) + NVL(Y.VAL, 0) ) 
+                END                                                                                      AS VAL 
+              , CASE #CALC_FUNC# WHEN '/' THEN DECODE(NVL(Y.VAL2, 0), 0 , -999999, ( NVL(X.VAL2, 0) / Y.VAL2 ) ) 
+                                            WHEN '*' THEN ( NVL(X.VAL2, 0) * NVL(Y.VAL2, 0) ) 
+                                            WHEN '-' THEN ( NVL(X.VAL2, 0) - NVL(Y.VAL2, 0) ) 
+                                            ELSE  ( NVL(X.VAL2, 0) + NVL(Y.VAL2, 0) ) 
+                END                                                                                      AS VAL2 
+              , CASE #CALC_FUNC# WHEN '/' THEN DECODE(NVL(Y.VAL3, 0), 0 , -999999, ( NVL(X.VAL3, 0) / Y.VAL3 ) ) 
+                                            WHEN '*' THEN ( NVL(X.VAL3, 0) * NVL(Y.VAL3, 0) ) 
+                                            WHEN '-' THEN ( NVL(X.VAL3, 0) - NVL(Y.VAL3, 0) ) 
+                                            ELSE  ( NVL(X.VAL3, 0) + NVL(Y.VAL3, 0) ) 
+                END                                                                                      AS VAL3 
+              , #CALC_FUNC# AS CALC_FUCN 
+          FROM ( 
+                  SELECT 
+                            DATA_TYPE, PID 
+                          , USE_COMPANY_CD, USE_ORG_CD 
+                          , REQ_COMPANY_CD, REQ_ORG_CD 
+                          , HPMS_ID 
+                          , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+                          , YYYYMM 
+                          , MAX(UNIT)  AS UNIT  , NVL(SUM(VAL), 0) AS VAL 
+                          , MAX(UNIT2) AS UNIT2 , NVL(SUM(VAL2), 0) AS VAL2 
+                          , MAX(UNIT3) AS UNIT3 , NVL(SUM(VAL3), 0) AS VAL3 
+                  FROM 
+                        HP2D002T 
+                  WHERE 
+                        HPMS_ID = #CALC_COL1# 
+                    AND VAL_TYPE IN (0, 10, 20) 
+ 
+                    AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()
+    <dynamic>
+      <isNotEmpty property="DATA_TYPE">AND DATA_TYPE = #DATA_TYPE#</isNotEmpty>
+    </dynamic>
+    GROUP BY 
+                            DATA_TYPE, PID 
+                          , USE_COMPANY_CD, USE_ORG_CD 
+                          , REQ_COMPANY_CD, REQ_ORG_CD 
+                          , HPMS_ID 
+                          , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+                          , YYYYMM 
+              ) X 
+                  FULL OUTER JOIN 
+              ( 
+                  SELECT 
+                            DATA_TYPE, PID 
+                          , USE_COMPANY_CD, USE_ORG_CD 
+                          , REQ_COMPANY_CD, REQ_ORG_CD 
+                          , HPMS_ID 
+                          , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+                          , YYYYMM 
+                          , MAX(UNIT)  AS UNIT  , NVL(SUM(VAL), 0) AS VAL 
+                          , MAX(UNIT2) AS UNIT2 , NVL(SUM(VAL2), 0) AS VAL2 
+                          , MAX(UNIT3) AS UNIT3 , NVL(SUM(VAL3), 0) AS VAL3 
+                  FROM 
+                          HP2D002T 
+                  WHERE 
+                          HPMS_ID = #CALC_COL2# 
+                      AND VAL_TYPE IN (0, 10, 20) 
+                      AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()
+    <dynamic>
+      <isNotEmpty property="DATA_TYPE">AND DATA_TYPE = #DATA_TYPE#</isNotEmpty>
+    </dynamic>
+    GROUP BY 
+                            DATA_TYPE, PID 
+                          , USE_COMPANY_CD, USE_ORG_CD 
+                          , REQ_COMPANY_CD, REQ_ORG_CD 
+                          , HPMS_ID 
+                          , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+                          , YYYYMM 
+               ) Y 
+            ON ( 
+                      X.DATA_TYPE       = Y.DATA_TYPE 
+                  AND X.PID             = Y.PID 
+                  AND X.USE_COMPANY_CD  = Y.USE_COMPANY_CD 
+                  AND X.USE_ORG_CD      = Y.USE_ORG_CD 
+                  AND X.REQ_COMPANY_CD  = Y.REQ_COMPANY_CD 
+                  AND X.REQ_ORG_CD      = Y.REQ_ORG_CD 
+                  AND X.INVEST_TYPE_CD  = Y.INVEST_TYPE_CD 
+                  AND X.APPLICATION     = Y.APPLICATION 
+                  AND X.ITEM_NAME       = Y.ITEM_NAME 
+                  AND X.CUSTOMER_CD     = Y.CUSTOMER_CD 
+                  AND X.YYYYMM          = Y.YYYYMM 
+              ) 
+      ) 
+WHERE 
+      (1=1) 
+  AND ( VAL != -999999 AND VAL2 != -999999 AND VAL3 != -999999 ) 
+ 
+ORDER BY 
+            DATA_TYPE, PID 
+          , USE_COMPANY_CD, USE_ORG_CD 
+          , REQ_COMPANY_CD, REQ_ORG_CD 
+          , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+          , YYYYMM
+  </select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_CAL_INS14">Insert into HP_DBA01.HP2D002T (VAL2, CUSTOMER_CD, VAL3, UNIT, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, DST_COMPANY_CD, SRC_ORG_CD, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD)  values(#VAL2# , #CUSTOMER_CD# , #VAL3# , #UNIT# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #DST_COMPANY_CD# , #SRC_ORG_CD# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_CAL_INS22">Insert into HP_DBA01.HP2D002T (VAL2, CUSTOMER_CD, VAL3, UNIT, PID, UNIT2, UNIT3, VAL_TYPE, APPLICATION, DST_ORG_CD, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, DST_COMPANY_CD, SRC_ORG_CD, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD)  values(#VAL2# , #CUSTOMER_CD# , #VAL3# , #UNIT# , #PID# , #UNIT2# , #UNIT3# , #VAL_TYPE# , #APPLICATION# , #DST_ORG_CD# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #DST_COMPANY_CD# , #SRC_ORG_CD# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+  <delete parameterClass="java.util.HashMap" id="BP_HP2D002T_ALC_XIUD1">DELETE FROM HP2D002T 
+WHERE VAL_TYPE IN ( 31, 32, 33, 34 ) 
+AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%'</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL2">SELECT 
+          DATA_TYPE, PID 
+        , USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD 
+        , SRC_COMPANY_CD, SRC_ORG_CD, DST_COMPANY_CD, DST_ORG_CD 
+        , HPMS_ID 
+        , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+        , YYYYMM 
+        , UNIT,   VAL 
+        , UNIT2, VAL2 
+        , UNIT3, VAL3 
+        , VAL_TYPE, CALC_MST_VER 
+FROM 
+        HP2D002T 
+WHERE 
+        VAL_TYPE IN ( 0, 20, 10 ) 
+  AND   HPMS_ID IN ( 
+                      SELECT DISTINCT SRC_HPMS_ID 
+                      FROM HP1DM09T 
+                   ) 
+ 
+  AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%' 
+ 
+  AND YYYYMM &gt; F_GET_CONFIRM_YYYYMM()</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL3">SELECT 
+        DATA_TYPE 
+      , BATCH_CLAC_FLAG 
+      , BATCH_DST_FLAG 
+      , DST_TYPE 
+      , BATCH_LIST_FLAG 
+FROM 
+      HP1DM06T 
+WHERE 
+      DATA_TYPE = #DATA_TYPE#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL17">SELECT COUNT(1) AS CNT 
+ FROM HP2D002T 
+WHERE VAL_TYPE IN ( 33, 34 )     
+  AND DATA_TYPE = #DATA_TYPE#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL4">SELECT 
+          #DATA_TYPE# AS DATA_TYPE 
+        , DATA_TYPE AS OLD_DATA_TYPE 
+        , PID 
+        , USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD 
+        , SRC_COMPANY_CD, SRC_ORG_CD, DST_COMPANY_CD, DST_ORG_CD 
+        , HPMS_ID 
+        , INVEST_TYPE_CD, APPLICATION, ITEM_NAME, CUSTOMER_CD 
+        , YYYYMM 
+        , UNIT,   VAL 
+        , UNIT2, VAL2 
+        , UNIT3, VAL3 
+        , DECODE(VAL_TYPE, 31, 33, 32, 34, VAL_TYPE) AS VAL_TYPE 
+        , VAL_TYPE                   AS OLD_VAL_TYPE 
+        , CALC_MST_VER 
+FROM 
+        HP2D002T_TZ 
+WHERE  (1=1) 
+  AND   VAL_TYPE IN (31, 32) 
+  AND   DATA_TYPE = 'MP_'||F_GET_FISCAL_YEAR(SYSDATE)</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_ALC_INS41">Insert into HP_DBA01.HP2D002T (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL14">SELECT 
+        SRC_COMPANY_CD 
+      , SRC_ORG_CD 
+      , SRC_HPMS_ID 
+      , DST_HPMS_ID 
+      , CALC_TYPE 
+FROM 
+      HP1DM09T 
+WHERE 
+      SRC_COMPANY_CD  = #USE_COMPANY_CD# 
+  AND SRC_ORG_CD      = #USE_ORG_CD# 
+  AND SRC_HPMS_ID     = #HPMS_ID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL12">SELECT 
+          Z.RNO 
+        , Z.DATA_TYPE, Z.PID 
+        , Z.DST_COMPANY_CD            AS USE_COMPANY_CD 
+        , Z.DST_ORG_CD                AS USE_ORG_CD 
+        , NVL(Z.REQ_COMPANY_CD , '#') AS REQ_COMPANY_CD 
+        , NVL(Z.REQ_ORG_CD , '#')     AS REQ_ORG_CD 
+        , Z.USE_COMPANY_CD            AS SRC_COMPANY_CD 
+        , Z.USE_ORG_CD                AS SRC_ORG_CD 
+        , Z.DST_COMPANY_CD            AS DST_COMPANY_CD 
+        , Z.DST_ORG_CD                AS DST_ORG_CD 
+        , Z.HPMS_ID                   AS OLD_HPMS_ID 
+        , #DST_HPMS_ID#                AS  HPMS_ID 
+        , Z.INVEST_TYPE_CD, Z.APPLICATION, Z.ITEM_NAME, Z.CUSTOMER_CD 
+        , Z.YYYYMM                  AS YYYYMM 
+        , Z.UNIT 
+        , Z.VAL                     AS OLD_VAL 
+        , (Z.VAL * Z.CHARGING_RATIO) AS VAL 
+        , Z.UNIT2 
+        , Z.VAL2                    AS OLD_VAL2 
+        , (Z.VAL2 * Z.CHARGING_RATIO) AS VAL2 
+        , Z.UNIT3 
+        , Z.VAL3                    AS OLD_VAL3 
+        , (Z.VAL3 * Z.CHARGING_RATIO) AS VAL3 
+        , 31                          AS VAL_TYPE 
+        , Z.CALC_MST_VER 
+        , 'DST+' AS GBN_CD 
+ FROM ( 
+            SELECT    Y.RNO              AS RNO 
+                    , #DATA_TYPE#         AS DATA_TYPE,      #PID#               AS PID 
+                    , #USE_COMPANY_CD#    AS USE_COMPANY_CD, #USE_ORG_CD#        AS USE_ORG_CD 
+                    , #REQ_COMPANY_CD#    AS REQ_COMPANY_CD, #REQ_ORG_CD#        AS REQ_ORG_CD 
+                    , #HPMS_ID#           AS HPMS_ID 
+                    , #INVEST_TYPE_CD#    AS INVEST_TYPE_CD, #APPLICATION#       AS APPLICATION 
+                    , #ITEM_NAME#         AS ITEM_NAME,      #CUSTOMER_CD#       AS CUSTOMER_CD 
+                    , #YYYYMM#            AS YYYYMM 
+                    , #UNIT#              AS UNIT,           #VAL#               AS VAL 
+                    , #UNIT2#             AS UNIT2,          #VAL2#              AS VAL2 
+                    , #UNIT3#             AS UNIT3,          #VAL3#              AS VAL3 
+                    , #VAL_TYPE#          AS VAL_TYPE 
+                    , #CALC_MST_VER#      AS CALC_MST_VER 
+                    , Y.DST_COMPANY_CD   AS DST_COMPANY_CD 
+                    , Y.DST_ORG_CD          AS DST_ORG_CD 
+                    , Y.CHARGING_RATIO   AS CHARGING_RATIO 
+              FROM 
+                        DUAL 
+                 , ( 
+                        SELECT    ROWNUM AS RNO 
+                                      , PID, YYYYMM 
+                                      , DST_COMPANY_CD 
+                                      , DST_ORG_CD 
+                                      , CHARGING_RATIO 
+                                FROM 
+                                      HP1DM31T 
+                                WHERE 
+                                      PID     = #PID# 
+                                  AND YYYYMM  = #YYYYMM# 
+                   ) Y 
+             WHERE PID = Y.PID 
+             ORDER BY RNO 
+       ) Z 
+ 
+ 
+ 
+UNION ALL 
+ 
+ 
+SELECT 
+          Z.RNO 
+        , Z.DATA_TYPE, Z.PID 
+        , Z.USE_COMPANY_CD            AS USE_COMPANY_CD 
+        , Z.USE_ORG_CD                AS USE_ORG_CD 
+        , NVL(Z.REQ_COMPANY_CD , '#') AS REQ_COMPANY_CD 
+        , NVL(Z.REQ_ORG_CD , '#')     AS REQ_ORG_CD 
+        , Z.USE_COMPANY_CD            AS SRC_COMPANY_CD 
+        , Z.USE_ORG_CD                AS SRC_ORG_CD 
+        , Z.DST_COMPANY_CD            AS DST_COMPANY_CD 
+        , Z.DST_ORG_CD                AS DST_ORG_CD 
+        , Z.HPMS_ID                   AS OLD_HPMS_ID 
+        , #DST_HPMS_ID#                AS  HPMS_ID 
+        , Z.INVEST_TYPE_CD, Z.APPLICATION, Z.ITEM_NAME, Z.CUSTOMER_CD 
+        , Z.YYYYMM                  AS YYYYMM 
+        , Z.UNIT 
+        , Z.VAL                     AS OLD_VAL 
+        , - (Z.VAL * Z.CHARGING_RATIO) AS VAL 
+        , Z.UNIT2 
+        , Z.VAL2                    AS OLD_VAL2 
+        , - (Z.VAL2 * Z.CHARGING_RATIO) AS VAL2 
+        , Z.UNIT3 
+        , Z.VAL3                    AS OLD_VAL3 
+        , - (Z.VAL3 * Z.CHARGING_RATIO) AS VAL3 
+        , 31                                                                       AS VAL_TYPE 
+        , Z.CALC_MST_VER 
+        , 'SRC-' AS GBN_CD 
+ FROM ( 
+            SELECT    Y.RNO              AS RNO 
+                    , #DATA_TYPE#         AS DATA_TYPE,      #PID#               AS PID 
+                    , #USE_COMPANY_CD#    AS USE_COMPANY_CD, #USE_ORG_CD#        AS USE_ORG_CD 
+                    , #REQ_COMPANY_CD#    AS REQ_COMPANY_CD, #REQ_ORG_CD#        AS REQ_ORG_CD 
+                    , #HPMS_ID#           AS HPMS_ID 
+                    , #INVEST_TYPE_CD#    AS INVEST_TYPE_CD, #APPLICATION#       AS APPLICATION 
+                    , #ITEM_NAME#         AS ITEM_NAME,      #CUSTOMER_CD#       AS CUSTOMER_CD 
+                    , #YYYYMM#            AS YYYYMM 
+                    , #UNIT#              AS UNIT,           #VAL#               AS VAL 
+                    , #UNIT2#             AS UNIT2,          #VAL2#              AS VAL2 
+                    , #UNIT3#             AS UNIT3,          #VAL3#              AS VAL3 
+                    , #VAL_TYPE#          AS VAL_TYPE 
+                    , #CALC_MST_VER#      AS CALC_MST_VER 
+                    , Y.DST_COMPANY_CD   AS DST_COMPANY_CD 
+                    , Y.DST_ORG_CD          AS DST_ORG_CD 
+                    , Y.CHARGING_RATIO   AS CHARGING_RATIO 
+              FROM 
+                        DUAL 
+                 , ( 
+                        SELECT    ROWNUM AS RNO 
+                                      , PID, YYYYMM 
+                                      , DST_COMPANY_CD 
+                                      , DST_ORG_CD 
+                                      , CHARGING_RATIO 
+                                FROM 
+                                      HP1DM31T 
+                                WHERE 
+                                      PID     = #PID# 
+                                  AND YYYYMM  = #YYYYMM# 
+                   ) Y 
+             WHERE PID = Y.PID 
+             ORDER BY RNO 
+       ) Z</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_ALC_INS13">Insert into HP_DBA01.HP2D002T (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D002T_ALC_SEL16">SELECT 
+          Z.RNO 
+        , Z.DATA_TYPE, Z.PID 
+        , Z.DST_COMPANY_CD            AS USE_COMPANY_CD 
+        , Z.DST_ORG_CD                AS USE_ORG_CD 
+        , NVL(Z.REQ_COMPANY_CD , '#') AS REQ_COMPANY_CD 
+        , NVL(Z.REQ_ORG_CD , '#')     AS REQ_ORG_CD 
+        , Z.USE_COMPANY_CD            AS SRC_COMPANY_CD 
+        , Z.USE_ORG_CD                AS SRC_ORG_CD 
+        , Z.DST_COMPANY_CD            AS DST_COMPANY_CD 
+        , Z.DST_ORG_CD                AS DST_ORG_CD 
+        , Z.HPMS_ID                   AS OLD_HPMS_ID 
+        , #DST_HPMS_ID#                AS  HPMS_ID 
+        , Z.INVEST_TYPE_CD, Z.APPLICATION, Z.ITEM_NAME, Z.CUSTOMER_CD 
+        , Z.YYYYMM                  AS YYYYMM 
+        , Z.UNIT 
+        , Z.VAL                     AS OLD_VAL 
+        , (Z.VAL * Z.CHARGING_RATIO) AS VAL 
+        , Z.UNIT2 
+        , Z.VAL2                    AS OLD_VAL2 
+        , (Z.VAL2 * Z.CHARGING_RATIO) AS VAL2 
+        , Z.UNIT3 
+        , Z.VAL3                    AS OLD_VAL3 
+        , (Z.VAL3 * Z.CHARGING_RATIO) AS VAL3 
+        , 32                          AS VAL_TYPE 
+        , Z.CALC_MST_VER 
+        , 'DST+' AS GBN_CD 
+ FROM ( 
+            SELECT    Y.RNO              AS RNO 
+                    , #DATA_TYPE#         AS DATA_TYPE,      #PID#               AS PID 
+                    , #USE_COMPANY_CD#    AS USE_COMPANY_CD, #USE_ORG_CD#        AS USE_ORG_CD 
+                    , #REQ_COMPANY_CD#    AS REQ_COMPANY_CD, #REQ_ORG_CD#        AS REQ_ORG_CD 
+                    , #HPMS_ID#           AS HPMS_ID 
+                    , #INVEST_TYPE_CD#    AS INVEST_TYPE_CD, #APPLICATION#       AS APPLICATION 
+                    , #ITEM_NAME#         AS ITEM_NAME,      #CUSTOMER_CD#       AS CUSTOMER_CD 
+                    , #YYYYMM#            AS YYYYMM 
+                    , #UNIT#              AS UNIT,           #VAL#               AS VAL 
+                    , #UNIT2#             AS UNIT2,          #VAL2#              AS VAL2 
+                    , #UNIT3#             AS UNIT3,          #VAL3#              AS VAL3 
+                    , #VAL_TYPE#          AS VAL_TYPE 
+                    , #CALC_MST_VER#      AS CALC_MST_VER 
+                    , Y.DST_COMPANY_CD   AS DST_COMPANY_CD 
+                    , Y.DST_ORG_CD          AS DST_ORG_CD 
+                    , Y.CHARGING_RATIO   AS CHARGING_RATIO 
+              FROM 
+                        DUAL 
+                 , ( 
+                        SELECT ROWNUM AS RNO 
+                              ,  SRC_COMPANY_CD, SRC_ORG_CD, YYYYMM 
+                              , DST_COMPANY_CD 
+                              , DST_ORG_CD 
+                              , CHARGING_RATIO 
+                        FROM 
+                              HP1DM32T 
+                        WHERE 
+                              SRC_COMPANY_CD  = #USE_COMPANY_CD# 
+                          AND SRC_ORG_CD      = #USE_ORG_CD# 
+                          AND YYYYMM          = #YYYYMM# 
+                   ) Y 
+             ORDER BY RNO 
+       ) Z 
+ 
+ 
+ 
+UNION ALL 
+ 
+ 
+ 
+SELECT 
+          Z.RNO 
+        , Z.DATA_TYPE, Z.PID 
+        , Z.USE_COMPANY_CD            AS USE_COMPANY_CD 
+        , Z.USE_ORG_CD                AS USE_ORG_CD 
+        , NVL(Z.REQ_COMPANY_CD , '#') AS REQ_COMPANY_CD 
+        , NVL(Z.REQ_ORG_CD , '#')     AS REQ_ORG_CD 
+        , Z.USE_COMPANY_CD            AS SRC_COMPANY_CD 
+        , Z.USE_ORG_CD                AS SRC_ORG_CD 
+        , Z.DST_COMPANY_CD            AS DST_COMPANY_CD 
+        , Z.DST_ORG_CD                AS DST_ORG_CD 
+        , Z.HPMS_ID                   AS OLD_HPMS_ID 
+        , #DST_HPMS_ID#                AS  HPMS_ID 
+        , Z.INVEST_TYPE_CD, Z.APPLICATION, Z.ITEM_NAME, Z.CUSTOMER_CD 
+        , Z.YYYYMM                  AS YYYYMM 
+        , Z.UNIT 
+        , Z.VAL                     AS OLD_VAL 
+        , - (Z.VAL * Z.CHARGING_RATIO) AS VAL 
+        , Z.UNIT2 
+        , Z.VAL2                    AS OLD_VAL2 
+        , - (Z.VAL2 * Z.CHARGING_RATIO) AS VAL2 
+        , Z.UNIT3 
+        , Z.VAL3                    AS OLD_VAL3 
+        , - (Z.VAL3 * Z.CHARGING_RATIO) AS VAL3 
+        , 32                                                                       AS VAL_TYPE 
+        , Z.CALC_MST_VER 
+        , 'SRC-' AS GBN_CD 
+ FROM ( 
+            SELECT    Y.RNO              AS RNO 
+                    , #DATA_TYPE#         AS DATA_TYPE,      #PID#               AS PID 
+                    , #USE_COMPANY_CD#    AS USE_COMPANY_CD, #USE_ORG_CD#        AS USE_ORG_CD 
+                    , #REQ_COMPANY_CD#    AS REQ_COMPANY_CD, #REQ_ORG_CD#        AS REQ_ORG_CD 
+                    , #HPMS_ID#           AS HPMS_ID 
+                    , #INVEST_TYPE_CD#    AS INVEST_TYPE_CD, #APPLICATION#       AS APPLICATION 
+                    , #ITEM_NAME#         AS ITEM_NAME,      #CUSTOMER_CD#       AS CUSTOMER_CD 
+                    , #YYYYMM#            AS YYYYMM 
+                    , #UNIT#              AS UNIT,           #VAL#               AS VAL 
+                    , #UNIT2#             AS UNIT2,          #VAL2#              AS VAL2 
+                    , #UNIT3#             AS UNIT3,          #VAL3#              AS VAL3 
+                    , #VAL_TYPE#          AS VAL_TYPE 
+                    , #CALC_MST_VER#      AS CALC_MST_VER 
+                    , Y.DST_COMPANY_CD   AS DST_COMPANY_CD 
+                    , Y.DST_ORG_CD          AS DST_ORG_CD 
+                    , Y.CHARGING_RATIO   AS CHARGING_RATIO 
+              FROM 
+                        DUAL 
+                 , ( 
+                        SELECT ROWNUM AS RNO 
+                              ,  SRC_COMPANY_CD, SRC_ORG_CD, YYYYMM 
+                              , DST_COMPANY_CD 
+                              , DST_ORG_CD 
+                              , CHARGING_RATIO 
+                        FROM 
+                              HP1DM32T 
+                        WHERE 
+                              SRC_COMPANY_CD  = #USE_COMPANY_CD# 
+                          AND SRC_ORG_CD      = #USE_ORG_CD# 
+                          AND YYYYMM          = #YYYYMM# 
+                     ) Y 
+             ORDER BY RNO 
+       ) Z</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D002T_ALC_INS17">Insert into HP_DBA01.HP2D002T (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, SRC_ORG_CD, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
+  <delete parameterClass="java.util.HashMap" id="BP_HP2D101T_XIUD3">DELETE FROM HP2D101T 
+WHERE (1=1) 
+AND YYYYMM &gt;= F_GET_FISCAL_YEAR(SYSDATE)||'04' 
+AND DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%'</delete>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="BP_HP2D101T_SEL1">SELECT 
+          DATA_TYPE 
+        , PID 
+        , USE_COMPANY_CD 
+        , USE_ORG_CD 
+        , REQ_COMPANY_CD 
+        , REQ_ORG_CD 
+        , SRC_COMPANY_CD 
+        , SRC_ORG_CD 
+        , DST_COMPANY_CD 
+        , DST_ORG_CD 
+        , HPMS_ID 
+        , SUBJECT_CD 
+        , YYYYMM 
+        , MAX(UNIT3) AS UNIT 
+        , SUM(VAL3)  AS VAL 
+        , 'BP_HP2D101T'      AS UPDATE_USER_ID 
+FROM 
+      ( 
+        SELECT 
+                  A.DATA_TYPE 
+                , A.PID 
+                , A.USE_COMPANY_CD 
+                , A.USE_ORG_CD 
+                , A.REQ_COMPANY_CD 
+                , A.REQ_ORG_CD 
+                , A.SRC_COMPANY_CD 
+                , A.SRC_ORG_CD 
+                , A.DST_COMPANY_CD 
+                , A.DST_ORG_CD 
+                , A.HPMS_ID 
+                , NVL((SELECT SUBJECT_CD FROM HP1DM03T 
+                    WHERE COMPANY_CD = A.USE_COMPANY_CD 
+                      AND ORG_CD = A.USE_ORG_CD), '#') AS SUBJECT_CD 
+                , A.YYYYMM 
+                , A.UNIT3 
+                , A.VAL3 
+        FROM 
+                HP2D002T A 
+        WHERE 
+                (1=1) 
+           
+          AND   A.YYYYMM &gt; F_GET_CONFIRM_YYYYMM() 
+          AND   A.DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%' 
+ 
+        UNION ALL 
+ 
+        SELECT 
+                  A.DATA_TYPE 
+                , A.PID 
+                , A.USE_COMPANY_CD 
+                , A.USE_ORG_CD 
+                , A.REQ_COMPANY_CD 
+                , A.REQ_ORG_CD 
+                , A.SRC_COMPANY_CD 
+                , A.SRC_ORG_CD 
+                , A.DST_COMPANY_CD 
+                , A.DST_ORG_CD 
+                , A.HPMS_ID 
+                , NVL((SELECT SUBJECT_CD FROM HP1DM03T 
+                    WHERE COMPANY_CD = A.USE_COMPANY_CD 
+                      AND ORG_CD = A.USE_ORG_CD), '#') AS SUBJECT_CD 
+                , A.YYYYMM 
+                , A.UNIT3 
+                , A.VAL3 
+        FROM 
+                HP2D002T_TZ A 
+        WHERE 
+                (1=1) 
+          AND   A.DATA_TYPE LIKE 'MP_'||'____' 
+          AND   A.YYYYMM &gt;= F_GET_FISCAL_YEAR(SYSDATE)||'04' 
+          AND   A.DATA_TYPE LIKE DECODE(#DATA_TYPE#,'','%',#DATA_TYPE#)||'%' 
+ 
+      ) 
+GROUP BY 
+          DATA_TYPE 
+        , PID 
+        , USE_COMPANY_CD 
+        , USE_ORG_CD 
+        , REQ_COMPANY_CD 
+        , REQ_ORG_CD 
+        , SRC_COMPANY_CD 
+        , SRC_ORG_CD 
+        , DST_COMPANY_CD 
+        , DST_ORG_CD 
+        , HPMS_ID 
+        , SUBJECT_CD 
+        , YYYYMM</select>
+  <insert parameterClass="java.util.HashMap" id="BP_HP2D101T_INS5">Insert into HP_DBA01.HP2D101T (UNIT, PID, SUBJECT_CD, DST_ORG_CD, HPMS_ID, UPDATE_TIME, VAL, DST_COMPANY_CD, SRC_ORG_CD, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, SRC_COMPANY_CD, DATA_TYPE, USE_COMPANY_CD)  values(#UNIT# , #PID# , #SUBJECT_CD# , #DST_ORG_CD# , #HPMS_ID# , SYSDATE, #VAL# , #DST_COMPANY_CD# , #SRC_ORG_CD# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #SRC_COMPANY_CD# , #DATA_TYPE# , #USE_COMPANY_CD# )</insert>
+</sqlMap>
+

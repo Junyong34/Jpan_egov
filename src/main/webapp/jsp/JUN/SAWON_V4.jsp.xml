@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>그리드 함수 SAMPLE</title>
+        <script><![CDATA[ 
+        function SAWONLIST_ResultHandler(code, msg)
+        {
+        //alert(code + " @@ " + msg);
+        }
+        function button1_OnClick(myObj)
+        {
+        //SAWONLIST.setRequired(true);
+        SAWONLIST.submit(false, "abcd");
+        
+            }
+        function abcd(){
+        //	 $('#NAME_DATE_popup').on('mousedown',function(){
+        $('img[name=' + 'NAME_DATE_popup' + ']').each(function(i) {
+                // $(this).attr('onclick','').unbind('click'); 
+         
+            }) ;
+        }
+        
+        
+        function PARKJUN(){
+         alert(1);
+        }
+        function button2_OnClick(myObj)
+        {
+        Colmerge("grid1", {"EMPLOYEEID":"00007","AGE":"29"},"EMPLOYEEID" ,2);
+        
+        //alert(grid1.getCellValueAfterSave(2, 3, true) + " / "  + grid1.getCellValueAfterSave("R3", "EMPLOYEEID", true));
+        //grid1.setCellValueAfterSave(2, 3,99999 , true);
+        //
+        //
+        //grid1.setCurrentCellValue(3, 99999, true) ;
+        //
+        //alert(grid1.getSendParameters("U"));
+        //grid1.editRowClose(3);
+        
+        
+        }
+        
+        
+        
+        function button3_OnClick(myObj)
+        {
+         grid1.hideColumn(["AGE","NAME"]); // 칼럼을 배열형태로 넣으면 해당 배열에 있는 칼럼 히든 처리 한다.
+        }
+        function button4_OnClick(myObj)
+        {
+        grid1.showColumn(["AGE","NAME"]); // 칼럼을 배열형태로 넣으며 해당 배열에 있는 히든컬럼을 화면에 보여준다.
+        
+        }
+        function button5_OnClick(myObj)
+        {
+        //grid1.insertRow("after","R2");//("first", "last", "before", "after")
+        grid1.insertRow("last");
+        }
+        function button6_OnClick(myObj)
+        {
+        grid1.removeRow(0); // 파라미터 RowIndex  0  Row 삭제
+        }
+        function button7_OnClick(myObj)
+        {
+        
+        //alert( grid1.getCellValue(2, "NAME", true));
+        //grid2.insertRow("after","R1");
+        //RowStyle("grid1", {"EMPLOYEEID":"00005","AGE":"22"}, "red:blue");  //Row조건에 따라 배경색과 폰트 색상을 넣는다.
+        }
+        function button8_OnClick(myObj)
+        {
+        CellStyle("grid1", {"EMPLOYEEID":"00006","AGE":"20"},"EMPLOYEEID","red:blue"); // 조건에 따라 타켓 컬럼 셀에 배경과 폰트 색상 변경한다.
+        }
+        
+        function button9_OnClick(myObj)
+        {
+        alert(grid1.getCurrentRowIndex()); //현재 선택된 rowInde 값을 구한다.
+        }
+        function button10_OnClick(myObj)
+        {
+        alert(grid1.getColumnObject(3) + "  / " +grid1.getColumnObject(3).name ); //col 인덱스의 컬럼 정보를 가져온다 Objec 형태로
+        }
+        function button11_OnClick(myObj)
+        {
+        alert(grid1.getColumnName(3));  // 컬럼인덱스가 3인 컬럼 이름을 가져온다.
+        }
+        
+        
+        function button12_OnClick(myObj)
+        {
+        alert(grid1.getColumnIndex("EMPLOYEEID")); // 컬럼 이름으로 해당 컬럼 인덱스 값 구하기기
+        }
+        function button13_OnClick(myObj)
+        {
+        alert(grid1.getRowStatus(2));  // 해당Row상태 플레그 값 가져오기기
+        }
+        function button14_OnClick(myObj)
+        {
+        alert(grid1.getCellValue(2, 3, true) + " / "  + grid1.getCellValue("R3", "EMPLOYEEID", true)); // 그리드 셀 데이타 가져오기기
+        }
+        function btn_OnClick(myObj)
+        {
+        grid1.setCellValue(2,3,"99999" , false); // 컬럼인덱스 로우 인덱스에 있는 cell  값을 99999로 변경경
+        }
+        function button15_OnClick(myObj)
+        {
+        alert(grid1.getCurrentCellValue(3, true)); // 선택된 Row 의 cell 값 가져오기 
+        }
+        function button16_OnClick(myObj)
+        {
+        alert(grid1.getModifiedRow("U") + " / " + grid1.getModifiedRow("U")[0].NAME);// 수정플레그 Row 의 Ro 정보 가져오기기
+        }
+        function button17_OnClick(myObj)
+        {
+        grid1.editCellClose();  //edit 상태cell을 모두 close 처리 한다.
+        }
+        function button18_OnClick(myObj)
+        {
+        alert(grid1.getColumnCount()); // 그리드 컬럼개수 조회
+        }
+        function button19_OnClick(myObj)
+        {
+        alert(grid1.getRowCount());  // 그리드 Row 개수 조회
+        }
+        function button20_OnClick(myObj)
+        {
+        grid1.clearGrid(); // 그리드 클리어 한다.
+        }
+        
+        function grid1_OnAfterInsertRow(rowIndex)
+        {
+        //행을 추가하면 이벤트 발생
+        }
+        function grid1_OnAfterSaveCell(rowIndex, colname, value, iCol)
+        {
+        // 셀을 수정 하면 이벤트 발생
+        }
+        function grid1_OnCellSelect(rowIndex, Colname, cellcontent, e)
+        {
+        
+        //grid1.wizGrid("setGridParam",{cellEdit : true});
+        
+         //setCellOpt(rowIndex, Colname);
+        //alert(1);
+        //셀을 선택하면 이벤트 발생
+        }
+        function grid1_OnColumnSort(Colname, iCol, sortorder)
+        {
+        //컬럼클릭하면 이벤트 발생
+        }
+        function grid1_OndblClickRow(rowIndex)
+        {
+        
+        //행을 더블 클릭하면 이벤트 발생생
+        }
+        function grid1_OnEnterRow(rowIndex, selrow )
+        {
+        //행이 변경되면 이벤트 발생생
+        }
+        function grid1_OnInitGrid()
+        {
+        //그리드가 초기화 되면 이벤트 발생
+        //SAWONLIST.submit(false);
+        }
+        function grid1_OnLoadComplete()
+        {
+        
+        /*grid1.wizGrid("setGridParam", {
+        						cellEdit: false
+        					}, true);
+        					
+        var colSaveName= grid1.wizGrid('getGridParam', 'Columns');
+        for(var i =0 ; i < colSaveName.length; i ++){
+        
+          // alert(colSaveName[i]['name']);
+        var cm = grid1.wizGrid('getColProp',colSaveName[i]['name']);
+        cm.editable =false;
+        }*/
+        }
+        /*
+        grid1.wizGrid("setGridParam", {
+        						cellEdit: false
+        					}, true);
+        					
+        var colSaveName= grid1.wizGrid('getGridParam', 'Columns');
+        for(var i =0 ; i < colSaveName.length; i ++){
+        
+          // alert(colSaveName[i]['name']);
+        var cm = grid1.wizGrid('getColProp',colSaveName[i]['name']);
+        cm.editable =false;
+        }
+        */
+        					
+        //그리드가 로드완료되면 이벤트 발생  서브미션으로 데이타 그리드에 뿌리고 나서도 이벤트 발생 주의(무한반복됨)
+        
+        
+        function button21_OnClick(myObj)
+        {
+         GridStyleChange("/PBCloud/wizware/css/WIZGRID_DESGIN/UI.WizGrid_02.css");
+        }
+        
+        function button_OnClick(myObj)
+        {
+        wizutil.wizFiledownload("C:/tomcat7/webapps/PBCloud/uploadfile/","기준환율_SAMPLE.xls","기준환율_SAMPLE.xls","/jsp/File/download.jsp");
+        // 파라미터 4개                  파일패스 정보                         유니크파일이름       실제 파일이름름        파일다운로드 jsp경로로
+        }
+        
+        function tab1_Page1_OnClick(myObj)
+        {
+        }
+        function tab1_Page2_OnClick(myObj)
+        {
+        }
+        
+        function input1_OnChange(myObj)
+        {
+        }
+        
+        function grid1_OnEditCell(rowid, cellname, value, iRow, iCol)
+        {
+        }
+        function grid1_OnInsertRow(rowIndex)
+        {
+        }
+        
+        function button23_OnClick(myObj)
+        {
+         excelDown.setInput("grid1");  //엑셀 다운로드할 그리드 id 
+            excelDown.setExcelName("기준정보_기준환율.xlsx");  //엑셀파일 설정  입력 안하면 Default 값 으로 파일만들어짐
+            excelDown.gridExcel(false);  //엑셀 다운로드 서브미션 실행 false 히든칼럼 뺴고 다운 true 히든칼럼 포함 다운
+        //grid2.getCellValue("R4", "EMPLOYEEID", false); 
+        //alert($("#grid2 > tbody > #R4"));
+        //grid2.editRow("R3", true);
+        //$("#grid2 > tbody > #R4").select();
+        //grid2.wizGrid('setSelectionRow',"R3");
+        // jQuery('#grid').jqGrid('setSelection','10259');
+        }
+        function grid2_OnInsertRow(rowIndex)
+        {
+        //alert(1);
+        //grid2.editCellClose();
+        // grid2.setCellValue(rowIndex, "EMPLOYEEID",  "000012", false);
+        }
+        
+        function grid2_OnEditCell(rowid, cellname, value, iRow, iCol)
+        {
+        //alert(rowid + " @@ " + iCol);
+        //var Rowinindex= rowid+1;
+        //	$("#"+Rowinindex+"_NAME").val("");
+        }
+        function S2_AGE_OnChange(myObj)
+        {
+        }
+        function grid2_B1_cellonclick_grid2(rowId)
+        {
+        	 var rowIndex=grid2.getRowIndex(rowId);
+        }
+        function grid2_B2_cellonclick_grid2(rowId)
+        {
+        	 var rowIndex=grid2.getRowIndex(rowId);
+        }
+        
+        function button1_OnMouseMove(myObj)
+        {
+        }
+        function S3_EMPLOYEEID_OnMouseDown(myObj)
+        {
+        }
+        function AGE_POPUP_cellonclick_grid1(rowId)
+        {
+        	 var rowIndex=grid1.getRowIndex(rowId);
+        	 
+        }
+        
+        function grid2_B1_cellonclick_grid1(rowId)
+        {
+        	 var rowIndex=grid1.getRowIndex(rowId);
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <init>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8ㅇㅇ" confirm="" menuid="20160401107892" eventid="SAWONLIST" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_SAWONLIST" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S" outdataset="grid1:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160401107892DEMOJUN_P_Search_DEMO2.do" encoding="UTF-8" confirm="" menuid="20160401107892" eventid="P_Search_DEMO2" menuname="사원관리" eventname="사원조회1" callback="" msghandler="SAWONLIST_ResultHandler" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_excelDown" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/excelDown.excel" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<button  location="338,34"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button7" label="" type="button" src="" unikey="63600976799525640551" visible="True" value="추가" tabindex="0"  onclick="button7_OnClick(this);" ></button>
+
+        	<button  location="216,36"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63597258939145382845" visible="True" value="조회" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+
+        	<button  location="544,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63597275024917436360" visible="True" value="ColumnHide" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+        	<button  location="656,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button4" label="" type="button" src="" unikey="63597275026782543064" visible="True" value="ColumnShow" tabindex="0"  onclick="button4_OnClick(this);" ></button>
+
+        	<button  location="869,55"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button6" label="" type="button" src="" unikey="63597275985799395612" visible="True" value="DeleteRow" tabindex="0"  onclick="button6_OnClick(this);" ></button>
+
+        	<button  location="762,56"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button5" label="" type="button" src="" unikey="63597275964039151001" visible="True" value="insertRow" tabindex="0"  onclick="button5_OnClick(this);" ></button>
+
+        	<button  location="41,66"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button23" label="" type="button" src="" unikey="63600977155510001605" visible="True" value="Row선택" tabindex="0"  onclick="button23_OnClick(this);" ></button>
+
+        	<button  location="792,92"  size="135,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button10" label="" type="button" src="" unikey="63597276252636657914" visible="True" value="Column Object 값" tabindex="0"  onclick="button10_OnClick(this);" ></button>
+
+        	<button  location="531,92"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button8" label="" type="button" src="" unikey="63597276059030584259" visible="True" value="CellStyle" tabindex="0"  onclick="button8_OnClick(this);" ></button>
+
+        	<button  location="646,92"  size="135,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button9" label="" type="button" src="" unikey="63597276187181914168" visible="True" value="선택된 Row Index값" tabindex="0"  onclick="button9_OnClick(this);" ></button>
+
+        	<combo  location="174,92"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_AGE" bindcolumn="AGE"  binddataset="S2"  unikey="63601091394147077993" bind="S2_AGE_bnd" incremental="True" tabindex="0" itemdataset="" itemlabel="" itemcode="" onchange="S2_AGE_OnChange(this);" appearance="minimal" >
+    	</combo>
+
+        	<button  location="418,131"  size="239,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button11" label="" type="button" src="" unikey="63597276298469279365" visible="True" value="Column Index로 이름가져오기" tabindex="0"  onclick="button11_OnClick(this);" ></button>
+
+        	<button  location="667,131"  size="273,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button12" label="" type="button" src="" unikey="63597276411779760310" visible="True" value="Column 이름으로 ColIndex값 가져오기" tabindex="0"  onclick="button12_OnClick(this);" ></button>
+
+        	<textbox  location="129,139"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_ITEM_CD" bindcolumn="ITEM_CD"  binddataset="S3"  unikey="63600562126515175096" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onmousedown="S3_EMPLOYEEID_OnMouseDown(this);">    	</textbox>
+
+        	<button  location="648,164"  size="131,20"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button14" label="" type="button" src="" unikey="63597276521091012611" visible="True" value="Cell 값 가져오기" tabindex="0"  onclick="button14_OnClick(this);" ></button>
+
+        	<button  location="431,164"  size="198,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button13" label="" type="button" src="" unikey="63597276479491633271" visible="True" value="상태 Flag 값 가져오기" tabindex="0"  onclick="button13_OnClick(this);" ></button>
+
+        	<button  location="796,164"  size="148,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn" label="" type="button" src="" unikey="63597276557691106068" visible="True" value="cell 값 변경 하기" tabindex="0"  onclick="btn_OnClick(this);" ></button>
+
+        	<checkbox  location="202,186"  size="15,15"  falsevalue=""  truevalue=""  inputstyle="width:15px; height:15px;border-width:0px;background-color:White; color:Black;border-color:#000000;text-align:left;" 	 id="check1" bindcolumn=""  binddataset=""  unikey="63602802531749271636" label=""  tabindex="0"  visible="True" appearance="full"     >    </checkbox>
+
+        	<textbox  location="61,186"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_EMPLOYEEID" bindcolumn="EMPLOYEEID"  binddataset="S1"  unikey="63600919470023580550" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<calendar  location="254,189"  size="100,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonthDay; text-align:left; lang-type:ko; " id="calendar1" bindcolumn=""  binddataset=""  unikey="63602299861645770975" visible="True" dateFormat="yymmdd"     constrainInput="True" buttonimageOnly="False" buttonImage="" changeMonth="True" changeYear="False" showButtonPanel="True" currentText="today" closeText="close" tabindex="0" >    	</calendar>
+
+        	<button  location="427,199"  size="189,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button15" label="" type="button" src="" unikey="63597276607098931999" visible="True" value="선택된 Row Cell 값 가져오기" tabindex="0"  onclick="button15_OnClick(this);" ></button>
+
+        	<button  location="632,199"  size="224,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button16" label="" type="button" src="" unikey="63597276655274687464" visible="True" value="Flag가 U인 Row 정보 가져오기" tabindex="0"  onclick="button16_OnClick(this);" ></button>
+
+        	<button  location="869,199"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button20" label="" type="button" src="" unikey="63597276827241523413" visible="True" value="Grid Clear" tabindex="0"  onclick="button20_OnClick(this);" ></button>
+
+        	<button  location="428,237"  size="247,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button17" label="" type="button" src="" unikey="63597276692738830382" visible="True" value="Grid Edit 상태 Close 처리" tabindex="0"  onclick="button17_OnClick(this);" ></button>
+
+        	<button  location="692,237"  size="160,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button18" label="" type="button" src="" unikey="63597276752435244773" visible="True" value="Grid Column 총 수" tabindex="0"  onclick="button18_OnClick(this);" ></button>
+
+        	<button  location="862,237"  size="161,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button19" label="" type="button" src="" unikey="63597276781153887312" visible="True" value="Grid Row 총 수" tabindex="0"  onclick="button19_OnClick(this);" ></button>
+
+        	<button  location="50,280"  size="63,26"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button22" label="" type="button" src="" unikey="63599352796454527201" visible="True" value="button" tabindex="0"  ></button>
+
+        	<button  location="357,283"  size="109,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button" label="" type="button" src="" unikey="63597806040123338861" visible="True" value="파일다운로드" tabindex="0"  onclick="button_OnClick(this);" ></button>
+
+        	<button  location="558,283"  size="193,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button21" label="" type="button" src="" unikey="63597361795720442471" visible="True" value="그리드 스타일 변경" tabindex="0"  onclick="button21_OnClick(this);" ></button>
+
+        	<button  location="791,286"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:DarkGray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63597258955847338148" visible="True" value="Colmerge" tabindex="0"  onclick="button2_OnClick(this);" ></button>
+
+    
+       <grid  rownum="10" unikey="63603828060443568780" id="grid1" dataset="S1" border="1" width="1042" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="20,366"  size="1042,301"  readonly="false"  statusvisible="true"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  gridheadheight="20"  gridbodyheight="22"  evenrow="false"  colmove="false"  gridrowcolor=""  onloadcomplete="grid1_OnLoadComplete(this);" >
+        <heads>
+          <row height="23">
+          <head title="시나리오설명" text-align="center" > </head>
+          <head title="사원번호" text-align="center"  startcolumn="SNR_DESC" numberofcolumn="3"> </head>
+          <head title="이름" text-align="center" > </head>
+          <head title="나이" text-align="center" > </head>
+          <head title="1" text-align="center"  startcolumn="SNR_DESC" numberofcolumn="3"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="2" text-align="center"  startcolumn="SNR_DESC" numberofcolumn="2"> </head>
+          <head title="" text-align="center" > </head>
+          <head title="3" text-align="center"  startcolumn="SNR_DESC" numberofcolumn="2"> </head>
+          <head title="" text-align="center" > </head>
+           </row>
+          <row height="20">
+          <head title="시나리오설명" text-align="center" > </head>
+          <head title="사원번호" text-align="center" > </head>
+          <head title="이름" text-align="center" > </head>
+          <head title="나이" text-align="center" > </head>
+          <head title="Aaaaaaaaaaaaaaaaaaa" text-align="center" > </head>
+          <head title="B" text-align="center" > </head>
+          <head title="C" text-align="center" > </head>
+          <head title="D" text-align="center" > </head>
+          <head title="E" text-align="center" > </head>
+          <head title="F" text-align="center" > </head>
+          <head title="G" text-align="center" > </head>
+          <head title="H" text-align="center" > </head>
+          <head title="I" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="SNR_DESC" dataset="S1" columnid="SNR_DESC" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SAWONNO" dataset="S1" columnid="SAWONNO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="NAME" dataset="S1" columnid="NAME" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="calendar"  maxlength="20" dateFormat="yy-mm-dd" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="close" YMDformat="YearMonthDay" popupOnclick="" imagepath="" imagestyle="" text-align="center" >        <events></events>          </column>
+          <column  id="AGE" dataset="S1" columnid="AGE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B1" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B2" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B3" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B4" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B5" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B6" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B7" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B8" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B9" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+    </div>
+</body>
+</html>

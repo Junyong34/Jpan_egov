@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>Forecast Management</title>
+        <script><![CDATA[ 
+        $(document).ready(function() {
+              
+              COMPANY_ORG_COMBO.submit(false, "sessionSet");
+              $(document).keydown(function(e){   
+                   
+                   if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });
+                  
+              });  
+        
+        
+        function sessionSet(){
+        if("${G.COMPANY_CD}" != ""){
+            // $("#S2_COMPANY_CD").val("${G.COMPANY_CD}"+"${G.COMPANY_ORG_CD}");
+        	// $("#S4_COMPANY_CD").val("${G.COMPANY_CD}"+"${G.COMPANY_ORG_CD}");
+        	// ORG_combo_S4.submit(false);
+        //	 ORG_combo_S2.submit(false);
+        }
+        
+        }
+        function ValCheck(){
+        
+         if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00020");
+                $("#C_CNT").val('');
+                return;
+        
+            }
+          /* if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }   */
+          
+           if(confirm(confirm_MSG("0001"))){
+           
+            TitleSet.submit(false,"Result");
+           }
+           
+        }
+        function ValCheck2(){
+        
+        
+          if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00020");
+                $("#C_CNT").val('');
+                return;
+        
+            }
+         
+           if(confirm(confirm_MSG("0001"))){
+           
+            DataCopy.submit(false,"ReslutMSG");
+             
+           }
+           
+        }
+        function ValCheck3(){
+        
+        
+          if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00019","PID");
+                $("#C_CNT").val('');
+                return;
+        
+            }
+         
+           if(confirm(confirm_MSG("0001"))){
+           
+            DataCopy.submit(false,"ReslutMSG");
+             
+           }
+           
+        }
+        function ReslutMSG(){
+         InputClear();
+         Return_RTN_MSG("00002");
+          /* var rtn_msg ="";
+           rtn_msg= $("#out_message").val(); 
+           if(rtn_msg == 00019){
+            Return_RTN_MSG(rtn_msg,"PID","S3_PID");
+           return;
+           }else if(rtn_msg == 00020){
+            Return_RTN_MSG(rtn_msg,"PID","S3_PID");
+           return;
+           }else{
+              Return_RTN_MSG(rtn_msg);
+           }
+        */
+        }
+        function Result(){
+        
+            
+              InputClear();
+               Return_RTN_MSG("00002");
+               
+            
+        }
+        function button1_OnClick(myObj)
+        {
+        
+           sbmCtlSave.submit(false, "title1"); 
+           
+        }
+        function title1(){
+        
+            if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }    
+            if( $("#S1_DATA_TYPE").val() == ""  ){
+                Return_RTN_MSG("00004","Forecast","S1_DATA_TYPE");
+                return;
+            }else if( $("#S1_PID").val() == "" ){
+                Return_RTN_MSG("00003","PID","S1_PID");
+                 return;
+            }else if(  $("#S1_DATA_TYPE_NM").val() == "" ){
+               Return_RTN_MSG("00003","TITLE","S1_DATA_TYPE_NM");
+                return;
+            }
+            //정규식 체크 
+            if(PatternVal($("#S1_PID").val(),"PID") == -1){
+              return;
+            }
+            
+             
+                 
+                   
+               
+          
+                PID_CHECK.submit(false,"PID_AUTH_CHECK"); //pid체크 파라미터 수정해야함 현재안됨.
+            
+          
+           
+         
+        }
+        function PID_AUTH_CHECK(){
+        	
+        	if( $("#C_CNT").val() == "0"){
+        	
+        	   Return_RTN_MSG("00019","PID");
+        	   return;
+        	}else{
+        	 if("${G.AUTH_CD}" != "50"){
+        	
+               $("#C_CNT").val(1);
+                  ValCheck();
+              
+        	  }else{
+        	
+        	     PID_Confirm2.submit(false,"ValCheck");
+        	  }
+          }
+        }
+        function button2_OnClick(myObj)
+        {
+        
+         sbmCtlSave.submit(false, "title2"); 
+        
+        
+        }
+        function title2(){
+        
+             if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }    
+        	if($("#S2_COMPANY_CD").val() == ""){
+        	   Return_RTN_MSG("00004","Company Name","S2_COMPANY_CD");
+        	   return;
+            }else if( $("#S2_ORG_CD").val() == "" ){
+                Return_RTN_MSG("00004","Organization Name","S2_ORG_CD");
+                return;
+            }else if( $("#S2_DATA_TYPE").val() == ""  ){
+               Return_RTN_MSG("00004","Forecast","S2_DATA_TYPE");
+               return;
+            }else if(  $("#S2_DATA_TYPE_NM").val() == "" ){
+               Return_RTN_MSG("00003","TITLE","S2_DATA_TYPE_NM");
+               return;
+            }
+            
+            if("${G.AUTH_CD}" != "50"){
+               $("#C_CNT").val(1);
+               ORG_Title();
+               
+            }else{
+             
+             ORG_Confirm.submit(false,"ORG_Title");
+             
+            }
+            
+        
+        }
+        function ORG_Title(){
+        
+          if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00020");
+                $("#C_CNT").val('');
+                return;
+        
+            }
+           /* if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }  */  
+            if(confirm(confirm_MSG("0001"))){
+        		TitleSet2.submit(false,"Result");
+            }
+        
+        }
+        function button3_OnClick(myObj)
+        {
+          sbmCtlWrite.submit(false, "FCSTSAVE1");  
+        }
+        function FCSTSAVE1(){
+        
+           if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }    
+           if( $("#S3_PID").val() == "" ){
+                Return_RTN_MSG("00003","PID","S3_PID");
+                return;
+            }else if( $("#S3_TO").val() == "" ){
+                Return_RTN_MSG("00004","TO","S3_TO");
+                return;
+            }else if( $("#S3_FROM").val() == "" ){
+               Return_RTN_MSG("00004","FROM","S3_FROM");
+               return;
+            }
+            
+            if( $("#S3_TO").val() == $("#S3_FROM").val()){
+                  Return_RTN_MSG("00035");
+                  return;
+            }
+            
+            //정규식 체크 
+            if(PatternVal($("#S3_PID").val(),"PID") == -1){
+              return;
+            }
+            
+             if("${G.AUTH_CD}" != "50"){
+               $("#C_CNT").val("1");
+            PID_CHECK.submit(false,"ValCheck3");
+             
+              
+          }else{
+           PID_Confirm.submit(false,"ValCheck2");
+          }
+              
+            
+        
+        }
+        function button4_OnClick(myObj)
+        {
+          sbmCtlWrite.submit(false, "FCSTSAVE2");  
+            
+        }
+        function FCSTSAVE2(){
+        
+            if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }    
+            
+            if($("#S4_COMPANY_CD").val() == ""){
+        	   Return_RTN_MSG("00004","Company Name","S4_COMPANY_CD");
+        	   return;
+            }else if( $("#S4_ORG_CD").val() == ""  ){
+               Return_RTN_MSG("00004","Organization Name","S4_ORG_CD");
+               return;
+            }else if( $("#S4_TO").val() == "" ){
+                Return_RTN_MSG("00004","TO","S4_TO");
+                return;
+            }else if( $("#S4_FROM").val() == "" ){
+               Return_RTN_MSG("00004","FROM","S4_FROM");
+               return;
+            }
+            
+            if( $("#S4_TO").val() == $("#S4_FROM").val()){
+                  Return_RTN_MSG("00035");
+                  return;
+            }
+             if("${G.AUTH_CD}" != "50"){
+                $("#C_CNT").val("1");
+               ORG_Copy();
+               
+            }else{
+             
+             ORG_Confirm2.submit(false,"ORG_Copy");
+             
+            }
+            
+            
+           
+        
+        }
+        function ORG_Copy(){
+        
+         if ($("#C_CNT").val() != 1) {
+        
+                Return_RTN_MSG("00020");
+                $("#C_CNT").val('');
+                return;
+        
+            }
+        /* if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }  */  
+        
+         if(confirm(confirm_MSG("0001"))){
+             DataCopy2.submit(false,"Result"); 
+             
+                }
+        
+        }
+        function S2_ORG_CD_OnClick(myObj)
+        {
+           if($("#S2_COMPANY_CD").val() == ""){
+                Return_RTN_MSG("00004","Company Name","S2_COMPANY_CD");
+                return;
+           }
+        }
+        function S2_COMPANY_CD_OnChange(myObj)
+        {
+         if( $("#S2_COMPANY_CD").val()==""){
+             $("#S2_ORG_CD").val("");
+             return;
+          }
+         
+         ORG_combo_S2.submit(false);
+         
+        }
+        function S4_ORG_CD_OnClick(myObj)
+        {
+        if($("#S4_COMPANY_CD").val() == ""){
+                Return_RTN_MSG("00004","Company Name","S4_COMPANY_CD");
+                return;
+           }
+        }
+        function S4_COMPANY_CD_OnChange(myObj)
+        {
+        if( $("#S4_COMPANY_CD").val() ==""){
+          
+           $("#S4_ORG_CD").val("");
+             return;
+        }
+        ORG_combo_S4.submit(false);
+         
+        }
+        
+        function InputClear(){
+        
+         $('input[type=text]').val('');
+         $('select').each(function(){
+        	$(this).find('option:eq(0)').prop('selected','true');
+        	});
+        }
+        
+        function ErrorCheck(){
+        //오류가 발생할 때 
+        if(ErroMsgDisplay() != 0) {
+            
+           // 메시지 코드드
+           var ERROR_CODE ="";
+           ERROR_CODE= $("#out_message").val();
+           
+           if(ErroMsgDisplay() == 9999){
+                ERROR_CODE= 9999;
+           }
+        
+           var param = ""
+           param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+            
+           var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        	 
+        	   $("#Error_cd").attr("src",url);
+        	   $("#Error_cd").attr("frameborder", 0);
+        	   $("#divPopup_ErrorCode").dialog({
+        			autoPoen:false,
+        			height : 260,
+        			//position:[50,300],
+        			width:530,
+        			modal: true, 
+        			title: "Error Indication",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 
+                 
+        		//	window.location.reload();
+        			// iframe 초기화.
+               $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+        	   $("#divPopup_ErrorCode").dialog("open"); 
+           	}
+        }
+        
+        
+        
+        
+        function S1_DATA_TYPE_OnClick(myObj)
+        {
+        
+         if($("#S1_DATA_TYPE  option:eq(0)").text() !="--Choice--"&& $("#S1_PID").val()==""){
+            Return_RTN_MSG("00003","PID","S1_PID");
+            return;
+          } 
+        }
+        function S2_DATA_TYPE_OnClick(myObj)
+        {
+        if($("#S2_DATA_TYPE  option:eq(0)").text() !="--Choice--"){
+            Return_RTN_MSG("00004","Organization Name","S2_ORG_CD");
+             return;
+          } 
+        }
+        function S3_FROM_OnClick(myObj)
+        {
+        if($("#S3_FROM  option:eq(0)").text() !="--Choice--"&& $("#S3_PID").val()==""){
+            Return_RTN_MSG("00003","PID","S4_PID");
+             return;
+          } 
+        }
+        function S3_TO_OnClick(myObj)
+        {
+        if($("#S3_TO  option:eq(0)").text() !="--Choice--" && $("#S3_PID").val()==""){
+            Return_RTN_MSG("00003","PID","S4_PID");
+             return;
+          } 
+        }
+        function S4_FROM_OnMouseDown(myObj)
+        {
+        if($("#S4_FROM  option:eq(0)").text() !="--Choice--"){
+            Return_RTN_MSG("00004","Organization Name","S4_ORG_CD");
+             return;
+          } 
+        }
+        function S4_TO_OnClick(myObj)
+        {
+        if($("#S4_TO  option:eq(0)").text() !="--Choice--"){
+            Return_RTN_MSG("00004","Organization Name","S4_ORG_CD");
+             return;
+          } 
+        }
+        function S1_PID_OnKeyUp(myObj)
+        {
+         if($("#S1_PID").val() != "" && $("#S1_PID").val().length ==6){
+           
+             FCST_Title_Combo.submit(false);
+           }
+        }
+        function S3_PID_OnKeyUp(myObj)
+        {
+        if($("#S3_PID").val() != ""  && $("#S3_PID").val().length ==6){
+           
+             FCST_TitleFrom_Combo.submit(false);
+             FCST_TitleTo_Combo.submit(false);
+           }
+        }
+        function S2_ORG_CD_OnChange(myObj)
+        {
+         if( $("#S2_ORG_CD").val() != ""){
+               FCST_Title_ORG_Combo.submit(false);
+           } 
+        }
+        function S4_ORG_CD_OnChange(myObj)
+        {
+          if( $("#S4_ORG_CD").val() != ""){
+               FCST_Title_ORG_Combo_COPY.submit(false);
+           } 
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""  CNT=""   />
+                        </C>
+                        <S1 dateformat="" >
+                            <row  DATA_TYPE=""  PID=""  DATA_TYPE_NM=""   />
+                        </S1>
+                        <S2 dateformat="" >
+                            <row  DATA_TYPE=""  COMPANY_CD=""  ORG_CD=""  DATA_TYPE_NM=""   />
+                        </S2>
+                        <S3 dateformat="" >
+                            <row  PID=""  FROM=""  TO=""   />
+                        </S3>
+                        <S4 dateformat="" >
+                            <row  COMAPN_NAME=""  SECTION_NAME=""  COMPANY_CD=""  ORG_CD=""   />
+                        </S4>
+                        <init>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""  CNT=""   />
+                            </C>
+                            <S1>
+                                <row  DATA_TYPE=""  PID=""  DATA_TYPE_NM=""   />
+                            </S1>
+                            <S2>
+                                <row  DATA_TYPE=""  COMPANY_CD=""  ORG_CD=""  DATA_TYPE_NM=""   />
+                            </S2>
+                            <S3>
+                                <row  PID=""  FROM=""  TO=""   />
+                            </S3>
+                            <S4>
+                                <row  COMAPN_NAME=""  SECTION_NAME=""  COMPANY_CD=""  ORG_CD=""   />
+                            </S4>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="CommonCombo" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_TitleSet" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_ForecastTitleSet.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="ForecastTitleSet" menuname="20. Forecast관리" eventname="01. Forecast호칭 설정" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_PID_Confirm" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S1" outdataset="C:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_Forecast_PIDcheck.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="Forecast_PIDcheck" menuname="30. Forecast  Management" eventname="06. PID CHECK" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_COMPANY_ORG_COMBO" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S2_COMPANY_CD:SEL4,S4_COMPANY_CD:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_Company_Org_cd.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="Company_Org_cd" menuname="40. 공통코드 관리" eventname="03.회사 _ 조직 콤보" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_TitleSet2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_ForecastTitleSet2.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="ForecastTitleSet2" menuname="20. Forecast관리" eventname="02. Forecast호칭 설정2" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_combo_S2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S1" outdataset="S2_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_ORGAuthCombobox.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="ORGAuthCombobox" menuname="40. Common Code Manage" eventname="06. ORG AUTH Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_combo_S4" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S4[A]:S1" outdataset="S4_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_ORGAuthCombobox.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="ORGAuthCombobox" menuname="40. Common Code Manage" eventname="06. ORG AUTH Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DataCopy" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S3" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_ForecastDataCopy.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="ForecastDataCopy" menuname="30. Forecast  Management" eventname="03. Forecast Data Copy" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_DataCopy2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S4[A]:S4" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_ForecastDataCopy2.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="ForecastDataCopy2" menuname="20. Forecast관리" eventname="04. Forecast데이터 복사2" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlSave" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_saveUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="saveUsingCheck" menuname="50. Common Control" eventname="02. Save Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_PID_Confirm2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="C:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_Forecast_PIDcheck.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="Forecast_PIDcheck" menuname="30. Forecast  Management" eventname="06. PID CHECK" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlWrite" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_MonthlyUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="MonthlyUsingCheck" menuname="50. Common Control" eventname="01. Monthly  Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_Confirm" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S2" outdataset="C:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_Forecast_ORGCheck.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="Forecast_ORGCheck" menuname="30. Forecast  Management" eventname="07. ORG_CD CHECK" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_Confirm2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S4[A]:S2" outdataset="C:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_Forecast_ORGCheck.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="Forecast_ORGCheck" menuname="30. Forecast  Management" eventname="07. ORG_CD CHECK" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_Title_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S5" outdataset="S1_DATA_TYPE:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_FCST_TITLE_COMBO.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="FCST_TITLE_COMBO" menuname="30. Forecast  Management" eventname="08. FCST+Title Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_Title_Combo2" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S2" outdataset="S3_FROM:SEL2" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101143PLSheetOutput_initCombo.do" encoding="UTF-8" confirm="" menuid="20160901101143" eventid="initCombo" menuname="90. PL Sheet Output" eventname="03. initComboList" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_TitleFrom_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S2" outdataset="S3_FROM:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_FCSTCOPYCombo.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="FCSTCOPYCombo" menuname="30. Forecast  Management" eventname="09. Copy FROM_TO COMBO" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_TitleTo_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S5" outdataset="S3_TO:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_FCST_TITLE_COMBO.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="FCST_TITLE_COMBO" menuname="30. Forecast  Management" eventname="08. FCST+Title Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_Title_ORG_Combo" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S2[A]:S5" outdataset="S2_DATA_TYPE:SEL6" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_FCST_TITLE_COMBO.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="FCST_TITLE_COMBO" menuname="30. Forecast  Management" eventname="08. FCST+Title Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_FCST_Title_ORG_Combo_COPY" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S4[A]:S4" outdataset="S4_TO:SEL8,S4_FROM:SEL9" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417899ForecastInfoMgr_FCST_TITLE_COMBO.do" encoding="UTF-8" confirm="" menuid="2016082417899" eventid="FCST_TITLE_COMBO" menuname="30. Forecast  Management" eventname="08. FCST+Title Combo" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_PID_CHECK" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S3[A]:S2" outdataset="C:SEL3" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901101143PLSheetOutput_PIDCheck.do" encoding="UTF-8" confirm="" menuid="20160901101143" eventid="PIDCheck" menuname="90. PL Sheet Output" eventname="02. PID Check" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608699797800473639" label="Forecast Management">    	</output>
+
+        	<textbox  location="668,79"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="C_CNT" bindcolumn="CNT"  binddataset="C"  unikey="63610080062948199006" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<userobject  location="910,81"  size="58,73"  style="display:none;" visible="True" inputstyle="width:58px; height:73px; border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63611284704979395639" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<output  location="63,86"  size="270,41"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608699910926944106" label="Forecast Title Setting">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="65,135"  size="740,175"  unikey="63610149965663405605" style="" visible="True" >  
+                	<output  location="396,159"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63608700024750454470" label="Forecast">        	</output>
+                	<output  location="246,159"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63608700015021898057" label="PID">        	</output>
+                	<output  location="543,159"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label7" bindcolumn=""  binddataset=""  unikey="63608700195269207592" label="Title">        	</output>
+                	<button  location="684,182"  size="51,21"  font-family="굴림체" font-size="9.75" inputclass="" style="aa" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63608700510523239078" disabled="True" visible="True" value="set" tabindex="4"  onclick="button1_OnClick(this);" ></button>
+                	<combo  location="397,182"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S1_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S1"  unikey="63608700260324928543" bind="S1_DATA_TYPE_bnd" incremental="True" tabindex="2" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S1_DATA_TYPE_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<textbox  location="247,182"  size="122,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_PID" bindcolumn="PID"  binddataset="S1"  unikey="63608700256534711722" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="1"  onkeyup="S1_PID_OnKeyUp(this);">        	</textbox>
+                	<textbox  location="543,183"  size="122,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S1_DATA_TYPE_NM" bindcolumn="DATA_TYPE_NM"  binddataset="S1"  unikey="63608700264661176567" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="60" incremental="True" tabindex="3" >        	</textbox>
+                	<output  location="543,233"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63608700325883678267" label="Title">        	</output>
+                	<output  location="97,233"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63608700000214051041" label="Company Name">        	</output>
+                	<output  location="396,233"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63608700314836046336" label="Forecast">        	</output>
+                	<output  location="245,233"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63608700301212267107" label="Organization Name">        	</output>
+                	<button  location="685,256"  size="51,21"  font-family="굴림체" font-size="9.75" inputclass="" style="aaa" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button2" label="" type="button" src="" unikey="63608700524219022421" disabled="True" visible="True" value="set" tabindex="9"  onclick="button2_OnClick(this);" ></button>
+                	<combo  location="245,256"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_ORG_CD" bindcolumn="ORG_CD"  binddataset="S2"  unikey="63608700402011032524" bind="S2_ORG_CD_bnd" incremental="True" tabindex="6" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S2_ORG_CD_OnClick(this);" onchange="S2_ORG_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="97,256"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_COMPANY_CD" bindcolumn="COMPANY_CD"  binddataset="S2"  unikey="63608699993736680532" bind="S2_COMPANY_CD_bnd" incremental="True" tabindex="5" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S2_COMPANY_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="396,256"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S2_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S2"  unikey="63608700404131153759" bind="S2_DATA_TYPE_bnd" incremental="True" tabindex="7" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S2_DATA_TYPE_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<textbox  location="544,257"  size="122,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_DATA_TYPE_NM" bindcolumn="DATA_TYPE_NM"  binddataset="S2"  unikey="63608700407683356997" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="60" incremental="True" tabindex="8" >        	</textbox>
+    </group>
+        	<output  location="63,325"  size="270,41"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608699934582297113" label="Forecast Data Copy">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="62,382"  size="740,175"  unikey="63610149989854789316" style="" visible="True" >  
+                	<output  location="549,411"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label16" bindcolumn=""  binddataset=""  unikey="63608700584450467446" label="To">        	</output>
+                	<output  location="402,411"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label13" bindcolumn=""  binddataset=""  unikey="63608700577810087663" label="From">        	</output>
+                	<output  location="252,411"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label12" bindcolumn=""  binddataset=""  unikey="63608700575833974637" label="PID">        	</output>
+                	<combo  location="549,434"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S3_TO" bindcolumn="TO"  binddataset="S3"  unikey="63608700823104117609" bind="S3_TO_bnd" incremental="True" tabindex="12" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S3_TO_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="402,434"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S3_FROM" bindcolumn="FROM"  binddataset="S3"  unikey="63608700829224467714" bind="S3_FROM_bnd" incremental="True" tabindex="11" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S3_FROM_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<textbox  location="252,434"  size="122,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_PID" bindcolumn="PID"  binddataset="S3"  unikey="63608700808552285344" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="10"  onkeyup="S3_PID_OnKeyUp(this);">        	</textbox>
+                	<button  location="691,438"  size="51,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63608700979391056755" visible="True" value="Copy" tabindex="13"  onclick="button3_OnClick(this);" ></button>
+                	<output  location="103,471"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63608700571433722988" label="Company Name">        	</output>
+                	<output  location="251,471"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label15" bindcolumn=""  binddataset=""  unikey="63608700582578360318" label="Organization Name">        	</output>
+                	<output  location="549,474"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label17" bindcolumn=""  binddataset=""  unikey="63608700586234569575" label="To">        	</output>
+                	<output  location="402,474"  size="122,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label14" bindcolumn=""  binddataset=""  unikey="63608700579402178790" label="From">        	</output>
+                	<combo  location="103,494"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S4_COMPANY_CD" bindcolumn="COMPANY_CD"  binddataset="S4"  unikey="63608700819504911842" bind="S4_COMPANY_CD_bnd" incremental="True" tabindex="14" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S4_COMPANY_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="251,494"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S4_ORG_CD" bindcolumn="ORG_CD"  binddataset="S4"  unikey="63608700821153006075" bind="S4_ORG_CD_bnd" incremental="True" tabindex="15" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S4_ORG_CD_OnClick(this);" onchange="S4_ORG_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="550,496"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S4_TO" bindcolumn="TO"  binddataset="S4"  unikey="63608700826608318078" bind="S4_TO_bnd" incremental="True" tabindex="17" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S4_TO_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<button  location="691,497"  size="51,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button4" label="" type="button" src="" unikey="63608700981199160194" visible="True" value="Copy" tabindex="18"  onclick="button4_OnClick(this);" ></button>
+                	<combo  location="402,497"  size="122,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:122px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S4_FROM" bindcolumn="FROM"  binddataset="S4"  unikey="63608700832776670951" bind="S4_FROM_bnd" incremental="True" tabindex="16" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onmousedown="S4_FROM_OnMouseDown(this);" appearance="minimal" >
+        	</combo>
+    </group>
+    </div>
+</body>
+</html>

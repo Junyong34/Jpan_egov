@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>Sub_PID 팝업</title>
+        <script><![CDATA[ 
+        $(document).ready(function(){ 
+             $("#S_PID").val( getParamdata('S1_PID'));
+        }); 
+        
+        function button3_OnClick(myObj)
+        {
+        
+        /*****
+         등록값이 널일 경우 체크 로직 추가해야함.
+        *****/
+        Sub_PID_ADD.submit(false);
+          
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S dateformat="" >
+                            <row  PID=""  SUB_PID=""  SUB_PID_USE=""  USE_DEPT_CD=""  NOTE=""   />
+                        </S>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C>
+                        <init>
+                            <S>
+                                <row  PID=""  SUB_PID=""  SUB_PID_USE=""  USE_DEPT_CD=""  NOTE=""   />
+                            </S>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_OWNER_DEPT_CD:SEL6" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417883PidInfoMgr_MasterComboList.do" encoding="UTF-8" confirm="" menuid="2016082417883" eventid="MasterComboList" menuname="10. PID관리" eventname="02.사업장마스터 콤보박스" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Sub_PID_ADD" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/2016082417883PidInfoMgr_Sub_PID_ADD.do" encoding="UTF-8" confirm="등록하시겠습니까?" menuid="2016082417883" eventid="Sub_PID_ADD" menuname="10. PID관리" eventname="09.Sub_PID 등록" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="35,16"  size="155,36"  font-family="굴림체" font-weight="bold" font-size="15.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63607733207978016913" label="SUB_PID 등록">    	</output>
+
+        	<button  location="320,64"  size="62,22"  font-family="굴림체" font-size="9.75" inputclass="" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63607739275756074019" visible="True" value="등록" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+
+    <layout  inputstyle="background-color:White;border-width:0px;border-style:solid;border-color:Black;" id="layout1" name="layout1"  location="25,104"  size="360,82"  unikey="63607733242447988519" style="" visible="True" columnsize="2" rowsize="4" equalsheight="False" equalswidth="True" >  
+    	<column  width="180" align="Center_Right" bgcolor="White" columnIndex="0" dockfull="True" classname="">
+    	</column>
+    	<column  width="180" align="Center_Right" bgcolor="White" columnIndex="1" dockfull="True" classname="">
+    	</column>
+    	<row height="20" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="25,104" size="180,20" rowspan="1" colspan="1" xpoint="0" ypoint="0" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="205,104" size="180,20" rowspan="1" colspan="1" xpoint="1" ypoint="0" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="20" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="25,124" size="180,20" rowspan="1" colspan="1" xpoint="0" ypoint="1" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="205,124" size="180,20" rowspan="1" colspan="1" xpoint="1" ypoint="1" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="20" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="25,144" size="180,20" rowspan="1" colspan="1" xpoint="0" ypoint="2" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="205,144" size="180,20" rowspan="1" colspan="1" xpoint="1" ypoint="2" dockfull="True">
+    		</cell>
+    	</row>
+    	<row height="22" classname="">
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="25,164" size="180,22" rowspan="1" colspan="1" xpoint="0" ypoint="3" dockfull="True">
+    		</cell>
+    		<cell  bgcolor="White" bordercolor="Black" classname="" align="Center_Right" location="205,164" size="180,22" rowspan="1" colspan="1" xpoint="1" ypoint="3" dockfull="True">
+    		</cell>
+    	</row>
+    	<child>
+                	<textbox  location="208,107"  size="174,14"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63607733557654017315" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="28,107"  size="174,14"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63607733334534255548" label="PID">        	</output>
+                	<textbox  location="208,127"  size="174,14"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="input1" bindcolumn="SUB_PID"  binddataset="S1"  unikey="63607747463394380137" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" readonly="True" visible="True" value="${SEL2.SUB_PID}" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="28,127"  size="174,14"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63607733374661550767" label="SUB_PID">        	</output>
+                	<textbox  location="208,147"  size="174,14"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_SUB_PID_USE" bindcolumn="SUB_PID_USE"  binddataset="S"  unikey="63607736971500278139" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<output  location="28,147"  size="174,14"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label8" bindcolumn=""  binddataset=""  unikey="63607733462916598635" label="용도">        	</output>
+                	<combo  location="208,167"  size="174,16"  requiredfield="true" requiredmsg="" defaultitem="--선택--" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:174px; height:16px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_USE_DEPT_CD" bindcolumn="USE_DEPT_CD"  binddataset="S"  unikey="63607736977164602162" bind="S_USE_DEPT_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<output  location="28,167"  size="174,16"  font-family="굴림체" font-size="9.75" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Cornsilk; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63607733489397113263" label="이용부서">        	</output>
+    	</child>
+    </layout>
+    </div>
+</body>
+</html>

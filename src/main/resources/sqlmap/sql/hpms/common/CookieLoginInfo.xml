@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CookieLoginInfo_2016041114474">
+ <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL3">SELECT COUNT (*) AS CNT 
+  FROM US0M001T_V01 
+ WHERE 1 = 1 AND USER_ID =#USER_ID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL11">SELECT COUNT (*) AS CNT 
+  FROM HP1AU02T A, US0M001T_V01 B 
+ WHERE A.USER_ID = B.USER_ID 
+ AND B.USER_ID = #USER_ID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL12">SELECT COUNT(*) AS CNT FROM HP1AU01T WHERE ORG_CD IN( 
+SELECT 
+       (SELECT ORG_CD 
+          FROM HP1DM03T 
+         WHERE     1 = 1 
+               AND ORG_SEQ = 
+                         (SELECT ORG_SEQ
+                            FROM HP1DM03T 
+                           WHERE     COMPANY_CD = 
+                                        (SELECT COMPANY_CD 
+                                           FROM HP1DM03T 
+                                          WHERE     ORG_LVL != '2' 
+                                                AND ORG_CD = 
+                                                       A.OFFICE_CODE ) 
+                                 AND ORG_CD = A.OFFICE_CODE )) 
+          AS ORG_CD 
+  FROM US0M001T_V01 A 
+ WHERE 1 = 1 
+ AND USER_ID = #USER_ID#
+ AND AUTH_CD !='50')</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL27">SELECT A.USER_ID, 
+         A.USER_NAME_ENGLISH AS NE_USER, 
+         A.EMAIL, 
+         A.COMPANY_INFO_CODE AS COMPANY_CD, 
+         A.OFFICE_CODE  AS ORG_CD, 
+       ( 
+       SELECT ORG_CD 
+          FROM HP1DM03T 
+         WHERE     1 = 1 
+               AND ORG_SEQ LIKE SUBSTR ((SELECT ORG_SEQ  FROM HP1DM03T WHERE ORG_CD = A.OFFICE_CODE ),0, 4)|| '000000' 
+               AND ORG_LVL = '2' 
+               AND ACTIVE_FLAG = '0' 
+               ) 
+          AS COMPANY_ORG_CD, 
+             '50' AS AUTH_CD 
+          FROM US0M001T_V01 A 
+         WHERE 1 = 1 AND USER_ID = #USER_ID# 
+         AND ROWNUM = 1</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL29">SELECT MAX(AUTH_CD) AS AUTH_CD FROM HP1AU01T WHERE ORG_CD IN( 
+SELECT 
+       (SELECT ORG_CD 
+          FROM HP1DM03T 
+         WHERE     1 = 1 
+               AND ORG_SEQ = 
+                         (SELECT ORG_SEQ
+                            FROM HP1DM03T 
+                           WHERE     COMPANY_CD = 
+                                        (SELECT COMPANY_CD 
+                                           FROM HP1DM03T 
+                                          WHERE     ORG_LVL != '2' 
+                                                AND ORG_CD = 
+                                                       A.OFFICE_CODE ) 
+                                 AND ORG_CD = A.OFFICE_CODE )) 
+          AS ORG_CD 
+  FROM US0M001T_V01 A 
+ WHERE 1 = 1 
+ AND USER_ID = #USER_ID#
+ AND AUTH_CD !='50')</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL31">SELECT A.USER_ID, 
+       A.USER_NAME_ENGLISH AS NE_USER, 
+       A.EMAIL, 
+       A.COMPANY_INFO_CODE AS COMPANY_CD, 
+       A.OFFICE_CODE AS ORG_CD, 
+       (SELECT ORG_CD FROM HP1DM03T WHERE 1=1 
+            AND ORG_SEQ LIKE  SUBSTR((SELECT ORG_SEQ  FROM HP1DM03T WHERE ORG_CD =A.OFFICE_CODE),0,4)||'000000' 
+            AND ORG_LVL ='2' AND ACTIVE_FLAG='0') AS COMPANY_ORG_CD, 
+       #AUTH_CD# AS AUTH_CD  
+  FROM US0M001T_V01 A 
+ WHERE 1 = 1 
+ AND USER_ID = #USER_ID# 
+ AND ROWNUM = 1</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CookieMgr_SEL17">SELECT X.USER_ID, 
+       X.NE_USER, 
+       X.EMAIL, 
+       X.COMPANY_CD, 
+       X.ORG_CD, 
+       X.COMPANY_ORG_CD, 
+      CASE  NVL(X.AUTH_CD,'X') 
+          WHEN 'X' THEN '50' 
+          ELSE X.AUTH_CD 
+         END  AS AUTH_CD 
+  FROM 
+  ( 
+  SELECT A.USER_ID, 
+         A.USER_NAME_ENGLISH AS NE_USER, 
+         A.EMAIL, 
+         A.COMPANY_INFO_CODE AS COMPANY_CD, 
+         A.OFFICE_CODE AS ORG_CD, 
+       ( 
+       SELECT ORG_CD 
+          FROM HP1DM03T 
+         WHERE     1 = 1 
+               AND ORG_SEQ LIKE SUBSTR ((SELECT ORG_SEQ  FROM HP1DM03T WHERE ORG_CD = A.OFFICE_CODE ),0, 4)|| '000000' 
+               AND ORG_LVL = '2' 
+               AND ACTIVE_FLAG = '0' 
+               ) 
+          AS COMPANY_ORG_CD, 
+             ( 
+               SELECT AUTH_CD 
+                  FROM HP1AU02T 
+                 WHERE USER_ID = #USER_ID# 
+                 ) 
+                  AS AUTH_CD 
+          FROM US0M001T_V01 A 
+         WHERE 1 = 1 AND USER_ID = #USER_ID# AND ROWNUM = 1 
+         ) X</select>
+</sqlMap>
+
+

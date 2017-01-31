@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title> Working Data Input Screen</title>
+        <script><![CDATA[ 
+        $(function(){          
+        	$('#btn_upload').click(function(e){
+        		$("#S1_FILE").val("");
+        		e.preventDefault();   
+        		$("#S1_FILE").click();
+        	});      
+        	  $(document).keydown(function(e){   
+                   
+                   if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });                   
+        });                                     
+        
+        function FIleUPload_S1_FILE()
+        {
+          if( $("#out_message").val() != "" )
+          {
+            ErrorCheck();
+            return;
+          }
+        
+          if($("#S1_FILE").val() != "")
+          {
+           wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'S1_FILE', 'uploadsubmit', ['xls','xlsx']);
+          }
+        }
+        
+        function S1_FILE_OnChange(myObj)
+        {
+            sbmCtlWrite.submit(false, "FIleUPload_S1_FILE");
+        	//FIleUPload_S1_FILE();
+        }
+        
+        function uploadsubmit()
+        {
+        
+        	sbmUpload.submit(false,"ErrorCheck");
+        }
+        
+        
+        
+        
+        function ErrorCheck()
+        {
+        
+          if(ErroMsgDisplay() != 0) {
+            
+           // 메시지 코드드
+           var ERROR_CODE ="";
+           ERROR_CODE= $("#out_message").val();
+           
+           if(ErroMsgDisplay() == 9999){
+                ERROR_CODE= 9999;
+           }
+        
+           var param = ""
+           param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+            
+           var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        	 
+        	   $("#Error_cd").attr("src",url);
+        	   $("#Error_cd").attr("frameborder", 0);
+        	   $("#divPopup_ErrorCode").dialog({
+        			autoPoen:false,
+        			height : 260,
+        			//position:[50,300],
+        			width:530,
+        			modal: true, 
+        			title: "Error Indication",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 
+                 
+        	   // window.location.reload();
+        	   // iframe 초기화.
+               $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+        	   $("#divPopup_ErrorCode").dialog("open"); 
+           	}else{
+              //오류업시 성공적으로 업로드 완료 했을 때    	
+           	  alert("Upload complete");
+           	}
+          }
+        	
+          function dialogClose_MYPAGE(){ //팝업종료및 
+        	$("#divPopup_ErrorCode").dialog("close");
+          }
+        
+        function btn_error_OnClick(myObj)
+        {
+        
+           if(  $("#out_message").val() == "" ||  $("#out_message").val() == "0" )
+           {
+           
+           		Return_RTN_MSG("00032");
+                return;
+           }
+        
+           if( $("#out_message").val() == "1012" ||  $("#out_message").val() == "1013" || 
+               $("#out_message").val() == "1010" ||  $("#out_message").val() == "1011" )
+           {
+           	  Return_RTN_MSG("00033");
+              return;
+           }
+           
+           FormSubmit("frm" , "/hpms/20160912111169WorkDataInput_errorConfirm.do" , "S9[A]:S9" ,"", false); 
+           
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  FILE=""   />
+                        </S1>
+                        <S9 dateformat="" >
+                            <row  LOG_SEQ=""   />
+                        </S9>
+                        <init>
+                            <S1>
+                                <row  FILE=""   />
+                            </S1>
+                            <S9>
+                                <row  LOG_SEQ=""   />
+                            </S9>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="" eventid="" menuname="" eventname="" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmUpload" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="S9:ER01" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160912111169WorkDataInput_workCountUpload.do" encoding="UTF-8" confirm="" menuid="20160912111169" eventid="workCountUpload" menuname="50. Working Day Input" eventname="01. WorkOutput Excel Upload" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlWrite" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_MonthlyUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="MonthlyUsingCheck" menuname="50. Common Control" eventname="01. Monthly  Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63609276122283641155" label=" Working Man-Day Input">    	</output>
+
+        	<userobject  location="485,25"  size="78,79"  inputstyle="width:78px; height:79px; border-width:1px; background-color:Transparent; color:Black; border-color:Transparent; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63611264681125136573" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<button  location="250,104"  size="124,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_error" label="" type="button" src="" unikey="63611364929875000085" visible="True" value="Error Confirm" tabindex="0"  onclick="btn_error_OnClick(this);" ></button>
+
+        	<button  location="101,104"  size="124,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_upload" label="" type="button" src="" unikey="63609276168125263157" visible="True" value="Upload" tabindex="0"  ></button>
+
+        	<textbox  location="387,110"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S9_LOG_SEQ" bindcolumn="LOG_SEQ"  binddataset="S9"  unikey="63611368986546875079" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<upload  location="105,148"  size="100,21"  requiredfield="true" requiredmsg="" inputstyle="width:100px; height:21px;color:Black;" id="S1_FILE" bindcolumn="FILE"  binddataset="S1"  unikey="63610247514437500063" bind="S1_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="S1_FILE_OnChange(this);" ></upload>
+
+    </div>
+</body>
+</html>

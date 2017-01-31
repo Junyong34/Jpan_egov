@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>    
+<html> 
+<head>
+        <title>Plan Input Management</title>
+        <script><![CDATA[ 
+        $(document).ready(function() {
+              
+              // Compnay_cd.submit(false);   
+             $(document).keydown(function(e){   
+                   
+                     if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+                    if(e.keyCode === 8){   
+                    return false;
+                     }
+                    }
+                  });
+              });
+        
+        
+        $(function(){          
+        	$('#btn_upload').click(function(e){
+        		$("#S1_FILE").val("");
+        		e.preventDefault();   
+        		         
+        		$("#S1_FILE").click();
+        		          
+        	/*	var ext = $("input:file").val().split(".").pop().toLowerCase();
+        		if(ext.length > 0){
+        			if($.inArray(ext, ["gif","png","jpg","jpeg"]) == -1) { 
+        				alert("gif,png,jpg 파일만 업로드 할수 있습니다.");
+        				return false;  
+        			}                  
+        		}
+        		$("input:file").val().toLowerCase();*/
+        	});                         
+        });                                     
+        
+        function FIleUPload_S1_FILE()
+        {
+        
+          if( $("#out_message").val() != "" )
+          {
+            ErrorCheck();
+            return;
+          }
+          
+          if($("#S1_FILE").val() != "")
+          {
+            wizutil.FileAjaxSubmit(Contextpath+'/jsp/File/fileupload.jsp', fileform, 'S1_FILE', 'uploadsubmit', ['xls','xlsx']);
+          }
+          
+        }
+        function S1_FILE_OnChange(myObj)
+        {
+        	//파일 서버로 전송 	
+        	sbmCtlWrite.submit(false, "FIleUPload_S1_FILE" );
+        	//FIleUPload_S1_FILE();
+        }
+        
+        function uploadsubmit()
+        {
+        
+          //alert("Excel File Server complete.");
+          sbmExcelUpload.submit(false,"ErrorCheck");
+        //  NoCheckingUpload.submit(false,"ErrorCheck");
+         /* if($("#input1").val() == "A"){
+           NoCheckingUpload.submit(false,"ErrorCheck");
+          }else{
+           sbmExcelUpload.submit(false,"ErrorCheck");
+          }*/
+         
+        }
+        
+        
+        function ErrorCheck(){
+        //오류가 발생할 때 
+        if(ErroMsgDisplay() != 0) {
+            
+           // 메시지 코드드
+           var ERROR_CODE ="";
+           ERROR_CODE= $("#out_message").val();
+           
+           if(ErroMsgDisplay() == 9999){
+                ERROR_CODE= 9999;
+           }
+        
+           var param = ""
+           param += "?ERROR_CODE="+ERROR_CODE+"&ERROR_MSG="+ErroMsgDisplay();
+            
+           var url = "/hpms/20160906131150ErrorDisplay_loadpage.do"+param;
+        	 
+        	   $("#Error_cd").attr("src",url);
+        	   $("#Error_cd").attr("frameborder", 0);
+        	   $("#divPopup_ErrorCode").dialog({
+        			autoPoen:false,
+        			height : 260,
+        			//position:[50,300],
+        			width:530,
+        			modal: true, 
+        			title: "Error Indication",
+        			resizable: true,
+        			closeOnEscape:true ,
+        		 
+        		close: function(){ 
+                 
+        		//	window.location.reload();
+        			// iframe 초기화.
+               $("#" + this.id).find('iframe').contents().find('body').html('');
+              	}
+              	});
+        	   $("#divPopup_ErrorCode").dialog("open"); 
+           	}else{
+              //오류업시 성공적으로 업로드 완료 했을 때    	
+           	  alert("Upload complete");
+           	}
+        }
+        function dialogClose_MYPAGE()
+        {   
+           //팝업종료및 
+        	$("#divPopup_ErrorCode").dialog("close");
+        }
+        
+        function button1_OnClick(myObj)
+        {
+           sbmCtlRead.submit(false, "download");
+           //download();
+        }
+        
+        function download()
+        {
+        
+            if( $("#out_message").val() != "" )
+            {
+              ErrorCheck();
+              return;
+            }    
+            	if(  $("#S_FROM_YYYYMM").val() == "")
+        	{
+        		  Return_RTN_MSG("00024");
+        		return;
+        	}
+        	if(  $("#S_TO_YYYYMM").val() == "")
+        	{
+        		  Return_RTN_MSG("00025");
+        		return;
+        	}
+            if(  wizutil.isNumber($("#S_FROM_YYYYMM").val()) == false)
+            {
+               Return_RTN_MSG("00023");
+               return ;
+            }
+            
+            if(  wizutil.isNumber($("#S_TO_YYYYMM").val()) == false)
+            {
+                Return_RTN_MSG("00023");
+               return ;
+            }
+            
+        	var symd="";
+        	var fromym = $("#S_FROM_YYYYMM").val();
+        	var toym = $("#S_TO_YYYYMM").val();
+        	
+        
+        	if(!isValidDate(fromym)){
+        	   Return_RTN_MSG("00006","" ,"S_FROM_YYYYMM");
+                	return ;
+        	}
+        	
+        	if(!isValidDate(toym)){
+        	   Return_RTN_MSG("00006","" ,"S_TO_YYYYMM");
+                	return ;
+        	}
+        	
+        	if(parseInt(fromym) > parseInt(toym))
+        	{
+        		 Return_RTN_MSG("00026");
+        		return;
+        	}
+        	
+        	if(  $("#S_PID").val() == "" && $("#S_ORG_CD").val()== ""  )
+        	{
+        	   Return_RTN_MSG("00027");
+        		return;
+        	}
+        	
+        	if( $("#S_COMPANY_CD").val()!="" && $("#S_ORG_CD").val() == ""  )
+        	{
+        	    Return_RTN_MSG("00028");
+        		return;
+        	} 
+        	
+        	if(fromym == toym) 
+        	{
+        		symd= fromym;
+        	}
+        	else
+        	{
+        		symd= fromym;
+        		while(true)
+        		{
+        			fromym = plusMonth(fromym);
+        			symd = symd +"," + fromym;
+        			if(parseInt(fromym) >= parseInt(toym))
+        			{
+        				break;
+        			}
+        		}
+        	}
+        	
+        	$("#S_YYYYMM").val(symd);
+        	 
+            FormSubmit("frm" , "/hpms/20160901091138PlanMgr_planExcelDownload.do" , "S[A]:S" ,"",false); 
+         
+        }
+        
+        
+        
+        
+        
+        function plusMonth(fromym)
+        {
+            var datefmt ="";
+        	var yyyy = parseInt(fromym.substring(0,4));
+        	var mm = 0;
+        	var mc = fromym.substring(4,5);
+        	if(mc == '0')
+        	{
+        		 mm = parseInt(fromym.substring(5));
+        	}
+        	else
+        	{
+        		 mm = parseInt(fromym.substring(4));
+        	}
+        	
+        	if(mm == 12)
+        	{
+        		datefmt = (yyyy+1) + '01';
+        	}
+        	else
+        	{
+        		mm++;
+        		if(mm>9) datefmt = yyyy +"" + mm;
+        		else   datefmt = yyyy +"0" + mm;
+        	}
+        	return datefmt;
+        }
+        
+        function S_ORG_CD_OnClick(myObj)
+        {
+             if($("#S_COMPANY_CD").val() == ""){
+                Return_RTN_MSG("00004","Company Name","S_COMPANY_CD");
+                return;
+           }
+        }
+        
+        function S_COMPANY_CD_OnChange(myObj)
+        {
+           if( $("#S_COMPANY_CD").val() == "" )
+           {
+             $("#S_ORG_CD").val("");
+             return ;
+           }   
+           
+           
+           ORG_combo_S.submit(false);
+        }
+        
+        function btn_error_OnClick(myObj)
+        {
+          
+           if(  $("#out_message").val() == "" ||  $("#out_message").val() == "0" )
+           {
+           
+            Return_RTN_MSG("00032");
+              return;
+           }
+           
+           if( $("#out_message").val() == "1012" ||  $("#out_message").val() == "1013" || 
+               $("#out_message").val() == "1010" ||  $("#out_message").val() == "1011" )
+           {
+           	  Return_RTN_MSG("00033");
+              return;
+           }
+        	
+           FormSubmit("frm" , "/hpms/20160901091138PlanMgr_errorConfirm.do" , "S2[A]:S2" ,"", false); 
+        }
+        
+        
+        function S_DATA_TYPE_OnClick(myObj)
+        {
+        if($("#S_DATA_TYPE  option:eq(0)").text() !="--Choice--"){
+           Return_RTN_MSG("00003","PID","S_PID")
+             return;
+          } 
+        }
+        
+        function S_PID_OnKeyUp(myObj)
+        {
+          /* if($("#S_PID").val() != ""  && $("#S_PID").val().length ==6 ){
+           
+             sbmInit.submit(false);
+           }*/
+        }
+        
+        //날짜유효성검사
+        function isValidDate(param) {
+                try
+                {
+                    //param = param.replace(/-/g,'');
+         
+                    // 자리수가 맞지않을때
+                    if( isNaN(param) || param.length!=6 ) {
+                        return false;
+                    }
+                     
+                    var year = Number(param.substring(0, 4));
+                    var month = Number(param.substring(4, 6));
+                    //var day = Number(param.substring(6, 8));
+         
+                    //var dd = day / 0;
+         
+                     
+                    if( month<1 || month>12 ) {
+                        return false;
+                    }     
+                
+                    return true;
+         
+                } catch (err) {
+                    return false;
+                }                       
+            }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" >
+                            <row  FILE=""   />
+                        </S1>
+                        <S dateformat="" >
+                            <row  PID=""  HPMS_ID=""  DATA_TYPE=""  FROM_YYYYMM=""  TO_YYYYMM=""  USE_COMPANY_CD=""  USE_SECTION_CD=""  YYYYMM=""  COMPANY_CD=""  ORG_CD=""  HPMS_GRP_ID=""   />
+                        </S>
+                        <C dateformat="" >
+                            <row  ITEM_CD=""  ITEM_NM=""   />
+                        </C>
+                        <S2 dateformat="" >
+                            <row  LOG_SEQ=""   />
+                        </S2>
+                        <init>
+                            <S1>
+                                <row  FILE=""   />
+                            </S1>
+                            <S>
+                                <row  PID=""  HPMS_ID=""  DATA_TYPE=""  FROM_YYYYMM=""  TO_YYYYMM=""  USE_COMPANY_CD=""  USE_SECTION_CD=""  YYYYMM=""  COMPANY_CD=""  ORG_CD=""  HPMS_GRP_ID=""   />
+                            </S>
+                            <C>
+                                <row  ITEM_CD=""  ITEM_NM=""   />
+                            </C>
+                            <S2>
+                                <row  LOG_SEQ=""   />
+                            </S2>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S" outdataset="S_COMPANY_CD:MRG1,S_DATA_TYPE:SEL5,S_HPMS_GRP_ID:SEL6" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901091138PlanMgr_initCombo.do" encoding="UTF-8" confirm="" menuid="20160901091138" eventid="initCombo" menuname="40. Plan Input " eventname="04. initComboList" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmExcelUpload" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="S2:ER01" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901091138PlanMgr_ExcelNoChecking.do" encoding="UTF-8" confirm="" menuid="20160901091138" eventid="ExcelNoChecking" menuname="40. Plan Input " eventname="01. Plan Input(Excel Upload)(short Time)" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_Compnay_cd" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="S_COMPANY_CD:SEL4" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_Company_Org_cd.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="Company_Org_cd" menuname="40. 공통코드 관리" eventname="03.회사 _ 조직 콤보" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_ORG_combo_S" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S[A]:S1" outdataset="S_ORG_CD:SEL1" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160704154561CommonCodeMgr_ORGCombobox.do" encoding="UTF-8" confirm="" menuid="20160704154561" eventid="ORGCombobox" menuname="40. Common Code Manage" eventname="05. ORG Combobox" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlWrite" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_MonthlyUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="MonthlyUsingCheck" menuname="50. Common Control" eventname="01. Monthly  Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_sbmCtlRead" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="/20161004133312Control_SearchUsingCheck.do" encoding="UTF-8" confirm="" menuid="20161004133312" eventid="SearchUsingCheck" menuname="50. Common Control" eventname="03. Search Service Control" callback="" msghandler="" errorhandler=""  >
+            </submission>
+            <submission  id="sbm_NoCheckingUpload" validate="false" method="post" replace="instance" instance="template"
+                     indataset="S1[A]:S1" outdataset="S2:ER01" ref="DataSet" targetref="/data/DataSet"
+                     action="/20160901091138PlanMgr_ExcelNoChecking.do" encoding="UTF-8" confirm="" menuid="20160901091138" eventid="ExcelNoChecking" menuname="40. Plan Input " eventname="01. 엑셀업로드 체크 제거" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="30,22"  size="435,36"  font-family="굴림체" font-weight="bold" font-size="14.25" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63608670328192908501" label="Plan Input">    	</output>
+
+        	<userobject  location="660,35"  size="100,55"  style="display:none;" inputstyle="width:100px; height:55px; border-width:1px; background-color:Transparent; color:Black; border-color:#161616; text-align:left;" id="user1" bindcolumn=""  binddataset=""  unikey="63610227965165722085" value="" navindex="0"  ><![CDATA[ 
+<!-- Error Code screen -->
+
+<div id="divPopup_ErrorCode" name="divPopup_ErrorCode" style="display:none;background-color:white;">
+	<iframe id="Error_cd" name="Error_cd" style="width:500px;height:190px;" scrolling="auto">
+	</iframe>
+</div>
+]]></userobject>
+
+        	<textbox  location="793,35"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_YYYYMM" bindcolumn="YYYYMM"  binddataset="S"  unikey="63608699465000000006" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<textbox  location="792,72"  size="102,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_LOG_SEQ" bindcolumn="LOG_SEQ"  binddataset="S2"  unikey="63610849875031250062" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="hidden" visible="True" maxlength="50" incremental="True" tabindex="0" >    	</textbox>
+
+        	<output  location="48,83"  size="297,32"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63608670389407409710" label="Plan Data Extraction">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="47,116"  size="852,225"  unikey="63610135156421875051" style="" visible="True" >  
+                	<output  location="704,133"  size="130,21"  font-family="굴림체" font-size="9.75" inputclass="infoText" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label6" bindcolumn=""  binddataset=""  unikey="63608670496623542189" label="Extracting Period">        	</output>
+                	<output  location="356,163"  size="138,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63608670479486562061" label="HPMS ID Group">        	</output>
+                	<output  location="523,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63608670485761920974" label="Data Type">        	</output>
+                	<output  location="652,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label7" bindcolumn=""  binddataset=""  unikey="63608670513862528214" label="From:YYYYMM">        	</output>
+                	<output  location="772,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:center;" id="label8" bindcolumn=""  binddataset=""  unikey="63608670521798982133" label="To:YYYYMM">        	</output>
+                	<output  location="211,163"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63608670458374354435" label="PID">        	</output>
+                	<combo  location="356,187"  size="138,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:138px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_HPMS_GRP_ID" bindcolumn="HPMS_GRP_ID"  binddataset="S"  unikey="63608670642430881994" bind="S_HPMS_GRP_ID_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" appearance="minimal" >
+        	</combo>
+                	<combo  location="523,187"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_DATA_TYPE" bindcolumn="DATA_TYPE"  binddataset="S"  unikey="63608670651997429017" bind="S_DATA_TYPE_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S_DATA_TYPE_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<textbox  location="211,187"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_PID" bindcolumn="PID"  binddataset="S"  unikey="63608670455448187126" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="0"  onkeyup="S_PID_OnKeyUp(this);">        	</textbox>
+                	<calendar  location="652,189"  size="100,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonth; text-align:left; lang-type:en; " id="S_FROM_YYYYMM" bindcolumn="FROM_YYYYMM"  binddataset="S"  unikey="63608670655991657542" visible="True" dateFormat="yymm"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="OK" tabindex="0" >        	</calendar>
+                	<calendar  location="773,189"  size="100,19"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; YMDformat:YearMonth; text-align:left; lang-type:en; " id="S_TO_YYYYMM" bindcolumn="TO_YYYYMM"  binddataset="S"  unikey="63608670659084834469" visible="True" dateFormat="yymm"         constrainInput="True" buttonimageOnly="False" buttonImage="/wizware/js/calendar_alt.png"         showOn="True" changeMonth="True" changeYear="True" showButtonPanel="True" currentText="today" closeText="OK" tabindex="0" >        	</calendar>
+                	<output  location="93,228"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label9" bindcolumn=""  binddataset=""  unikey="63608670666981286198" label="Company Name">        	</output>
+                	<output  location="211,228"  size="129,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label10" bindcolumn=""  binddataset=""  unikey="63608670696772990078" label="Organization Name">        	</output>
+                	<output  location="356,229"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="infoLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label12" bindcolumn=""  binddataset=""  unikey="63611179159031250024" label="HPMS ID">        	</output>
+                	<textbox  location="356,251"  size="100,21"  requiredfield="true" requiredmsg="" font-family="Microsoft Sans Serif" font-size="10" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S_HPMS_ID" bindcolumn="HPMS_ID"  binddataset="S"  unikey="63610135795625000053" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="6" incremental="True" tabindex="0" >        	</textbox>
+                	<combo  location="94,252"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_COMPANY_CD" bindcolumn="COMPANY_CD"  binddataset="S"  unikey="63608670687557462929" bind="S_COMPANY_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onchange="S_COMPANY_CD_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="211,252"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="--Choice--" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S_ORG_CD" bindcolumn="ORG_CD"  binddataset="S"  unikey="63610163764973681005" bind="S_ORG_CD_bnd" incremental="True" tabindex="0" itemdataset="C" itemlabel="ITEM_NM" itemcode="ITEM_CD" onclick="S_ORG_CD_OnClick(this);" appearance="minimal" >
+        	</combo>
+                	<button  location="92,288"  size="99,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63608670722846481470" visible="True" value="Download" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+    </group>
+        	<output  location="48,365"  size="297,32"  font-family="굴림체" font-weight="bold" font-size="12" inputclass="" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label11" bindcolumn=""  binddataset=""  unikey="63608670745660786311" label="Plan Data Registration">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="47,399"  size="855,72"  unikey="63610135286390625054" style="" visible="True" >  
+                	<button  location="218,415"  size="131,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:Black; text-align:center;" id="btn_error" label="" type="button" src="" unikey="63610604978953125090" visible="True" value="Error Confirm" tabindex="0"  onclick="btn_error_OnClick(this);" ></button>
+                	<button  location="89,415"  size="99,35"  font-family="굴림체" font-size="9.75" inputclass="btn2" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="btn_upload" label="" type="button" src="" unikey="63608670777844627196" visible="True" value="Upload" tabindex="0"  ></button>
+                	<upload  location="621,427"  size="263,21"  requiredfield="true" requiredmsg="" inputstyle="width:263px; height:21px;color:Black;" id="S1_FILE" bindcolumn="FILE"  binddataset="S1"  unikey="63608671862214649546" bind="S1_FILE_bnd" fileuploadurl="/jsp/File/fileupload.jsp" incremental="True"  tabindex="0"  onchange="S1_FILE_OnChange(this);" ></upload>
+    </group>
+    </div>
+</body>
+</html>

@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>    
+<html> 
+<head>
+        <title>File6</title>
+        <script><![CDATA[ 
+        $(document).ready(function(){
+        	//$('#S3_SNR_NO').val(getParamdata("SNR_NO"));
+        	//selectList.submit(false);
+        }) ;
+        
+        function button1_OnClick(myObj)
+        {
+        	selectList.submit(false);
+        }
+        function grid1_OndblClickRow(rowIndex)
+        {
+            var SNR_NO = grid1.getCellValue(rowIndex, 'SNR_NO', true); 
+            var BASE_YEAR = grid1.getCellValue(rowIndex, 'BASE_YEAR', true); 
+            var EST_YEAR = grid1.getCellValue(rowIndex, 'EST_YEAR', true) ;
+        	var INS_USER = grid1.getCellValue(rowIndex, 'INS_USER', true) ;
+        	var SNR_DESC = grid1.getCellValue(rowIndex, 'SNR_DESC', true) ;
+        	
+        }
+        
+        function grid1_OnInitGrid()
+        {
+        	selectList.submit(false);
+        }
+        
+        // 시나리오 추가
+        function button3_OnClick(myObj)
+        {
+        	//if(!validate()) return ;
+        
+            grid1.insertRow('first') ;
+        	grid1.setCellValue(0, 'SNR_NO',  '자동생성', true); 
+        	grid1.setCellValue(0, 'FROM_GBN_CD', '10', true);    
+        	//grid1.setCellValue(0, 'P_ACCNT_TITLE_CD', '*', true);
+        
+        }
+        
+        // 시나리오 저장
+        function button4_OnClick(myObj)
+        {
+        	if(!iudSaveCheck(grid1)) return ;
+        	
+            var rowCount = grid1.getRowCount();
+            
+            for(var rowIndex = 0; rowIndex <= rowCount; rowIndex++)
+            {
+                var iudFlag = grid1.getCellValue(rowIndex, 'IUDFLAG', true);
+                                      
+                if(iudFlag == 'I' || iudFlag == 'U')
+                {			
+        			var SNR_NO = grid1.getCellValue(rowIndex, 'SNR_NO', true);	    			
+        			var SNR_DESC = grid1.getCellValue(rowIndex, 'SNR_DESC', true);	    			
+        			var FROM_GBN_CD = grid1.getCellValue(rowIndex, 'FROM_GBN_CD', true);	    			
+        			var BASE_YEAR = grid1.getCellValue(rowIndex, 'BASE_YEAR', true);	    			
+        			var EST_YEAR = grid1.getCellValue(rowIndex, 'EST_YEAR', true);	    			
+        			var FROM_SNR_NO = grid1.getCellValue(rowIndex, 'FROM_SNR_NO', true);	    			
+        			
+        			if(!SNR_DESC)
+        			{
+        				alert('시나리오설명은 필수입력 항목입니다');
+        				return ;							
+        			}
+        			if(!FROM_GBN_CD)
+        			{
+        				alert('출처구분은 필수입력 항목입니다');
+        				return ;							
+        			}
+        			if(FROM_GBN_CD == '10' && !BASE_YEAR)
+        			{
+        				alert('출처구분이 [기준정보] 인 경우 기준연도는 필수입력 항목입니다');
+        				return ;							
+        			}
+        			if(!EST_YEAR)
+        			{
+        				alert('추정연도는 필수입력 항목입니다');
+        				return ;							
+        			}
+        			if(FROM_GBN_CD == '20' && !FROM_SNR_NO)
+        			{
+        				alert('출처구분이 [시나리오] 인 경우 출처시나리오는 필수입력 항목입니다');
+        				return ;							
+        			}						
+          		}
+        
+          	} 
+          	 	
+            saveList.submit(false);
+        }
+        function grid1_OnLoadComplete()
+        {
+        	// 그리드 OnChange이벤트 초기화
+        	initGridOnChange('grid1') ;		
+        }
+        // 그리드 셀 선택 이벤트 - 시나리오
+        function grid1_OnCellSelect(rowIndex, Colname, cellcontent, e)
+        {
+        	var IUDFLAG = grid1.getCellValue(rowIndex, 'IUDFLAG', true);	    			
+        	var SNR_NO = grid1.getCellValue(rowIndex, 'SNR_NO', true);	    			
+        	var SNR_DESC = grid1.getCellValue(rowIndex, 'SNR_DESC', true);	    			
+        	var FROM_GBN_CD = grid1.getCellValue(rowIndex, 'FROM_GBN_CD', true);	    			
+        	var BASE_YEAR = grid1.getCellValue(rowIndex, 'BASE_YEAR', true);	    			
+        	var EST_YEAR = grid1.getCellValue(rowIndex, 'EST_YEAR', true);	    			
+        	var FROM_SNR_NO = grid1.getCellValue(rowIndex, 'FROM_SNR_NO', true);	    			
+        
+        	$('#S2_SNR_NO').val(SNR_NO);
+        	$('#S2_FROM_GBN_CD').val(FROM_GBN_CD);
+        	$('#S2_BASE_YEAR').val(BASE_YEAR);
+        	$('#S2_EST_YEAR').val(EST_YEAR);
+        	$('#S2_FROM_SNR_NO').val(FROM_SNR_NO);
+        
+        	if(IUDFLAG == 'I')
+        	{
+        		if(Colname == 'FROM_GBN_CD' || Colname == 'EST_YEAR')
+        		{
+        		    setCellOpt(rowIndex, grid1.getColumnIndex(Colname));			
+        		}
+        		
+        		if(Colname == 'BASE_YEAR' && FROM_GBN_CD == '10')
+        		{
+        			
+        		    setCellOpt(rowIndex, grid1.getColumnIndex(Colname));			
+        		}
+        		else if(Colname == 'BASE_YEAR' && FROM_GBN_CD == '20')
+        		{
+        			alert('출처구분이 [기준정보] 인 경우에만 입력가능합니다');
+        			return ;
+        		}
+        		
+        		if(Colname == 'FROM_SNR_NO' && FROM_GBN_CD == '10')
+        		{
+        			alert('출처구분이 [시나리오] 인 경우에만 입력가능합니다');
+        		}
+        		else if(Colname == 'FROM_SNR_NO' && FROM_GBN_CD == '20')
+        		{
+        		    setCellOpt(rowIndex, grid1.getColumnIndex(Colname));			
+        			return ;
+        		}		
+        		
+        	}
+        }
+        function grid1_OnChange(rowIndex, colName)
+        {
+        
+        }
+        function grid1_B1_cellonclick_grid1(rowId)
+        {
+        	var rowIndex = grid1.getRowIndex(rowId);
+        
+        	var IUDFLAG = grid1.getCellValue(rowIndex, 'IUDFLAG', true);	    			
+        	var SNR_CREATE_DATE = grid1.getCellValue(rowIndex, 'SNR_CREATE_DATE', true);	    			
+        	
+        	if(IUDFLAG == 'I')
+        	{
+        		alert('시나리오 저장 후 생성 할 수 있습니다');
+        		return ;
+        	}
+        
+        	if(SNR_CREATE_DATE){
+        		alert('일괄생성 데이터가 존재합니다. 일괄삭제 후 다시 생성 할 수 있습니다');
+        		return ;
+        	}
+        
+        	grid1_OnCellSelect(rowIndex) ;	 
+            	 
+        	if(!confirm('시나리오별 독립변수를 일괄생성 하시겠습니까?')) return ;
+           
+         
+        
+        	batchInsertAll.submit(false);	 
+        	 
+        }
+        function grid1_B2_cellonclick_grid1(rowId)
+        {
+        	var rowIndex = grid1.getRowIndex(rowId);
+        	
+        	var IUDFLAG = grid1.getCellValue(rowIndex, 'IUDFLAG', true);	    				
+        	var SNR_CREATE_DATE = grid1.getCellValue(rowIndex, 'SNR_CREATE_DATE', true);	    				
+        	
+        	if(IUDFLAG == 'I')
+        	{
+        		alert('시나리오 저장 및 일괄생성 이후 일괄삭제 할 수 있습니다');
+        		return ;
+        	}
+        
+        	if(!SNR_CREATE_DATE){
+        		alert('일괄삭제 할 데이터가 없습니다');
+        		return ;
+        	}
+        
+        	grid1_OnCellSelect(rowIndex) ;	 
+        	 
+        	if(!confirm('시나리오별 독립변수를 일괄삭제[주의-전체삭제] 하시겠습니까?')) return ;
+        	
+        	batchDeleteAll.submit(false);
+        	 
+        }
+        function S3_SNR_NO_OnKeyUp(myObj)
+        {
+        	if(event.keyCode == '13')
+        		selectList.submit(false);
+        }
+        function S3_BASE_YEAR_OnChange(myObj)
+        {
+        	selectList.submit(false);
+        }
+        function S3_INS_USER_OnChange(myObj)
+        {
+        	selectList.submit(false);
+        }
+        function S3_EST_YEAR_OnChange(myObj)
+        {
+        	selectList.submit(false);
+        }
+        
+        ]]></script>
+        
+</head>
+<body >
+    <div id="pbmodel" style="display:none">
+                    <DataSet>
+                        <S1 dateformat="" checkbox="" >
+                            <row  SNR_NO=""  BASE_YEAR=""  EST_YEAR=""  SNR_DESC=""  FROM_SNR_NO=""  SNR_CREATE_DATE=""  INS_USER=""  INS_DATE=""  UPD_USER=""  UPD_DATE=""  FROM_GBN_CD=""   />
+                        </S1>
+                        <S3 dateformat="" checkbox="" >
+                            <row  SNR_NO=""  INS_USER=""  BASE_YEAR=""  EST_YEAR=""   />
+                        </S3>
+                        <C1 dateformat="" checkbox="" >
+                            <row  CBO_CD=""  CBO_NM=""   />
+                        </C1>
+                        <S2 dateformat="" checkbox="" >
+                            <row  SNR_NO=""  BASE_YEAR=""  FROM_GBN_CD=""  FROM_SNR_NO=""   />
+                        </S2>
+                        <init>
+                            <S1>
+                                <row  SNR_NO=""  BASE_YEAR=""  EST_YEAR=""  SNR_DESC=""  FROM_SNR_NO=""  SNR_CREATE_DATE=""  INS_USER=""  INS_DATE=""  UPD_USER=""  UPD_DATE=""  FROM_GBN_CD=""   />
+                            </S1>
+                            <S3>
+                                <row  SNR_NO=""  INS_USER=""  BASE_YEAR=""  EST_YEAR=""   />
+                            </S3>
+                            <C1>
+                                <row  CBO_CD=""  CBO_NM=""   />
+                            </C1>
+                            <S2>
+                                <row  SNR_NO=""  BASE_YEAR=""  FROM_GBN_CD=""  FROM_SNR_NO=""   />
+                            </S2>
+                        </init>
+                        <RETURN>
+                            <code></code>
+                            <message></message>
+                        </RETURN>
+                    </DataSet>
+            <submission  id="sbm_sbmInit" validate="false" method="post" replace="instance" instance="template"
+                     indataset="" outdataset="" ref="DataSet" targetref="/data/DataSet"
+                     action="" encoding="UTF-8" confirm="" menuid="2016041114478" eventid="comboItemMaster" menuname="04. 품목 관리" eventname="02.조회조건" callback="" msghandler="" errorhandler=""  >
+            </submission>
+    </div>
+    <div id="pbview" >
+        	<output  location="0,0"  size="1250,50"  font-family="굴림체" font-size="9.75" inputclass="titleLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label1" bindcolumn=""  binddataset=""  unikey="63599102666031135736" label="시나리오 메인">    	</output>
+
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group1" name="group1"  location="1,51"  size="1245,40"  unikey="63599102778463566540" style="" inputclass="search-box" visible="True" >  
+                	<button  location="1102,59"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn3" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button1" label="" type="button" src="" unikey="63599102919687644108" visible="True" value="조회" tabindex="0"  onclick="button1_OnClick(this);" ></button>
+                	<combo  location="624,60"  size="105,21"  requiredfield="true" requiredmsg="" defaultitem="::전체::" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:105px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S3_INS_USER" bindcolumn="INS_USER"  binddataset="S3"  unikey="63599102869926797979" bind="S3_INS_USER_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="CBO_NM" itemcode="CBO_CD" onchange="S3_INS_USER_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<combo  location="347,60"  size="80,21"  requiredfield="true" requiredmsg="" defaultitem="::전체::" font-family="굴림체" font-size="9.75" inputclass="selectbox" visible="True" inputstyle="width:80px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S3_BASE_YEAR" bindcolumn="BASE_YEAR"  binddataset="S3"  unikey="63600894406788343316" bind="S3_BASE_YEAR_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="CBO_NM" itemcode="CBO_CD" onchange="S3_BASE_YEAR_OnChange(this);" appearance="minimal" >
+        	</combo>
+                	<textbox  location="138,60"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S3_SNR_NO" bindcolumn="SNR_NO"  binddataset="S3"  unikey="63599102818839875955" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0"  onkeyup="S3_SNR_NO_OnKeyUp(this);">        	</textbox>
+                	<output  location="784,60"  size="60,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label5" bindcolumn=""  binddataset=""  unikey="63601089753717548587" label="추정연도">        	</output>
+                	<output  location="275,60"  size="60,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label4" bindcolumn=""  binddataset=""  unikey="63600894401708052701" label="기준연도">        	</output>
+                	<output  location="509,60"  size="101,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label3" bindcolumn=""  binddataset=""  unikey="63599102831159580566" label="시나리오생성자">        	</output>
+                	<output  location="30,60"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="searchLabel" visible="True" inputstyle=" border-width:0px; background-color:Transparent; color:Black; line-height:Center; border-color:Black;text-align:left;" id="label2" bindcolumn=""  binddataset=""  unikey="63599102811071431647" label="시나리오번호">        	</output>
+    </group>
+    <group  inputstyle="background-color:White;border-width:1px;border-style:solid;border-color:DarkGray;" id="group2" name="group2"  location="0,92"  size="1250,40"  unikey="63600893649857049322" style="" inputclass="button-box" visible="True" >  
+                	<button  location="1120,101"  size="100,21"  font-family="굴림체" font-size="9.75" inputclass="btn4" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button5" label="" type="button" src="" unikey="63600894251522462644" visible="True" value="엑셀다운로드" tabindex="0"  ></button>
+                	<button  location="971,101"  size="60,21"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button3" label="" type="button" src="" unikey="63600894195316247859" visible="True" value="추가" tabindex="0"  onclick="button3_OnClick(this);" ></button>
+                	<button  location="1042,101"  size="60,21"  font-family="굴림체" font-size="9.75" inputclass="btn" style="" inputstyle=" border-width:1px; background-color:Gray; color:Black; border-color:#000000; text-align:center;" id="button4" label="" type="button" src="" unikey="63600894198546432571" visible="True" value="저장" tabindex="0"  onclick="button4_OnClick(this);" ></button>
+                	<textbox  location="16,101"  size="93,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_SNR_NO" bindcolumn="SNR_NO"  binddataset="S2"  unikey="63600929075995308500" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="119,101"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_BASE_YEAR" bindcolumn="BASE_YEAR"  binddataset="S2"  unikey="63600929078180433518" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="228,101"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_FROM_GBN_CD" bindcolumn="FROM_GBN_CD"  binddataset="S2"  unikey="63600929079939534138" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+                	<textbox  location="337,101"  size="100,21"  requiredfield="true" requiredmsg="" font-family="굴림체" font-size="9.75" inputclass="TextBox-S" inputstyle=" border-width:1px; background-color:White; color:Black; border-color:Black; text-align:left;" id="S2_FROM_SNR_NO" bindcolumn="FROM_SNR_NO"  binddataset="S2"  unikey="63600929082371673260" placeholder="" nubercheckevent="onChange" isnumber="False" commayn="False" pointlen="" minvalue="" maxvalue="" type="text" visible="True" maxlength="50" incremental="True" tabindex="0" >        	</textbox>
+    </group>
+    
+       <grid  rownum="10" unikey="63601756739720125734" id="grid1" dataset="S1" border="1" width="1250" inputstyle="border-width:1px; background-color:White; border-color:#000000; "  location="0,143"  size="1250,180"  readonly="false"  statusvisible="false"  allowdelete="true"  visible="true"  paging="false"  rownumber="false"  shrinkToFit="false"  colMerge =""  cellstyle =""  rowstyle =""  oncellselect="grid1_OnCellSelect(this);" ondblclickRow="grid1_OndblClickRow(this);" oninitgrid="grid1_OnInitGrid(this);" onloadcomplete="grid1_OnLoadComplete(this);" >
+        <heads>
+          <row height="23">
+          <head title="시나리오번호" text-align="center" > </head>
+          <head title="시나리오설명" text-align="center" > </head>
+          <head title="출처구분" text-align="center" > </head>
+          <head title="기준연도" text-align="center" > </head>
+          <head title="추정연도" text-align="center" > </head>
+          <head title="출처시나리오" text-align="center" > </head>
+          <head title="생성자" text-align="center" > </head>
+          <head title="일괄생성일" text-align="center" > </head>
+          <head title="생성일자" text-align="center" > </head>
+          <head title="수정자" text-align="center" > </head>
+          <head title="수정일자" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+          <head title="" text-align="center" > </head>
+           </row>
+         </heads>
+
+        <columns height="23" >
+          <column  id="SNR_NO" dataset="S1" columnid="SNR_NO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="109" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SNR_DESC" dataset="S1" columnid="SNR_DESC" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="220" type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="left" >        <events></events>          </column>
+          <column  id="FROM_GBN_CD" dataset="S1" columnid="FROM_GBN_CD" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="86" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="True" rowmerge="False" text-align="center" >        <events></events>          </column>
+          <column  id="BASE_YEAR" dataset="S1" columnid="BASE_YEAR" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="81" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="True" rowmerge="False" text-align="center" >        <events></events>          </column>
+          <column  id="EST_YEAR" dataset="S1" columnid="EST_YEAR" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="83" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="True" rowmerge="False" text-align="center" >        <events></events>          </column>
+          <column  id="FROM_SNR_NO" dataset="S1" columnid="FROM_SNR_NO" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="101" type="combobox"  itemdataset="C1" itemlabel="CBO_NM" itemvalue="CBO_CD" defaultitem="선택" readonly="True" rowmerge="False" text-align="left" >        <events></events>          </column>
+          <column  id="INS_USER" dataset="S1" columnid="INS_USER" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="95" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="SNR_CREATE_DATE" dataset="S1" columnid="SNR_CREATE_DATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="93" type="inputbox"  maxlength="20" readonly="True" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="INS_DATE" dataset="S1" columnid="INS_DATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="UPD_USER" dataset="S1" columnid="UPD_USER" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="UPD_DATE" dataset="S1" columnid="UPD_DATE" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="107" hidden="true"  type="inputbox"  maxlength="20" readonly="False" rowmerge="False" gtype="text" ground="True" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B1" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="button"  imagepath="/jsp/menu/img/main/btn-add.png" popupOnclick="grid1_B1_cellonclick_grid1" text-align="center" >        <events></events>          </column>
+          <column  id="grid1_B2" dataset="" columnid="" value="" bgcolor="Color [Empty]" bordercolor="Color [Empty]" class="" width="100" type="button"  imagepath="/jsp/menu/img/main/btn-add.png" popupOnclick="grid1_B2_cellonclick_grid1" text-align="center" >        <events></events>          </column>
+        </columns>
+       </grid>
+
+        	<combo  location="951,406"  size="100,21"  requiredfield="true" requiredmsg="" defaultitem="Select" font-family="굴림체" font-size="9.75" visible="True" inputstyle="width:100px; height:21px; background-color:White; color:Black; border-width:1px; border-color:Black; text-align:left;" id="S3_EST_YEAR" bindcolumn="EST_YEAR"  binddataset="S3"  unikey="63601094565769484305" bind="S3_EST_YEAR_bnd" incremental="True" tabindex="0" itemdataset="C1" itemlabel="CBO_NM" itemcode="CBO_CD" onchange="S3_EST_YEAR_OnChange(this);" appearance="minimal" >
+    	</combo>
+
+    </div>
+</body>
+</html>

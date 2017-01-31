@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ManagementComprehensive_20160901101144">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL1">SELECT ( COMPANY_CD || ORG_CD ) AS ITEM_CD 
+      ,ORG_NM_S ITEM_NM 
+FROM HP1DM03T 
+WHERE  ORG_LVL =2 
+AND ACTIVE_FLAG='0' 
+ORDER BY ORG_SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL2">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE   AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="initCombo_SEL3">SELECT ORG_CD   ITEM_CD, 
+       ORG_NM_S  ITEM_NM 
+FROM HP1DM03T 
+WHERE COMPANY_CD = #COMPANY_CD# 
+AND ACTIVE_FLAG= 0 
+ORDER BY ORG_SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_Title_ComboMgr_SEL1">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN ('A.DCP', 'P.DCP', 'T.DCP', 'M.DCP', 'E.DCP') 
+       
+UNION 
+ 
+SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D004T B 
+            WHERE  1=1 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND B.COMPANY_CD = #COMPANY_CD# 
+                  AND B.ORG_CD =  #ORG_CD# 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildSheetDownload_SEL5">SELECT HP1DM03T.COMPANY_CD, 
+  HP1DM03T.ORG_CD, 
+  HP1DM03T.TEMPLATE_FILE_NAME 
+ FROM HP1DM03T 
+ WHERE COMPANY_CD =#COMPANY_CD# 
+ AND ORG_CD =#ORG_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildSheetDownload_SEL02">select * 
+from table( HP5D101T_F11(#COMPANY_CD#, #ORG_CD#, #DATA_TYPE#, #YYYYMM#) )</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildSheetDownload_leftColumn">SELECT 'CHAR_01' AS A0, 'CHAR_02' AS A1 , 'VAL_01' AS A2 FROM DUAL</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="buildSheetDownload_RightColumn">SELECT 'VAL_01' A0, 
+       'VAL_02'A1, 
+       'VAL_03'A2, 
+       'VAL_04'A3, 
+       'VAL_05'A4, 
+       'CHAR_01'A5, 
+       'CHAR_02'A6, 
+       'CHAR_03'A7, 
+       'CHAR_04'A8, 
+       'CHAR_05'A9, 
+       'CHAR_06'A10, 
+       'CHAR_07'A11, 
+       'CHAR_08'A12, 
+       'CHAR_09'A13, 
+       'CHAR_10'A14, 
+       'CHAR_11'A15, 
+       'CHAR_12'A16, 
+       'CHAR_13'A17, 
+       'CHAR_14'A18, 
+       'CHAR_15'A19, 
+       'CHAR_16'A20, 
+       'CHAR_17'A21, 
+       'CHAR_18'A22, 
+       'CHAR_19'A23, 
+       'CHAR_20'A24, 
+       'CHAR_21'A25, 
+       'CHAR_22'A26, 
+       'CHAR_23'A27, 
+       'CHAR_24'A28, 
+       'CHAR_25'A29 
+  FROM DUAL</select>
+</sqlMap>
+

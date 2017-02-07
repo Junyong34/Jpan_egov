@@ -159,6 +159,7 @@ public class PidListMgrDao extends EgovAbstractDAO
         param.put("OWNER_COMPANY_CD", OWNER_COMPANY_CD);   //オ？ナ？部門(利用部門)の？社CD
         param.put("RD_CATEGORY_CD", dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD"));   //RND Category CD
         param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        
         param.put("ITEM_NAME", dobj.getRetObject("S").getRecord().get("ITEM_NAME"));   //ITEM명
         param.put("PID_STATUS_CD", dobj.getRetObject("S").getRecord().get("PID_STATUS_CD"));   //PID상태코드
         param.put("RD_THEME", dobj.getRetObject("S").getRecord().get("RD_THEME"));   //RND Theme

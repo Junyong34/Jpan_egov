@@ -124,7 +124,7 @@ public class CookieLoginInfoController {
                 if (_clist.size() == 0) return "forward:/2016041114474Main.do";
 
                 //세션시간
-                session.setMaxInactiveInterval(1800); //세션 유지 시간 30분
+                session.setMaxInactiveInterval(360000); //세션 유지 시간 30분
                // System.out.println("========== Setp 14========== " + "  session time 1800sec ");
                 for (int i = 0; i < _clist.size(); i++) {
                     loginInfo.put(_clist.get(i), vobj.getRecord().get(_clist.get(i)));

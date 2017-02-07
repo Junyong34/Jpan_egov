@@ -70,12 +70,15 @@ public class LoginMgrCheckImpl extends AbstractServiceImpl implements LoginMgrCh
         VOBJ vSEL3 = LoginMgrCheckdao.System_Developer_Check_SEL3(dobj,request);        
         dobj.setRetObject(vSEL3);
         
+      
         if( dobj.getRetObject("SEL3").getRecord().getInt("CNT") == 1)
         {
+        	 
         	dobj.setRetmsg("1");
         
         }else{
-                dobj.setRetmsg("0");
+        	
+            dobj.setRetmsg("0");
         }
         return dobj;
     }

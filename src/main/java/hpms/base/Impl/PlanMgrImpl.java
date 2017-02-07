@@ -23,28 +23,6 @@ public class PlanMgrImpl extends AbstractServiceImpl implements PlanMgr
 {
     @Autowired
     private PlanMgrDao PlanMgrdao;
-    public DOBJ planExcelDownload(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        if(!dobj.getRetObject("S").getRecord().get("COMPANY_CD").equals(""))
-        {
-            VOBJ vSEL3 = PlanMgrdao.planExcelDownload_SEL3(dobj);        //  get ORG_SEQ
-            dobj.setRetObject(vSEL3);
-            VOBJ vEXDN2 = PlanMgrdao.planExcelDownload_EXDN2(dobj);        //  Forecast Data
-            dobj.setRetObject(vEXDN2);
-            VOBJ vDN01 = PlanMgrdao.planExcelDownload_DN01(dobj);        //  Excel File Create
-            dobj.setRetObject(vDN01);
-        }
-        else
-        {
-            VOBJ vEXDN1 = PlanMgrdao.planExcelDownload_EXDN1(dobj);        //  Forecast Data
-            dobj.setRetObject(vEXDN1);
-            VOBJ vDN01 = PlanMgrdao.planExcelDownload_DN01(dobj);        //  Excel File Create
-            dobj.setRetObject(vDN01);
-        }
-        return dobj;
-    }
     public DOBJ ExcelNoChecking(DOBJ dobj) throws Exception
     {
         String  message ="";
@@ -86,7 +64,7 @@ public class PlanMgrImpl extends AbstractServiceImpl implements PlanMgr
                 }
                 else if(dobj.getRetmsg ( ).equals("") && dobj.getRetObject("SEL74").getRecord().getInt("CNT") == 0)
                 {
-                    VOBJ vXIUD116 = PlanMgrdao.ExcelNoChecking_XIUD116(dobj);        //  UNI  HP2D001W
+                    VOBJ vXIUD116 = PlanMgrdao.ExcelNoChecking_XIUD116(dobj);        //  UNI   HP2D001T
                     dobj.setRetObject(vXIUD116);
                     VOBJ vXIUD118 = PlanMgrdao.ExcelNoChecking_XIUD118(dobj);        //  Delete HP2D001T
                     dobj.setRetObject(vXIUD118);
@@ -95,6 +73,28 @@ public class PlanMgrImpl extends AbstractServiceImpl implements PlanMgr
                 {
                 }
             }
+        }
+        return dobj;
+    }
+    public DOBJ planExcelDownload(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        if(!dobj.getRetObject("S").getRecord().get("COMPANY_CD").equals(""))
+        {
+            VOBJ vSEL3 = PlanMgrdao.planExcelDownload_SEL3(dobj);        //  get ORG_SEQ
+            dobj.setRetObject(vSEL3);
+            VOBJ vEXDN2 = PlanMgrdao.planExcelDownload_EXDN2(dobj);        //  Forecast Data
+            dobj.setRetObject(vEXDN2);
+            VOBJ vDN01 = PlanMgrdao.planExcelDownload_DN01(dobj);        //  Excel File Create
+            dobj.setRetObject(vDN01);
+        }
+        else
+        {
+            VOBJ vEXDN1 = PlanMgrdao.planExcelDownload_EXDN1(dobj);        //  Forecast Data
+            dobj.setRetObject(vEXDN1);
+            VOBJ vDN01 = PlanMgrdao.planExcelDownload_DN01(dobj);        //  Excel File Create
+            dobj.setRetObject(vDN01);
         }
         return dobj;
     }

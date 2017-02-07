@@ -56,6 +56,15 @@ public class PlanMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
+    @RequestMapping(value="/20160901091138PlanMgr_planExcelDownload.do")
+    public String planExcelDownload(ModelMap model, DOBJ idobj) throws Exception
+    {
+        DOBJ odobj = PlanMgrService.planExcelDownload(idobj);
+        model.addAttribute("WIZDOBJ", odobj);
+        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
+        model.addAttribute("MESSAGE", odobj.getRetmsg());
+        return "/jsp/File/Dn01download";
+    }
     @RequestMapping(value="/20160901091138PlanMgr_ExcelNoChecking.do")
     public ModelAndView ExcelNoChecking(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -66,14 +75,5 @@ public class PlanMgrController
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
-    }
-    @RequestMapping(value="/20160901091138PlanMgr_planExcelDownload.do")
-    public String planExcelDownload(ModelMap model, DOBJ idobj) throws Exception
-    {
-        DOBJ odobj = PlanMgrService.planExcelDownload(idobj);
-        model.addAttribute("WIZDOBJ", odobj);
-        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
-        model.addAttribute("MESSAGE", odobj.getRetmsg());
-        return "/jsp/File/Dn01download";
     }
 }

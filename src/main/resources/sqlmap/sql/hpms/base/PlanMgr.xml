@@ -87,8 +87,95 @@ ORDER BY ORG_SEQ</select>
   HP1M105T 
  WHERE HP1DM04T.HPMS_GRP_ID = HP1M105T.CD 
  AND HP1M105T.CD_TYPE='HPMS_GRP_ID'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_SEL3">SELECT SUBSTR(ORG_SEQ, 0,  ( SELECT ORG_LVL*2  
+                                                FROM HP1DM03T 
+                                                WHERE COMPANY_CD=#COMPANY_CD# 
+                                                AND ORG_CD = #ORG_CD#  ))  ORG_SEQ 
+FROM HP1DM03T 
+WHERE COMPANY_CD = #COMPANY_CD# 
+AND   ORG_CD=#ORG_CD#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN2" remapResults="true">
+    SELECT * 
+FROM 
+( 
+    SELECT 
+         '' Processing_Flag,  
+         A.DATA_TYPE, 
+         A.PID, 
+        (SELECT RD_THEME   FROM HP1DM01T WHERE PID=A.PID)  PID_THEME,  
+         A.USE_COMPANY_CD, 
+         A.USE_ORG_CD, 
+         A.REQ_COMPANY_CD, 
+         A.REQ_ORG_CD, 
+         A.HPMS_ID, 
+        (SELECT HPMS_ID_NM_JP    FROM  HP1DM04T WHERE HPMS_ID =A.HPMS_ID)  HPMS_NAME, 
+         A.INVEST_TYPE_CD,  
+        (SELECT INVEST_TYPE_NM FROM  HP1DM07T  WHERE INVEST_TYPE_CD = A.INVEST_TYPE_CD)  INVESTMENT_TYPE_NAME,  
+         A.APPLICATION, 
+         A.ITEM_NAME, 
+         A.CUSTOMER_CD, 
+         A.UNIT,   
+         A.YYYYMM, 
+         VAL 
+    FROM  HP2D001T  A 
+    WHERE A.YYYYMM BETWEEN #FROM_YYYYMM# AND #TO_YYYYMM# 
+    AND  (       A.USE_ORG_CD IN ( SELECT ORG_CD   FROM HP1DM03T WHERE ORG_SEQ LIKE #ORG_SEQ# || '%'  ) 
+                       OR   A.REQ_ORG_CD IN ( SELECT ORG_CD   FROM HP1DM03T WHERE ORG_SEQ LIKE #ORG_SEQ# || '%'   ) 
+                     )
+    <dynamic>
+      <isNotEmpty property="PID">AND  ( A.PID =#PID# or A.PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</isNotEmpty>
+      <isNotEmpty property="HPMS_GRP_ID">AND A.HPMS_ID IN ( SELECT HPMS_ID FROM HP1DM04T WHERE HPMS_GRP_ID =#HPMS_GRP_ID# )</isNotEmpty>
+      <isNotEmpty property="HPMS_ID">AND A.HPMS_ID =#HPMS_ID#</isNotEmpty>
+      <isNotEmpty property="DATA_TYPE">AND A.DATA_TYPE =#DATA_TYPE#</isNotEmpty>
+      <isNotEmpty property="COMPANY_CD">AND  ( A.USE_COMPANY_CD =#COMPANY_CD# OR A.REQ_COMPANY_CD =#COMPANY_CD# )</isNotEmpty>
+    </dynamic>
+    ) 
+  PIVOT 
+  ( 
+     SUM(VAL) FOR YYYYMM IN ( $YYYYMM_NULL$ ) 
+  ) 
+  ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN1" remapResults="true">
+    SELECT * 
+FROM 
+( 
+    SELECT 
+         '' Processing_Flag,  
+         A.DATA_TYPE, 
+         A.PID, 
+        (SELECT RD_THEME   FROM HP1DM01T WHERE PID=A.PID)  PID_THEME,  
+         A.USE_COMPANY_CD, 
+         A.USE_ORG_CD, 
+         A.REQ_COMPANY_CD, 
+         A.REQ_ORG_CD, 
+         A.HPMS_ID, 
+        (SELECT HPMS_ID_NM_JP    FROM  HP1DM04T WHERE HPMS_ID =A.HPMS_ID)  HPMS_NAME, 
+         A.INVEST_TYPE_CD,  
+        (SELECT INVEST_TYPE_NM FROM  HP1DM07T  WHERE INVEST_TYPE_CD = A.INVEST_TYPE_CD)  INVESTMENT_TYPE_NAME,  
+         A.APPLICATION, 
+         A.ITEM_NAME, 
+         A.CUSTOMER_CD, 
+         A.UNIT,   
+         A.YYYYMM, 
+         VAL 
+    FROM   HP2D001T  A 
+    WHERE A.YYYYMM BETWEEN #FROM_YYYYMM# AND #TO_YYYYMM#
+    <dynamic>
+      <isNotEmpty property="PID">AND  ( A.PID =#PID# or A.PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</isNotEmpty>
+      <isNotEmpty property="HPMS_GRP_ID">AND A.HPMS_ID IN ( SELECT HPMS_ID FROM HP1DM04T WHERE HPMS_GRP_ID =#HPMS_GRP_ID# )</isNotEmpty>
+      <isNotEmpty property="HPMS_ID">AND A.HPMS_ID =#HPMS_ID#</isNotEmpty>
+      <isNotEmpty property="DATA_TYPE">AND A.DATA_TYPE =#DATA_TYPE#</isNotEmpty>
+    </dynamic>
+    ) 
+  PIVOT 
+  ( 
+     SUM(VAL) FOR YYYYMM IN ( $YYYYMM_NULL$ ) 
+  ) 
+  ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
+  </select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_ER01">select LOG_SEQ.nextval LOG_SEQ  , #LOG_CODE# AS LOG_CODE FROM DUAL</select>
-  <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_INS28">Insert into HP_DBA01.HP2D001W (LOG_SEQ, CUSTOMER_CD, UNIT, USER_ID, ERR_MSG, PID, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, INVEST_TYPE_CD, VAL, PROCESSING_FLAG, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#LOG_SEQ# , #CUSTOMER_CD# , #UNIT# , #USER_ID# , #ERR_MSG# , #PID# , #APPLICATION# , #HPMS_ID# , #UPDATE_TIME# , #ERR_FLAG# , #INVEST_TYPE_CD# , #VAL# , #PROCESSING_FLAG# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
+  <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_INS28">Insert into HP_DBA01.HP2D001W (LOG_SEQ, CUSTOMER_CD, UNIT, USER_ID, ERR_MSG, PID, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, INVEST_TYPE_CD, VAL, PROCESSING_FLAG, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#LOG_SEQ# , #CUSTOMER_CD# , #UNIT# , #USER_ID# , #ERR_MSG# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #ERR_FLAG# , #INVEST_TYPE_CD# , #VAL# , #PROCESSING_FLAG# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_SEL80">SELECT 
    Z.PID_ERROR, 
    Z.PID, 
@@ -425,92 +512,5 @@ INSERT (  X.UPDATE_USER_ID ,
            WHERE X.LOG_SEQ = #LOG_SEQ# 
            AND X.PROCESSING_FLAG='D')</delete>
   <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_INS27">Insert into HP_DBA01.HP2D001W (LOG_SEQ, CUSTOMER_CD, UNIT, USER_ID, ERR_MSG, PID, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, INVEST_TYPE_CD, VAL, PROCESSING_FLAG, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#LOG_SEQ# , #CUSTOMER_CD# , #UNIT# , #USER_ID# , #ERR_MSG# , #PID# , #APPLICATION# , #HPMS_ID# , #UPDATE_TIME# , #ERR_FLAG# , #INVEST_TYPE_CD# , #VAL# , #PROCESSING_FLAG# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_SEL3">SELECT SUBSTR(ORG_SEQ, 0,  ( SELECT ORG_LVL*2  
-                                                FROM HP1DM03T 
-                                                WHERE COMPANY_CD=#COMPANY_CD# 
-                                                AND ORG_CD = #ORG_CD#  ))  ORG_SEQ 
-FROM HP1DM03T 
-WHERE COMPANY_CD = #COMPANY_CD# 
-AND   ORG_CD=#ORG_CD#</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN2">
-    SELECT * 
-FROM 
-( 
-    SELECT 
-         '' Processing_Flag,  
-         A.DATA_TYPE, 
-         A.PID, 
-        (SELECT RD_THEME   FROM HP1DM01T WHERE PID=A.PID)  PID_THEME,  
-         A.USE_COMPANY_CD, 
-         A.USE_ORG_CD, 
-         A.REQ_COMPANY_CD, 
-         A.REQ_ORG_CD, 
-         A.HPMS_ID, 
-        (SELECT HPMS_ID_NM_JP    FROM  HP1DM04T WHERE HPMS_ID =A.HPMS_ID)  HPMS_NAME, 
-         A.INVEST_TYPE_CD,  
-        (SELECT INVEST_TYPE_NM FROM  HP1DM07T  WHERE INVEST_TYPE_CD = A.INVEST_TYPE_CD)  INVESTMENT_TYPE_NAME,  
-         A.APPLICATION, 
-         A.ITEM_NAME, 
-         A.CUSTOMER_CD, 
-         A.UNIT,   
-         A.YYYYMM, 
-         VAL 
-    FROM  HP2D001T  A 
-    WHERE A.YYYYMM BETWEEN #FROM_YYYYMM# AND #TO_YYYYMM# 
-    AND  (       A.USE_ORG_CD IN ( SELECT ORG_CD   FROM HP1DM03T WHERE ORG_SEQ LIKE #ORG_SEQ# || '%'  ) 
-                       OR   A.REQ_ORG_CD IN ( SELECT ORG_CD   FROM HP1DM03T WHERE ORG_SEQ LIKE #ORG_SEQ# || '%'   ) 
-                     )
-    <dynamic>
-      <isNotEmpty property="PID">AND  ( A.PID =#PID# or A.PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</isNotEmpty>
-      <isNotEmpty property="HPMS_GRP_ID">AND A.HPMS_ID IN ( SELECT HPMS_ID FROM HP1DM04T WHERE HPMS_GRP_ID =#HPMS_GRP_ID# )</isNotEmpty>
-      <isNotEmpty property="HPMS_ID">AND A.HPMS_ID =#HPMS_ID#</isNotEmpty>
-      <isNotEmpty property="DATA_TYPE">AND A.DATA_TYPE =#DATA_TYPE#</isNotEmpty>
-      <isNotEmpty property="COMPANY_CD">AND  ( A.USE_COMPANY_CD =#COMPANY_CD# OR A.REQ_COMPANY_CD =#COMPANY_CD# )</isNotEmpty>
-    </dynamic>
-    ) 
-  PIVOT 
-  ( 
-     SUM(VAL) FOR YYYYMM IN ( $YYYYMM_NULL$ ) 
-  ) 
-  ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
-  </select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN1">
-    SELECT * 
-FROM 
-( 
-    SELECT 
-         '' Processing_Flag,  
-         A.DATA_TYPE, 
-         A.PID, 
-        (SELECT RD_THEME   FROM HP1DM01T WHERE PID=A.PID)  PID_THEME,  
-         A.USE_COMPANY_CD, 
-         A.USE_ORG_CD, 
-         A.REQ_COMPANY_CD, 
-         A.REQ_ORG_CD, 
-         A.HPMS_ID, 
-        (SELECT HPMS_ID_NM_JP    FROM  HP1DM04T WHERE HPMS_ID =A.HPMS_ID)  HPMS_NAME, 
-         A.INVEST_TYPE_CD,  
-        (SELECT INVEST_TYPE_NM FROM  HP1DM07T  WHERE INVEST_TYPE_CD = A.INVEST_TYPE_CD)  INVESTMENT_TYPE_NAME,  
-         A.APPLICATION, 
-         A.ITEM_NAME, 
-         A.CUSTOMER_CD, 
-         A.UNIT,   
-         A.YYYYMM, 
-         VAL 
-    FROM   HP2D001T  A 
-    WHERE A.YYYYMM BETWEEN #FROM_YYYYMM# AND #TO_YYYYMM#
-    <dynamic>
-      <isNotEmpty property="PID">AND  ( A.PID =#PID# or A.PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</isNotEmpty>
-      <isNotEmpty property="HPMS_GRP_ID">AND A.HPMS_ID IN ( SELECT HPMS_ID FROM HP1DM04T WHERE HPMS_GRP_ID =#HPMS_GRP_ID# )</isNotEmpty>
-      <isNotEmpty property="HPMS_ID">AND A.HPMS_ID =#HPMS_ID#</isNotEmpty>
-      <isNotEmpty property="DATA_TYPE">AND A.DATA_TYPE =#DATA_TYPE#</isNotEmpty>
-    </dynamic>
-    ) 
-  PIVOT 
-  ( 
-     SUM(VAL) FOR YYYYMM IN ( $YYYYMM_NULL$ ) 
-  ) 
-  ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
-  </select>
 </sqlMap>
 

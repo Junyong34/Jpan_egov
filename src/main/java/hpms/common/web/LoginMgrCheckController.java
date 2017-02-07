@@ -88,7 +88,7 @@ public class LoginMgrCheckController
         if(_clist.size() == 0  ) return "forward:/2016041114474Main.do";
         
        
-        session.setMaxInactiveInterval(3600);
+        session.setMaxInactiveInterval(1800);
 
         for (int i = 0; i < _clist.size(); i++)
         {

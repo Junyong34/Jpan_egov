@@ -54,19 +54,6 @@ public class PLSheetOutputController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/20160901101143PLSheetOutput_PLSheetDownload.do")
-    public String buildPLSheetDownload(ModelMap model, DOBJ idobj) throws Exception
-    {
-        DOBJ odobj = PLSheetOutputService.buildPLSheetDownload(idobj);
-        model.addAttribute("WIZDOBJ", odobj);
-        model.addAttribute("MRG01", odobj.getRetObject("MRG01").getRecords());
-        model.addAttribute("MRG02", odobj.getRetObject("MRG02").getRecords());
-        model.addAttribute("leftColumn", odobj.getRetObject("leftColumn").getRecords());
-        model.addAttribute("RightColumn", odobj.getRetObject("RightColumn").getRecords());
-        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
-        model.addAttribute("MESSAGE", odobj.getRetmsg());
-        return "/jsp/File/Dn01download";
-    }
     @RequestMapping(value="/20160901101143PLSheetOutput_PIDCheck.do")
     public ModelAndView PIDCheck(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -90,5 +77,17 @@ public class PLSheetOutputController
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
+    }
+    @RequestMapping(value="/20160901101143PLSheetOutput_PLSheetDownload.do")
+    public String buildPLSheetDownload(ModelMap model, DOBJ idobj) throws Exception
+    {
+        DOBJ odobj = PLSheetOutputService.buildPLSheetDownload(idobj);
+        model.addAttribute("WIZDOBJ", odobj);
+        model.addAttribute("MRG01", odobj.getRetObject("MRG01").getRecords());
+        model.addAttribute("leftColumn", odobj.getRetObject("leftColumn").getRecords());
+        model.addAttribute("RightColumn", odobj.getRetObject("RightColumn").getRecords());
+        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
+        model.addAttribute("MESSAGE", odobj.getRetmsg());
+        return "/jsp/File/Dn01download";
     }
 }

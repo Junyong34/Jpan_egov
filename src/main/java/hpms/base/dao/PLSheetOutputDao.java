@@ -11,49 +11,6 @@ import javax.annotation.Resource;
 @Repository("PLSheetOutput20160901101143Dao")
 public class PLSheetOutputDao extends EgovAbstractDAO
 {
-    // DATA_TYPE
-    public VOBJ initCombo_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "DATA_TYPE" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        List rlist = list("PLSheetOutput_20160901101143.initCombo_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // get PID Count
-    public VOBJ PIDCheck_SEL1(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL1", "get PID Count" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        List rlist = list("PLSheetOutput_20160901101143.PIDCheck_SEL1", param);
-        dvobj.setName("SEL1");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // PID_CHECK
-    public VOBJ PIDCheck_SEL3(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL3", "PID_CHECK" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        List rlist = list("PLSheetOutput_20160901101143.PIDCheck_SEL3", param);
-        dvobj.setName("SEL3");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
     // PL_TYPE Search
     public VOBJ buildPLSheetDownload_SEL13(DOBJ dobj) throws Exception
     {
@@ -81,20 +38,6 @@ public class PLSheetOutputDao extends EgovAbstractDAO
         dvobj.setRecords(rlist);
         return dvobj;
     }
-    // PL-DATA
-    public VOBJ buildPLSheetDownload_SEL06(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL06", "PL-DATA" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL06", param);
-        dvobj.setName("SEL06");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
     // Final DCP Info
     public VOBJ buildPLSheetDownload_MRG01(DOBJ dobj) throws Exception
     {
@@ -102,16 +45,6 @@ public class PLSheetOutputDao extends EgovAbstractDAO
         VOBJ       rvobj= null;
         rvobj = wutil.getMergeObject(dobj, "SEL01, SEL02, SEL03, SEL04, SEL05","" );
         rvobj.setName("MRG01") ;
-        rvobj.setRetcode(1);
-        return rvobj;
-    }
-    // Final PL-DATA
-    public VOBJ buildPLSheetDownload_MRG02(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"MRG02", "Final PL-DATA" );
-        VOBJ       rvobj= null;
-        rvobj = wutil.getMergeObject(dobj, "SEL06, SEL07, SEL08, SEL09, SEL10","" );
-        rvobj.setName("MRG02") ;
         rvobj.setRetcode(1);
         return rvobj;
     }
@@ -169,20 +102,6 @@ public class PLSheetOutputDao extends EgovAbstractDAO
         dvobj.setRecords(rlist);
         return dvobj;
     }
-    // PL-DATA
-    public VOBJ buildPLSheetDownload_SEL07(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL07", "PL-DATA" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL07", param);
-        dvobj.setName("SEL07");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
     // DCP_Info
     public VOBJ buildPLSheetDownload_SEL03(DOBJ dobj) throws Exception
     {
@@ -194,20 +113,6 @@ public class PLSheetOutputDao extends EgovAbstractDAO
         param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
         List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL03", param);
         dvobj.setName("SEL03");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // PL-DATA
-    public VOBJ buildPLSheetDownload_SEL08(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL08", "PL-DATA" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL08", param);
-        dvobj.setName("SEL08");
         dvobj.setRecords(rlist);
         return dvobj;
     }
@@ -225,20 +130,6 @@ public class PLSheetOutputDao extends EgovAbstractDAO
         dvobj.setRecords(rlist);
         return dvobj;
     }
-    // PL-DATA
-    public VOBJ buildPLSheetDownload_SEL09(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL09", "PL-DATA" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL09", param);
-        dvobj.setName("SEL09");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
     // DCP_Info
     public VOBJ buildPLSheetDownload_SEL05(DOBJ dobj) throws Exception
     {
@@ -250,6 +141,115 @@ public class PLSheetOutputDao extends EgovAbstractDAO
         param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
         List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL05", param);
         dvobj.setName("SEL05");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // DATA_TYPE
+    public VOBJ initCombo_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "DATA_TYPE" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        List rlist = list("PLSheetOutput_20160901101143.initCombo_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // get PID Count
+    public VOBJ PIDCheck_SEL1(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL1", "get PID Count" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        List rlist = list("PLSheetOutput_20160901101143.PIDCheck_SEL1", param);
+        dvobj.setName("SEL1");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // PID_CHECK
+    public VOBJ PIDCheck_SEL3(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL3", "PID_CHECK" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        List rlist = list("PLSheetOutput_20160901101143.PIDCheck_SEL3", param);
+        dvobj.setName("SEL3");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // PL-DATA
+    public VOBJ buildPLSheetDownload_SEL06(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL06", "PL-DATA" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL06", param);
+        dvobj.setName("SEL06");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // Final PL-DATA
+    public VOBJ buildPLSheetDownload_MRG02(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"MRG02", "Final PL-DATA" );
+        VOBJ       rvobj= null;
+        rvobj = wutil.getMergeObject(dobj, "SEL06, SEL07, SEL08, SEL09, SEL10","" );
+        rvobj.setName("MRG02") ;
+        rvobj.setRetcode(1);
+        return rvobj;
+    }
+    // PL-DATA
+    public VOBJ buildPLSheetDownload_SEL07(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL07", "PL-DATA" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL07", param);
+        dvobj.setName("SEL07");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // PL-DATA
+    public VOBJ buildPLSheetDownload_SEL08(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL08", "PL-DATA" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL08", param);
+        dvobj.setName("SEL08");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // PL-DATA
+    public VOBJ buildPLSheetDownload_SEL09(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL09", "PL-DATA" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("PLSheetOutput_20160901101143.buildPLSheetDownload_SEL09", param);
+        dvobj.setName("SEL09");
         dvobj.setRecords(rlist);
         return dvobj;
     }

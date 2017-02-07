@@ -2,8 +2,13 @@ package hpms.UserObject.Excel;
 
 import oracle.net.aso.i;
 
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.text.SimpleDateFormat;
 import java.io.FileInputStream;
 import java.util.HashMap;
@@ -30,6 +35,11 @@ import java.io.FileOutputStream;
 
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import WIZ.FR.DAO.Connector;
 
 public class PLSheet
 {
@@ -42,7 +52,39 @@ public class PLSheet
     public PLSheet()
     {
     }
-
+    private Connection getConnection() throws Exception
+    {
+ 	/* DB 접속 정보 가져오는 변수 설정 */
+	    	String DB_name = EgovProperties.getProperty("Globals.DbType").toString();
+	    	String DB_user = EgovProperties.getProperty("Globals.UserName").toString();
+	    	String DB_pw =   EgovProperties.getProperty("Globals.Password").toString();
+	    	String DB_URL =  EgovProperties.getProperty("Globals.Url").toString();
+  
+         Connection Conn = null;
+         try
+         {
+             Connector connection = new Connector();
+             Conn = connection.getConnectionDirect(DB_name,DB_URL,DB_user,DB_pw);
+         }
+         catch(Exception e)
+         {
+             e.printStackTrace();
+             throw e;
+         }
+         return Conn;
+    }
+    
+    private PreparedStatement getStatement(Connection Conn, DOBJ dobj) throws Exception
+    {
+ 	   /* PLSheet 엑셀 오른쪽 데이타 가져오는 쿼리 */
+        String query ="select *    from table( HP5D101T_F22( ?, ? ) )  ";//select *    from table( HP5D101T_F22( :PID, :DATA_TYPE ) )
+        PreparedStatement pstmt = Conn.prepareStatement(query) ;
+       
+        /* 쿼리 실행에 필요한 파라미터 설정 */
+        pstmt.setString(1,dobj.getRetObject("S2").getRecord().get("PID"));
+        pstmt.setString(2,dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));
+        return pstmt; 
+    }
     //---------------------------------------------------------------------------------------------------------------
     //----------------------------   [ download method processing start  ] ------------------------------------------
     //---------------------------------------------------------------------------------------------------------------
@@ -52,7 +94,7 @@ public class PLSheet
         indobj = makePLSheet(indobj);
         return indobj;
     }
-
+   
     private DOBJ makePLSheet(DOBJ indobj)
     {
         String unifilename = "";
@@ -75,14 +117,17 @@ public class PLSheet
             _fin = new FileInputStream(_fp);
             XSSFWorkbook _workbook = null;
             _workbook = new XSSFWorkbook(_fin);
-
-            addSheetPlanExcel(indobj, _workbook);
             
-            _workbook.setForceFormulaRecalculation(true);// 계산식 적용처리
+            SXSSFWorkbook LageWorkbook = new SXSSFWorkbook(_workbook,100);
+            
+            addSheetPlanExcel(indobj, LageWorkbook);
+            
+            LageWorkbook.setForceFormulaRecalculation(true);// 계산식 적용처리
             
              fileOut = new FileOutputStream(_fp);
-            _workbook.write(fileOut);
-
+             LageWorkbook.write(fileOut);
+             LageWorkbook.dispose();
+            
         }catch(Exception ex)
         {
             ex.printStackTrace();
@@ -119,8 +164,11 @@ public class PLSheet
        return indobj;
    }
 
-   private  void addSheetPlanExcel(DOBJ indobj, XSSFWorkbook _workbook)
+   private  void addSheetPlanExcel(DOBJ indobj, Workbook _workbook)
    {
+	   Connection Conn = null;
+	   PreparedStatement pstmt = null;
+	   ResultSet rset = null;
 	   
        try
        {
@@ -130,10 +178,10 @@ public class PLSheet
            int rightColumnMaxsize = 30;          //right max column count
            int rightrowindex =0;                 //right row index
 
-           XSSFSheet _sheet = _workbook.getSheetAt( 1 );       //2번 sheet(data)
+           Sheet _sheet = _workbook.getSheetAt( 1 );       //2번 sheet(data)
            VOBJ invobj = indobj.getRetObject( "S2" );          //UI Input Dataset
            VOBJ leftvobj = indobj.getRetObject( "MRG01" );     //Left Dataset
-           VOBJ rightvobj = indobj.getRetObject( "MRG02" );    //Right Dataset
+          // VOBJ rightvobj = indobj.getRetObject( "MRG02" );    //Right Dataset
            
            VOBJ LEFTCOLUMN = indobj.getRetObject( "leftColumn" );   
            ArrayList LeftCol =  getMaxCol(LEFTCOLUMN);
@@ -141,8 +189,8 @@ public class PLSheet
            VOBJ RIGHTCOLUMN  = indobj.getRetObject( "RightColumn" );
            ArrayList RightCol = getMaxCol(RIGHTCOLUMN);
            
-           XSSFCell _cell =null;
-           XSSFRow _row = null;
+           Cell _cell =null;
+           Row _row = null;
 
           
            //=====================================UI Input Data Set =======================================
@@ -212,11 +260,26 @@ public class PLSheet
            //=============================================================================================
 
            //=====================================Right Data Set =======================================
-           ArrayList clist = getMaxColumn(rightvobj, rightColumnMaxsize);
+       //    ArrayList clist = getMaxColumn(rightvobj, rightColumnMaxsize);
+           HashMap<Object,Object> record = null;
+           Conn = getConnection();
+           pstmt = getStatement(Conn, indobj);
+           rset = pstmt.executeQuery();
+           ResultSetMetaData rmeta = pstmt.getMetaData();
+           
            rightrowindex=0;
-           rightvobj.first();
-           while(rightvobj.next())
+          // rightvobj.first();
+           while(rset.next())
            {
+        	   record = new HashMap<Object,Object>();
+               for(int cindex=1; cindex <= rmeta.getColumnCount(); cindex++)
+               {
+                 
+                 record.put(rmeta.getColumnName(cindex), rset.getString(rmeta.getColumnName(cindex))+"");
+                 
+               }
+              
+               
                if(leftrowindex < rightrowindex)
                {
                    _row = _sheet.createRow(rightrowindex);
@@ -230,12 +293,13 @@ public class PLSheet
                    }
                }
 
-               for(int i=0;i<clist.size();i++)
+               for(int i=0;i<rmeta.getColumnCount()-1;i++)
                {
                    _cell =_row.createCell(i + rightStartIndex);
                    
                   //_cell.setCellValue(rightvobj.getRecord().get(clist.get(i).toString()));
-                   String cellValue = rightvobj.getRecord().get(RIGHTCOLUMN.getRecord().get(RightCol.get(i).toString()))+"";
+                   String cellValue = record.get(RIGHTCOLUMN.getRecord().get(RightCol.get(i).toString()))+"";
+                   
                    String Colinfo = RIGHTCOLUMN.getRecord().get(RightCol.get(i).toString());
                    	
                    if(Colinfo.indexOf("VAL") == -1){

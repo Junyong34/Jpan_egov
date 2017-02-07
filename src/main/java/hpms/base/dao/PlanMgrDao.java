@@ -11,88 +11,6 @@ import javax.annotation.Resource;
 @Repository("PlanMgr20160901091138Dao")
 public class PlanMgrDao extends EgovAbstractDAO
 {
-    // get ORG_SEQ
-    public VOBJ planExcelDownload_SEL3(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL3", "get ORG_SEQ" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        String  ORG_CD="" ;          //ORG_CD
-        if(!dobj.getRetObject("S").getRecord().get("ORG_CD").equals(""))
-        {
-           ORG_CD = dobj.getRetObject("S").getRecord().get("ORG_CD");
-            
-        }
-        else 
-        {
-           ORG_CD = dobj.getRetObject("S").getRecord().get("COMPANY_CD").substring(3);
-            
-        }
-          param.put("ORG_CD", ORG_CD);   //ORG_CD
-        param.put("COMPANY_CD", dobj.getRetObject("S").getRecord().get("COMPANY_CD").substring(0,3));   //COMPANY_CD
-        List rlist = list("PlanMgr_20160901091138.planExcelDownload_SEL3", param);
-        dvobj.setName("SEL3");
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL3");
-        return dvobj;
-    }
-    // Forecast Data
-    public VOBJ planExcelDownload_EXDN2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"EXDN2", "Forecast Data" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        param.put("HPMS_GRP_ID", dobj.getRetObject("S").getRecord().get("HPMS_GRP_ID"));   //HPMS_GRP_ID
-        param.put("TO_YYYYMM", dobj.getRetObject("S").getRecord().get("TO_YYYYMM"));   //퇴사월
-        param.put("ORG_SEQ", dobj.getRetObject("SEL3").getRecord().get("ORG_SEQ"));   //ORG_SEQ
-        param.put("HPMS_ID", dobj.getRetObject("S").getRecord().get("HPMS_ID"));   //HPMS_ID
-        param.put("YYYYMM_NULL", dobj.getRetObject("S").getRecord().get("YYYYMM"));   //Multi-YYYYMM
-        param.put("FROM_YYYYMM", dobj.getRetObject("S").getRecord().get("FROM_YYYYMM"));   //입사월
-        param.put("COMPANY_CD", dobj.getRetObject("S").getRecord().get("COMPANY_CD").substring(0,3));   //COMPANY_CD
-        param.put("DATA_TYPE", dobj.getRetObject("S").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("PlanMgr_20160901091138.planExcelDownload_EXDN2", param);
-        dvobj.setName("EXDN2");
-        dvobj.setRecords(rlist);
-        dvobj.Println("EXDN2");
-        return dvobj;
-    }
-    // Excel File Create
-    public VOBJ planExcelDownload_DN01(DOBJ dobj) throws Exception
-    {
-        CommUtil cu = new CommUtil(dobj);
-        HashMap   classinfo = new HashMap();
-        classinfo.put("OBJECTID", "DN01" );
-        classinfo.put("PACKAGE", "hpms.UserObject.Excel" );
-        classinfo.put("CLASS", "ForcastInOut" );
-        classinfo.put("METHOD", "downloadPlanExcel" );
-        dobj = cu.callPSExternal(dobj, null, classinfo );
-        VOBJ dvobj = dobj.getRetObject("DN01");
-        dvobj.setName("DN01");
-        return dvobj;
-    }
-    // Forecast Data
-    public VOBJ planExcelDownload_EXDN1(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"EXDN1", "Forecast Data" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        param.put("HPMS_GRP_ID", dobj.getRetObject("S").getRecord().get("HPMS_GRP_ID"));   //HPMS_GRP_ID
-        param.put("TO_YYYYMM", dobj.getRetObject("S").getRecord().get("TO_YYYYMM"));   //퇴사월
-        param.put("HPMS_ID", dobj.getRetObject("S").getRecord().get("HPMS_ID"));   //HPMS_ID
-        param.put("YYYYMM_NULL", dobj.getRetObject("S").getRecord().get("YYYYMM"));   //Multi-YYYYMM
-        param.put("FROM_YYYYMM", dobj.getRetObject("S").getRecord().get("FROM_YYYYMM"));   //입사월
-        param.put("DATA_TYPE", dobj.getRetObject("S").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("PlanMgr_20160901091138.planExcelDownload_EXDN1", param);
-        dvobj.setName("EXDN1");
-        dvobj.setRecords(rlist);
-        dvobj.Println("EXDN1");
-        return dvobj;
-    }
     // ExcelUpload Data
     public VOBJ ExcelNoChecking_PEX2(DOBJ dobj) throws Exception
     {
@@ -127,9 +45,9 @@ public class PlanMgrDao extends EgovAbstractDAO
         dobj.setRtnname("CVT25");
         WizUtil wutil = new WizUtil(dobj,"CVT25", "Param" );
         VOBJ dvobj = dobj.getRetObjectCopy("ER01");        //get LogSequence Input Object(CALLExcelNoChecking_ER01)
-        String[] outcolumns =
+        String[] outcolumns = 
         {
-            "LOG_CODE", "LOG_SEQ"
+        "LOG_CODE", "LOG_SEQ"
         }
         ;;
         HashMap    record =null;
@@ -142,20 +60,25 @@ public class PlanMgrDao extends EgovAbstractDAO
             Iterator itor = record.keySet().iterator();
             while(itor.hasNext())
             {
+            
                 alist.add(itor.next().toString());
             }
             for(int i=0;i<alist.size();i++)
             {
+            
                 isfind = false;
                 for(int j=0;j<outcolumns.length;j++)
                 {
-                    if(alist.get(i).equals(outcolumns[j]))
+                
+                    if(alist.get(i).equals(outcolumns[j])) 
                     {
+                    
                         isfind=true;
                     }
                 }
                 if(isfind == false)
                 {
+                
                     record.remove(alist.get(i));
                 }
             }
@@ -172,10 +95,13 @@ public class PlanMgrDao extends EgovAbstractDAO
         VOBJ       rvobj= null;
         int        updcnt =0;
         HashMap    param = null;
+        SqlMapClient client = getSqlMapClient();  
+        client.startBatch();
         dvobj.first();
         while(dvobj.next())
         {
             param = new HashMap();
+            param.put("UPDATE_TIME", "");   //갱신일시
             param.put("USE_COMPANY_CD", dvobj.getRecord().get("USE_COMPANY_CD"));   //費用？生元？社CD
             param.put("DATA_TYPE", dvobj.getRecord().get("DATA_TYPE"));   //デ？タタイプ
             param.put("USE_ORG_CD", dvobj.getRecord().get("USE_ORG_CD"));   //費用？生元部CD
@@ -194,12 +120,13 @@ public class PlanMgrDao extends EgovAbstractDAO
             param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
             param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
             param.put("LOG_SEQ", dobj.getRetObject("ER01").getRecord().get("LOG_SEQ"));   //LOG_SEQ
-            param.put("UPDATE_TIME", "");   //갱신일시
             param.put("UPLOAD_FILE_NAME", dobj.getRetObject("S1").getRecord().get("FILE_NAME"));   //UPLOAD_FILE_NAME
             param.put("USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //사용자ID
-            insert("PlanMgr_20160901091138.ExcelNoChecking_INS28",param);
+            client.insert("PlanMgr_20160901091138.ExcelNoChecking_INS28",param);
             updcnt++;
         }
+        client.executeBatch(); 
+       
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
         HashMap recordx = new HashMap();
@@ -313,10 +240,10 @@ public class PlanMgrDao extends EgovAbstractDAO
         rvobj.setName("XIUD114");
         return rvobj;
     }
-    // UNI  HP2D001W
+    // UNI   HP2D001T
     public VOBJ ExcelNoChecking_XIUD116(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"XIUD116", "UNI  HP2D001W" );
+        WizUtil wutil = new WizUtil(dobj,"XIUD116", "UNI   HP2D001T  " );
         VOBJ dvobj = dobj.getRetObject("ER01");            //get LogSequence Input Object(CALLExcelNoChecking_ER01)
         SQLObject  sobj = null;
         VOBJ       rvobj= null;
@@ -389,12 +316,15 @@ public class PlanMgrDao extends EgovAbstractDAO
             param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
             param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
             String  ERR_FLAG="" ;          //エラ？フラグ
-            if(dobj.getRetObject("PEX2").getRecord().get("ERR_MSG").equals(""))
+            if(dobj.getRetObject("PEX2").getRecord().get("ERR_MSG").equals("")) 
             {
+            
                 ERR_FLAG = "";
+                
             }
-            else
+             else 
             {
+            
                 ERR_FLAG = "1";
             }
             param.put("ERR_FLAG", ERR_FLAG);   //エラ？フラグ
@@ -413,6 +343,86 @@ public class PlanMgrDao extends EgovAbstractDAO
         rvobj.addRecord(recordx);
         rvobj.setName("INS27") ;
         return rvobj;
+    }
+    // get ORG_SEQ
+    public VOBJ planExcelDownload_SEL3(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL3", "get ORG_SEQ" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        String  ORG_CD="" ;          //ORG_CD
+        if(!dobj.getRetObject("S").getRecord().get("ORG_CD").equals(""))
+        {
+            ORG_CD = dobj.getRetObject("S").getRecord().get("ORG_CD");
+        }
+        else
+        {
+            ORG_CD = dobj.getRetObject("S").getRecord().get("COMPANY_CD").substring(3);
+        }
+        param.put("ORG_CD", ORG_CD);   //ORG_CD
+        param.put("COMPANY_CD", dobj.getRetObject("S").getRecord().get("COMPANY_CD").substring(0,3));   //COMPANY_CD
+        List rlist = list("PlanMgr_20160901091138.planExcelDownload_SEL3", param);
+        dvobj.setName("SEL3");
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL3");
+        return dvobj;
+    }
+    // Forecast Data
+    public VOBJ planExcelDownload_EXDN2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"EXDN2", "Forecast Data" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        param.put("HPMS_GRP_ID", dobj.getRetObject("S").getRecord().get("HPMS_GRP_ID"));   //HPMS_GRP_ID
+        param.put("TO_YYYYMM", dobj.getRetObject("S").getRecord().get("TO_YYYYMM"));   //퇴사월
+        param.put("ORG_SEQ", dobj.getRetObject("SEL3").getRecord().get("ORG_SEQ"));   //ORG_SEQ
+        param.put("HPMS_ID", dobj.getRetObject("S").getRecord().get("HPMS_ID"));   //HPMS_ID
+        param.put("YYYYMM_NULL", dobj.getRetObject("S").getRecord().get("YYYYMM"));   //Multi-YYYYMM
+        param.put("FROM_YYYYMM", dobj.getRetObject("S").getRecord().get("FROM_YYYYMM"));   //입사월
+        param.put("COMPANY_CD", dobj.getRetObject("S").getRecord().get("COMPANY_CD").substring(0,3));   //COMPANY_CD
+        param.put("DATA_TYPE", dobj.getRetObject("S").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("PlanMgr_20160901091138.planExcelDownload_EXDN2", param);
+        dvobj.setName("EXDN2");
+        dvobj.setRecords(rlist);
+        dvobj.Println("EXDN2");
+        return dvobj;
+    }
+    // Excel File Create
+    public VOBJ planExcelDownload_DN01(DOBJ dobj) throws Exception
+    {
+        CommUtil cu = new CommUtil(dobj);
+        HashMap   classinfo = new HashMap();
+        classinfo.put("OBJECTID", "DN01" );
+        classinfo.put("PACKAGE", "hpms.UserObject.Excel" );
+        classinfo.put("CLASS", "ForcastInOut" );
+        classinfo.put("METHOD", "downloadPlanExcel" );
+        dobj = cu.callPSExternal(dobj, null, classinfo );
+        VOBJ dvobj = dobj.getRetObject("DN01");
+        dvobj.setName("DN01");
+        return dvobj;
+    }
+    // Forecast Data
+    public VOBJ planExcelDownload_EXDN1(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"EXDN1", "Forecast Data" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        param.put("HPMS_GRP_ID", dobj.getRetObject("S").getRecord().get("HPMS_GRP_ID"));   //HPMS_GRP_ID
+        param.put("TO_YYYYMM", dobj.getRetObject("S").getRecord().get("TO_YYYYMM"));   //퇴사월
+        param.put("HPMS_ID", dobj.getRetObject("S").getRecord().get("HPMS_ID"));   //HPMS_ID
+        param.put("YYYYMM_NULL", dobj.getRetObject("S").getRecord().get("YYYYMM"));   //Multi-YYYYMM
+        param.put("FROM_YYYYMM", dobj.getRetObject("S").getRecord().get("FROM_YYYYMM"));   //입사월
+        param.put("DATA_TYPE", dobj.getRetObject("S").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("PlanMgr_20160901091138.planExcelDownload_EXDN1", param);
+        dvobj.setName("EXDN1");
+        dvobj.setRecords(rlist);
+        dvobj.Println("EXDN1");
+        return dvobj;
     }
     // WorkTable Save HP2D001W
     public VOBJ ExcelNoChecking_UNI72(DOBJ dobj) throws Exception

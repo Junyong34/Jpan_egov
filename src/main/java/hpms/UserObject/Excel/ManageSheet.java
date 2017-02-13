@@ -3,6 +3,11 @@ package hpms.UserObject.Excel;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import hpms.UserObject.Excel.ObjectPool.PoolSizeOutException;
+
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,12 +15,29 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.io.FileInputStream;
-
 import java.util.HashMap;
 import java.util.Date;
 
 
+
+
+
+
+
+
+
+
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+
+
+
+
+
+
+
 
 
 import java.io.IOException;
@@ -34,10 +56,26 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import java.io.FileOutputStream;
 
 
+
+
+
+
+
+
+
+
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+
+
+
+
+
+
 
 import WIZ.FR.DAO.Connector;
 
@@ -48,15 +86,21 @@ public class ManageSheet
     private  ArrayList ordername= new ArrayList();
     private  String downtempfold = this.rootPath + "ExcelDownLoad";
     private  String layoutfilefold = this.rootPath + "ExcelLayout";
-
+   
+    // Static 영역에 Objectpool 생성하여 올리며 개수 제한을 걸어 설정 한다.
+    static  ObjectPool<StringBuffer> pool = new ObjectPool<StringBuffer>(StringBuffer.class, 2);
+    private  int objnum = 0;
+    
     public ManageSheet()
     {
+    	
+    	
     }
 
     //---------------------------------------------------------------------------------------------------------------
     //----------------------------   [ download method processing start  ] ------------------------------------------
     //---------------------------------------------------------------------------------------------------------------
-    public DOBJ downloadSheet(DOBJ indobj)
+    public DOBJ downloadSheet(DOBJ indobj) throws InstantiationException, IllegalAccessException
     {
         indobj.dispRetObjectKeyNames();
         indobj = makeManageSheet(indobj);
@@ -103,7 +147,7 @@ public class ManageSheet
        }
        
     //경영종합표엑셀 만드는 함수
-    private DOBJ makeManageSheet(DOBJ indobj)
+    private DOBJ makeManageSheet(DOBJ indobj) throws InstantiationException, IllegalAccessException
     {
         String unifilename = ""; // 유니크 파일이름 
         String Manage_FILE_NM = indobj.getRetObject("SEL5").getRecord().get("TEMPLATE_FILE_NAME"); // 템프 파일 이름
@@ -111,6 +155,50 @@ public class ManageSheet
         File _fp = null;
         FileInputStream _fin = null;
         FileOutputStream fileOut =null;
+       
+        
+        
+        
+          StringBuffer object = null , object1= null , object2= null , object3= null;
+          
+    		if(pool.CurrentPoolSize() > 2){
+    			
+    			throw new PoolSizeOutException("PoolSizeOutException");
+    			
+    		}else{
+    			 // Connect pool 객체를 생성하여 static 영역에 Stringbuffer 올려 pool 생성한다..
+    			switch (pool.CurrentPoolSize()) {
+    			
+				case 0:
+					object = pool.borrowObject();	
+					objnum= 0;
+					
+					break;
+				case 1:
+					object1 = pool.borrowObject();
+					objnum= 1;
+					
+					break;
+				case 2:
+					object2 = pool.borrowObject();
+					objnum= 2;
+					
+					break;
+				case 3:
+					object3 = pool.borrowObject();
+					objnum= 3;
+					
+					break;
+
+				default:
+					break;
+				}
+    			
+    			
+    		}
+    		
+			
+		
         try 
         {
 		    ParamMonth= ParamMonth.substring(4,6);  
@@ -185,14 +273,39 @@ public class ManageSheet
        indobj.setRetObject(_rvobj);
        _rvobj.Println("DOWNLOAD RETURN");
        indobj.dispRetObjectKeyNames();
+       
+       
+       
+       // Connect pool 객체 return 시켜서 초기화 시킨다.
+       switch (objnum) {
+		case 0:
+			 pool.returnObject(object);
+			break;
+		case 1:
+			 pool.returnObject(object1);
+			break;
+		case 2:
+			 pool.returnObject(object2);
+			break;
+		case 3:
+			 pool.returnObject(object3);
+			break;
+
+		default:
+			break;
+		}
+   
 
        return indobj;
    }
 
-   private  void addSheetPlanExcel(DOBJ indobj, Workbook _workbook) throws SQLException
+   private  void addSheetPlanExcel(DOBJ indobj, Workbook _workbook) throws SQLException, IOException
    {
 	   
 	   
+	    
+        
+        
 	   Connection Conn = null;
 	   PreparedStatement pstmt = null;
 	   ResultSet rset = null;

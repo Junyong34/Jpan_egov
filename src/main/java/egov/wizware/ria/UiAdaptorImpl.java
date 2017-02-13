@@ -206,9 +206,11 @@ public class UiAdaptorImpl implements UiAdaptor {
 			}else if (rianame == WizGrid) {
 				try {
 					
-				//	WebCrea my = new WebCrea();
-					//my.testInput();
-				
+					 
+			
+	
+					
+					
 				WizGrid Wiz = new WizGrid();
 			//System.out.println(request.getParameter("InWIzJsonParma") + " &&&&&&&&&");
 			String jsonObj =(request.getParameter("InWIzJsonParma")==null)?"":request.getParameter("InWIzJsonParma") ;

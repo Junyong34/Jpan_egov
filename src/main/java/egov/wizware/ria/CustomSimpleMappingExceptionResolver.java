@@ -48,6 +48,8 @@ public class CustomSimpleMappingExceptionResolver extends
 			//System.out.println(viewName + " =======================================" + str);
 			return mv;
 		} else {
+			
+			//System.out.println(handler.toString() +  " ## " + ex.getMessage().toString() + " ## " + response.toString() +  " ##  " + request.getRequestURI());
 			return super.doResolveException(request, response, handler, ex);
 		}
 	}

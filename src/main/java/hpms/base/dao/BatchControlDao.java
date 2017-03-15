@@ -11,55 +11,104 @@ import javax.annotation.Resource;
 @Repository("BatchControl20160912111170Dao")
 public class BatchControlDao extends EgovAbstractDAO
 {
-    // Before Confirm YYYYMM
-    public VOBJ copyLMP_SEL26(DOBJ dobj) throws Exception
+    // F_YYYMM
+    public VOBJ copyMiddle_SEL11(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"SEL26", "Before Confirm YYYYMM" );
+        WizUtil wutil = new WizUtil(dobj,"SEL11", "F_YYYMM" );
         HashMap param = null;
         VOBJ dvobj = new VOBJ();
         param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.copyLMP_SEL26", param);
-        dvobj.setName("SEL26");
+        param.put("YYYY", dobj.getRetObject("S4").getRecord().get("YYYY"));   //YYYY
+        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL11", param);
+        dvobj.setName("SEL11");
         dvobj.setRecords(rlist);
-        return dvobj; 
+        dvobj.Println("SEL11");
+        return dvobj;
     }
-    // last month
-    public VOBJ copyLMP_SEL13(DOBJ dobj) throws Exception
+    // MP_YYYY_YYYYMMDD
+    public VOBJ copyMiddle_DEL13(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"SEL13", "last month" );
+        WizUtil wutil = new WizUtil(dobj,"DEL13", "MP_YYYY_YYYYMMDD" );
+        VOBJ dvobj = dobj.getRetObject("S4");           // Input Dataset Object.
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap    param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("DATA_TYPE", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY"));   //デ？タタイプ
+            updcnt += delete("BatchControl_20160912111170.copyMiddle_DEL13",param);
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("DEL13") ;
+        return rvobj;
+    }
+    // snapshot Search
+    public VOBJ copyMiddle_SEL16(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL16", "snapshot Search" );
         HashMap param = null;
         VOBJ dvobj = new VOBJ();
         param = new HashMap();
-        param.put("YYYYMM", dobj.getRetObject("SEL26").getRecord().get("YYYYMM"));   //실적월
-        List rlist = list("BatchControl_20160912111170.copyLMP_SEL13", param);
-        dvobj.setName("SEL13");
+        param.put("APPROVAL_YYYYMMDD", dobj.getRetObject("SEL11").getRecord().get("C_DATE"));   //승인일
+        param.put("YYYY", dobj.getRetObject("S4").getRecord().get("YYYY"));   //YYYY
+        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL16", param);
+        dvobj.setName("SEL16");
         dvobj.setRecords(rlist);
         return dvobj;
     }
+    // snapshot Delete
+    public VOBJ copyMiddle_DEL14(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"DEL14", "snapshot Delete" );
+        VOBJ dvobj = dobj.getRetObject("SEL16");           //snapshot Search Input Object(CALLcopyMiddle_SEL16)
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap    param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("DATA_TYPE", dvobj.getRecord().get("DATA_TYPE"));   //デ？タタイプ
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            updcnt += delete("BatchControl_20160912111170.copyMiddle_DEL14",param);
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("DEL14") ;
+        return rvobj;
+    }
     // get HP2D002T
-    public VOBJ copyLMP_SEL2(DOBJ dobj) throws Exception
+    public VOBJ copyMiddle_SEL2(DOBJ dobj) throws Exception
     {
         WizUtil wutil = new WizUtil(dobj,"SEL2", "get HP2D002T " );
         HashMap param = null;
         VOBJ dvobj = new VOBJ();
         param = new HashMap();
-        param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
-        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("BatchControl_20160912111170.copyLMP_SEL2", param);
+        param.put("FROM_YYYYMM", dobj.getRetObject("SEL11").getRecord().get("FROM_YYYYMM"));   //입사월
+        param.put("DATA_TYPE", dobj.getRetObject("S4").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL2", param);
         dvobj.setName("SEL2");
         dvobj.setRecords(rlist);
         dvobj.Println("SEL2");
         return dvobj;
     }
     // CopyHP2D002T_TZ
-    public VOBJ copyLMP_UNI4(DOBJ dobj) throws Exception
+    public VOBJ copyMiddle_INS14(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"UNI4", "CopyHP2D002T_TZ" );
-        VOBJ dvobj = dobj.getRetObject("SEL2");           //get HP2D002T  Input Object(CALLcopyLMP_SEL2)
-        SQLObject  sobj = null;
+        WizUtil wutil = new WizUtil(dobj,"INS14", "CopyHP2D002T_TZ" );
+        VOBJ dvobj = dobj.getRetObject("SEL2");           //get HP2D002T  Input Object(CALLcopyMiddle_SEL2)
         VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        int        updcnt =0;
+        HashMap    param = null;
         dvobj.first();
         while(dvobj.next())
         {
@@ -90,39 +139,77 @@ public class BatchControlDao extends EgovAbstractDAO
             param.put("PID", dvobj.getRecord().get("PID"));   //PID
             param.put("VAL3", dvobj.getRecord().get("VAL3"));   //VAL3
             param.put("VAL2", dvobj.getRecord().get("VAL2"));   //VAL2
-            param.put("DATA_TYPE", "LMP"+"_"+dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //デ？タタイプ
+            param.put("DATA_TYPE", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY")+"_"+dobj.getRetObject("SEL11").getRecord().get("C_DATE"));   //デ？タタイプ
             param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            rtncnt= update("BatchControl_20160912111170.copyLMP_UNI4_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("BatchControl_20160912111170.copyLMP_UNI4_INS",param);
-                inscnt++;
-                unicnt++;
-                
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
+            insert("BatchControl_20160912111170.copyMiddle_INS14",param);
+            updcnt++;
         }
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
         HashMap recordx = new HashMap();
         recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
         rvobj.addRecord(recordx);
-        rvobj.setName("UNI4") ;
+        rvobj.setName("INS14") ;
+        rvobj.Println("INS14");
+        return rvobj;
+    }
+    // CopyHP2D002T_TZ
+    public VOBJ copyMiddle_INS16(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"INS16", "CopyHP2D002T_TZ" );
+        VOBJ dvobj = dobj.getRetObject("SEL2");           //get HP2D002T  Input Object(CALLcopyMiddle_SEL2)
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap    param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("APPROVAL_YYYYMMDD", "");   //승인일
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("USE_ORG_CD", dvobj.getRecord().get("USE_ORG_CD"));   //費用？生元部CD
+            param.put("REQ_COMPANY_CD", dvobj.getRecord().get("REQ_COMPANY_CD"));   //要求元？社CD
+            param.put("ITEM_NAME", dvobj.getRecord().get("ITEM_NAME"));   //ITEM명
+            param.put("REQ_ORG_CD", dvobj.getRecord().get("REQ_ORG_CD"));   //要求元部CD
+            param.put("SRC_ORG_CD", dvobj.getRecord().get("SRC_ORG_CD"));   //配賦元部CD
+            param.put("VAL", dvobj.getRecord().getDouble("VAL")+"");   //Value
+            param.put("INVEST_TYPE_CD", dvobj.getRecord().get("INVEST_TYPE_CD"));   //投資？分CD
+            param.put("HPMS_ID", dvobj.getRecord().get("HPMS_ID"));   //HPMS_ID
+            param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
+            param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
+            param.put("USE_COMPANY_CD", dvobj.getRecord().get("USE_COMPANY_CD"));   //費用？生元？社CD
+            param.put("UPLOAD_FILE_NAME", dvobj.getRecord().get("UPLOAD_FILE_NAME"));   //UPLOAD_FILE_NAME
+            param.put("SRC_COMPANY_CD", dvobj.getRecord().get("SRC_COMPANY_CD"));   //配賦元？社CD
+            param.put("CALC_MST_VER", dvobj.getRecord().get("CALC_MST_VER"));   //CALC_MST_VER
+            param.put("YYYYMM", dvobj.getRecord().get("YYYYMM"));   //실적월
+            param.put("DST_COMPANY_CD", dvobj.getRecord().get("DST_COMPANY_CD"));   //DST_COMPANY_CD
+            param.put("DST_ORG_CD", dvobj.getRecord().get("DST_ORG_CD"));   //DST_ORG_CD
+            param.put("VAL_TYPE", dvobj.getRecord().get("VAL_TYPE"));   //VAL_TYPE
+            param.put("APPLICATION", dvobj.getRecord().get("APPLICATION"));   //用途
+            param.put("UNIT3", dvobj.getRecord().get("UNIT3"));   //UNIT3
+            param.put("UNIT2", dvobj.getRecord().get("UNIT2"));   //UNIT2
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("VAL3", dvobj.getRecord().get("VAL3"));   //VAL3
+            param.put("VAL2", dvobj.getRecord().get("VAL2"));   //VAL2
+            param.put("DATA_TYPE", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY"));   //デ？タタイプ
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            insert("BatchControl_20160912111170.copyMiddle_INS16",param);
+            updcnt++;
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("INS16") ;
+        rvobj.Println("INS16");
         return rvobj;
     }
     // OptionTableSave
-    public VOBJ copyLMP_UNI7(DOBJ dobj) throws Exception
+    public VOBJ copyMiddle_UNI8(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"UNI7", "OptionTableSave" );
-        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        WizUtil wutil = new WizUtil(dobj,"UNI8", "OptionTableSave" );
+        VOBJ dvobj = dobj.getRetObject("S4");           // Input Dataset Object.
         SQLObject  sobj = null;
         VOBJ       rvobj= null;
         HashMap    param= null;
@@ -136,10 +223,10 @@ public class BatchControlDao extends EgovAbstractDAO
             param.put("CD_TYPE", "MCTL");   //CD_TYPE
             param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
             param.put("VAL1", dvobj.getRecord().get("DATA_TYPE"));   //VAL1
-            rtncnt= update("BatchControl_20160912111170.copyLMP_UNI7_UPD",param);
+            rtncnt= update("BatchControl_20160912111170.copyMiddle_UNI8_UPD",param);
             if(rtncnt < 1)
             {
-                insert("BatchControl_20160912111170.copyLMP_UNI7_INS",param);
+                insert("BatchControl_20160912111170.copyMiddle_UNI8_INS",param);
                 inscnt++;
                 unicnt++;
                 
@@ -159,128 +246,29 @@ public class BatchControlDao extends EgovAbstractDAO
         recordx.put("INSCNT",inscnt+"");
         recordx.put("UNICNT",unicnt+"");
         rvobj.addRecord(recordx);
-        rvobj.setName("UNI7") ;
-        return rvobj;
-    }
-    // OptionTableSave
-    public VOBJ copyLMP_UNI14(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI14", "OptionTableSave" );
-        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("CD", "CONFIRM_YYYYMM");   //코드
-            param.put("CD_TYPE", "MONTHLY");   //CD_TYPE
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            param.put("VAL1", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //VAL1
-            rtncnt= update("BatchControl_20160912111170.copyLMP_UNI14_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("BatchControl_20160912111170.copyLMP_UNI14_INS",param);
-                inscnt++;
-                unicnt++;
-                
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI14") ;
+        rvobj.setName("UNI8") ;
         return rvobj;
     }
     // Confirm Info
-    public VOBJ copyLMP_SEL8(DOBJ dobj) throws Exception
+    public VOBJ copyMiddle_SEL3(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"SEL8", "Confirm Info" );
+        WizUtil wutil = new WizUtil(dobj,"SEL3", "Confirm Info" );
         HashMap param = null;
         VOBJ dvobj = new VOBJ();
         param = new HashMap();
-        param.put("CD", dobj.getRetObject("S2").getRecord().get("CD"));   //코드
-        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("BatchControl_20160912111170.copyLMP_SEL8", param);
-        dvobj.setName("SEL8");
+        param.put("CD", dobj.getRetObject("S4").getRecord().get("CD"));   //코드
+        param.put("DATA_TYPE", dobj.getRetObject("S4").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL3", param);
+        dvobj.setName("SEL3");
         dvobj.setRetcode(1);
         dvobj.setRecords(rlist);
         return dvobj;
     }
-    // copy HP3D002T_TM
-    public VOBJ copyLMP_XIUD7(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"XIUD7", "copy HP3D002T_TM " );
-        VOBJ dvobj = dobj.getRetObject("S2");            // Input Dataset Object.
-        dvobj.Println("XIUD7");
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            insert("BatchControl_20160912111170.copyLMP_XIUD7",param);
-            updcnt++;
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("XIUD7");
-        rvobj.Println("XIUD7");
-        return rvobj;
-    }
-    // delete HP3D002T
-    public VOBJ copyLMP_DEL9(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"DEL9", "delete HP3D002T" );
-        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
-        dvobj.Println("DEL9");
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
-            updcnt += delete("BatchControl_20160912111170.copyLMP_DEL9",param);
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("DEL9") ;
-        rvobj.Println("DEL9");
-        return rvobj;
-    }
     // copy HP2DM11T_TZ
-    public VOBJ copyLMP_XIUD24(DOBJ dobj) throws Exception
+    public VOBJ copyMiddle_XIUD11(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"XIUD24", "copy HP2DM11T_TZ " );
-        VOBJ dvobj = dobj.getRetObject("S2");            // Input Dataset Object.
-        dvobj.Println("XIUD24");
+        WizUtil wutil = new WizUtil(dobj,"XIUD11", "copy HP2DM11T_TZ " );
+        VOBJ dvobj = dobj.getRetObject("S4");            // Input Dataset Object.
         SQLObject  sobj = null;
         VOBJ       rvobj= null;
         int        updcnt =0;
@@ -290,11 +278,11 @@ public class BatchControlDao extends EgovAbstractDAO
         {
             param = new HashMap();
             param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("DATA_TYPE_1", "FCST"+"_"+dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //デ？タタイプ
-            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
+            param.put("YYYYMMDD", "");   //年月日
+            param.put("DATA_TYPE_1", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY"));   //デ？タタイプ
             param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            param.put("DATA_TYPE", "FCST");   //デ？タタイプ
-            insert("BatchControl_20160912111170.copyLMP_XIUD24",param);
+            param.put("DATA_TYPE", "MTP");   //デ？タタイプ
+            insert("BatchControl_20160912111170.copyMiddle_XIUD11",param);
             updcnt++;
         }
         rvobj = new VOBJ();
@@ -302,15 +290,14 @@ public class BatchControlDao extends EgovAbstractDAO
         HashMap recordx = new HashMap();
         recordx.put("UPDCNT",updcnt+"");
         rvobj.addRecord(recordx);
-        rvobj.setName("XIUD24");
-        rvobj.Println("XIUD24");
+        rvobj.setName("XIUD11");
         return rvobj;
     }
     // HP2DM11T  Delete
-    public VOBJ copyLMP_DEL14(DOBJ dobj) throws Exception
+    public VOBJ copyMiddle_DEL17(DOBJ dobj) throws Exception
     {
-        WizUtil wutil = new WizUtil(dobj,"DEL14", "HP2DM11T  Delete" );
-        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        WizUtil wutil = new WizUtil(dobj,"DEL17", "HP2DM11T  Delete" );
+        VOBJ dvobj = dobj.getRetObject("S3");           // Input Dataset Object.
         VOBJ       rvobj= null;
         int        updcnt =0;
         HashMap    param = null;
@@ -318,158 +305,16 @@ public class BatchControlDao extends EgovAbstractDAO
         while(dvobj.next())
         {
             param = new HashMap();
-            param.put("DATA_TYPE", "FCST");   //デ？タタイプ
-            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
-            updcnt += delete("BatchControl_20160912111170.copyLMP_DEL14",param);
+            param.put("DATA_TYPE", "MTP");   //デ？タタイプ
+            updcnt += delete("BatchControl_20160912111170.copyMiddle_DEL17",param);
         }
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
         HashMap recordx = new HashMap();
         recordx.put("UPDCNT",updcnt+"");
         rvobj.addRecord(recordx);
-        rvobj.setName("DEL14") ;
+        rvobj.setName("DEL17") ;
         return rvobj;
-    }
-    // Flag Change
-    public VOBJ copyLMP_UPD46(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UPD46", "Flag Change" );
-        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("CD", "CONFIRM_YYYYMM");   //코드
-            param.put("CD_TYPE", "MONTHLY");   //CD_TYPE
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            param.put("VAL2", "Y");   //VAL2
-            updcnt += update("BatchControl_20160912111170.copyLMP_UPD46",param);
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UPD46") ;
-        return rvobj;
-    }
-    // ForecastCombo
-    public VOBJ pageInit_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "ForecastCombo" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // YYYYMM
-    public VOBJ pageInit_SEL4(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL4", "YYYYMM" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL4", param);
-        dvobj.setName("SEL4");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // YYYY
-    public VOBJ pageInit_SEL6(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL6", "YYYY" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL6", param);
-        dvobj.setName("SEL6");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // Stop Info
-    public VOBJ pageInit_SEL8(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL8", "Stop Info" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL8", param);
-        dvobj.setName("SEL8");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL8");
-        return dvobj;
-    }
-    // Release Info
-    public VOBJ pageInit_SEL10(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL10", "Release Info" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL10", param);
-        dvobj.setName("SEL10");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL10");
-        return dvobj;
-    }
-    // MGRSUM
-    public VOBJ pageInit_SEL19(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL19", "MGRSUM" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL19", param);
-        dvobj.setName("SEL19");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // Montly Flag
-    public VOBJ pageInit_SEL11(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL11", "Montly Flag" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL11", param);
-        dvobj.setName("SEL11");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // LABEL
-    public VOBJ pageInit_MRG21(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"MRG21", "LABEL" );
-        VOBJ       rvobj= null;
-        rvobj = wutil.getMergeObject(dobj, "SEL19, SEL17","LABEL" );
-        rvobj.setName("MRG21") ;
-        rvobj.setRetcode(1);
-        return rvobj;
-    }
-    // BATCH TIME
-    public VOBJ pageInit_SEL17(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL17", "BATCH TIME" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        List rlist = list("BatchControl_20160912111170.pageInit_SEL17", param);
-        dvobj.setName("SEL17");
-        dvobj.setRecords(rlist);
-        return dvobj;
     }
     // F_YYYMM
     public VOBJ copyMP_SEL7(DOBJ dobj) throws Exception
@@ -773,6 +618,463 @@ public class BatchControlDao extends EgovAbstractDAO
         rvobj.setName("DEL18") ;
         return rvobj;
     }
+    // Before Confirm YYYYMM
+    public VOBJ copyLMP_SEL26(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL26", "Before Confirm YYYYMM" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.copyLMP_SEL26", param);
+        dvobj.setName("SEL26");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // last month
+    public VOBJ copyLMP_SEL13(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL13", "last month" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("YYYYMM", dobj.getRetObject("SEL26").getRecord().get("YYYYMM"));   //실적월
+        List rlist = list("BatchControl_20160912111170.copyLMP_SEL13", param);
+        dvobj.setName("SEL13");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // get HP2D002T
+    public VOBJ copyLMP_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "get HP2D002T " );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
+        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("BatchControl_20160912111170.copyLMP_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL2");
+        return dvobj;
+    }
+    // CopyHP2D002T_TZ
+    public VOBJ copyLMP_UNI4(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI4", "CopyHP2D002T_TZ" );
+        VOBJ dvobj = dobj.getRetObject("SEL2");           //get HP2D002T  Input Object(CALLcopyLMP_SEL2)
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("APPROVAL_YYYYMMDD", "");   //승인일
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("USE_ORG_CD", dvobj.getRecord().get("USE_ORG_CD"));   //費用？生元部CD
+            param.put("REQ_COMPANY_CD", dvobj.getRecord().get("REQ_COMPANY_CD"));   //要求元？社CD
+            param.put("ITEM_NAME", dvobj.getRecord().get("ITEM_NAME"));   //ITEM명
+            param.put("REQ_ORG_CD", dvobj.getRecord().get("REQ_ORG_CD"));   //要求元部CD
+            param.put("SRC_ORG_CD", dvobj.getRecord().get("SRC_ORG_CD"));   //配賦元部CD
+            param.put("VAL", dvobj.getRecord().getDouble("VAL")+"");   //Value
+            param.put("INVEST_TYPE_CD", dvobj.getRecord().get("INVEST_TYPE_CD"));   //投資？分CD
+            param.put("HPMS_ID", dvobj.getRecord().get("HPMS_ID"));   //HPMS_ID
+            param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
+            param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
+            param.put("USE_COMPANY_CD", dvobj.getRecord().get("USE_COMPANY_CD"));   //費用？生元？社CD
+            param.put("UPLOAD_FILE_NAME", dvobj.getRecord().get("UPLOAD_FILE_NAME"));   //UPLOAD_FILE_NAME
+            param.put("SRC_COMPANY_CD", dvobj.getRecord().get("SRC_COMPANY_CD"));   //配賦元？社CD
+            param.put("CALC_MST_VER", dvobj.getRecord().get("CALC_MST_VER"));   //CALC_MST_VER
+            param.put("YYYYMM", dvobj.getRecord().get("YYYYMM"));   //실적월
+            param.put("DST_COMPANY_CD", dvobj.getRecord().get("DST_COMPANY_CD"));   //DST_COMPANY_CD
+            param.put("DST_ORG_CD", dvobj.getRecord().get("DST_ORG_CD"));   //DST_ORG_CD
+            param.put("VAL_TYPE", dvobj.getRecord().get("VAL_TYPE"));   //VAL_TYPE
+            param.put("APPLICATION", dvobj.getRecord().get("APPLICATION"));   //用途
+            param.put("UNIT3", dvobj.getRecord().get("UNIT3"));   //UNIT3
+            param.put("UNIT2", dvobj.getRecord().get("UNIT2"));   //UNIT2
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("VAL3", dvobj.getRecord().get("VAL3"));   //VAL3
+            param.put("VAL2", dvobj.getRecord().get("VAL2"));   //VAL2
+            param.put("DATA_TYPE", "LMP"+"_"+dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //デ？タタイプ
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            rtncnt= update("BatchControl_20160912111170.copyLMP_UNI4_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("BatchControl_20160912111170.copyLMP_UNI4_INS",param);
+                inscnt++;
+                unicnt++;
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI4") ;
+        return rvobj;
+    }
+    // OptionTableSave
+    public VOBJ copyLMP_UNI7(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI7", "OptionTableSave" );
+        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("CD", dvobj.getRecord().get("CD")+"_"+dvobj.getRecord().get("DATA_TYPE"));   //코드
+            param.put("CD_TYPE", "MCTL");   //CD_TYPE
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            param.put("VAL1", dvobj.getRecord().get("DATA_TYPE"));   //VAL1
+            rtncnt= update("BatchControl_20160912111170.copyLMP_UNI7_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("BatchControl_20160912111170.copyLMP_UNI7_INS",param);
+                inscnt++;
+                unicnt++;
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI7") ;
+        return rvobj;
+    }
+    // OptionTableSave
+    public VOBJ copyLMP_UNI14(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI14", "OptionTableSave" );
+        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("CD", "CONFIRM_YYYYMM");   //코드
+            param.put("CD_TYPE", "MONTHLY");   //CD_TYPE
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            param.put("VAL1", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //VAL1
+            rtncnt= update("BatchControl_20160912111170.copyLMP_UNI14_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("BatchControl_20160912111170.copyLMP_UNI14_INS",param);
+                inscnt++;
+                unicnt++;
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI14") ;
+        return rvobj;
+    }
+    // Confirm Info
+    public VOBJ copyLMP_SEL8(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL8", "Confirm Info" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("CD", dobj.getRetObject("S2").getRecord().get("CD"));   //코드
+        param.put("DATA_TYPE", dobj.getRetObject("S2").getRecord().get("DATA_TYPE"));   //デ？タタイプ
+        List rlist = list("BatchControl_20160912111170.copyLMP_SEL8", param);
+        dvobj.setName("SEL8");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // copy HP3D002T_TM
+    public VOBJ copyLMP_XIUD7(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"XIUD7", "copy HP3D002T_TM " );
+        VOBJ dvobj = dobj.getRetObject("S2");            // Input Dataset Object.
+        dvobj.Println("XIUD7");
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            insert("BatchControl_20160912111170.copyLMP_XIUD7",param);
+            updcnt++;
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("XIUD7");
+        rvobj.Println("XIUD7");
+        return rvobj;
+    }
+    // delete HP3D002T
+    public VOBJ copyLMP_DEL9(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"DEL9", "delete HP3D002T" );
+        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        dvobj.Println("DEL9");
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap    param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
+            updcnt += delete("BatchControl_20160912111170.copyLMP_DEL9",param);
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("DEL9") ;
+        rvobj.Println("DEL9");
+        return rvobj;
+    }
+    // copy HP2DM11T_TZ
+    public VOBJ copyLMP_XIUD24(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"XIUD24", "copy HP2DM11T_TZ " );
+        VOBJ dvobj = dobj.getRetObject("S2");            // Input Dataset Object.
+        dvobj.Println("XIUD24");
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("DATA_TYPE_1", "FCST"+"_"+dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //デ？タタイプ
+            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            param.put("DATA_TYPE", "FCST");   //デ？タタイプ
+            insert("BatchControl_20160912111170.copyLMP_XIUD24",param);
+            updcnt++;
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("XIUD24");
+        rvobj.Println("XIUD24");
+        return rvobj;
+    }
+    // HP2DM11T  Delete
+    public VOBJ copyLMP_DEL14(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"DEL14", "HP2DM11T  Delete" );
+        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap    param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("DATA_TYPE", "FCST");   //デ？タタイプ
+            param.put("YYYYMM", dobj.getRetObject("SEL13").getRecord().get("MONTHLY_YYYYMM"));   //실적월
+            updcnt += delete("BatchControl_20160912111170.copyLMP_DEL14",param);
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("DEL14") ;
+        return rvobj;
+    }
+    // Flag Change
+    public VOBJ copyLMP_UPD46(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UPD46", "Flag Change" );
+        VOBJ dvobj = dobj.getRetObject("S2");           // Input Dataset Object.
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap    param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("UPDATE_TIME", "");   //갱신일시
+            param.put("CD", "CONFIRM_YYYYMM");   //코드
+            param.put("CD_TYPE", "MONTHLY");   //CD_TYPE
+            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
+            param.put("VAL2", "Y");   //VAL2
+            updcnt += update("BatchControl_20160912111170.copyLMP_UPD46",param);
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UPD46") ;
+        return rvobj;
+    }
+    // ForecastCombo
+    public VOBJ pageInit_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "ForecastCombo" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // YYYYMM
+    public VOBJ pageInit_SEL4(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL4", "YYYYMM" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL4", param);
+        dvobj.setName("SEL4");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // YYYY
+    public VOBJ pageInit_SEL6(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL6", "YYYY" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL6", param);
+        dvobj.setName("SEL6");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // Stop Info
+    public VOBJ pageInit_SEL8(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL8", "Stop Info" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL8", param);
+        dvobj.setName("SEL8");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL8");
+        return dvobj;
+    }
+    // Release Info
+    public VOBJ pageInit_SEL10(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL10", "Release Info" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL10", param);
+        dvobj.setName("SEL10");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL10");
+        return dvobj;
+    }
+    // MGRSUM
+    public VOBJ pageInit_SEL19(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL19", "MGRSUM" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL19", param);
+        dvobj.setName("SEL19");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // Montly Flag
+    public VOBJ pageInit_SEL11(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL11", "Montly Flag" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL11", param);
+        dvobj.setName("SEL11");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // LABEL
+    public VOBJ pageInit_MRG21(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"MRG21", "LABEL" );
+        VOBJ       rvobj= null;
+        rvobj = wutil.getMergeObject(dobj, "SEL19, SEL17","LABEL" );
+        rvobj.setName("MRG21") ;
+        rvobj.setRetcode(1);
+        return rvobj;
+    }
+    // BATCH TIME
+    public VOBJ pageInit_SEL17(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL17", "BATCH TIME" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("BatchControl_20160912111170.pageInit_SEL17", param);
+        dvobj.setName("SEL17");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
     // R++
     public VOBJ copyMP_UPD9(DOBJ dobj) throws Exception
     {
@@ -798,310 +1100,6 @@ public class BatchControlDao extends EgovAbstractDAO
         rvobj.addRecord(recordx);
         rvobj.setName("UPD9") ;
         rvobj.Println("UPD9");
-        return rvobj;
-    }
-    // F_YYYMM
-    public VOBJ copyMiddle_SEL11(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL11", "F_YYYMM" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("YYYY", dobj.getRetObject("S4").getRecord().get("YYYY"));   //YYYY
-        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL11", param);
-        dvobj.setName("SEL11");
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL11");
-        return dvobj;
-    }
-    // MP_YYYY_YYYYMMDD
-    public VOBJ copyMiddle_DEL13(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"DEL13", "MP_YYYY_YYYYMMDD" );
-        VOBJ dvobj = dobj.getRetObject("S4");           // Input Dataset Object.
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("DATA_TYPE", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY"));   //デ？タタイプ
-            updcnt += delete("BatchControl_20160912111170.copyMiddle_DEL13",param);
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("DEL13") ;
-        return rvobj;
-    }
-    // snapshot Search
-    public VOBJ copyMiddle_SEL16(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL16", "snapshot Search" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("APPROVAL_YYYYMMDD", dobj.getRetObject("SEL11").getRecord().get("C_DATE"));   //승인일
-        param.put("YYYY", dobj.getRetObject("S4").getRecord().get("YYYY"));   //YYYY
-        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL16", param);
-        dvobj.setName("SEL16");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // snapshot Delete
-    public VOBJ copyMiddle_DEL14(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"DEL14", "snapshot Delete" );
-        VOBJ dvobj = dobj.getRetObject("SEL16");           //snapshot Search Input Object(CALLcopyMiddle_SEL16)
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("DATA_TYPE", dvobj.getRecord().get("DATA_TYPE"));   //デ？タタイプ
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            updcnt += delete("BatchControl_20160912111170.copyMiddle_DEL14",param);
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("DEL14") ;
-        return rvobj;
-    }
-    // get HP2D002T
-    public VOBJ copyMiddle_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "get HP2D002T " );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("FROM_YYYYMM", dobj.getRetObject("SEL11").getRecord().get("FROM_YYYYMM"));   //입사월
-        param.put("DATA_TYPE", dobj.getRetObject("S4").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL2");
-        return dvobj;
-    }
-    // CopyHP2D002T_TZ
-    public VOBJ copyMiddle_INS14(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"INS14", "CopyHP2D002T_TZ" );
-        VOBJ dvobj = dobj.getRetObject("SEL2");           //get HP2D002T  Input Object(CALLcopyMiddle_SEL2)
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("APPROVAL_YYYYMMDD", "");   //승인일
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("USE_ORG_CD", dvobj.getRecord().get("USE_ORG_CD"));   //費用？生元部CD
-            param.put("REQ_COMPANY_CD", dvobj.getRecord().get("REQ_COMPANY_CD"));   //要求元？社CD
-            param.put("ITEM_NAME", dvobj.getRecord().get("ITEM_NAME"));   //ITEM명
-            param.put("REQ_ORG_CD", dvobj.getRecord().get("REQ_ORG_CD"));   //要求元部CD
-            param.put("SRC_ORG_CD", dvobj.getRecord().get("SRC_ORG_CD"));   //配賦元部CD
-            param.put("VAL", dvobj.getRecord().getDouble("VAL")+"");   //Value
-            param.put("INVEST_TYPE_CD", dvobj.getRecord().get("INVEST_TYPE_CD"));   //投資？分CD
-            param.put("HPMS_ID", dvobj.getRecord().get("HPMS_ID"));   //HPMS_ID
-            param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
-            param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
-            param.put("USE_COMPANY_CD", dvobj.getRecord().get("USE_COMPANY_CD"));   //費用？生元？社CD
-            param.put("UPLOAD_FILE_NAME", dvobj.getRecord().get("UPLOAD_FILE_NAME"));   //UPLOAD_FILE_NAME
-            param.put("SRC_COMPANY_CD", dvobj.getRecord().get("SRC_COMPANY_CD"));   //配賦元？社CD
-            param.put("CALC_MST_VER", dvobj.getRecord().get("CALC_MST_VER"));   //CALC_MST_VER
-            param.put("YYYYMM", dvobj.getRecord().get("YYYYMM"));   //실적월
-            param.put("DST_COMPANY_CD", dvobj.getRecord().get("DST_COMPANY_CD"));   //DST_COMPANY_CD
-            param.put("DST_ORG_CD", dvobj.getRecord().get("DST_ORG_CD"));   //DST_ORG_CD
-            param.put("VAL_TYPE", dvobj.getRecord().get("VAL_TYPE"));   //VAL_TYPE
-            param.put("APPLICATION", dvobj.getRecord().get("APPLICATION"));   //用途
-            param.put("UNIT3", dvobj.getRecord().get("UNIT3"));   //UNIT3
-            param.put("UNIT2", dvobj.getRecord().get("UNIT2"));   //UNIT2
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("VAL3", dvobj.getRecord().get("VAL3"));   //VAL3
-            param.put("VAL2", dvobj.getRecord().get("VAL2"));   //VAL2
-            param.put("DATA_TYPE", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY")+"_"+dobj.getRetObject("SEL11").getRecord().get("C_DATE"));   //デ？タタイプ
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            insert("BatchControl_20160912111170.copyMiddle_INS14",param);
-            updcnt++;
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("INS14") ;
-        rvobj.Println("INS14");
-        return rvobj;
-    }
-    // CopyHP2D002T_TZ
-    public VOBJ copyMiddle_INS16(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"INS16", "CopyHP2D002T_TZ" );
-        VOBJ dvobj = dobj.getRetObject("SEL2");           //get HP2D002T  Input Object(CALLcopyMiddle_SEL2)
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("APPROVAL_YYYYMMDD", "");   //승인일
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("USE_ORG_CD", dvobj.getRecord().get("USE_ORG_CD"));   //費用？生元部CD
-            param.put("REQ_COMPANY_CD", dvobj.getRecord().get("REQ_COMPANY_CD"));   //要求元？社CD
-            param.put("ITEM_NAME", dvobj.getRecord().get("ITEM_NAME"));   //ITEM명
-            param.put("REQ_ORG_CD", dvobj.getRecord().get("REQ_ORG_CD"));   //要求元部CD
-            param.put("SRC_ORG_CD", dvobj.getRecord().get("SRC_ORG_CD"));   //配賦元部CD
-            param.put("VAL", dvobj.getRecord().getDouble("VAL")+"");   //Value
-            param.put("INVEST_TYPE_CD", dvobj.getRecord().get("INVEST_TYPE_CD"));   //投資？分CD
-            param.put("HPMS_ID", dvobj.getRecord().get("HPMS_ID"));   //HPMS_ID
-            param.put("UNIT", dvobj.getRecord().get("UNIT"));   //통화단위
-            param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
-            param.put("USE_COMPANY_CD", dvobj.getRecord().get("USE_COMPANY_CD"));   //費用？生元？社CD
-            param.put("UPLOAD_FILE_NAME", dvobj.getRecord().get("UPLOAD_FILE_NAME"));   //UPLOAD_FILE_NAME
-            param.put("SRC_COMPANY_CD", dvobj.getRecord().get("SRC_COMPANY_CD"));   //配賦元？社CD
-            param.put("CALC_MST_VER", dvobj.getRecord().get("CALC_MST_VER"));   //CALC_MST_VER
-            param.put("YYYYMM", dvobj.getRecord().get("YYYYMM"));   //실적월
-            param.put("DST_COMPANY_CD", dvobj.getRecord().get("DST_COMPANY_CD"));   //DST_COMPANY_CD
-            param.put("DST_ORG_CD", dvobj.getRecord().get("DST_ORG_CD"));   //DST_ORG_CD
-            param.put("VAL_TYPE", dvobj.getRecord().get("VAL_TYPE"));   //VAL_TYPE
-            param.put("APPLICATION", dvobj.getRecord().get("APPLICATION"));   //用途
-            param.put("UNIT3", dvobj.getRecord().get("UNIT3"));   //UNIT3
-            param.put("UNIT2", dvobj.getRecord().get("UNIT2"));   //UNIT2
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("VAL3", dvobj.getRecord().get("VAL3"));   //VAL3
-            param.put("VAL2", dvobj.getRecord().get("VAL2"));   //VAL2
-            param.put("DATA_TYPE", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY"));   //デ？タタイプ
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            insert("BatchControl_20160912111170.copyMiddle_INS16",param);
-            updcnt++;
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("INS16") ;
-        rvobj.Println("INS16");
-        return rvobj;
-    }
-    // OptionTableSave
-    public VOBJ copyMiddle_UNI8(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI8", "OptionTableSave" );
-        VOBJ dvobj = dobj.getRetObject("S4");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("CD", dvobj.getRecord().get("CD")+"_"+dvobj.getRecord().get("DATA_TYPE"));   //코드
-            param.put("CD_TYPE", "MCTL");   //CD_TYPE
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            param.put("VAL1", dvobj.getRecord().get("DATA_TYPE"));   //VAL1
-            rtncnt= update("BatchControl_20160912111170.copyMiddle_UNI8_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("BatchControl_20160912111170.copyMiddle_UNI8_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI8") ;
-        return rvobj;
-    }
-    // Confirm Info
-    public VOBJ copyMiddle_SEL3(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL3", "Confirm Info" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("CD", dobj.getRetObject("S4").getRecord().get("CD"));   //코드
-        param.put("DATA_TYPE", dobj.getRetObject("S4").getRecord().get("DATA_TYPE"));   //デ？タタイプ
-        List rlist = list("BatchControl_20160912111170.copyMiddle_SEL3", param);
-        dvobj.setName("SEL3");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // copy HP2DM11T_TZ
-    public VOBJ copyMiddle_XIUD11(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"XIUD11", "copy HP2DM11T_TZ " );
-        VOBJ dvobj = dobj.getRetObject("S4");            // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("UPDATE_TIME", "");   //갱신일시
-            param.put("YYYYMMDD", "");   //年月日
-            param.put("DATA_TYPE_1", "MTP"+"_"+dobj.getRetObject("S4").getRecord().get("YYYY"));   //デ？タタイプ
-            param.put("UPDATE_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //갱신자ID
-            param.put("DATA_TYPE", "MTP");   //デ？タタイプ
-            insert("BatchControl_20160912111170.copyMiddle_XIUD11",param);
-            updcnt++;
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("XIUD11");
-        return rvobj;
-    }
-    // HP2DM11T  Delete
-    public VOBJ copyMiddle_DEL17(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"DEL17", "HP2DM11T  Delete" );
-        VOBJ dvobj = dobj.getRetObject("S3");           // Input Dataset Object.
-        VOBJ       rvobj= null;
-        int        updcnt =0;
-        HashMap    param = null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("DATA_TYPE", "MTP");   //デ？タタイプ
-            updcnt += delete("BatchControl_20160912111170.copyMiddle_DEL17",param);
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("DEL17") ;
         return rvobj;
     }
     // R++

@@ -118,7 +118,8 @@ public class CostUpload
                     if(isValidateYMD(_headYMDList.get(ymdindex).toString())==false)
                     {
                         //날짜 오입력에 대한 처리 필요한가?.
-                        _rvobj.setRetcode(1010);
+                    	
+                        _rvobj.setRetcode(1024);
                         continue;
                     }
 
@@ -153,16 +154,37 @@ public class CostUpload
 
                     rec.put("YYYYMM",_headYMDList.get(ymdindex));
                     value = getCellValue(_row.getCell(colindex+ymdindex));
+                   
                     
-                    if(value.equals("")){
+                   /* if(value.equals("")){
                     	continue; 
                     }
+                    
+                    
                     if(isNumber(value)== false)
                     {
                         _rvobj.setRetcode(1011);
                     }
                     rec.put("VAL", value);
-
+                    */
+                    
+                    if(value == null || value.equals("")){
+	                	 
+	                	  //value = null; 
+	                	  rec.put("VAL", 0);
+	                   }else{
+	                	
+	                	   if(isNumber(value)== false)
+	                       {
+	                		  
+	                		    rec.put("VAL", -1); 
+	                           _rvobj.setRetcode(1011);
+	                       }else{
+	                    	   rec.put("VAL", Double.parseDouble(value)); 
+	                       }
+	                   }
+                    
+                    
                     int vchk = 0;
                     if( (vchk=isValidateRecord(rec)) != 0)
                     {

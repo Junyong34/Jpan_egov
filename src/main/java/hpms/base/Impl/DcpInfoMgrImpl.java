@@ -23,43 +23,38 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
 {
     @Autowired
     private DcpInfoMgrDao DcpInfoMgrdao;
-    public DOBJ BLOB_DCPFileDown(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vPEX3 = DcpInfoMgrdao.BLOB_DCPFileDown_PEX3(dobj);        //  ROOTPATH
-        dobj.setRetObject(vPEX3);
-        VOBJ vSEL8 = DcpInfoMgrdao.BLOB_DCPFileDown_SEL8(dobj);        //  Fileinfo
-        dobj.setRetObject(vSEL8);
-        VOBJ vSEL2 = DcpInfoMgrdao.BLOB_DCPFileDown_SEL2(dobj);        //  Fileinfo
-        dobj.setRetObject(vSEL2);
-        VOBJ vDN01 = DcpInfoMgrdao.BLOB_DCPFileDown_DN01(dobj);        //  downfile seting
-        dobj.setRetObject(vDN01);
-        return dobj;
-    }
     public DOBJ DCPApproval_Flow(DOBJ dobj) throws Exception
     {
         String  message ="";
         WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL18 = DcpInfoMgrdao.DCPApproval_Flow_SEL18(dobj);        //  PID Search
-        dobj.setRetObject(vSEL18);
-        VOBJ vUNI5 = DcpInfoMgrdao.DCPApproval_Flow_UNI5(dobj);        //  Approval Data Update Insert
-        dobj.setRetObject(vUNI5);
-        VOBJ vSEL4 = DcpInfoMgrdao.DCPApproval_Flow_SEL4(dobj);        //  File Approval Count
-        dobj.setRetObject(vSEL4);
-        this.DCPApproval_Flow_MPD6(dobj);        //  Loop
-        if(dobj.getRtncode() == 9)
+        VOBJ vSEL19 = DcpInfoMgrdao.DCPApproval_Flow_SEL19(dobj);        //  DCP exist Check
+        dobj.setRetObject(vSEL19);
+        if( dobj.getRetObject("SEL19").getRecord().getInt("CNT") == 0)
         {
-            throw new Exception();
+            dobj.setRetmsg("00031");
         }
-        VOBJ vDEL11 = DcpInfoMgrdao.DCPApproval_Flow_DEL11(dobj);        //  File Delete
-        dobj.setRetObject(vDEL11);
-        VOBJ vSEL13 = DcpInfoMgrdao.DCPApproval_Flow_SEL13(dobj);        //  Confirm(HP2D002T,HP1D001T_TZ)
-        dobj.setRetObject(vSEL13);
-        this.DCPApproval_Flow_MPD15(dobj);        //  LooP
-        if(dobj.getRtncode() == 9)
+        else if( dobj.getRetObject("SEL19").getRecord().getInt("CNT") > 0)
         {
-            throw new Exception();
+            VOBJ vSEL18 = DcpInfoMgrdao.DCPApproval_Flow_SEL18(dobj);        //  PID Search
+            dobj.setRetObject(vSEL18);
+            VOBJ vUNI5 = DcpInfoMgrdao.DCPApproval_Flow_UNI5(dobj);        //  Approval Data Update Insert
+            dobj.setRetObject(vUNI5);
+            VOBJ vSEL4 = DcpInfoMgrdao.DCPApproval_Flow_SEL4(dobj);        //  File Approval Count
+            dobj.setRetObject(vSEL4);
+            this.DCPApproval_Flow_MPD6(dobj);        //  Loop
+            if(dobj.getRtncode() == 9)
+            {
+                throw new Exception();
+            }
+            VOBJ vDEL11 = DcpInfoMgrdao.DCPApproval_Flow_DEL11(dobj);        //  File Delete
+            dobj.setRetObject(vDEL11);
+            VOBJ vSEL13 = DcpInfoMgrdao.DCPApproval_Flow_SEL13(dobj);        //  Confirm(HP2D002T,HP1D001T_TZ)
+            dobj.setRetObject(vSEL13);
+            this.DCPApproval_Flow_MPD15(dobj);        //  LooP
+            if(dobj.getRtncode() == 9)
+            {
+                throw new Exception();
+            }
         }
         return dobj;
     }
@@ -73,20 +68,23 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
         dvobj.first();
         while(dvobj.next())
         {
-            if(true)
+            if(true) 
             {
+            
                 dobj.resetObject("SEL11,XIUD5,XIUD11");
                 dobj.setRetObject(dvobj.getRecVobj("R"));
                 VOBJ vSEL11 = DcpInfoMgrdao.DCPApproval_Flow_SEL11(dobj);        //  Approval File exist check
                 dobj.setRetObject(vSEL11);
                 if( dobj.getRetObject("SEL11").getRecord().getInt("CNT") == 0)
+                
                 {
-                    VOBJ vXIUD11 = DcpInfoMgrdao.DCPApproval_Flow_XIUD11(dobj);        //  Approval File Table Insert
+                VOBJ vXIUD11 = DcpInfoMgrdao.DCPApproval_Flow_XIUD11(dobj);        //  Approval File Table Insert
                     dobj.setRetObject(vXIUD11);
                 }
-                else if( dobj.getRetObject("SEL11").getRecord().getInt("CNT") > 1)
+                else if( dobj.getRetObject("SEL11").getRecord().getInt("CNT") >= 1)
+                
                 {
-                    VOBJ vXIUD5 = DcpInfoMgrdao.DCPApproval_Flow_XIUD5(dobj);        //  Approval File Table Update
+                VOBJ vXIUD5 = DcpInfoMgrdao.DCPApproval_Flow_XIUD5(dobj);        //  Approval File Table Update
                     dobj.setRetObject(vXIUD5);
                 }
             }
@@ -103,14 +101,37 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
         dvobj.first();
         while(dvobj.next())
         {
-            if(true)
+            if(true) 
             {
+            
                 dobj.resetObject("INS19");
                 dobj.setRetObject(dvobj.getRecVobj("R"));
                 VOBJ vINS19 = DcpInfoMgrdao.DCPApproval_Flow_INS19(dobj);        //  Confirm(HP2D002T_TZ)
                 dobj.setRetObject(vINS19);
             }
         }
+        return dobj;
+    }
+    public DOBJ PIDConfirm(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL2 = DcpInfoMgrdao.PIDConfirm_SEL2(dobj);        //  PID exist Check
+        dobj.setRetObject(vSEL2);
+        return dobj;
+    }
+    public DOBJ BLOB_DCPFileDown(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vPEX3 = DcpInfoMgrdao.BLOB_DCPFileDown_PEX3(dobj);        //  ROOTPATH
+        dobj.setRetObject(vPEX3);
+        VOBJ vSEL8 = DcpInfoMgrdao.BLOB_DCPFileDown_SEL8(dobj);        //  Fileinfo
+        dobj.setRetObject(vSEL8);
+        VOBJ vSEL2 = DcpInfoMgrdao.BLOB_DCPFileDown_SEL2(dobj);        //  Fileinfo
+        dobj.setRetObject(vSEL2);
+        VOBJ vDN01 = DcpInfoMgrdao.BLOB_DCPFileDown_DN01(dobj);        //  downfile seting
+        dobj.setRetObject(vDN01);
         return dobj;
     }
     public DOBJ Approval_applicant_ORG_Combo(DOBJ dobj) throws Exception
@@ -270,14 +291,6 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
             VOBJ vSEL6 = DcpInfoMgrdao.DCPSearchInfo_SEL6(dobj);        //  FILE_NAME
             dobj.setRetObject(vSEL6);
         }
-        return dobj;
-    }
-    public DOBJ PIDConfirm(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL2 = DcpInfoMgrdao.PIDConfirm_SEL2(dobj);        //  PID exist Check
-        dobj.setRetObject(vSEL2);
         return dobj;
     }
     public DOBJ ApprovalDataSearch(DOBJ dobj) throws Exception

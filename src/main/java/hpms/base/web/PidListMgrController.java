@@ -25,17 +25,6 @@ public class PidListMgrController
 {
     @Autowired
     private PidListMgr PidListMgrService;
-    @RequestMapping(value="/20160902161145PidListMgr_PIDListinfo.do")
-    public ModelAndView PIDListinfo(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = PidListMgrService.PIDListinfo(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/20160902161145PidListMgr_loadpage.do")
     public String loadpage(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -53,6 +42,17 @@ public class PidListMgrController
         mav.addObject("WIZDOBJ", odobj);
         mav.addObject("SEL7", odobj.getRetObject("SEL7").getRecords());
         mav.addObject("S", odobj.getRetObject("S").getRecordMap());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/20160902161145PidListMgr_PIDListinfo.do")
+    public ModelAndView PIDListinfo(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = PidListMgrService.PIDListinfo(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;

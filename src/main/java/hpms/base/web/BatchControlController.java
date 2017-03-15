@@ -95,29 +95,6 @@ public class BatchControlController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/20160912111170BatchControl_copyMiddle.do")
-    public ModelAndView copyMiddle(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = BatchControlService.copyMiddle(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL3", odobj.getRetObject("SEL3").getRecords());
-        mav.addObject("S4", odobj.getRetObject("S4").getRecordMap());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
-    @RequestMapping(value="/20160912111170BatchControl_copyMP.do")
-    public ModelAndView copyMP(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = BatchControlService.copyMP(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL3", odobj.getRetObject("SEL3").getRecords());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/20160912111170BatchControl_pageInit.do")
     public ModelAndView pageInit(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -141,6 +118,29 @@ public class BatchControlController
         DOBJ odobj = BatchControlService.copyLMP(idobj);
         mav.addObject("WIZDOBJ", odobj);
         mav.addObject("SEL8", odobj.getRetObject("SEL8").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/20160912111170BatchControl_copyMP.do")
+    public ModelAndView copyMP(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = BatchControlService.copyMP(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL3", odobj.getRetObject("SEL3").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/20160912111170BatchControl_copyMiddle.do")
+    public ModelAndView copyMiddle(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = BatchControlService.copyMiddle(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL3", odobj.getRetObject("SEL3").getRecords());
+        mav.addObject("S4", odobj.getRetObject("S4").getRecordMap());
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;

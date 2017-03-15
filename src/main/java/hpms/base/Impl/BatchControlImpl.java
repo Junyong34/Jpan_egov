@@ -24,6 +24,62 @@ public class BatchControlImpl extends AbstractServiceImpl implements BatchContro
 {
     @Autowired
     private BatchControlDao BatchControldao;
+    public DOBJ copyMiddle(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL11 = BatchControldao.copyMiddle_SEL11(dobj);        //  F_YYYMM
+        dobj.setRetObject(vSEL11);
+        VOBJ vDEL13 = BatchControldao.copyMiddle_DEL13(dobj);        //  MP_YYYY_YYYYMMDD
+        dobj.setRetObject(vDEL13);
+        VOBJ vSEL16 = BatchControldao.copyMiddle_SEL16(dobj);        //  snapshot Search
+        dobj.setRetObject(vSEL16);
+        VOBJ vDEL14 = BatchControldao.copyMiddle_DEL14(dobj);        //  snapshot Delete
+        dobj.setRetObject(vDEL14);
+        VOBJ vSEL2 = BatchControldao.copyMiddle_SEL2(dobj);        //  get HP2D002T
+        dobj.setRetObject(vSEL2);
+        VOBJ vINS14 = BatchControldao.copyMiddle_INS14(dobj);        //  CopyHP2D002T_TZ
+        dobj.setRetObject(vINS14);
+        VOBJ vINS16 = BatchControldao.copyMiddle_INS16(dobj);        //  CopyHP2D002T_TZ
+        dobj.setRetObject(vINS16);
+        VOBJ vUNI8 = BatchControldao.copyMiddle_UNI8(dobj);        //  OptionTableSave
+        dobj.setRetObject(vUNI8);
+        VOBJ vSEL3 = BatchControldao.copyMiddle_SEL3(dobj);        //  Confirm Info
+        dobj.setRetObject(vSEL3);
+        VOBJ vXIUD11 = BatchControldao.copyMiddle_XIUD11(dobj);        //  copy HP2DM11T_TZ
+        dobj.setRetObject(vXIUD11);
+        VOBJ vDEL17 = BatchControldao.copyMiddle_DEL17(dobj);        //  HP2DM11T  Delete
+        dobj.setRetObject(vDEL17);
+        return dobj;
+    }
+    public DOBJ copyMP(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL7 = BatchControldao.copyMP_SEL7(dobj);        //  F_YYYMM
+        dobj.setRetObject(vSEL7);
+        VOBJ vDEL15 = BatchControldao.copyMP_DEL15(dobj);        //  MP_YYYY_YYYYMMDD
+        dobj.setRetObject(vDEL15);
+        VOBJ vSEL28 = BatchControldao.copyMP_SEL28(dobj);        //  snapshot Search
+        dobj.setRetObject(vSEL28);
+        VOBJ vDEL12 = BatchControldao.copyMP_DEL12(dobj);        //  MP_YYYY
+        dobj.setRetObject(vDEL12);
+        VOBJ vSEL2 = BatchControldao.copyMP_SEL2(dobj);        //  get HP2D002T
+        dobj.setRetObject(vSEL2);
+        VOBJ vINS13 = BatchControldao.copyMP_INS13(dobj);        //  CopyHP2D002T_TZ
+        dobj.setRetObject(vINS13);
+        VOBJ vINS14 = BatchControldao.copyMP_INS14(dobj);        //  CopyHP2D002T_TZ
+        dobj.setRetObject(vINS14);
+        VOBJ vUNI5 = BatchControldao.copyMP_UNI5(dobj);        //  OptionTableSave
+        dobj.setRetObject(vUNI5);
+        VOBJ vSEL3 = BatchControldao.copyMP_SEL3(dobj);        //  Confirm Info
+        dobj.setRetObject(vSEL3);
+        VOBJ vXIUD13 = BatchControldao.copyMP_XIUD13(dobj);        //  copy HP2DM11T_TZ
+        dobj.setRetObject(vXIUD13);
+        VOBJ vDEL18 = BatchControldao.copyMP_DEL18(dobj);        //  HP2DM11T  Delete
+        dobj.setRetObject(vDEL18);
+        return dobj;
+    }
     public DOBJ copyLMP(DOBJ dobj) throws Exception
     {
         String  message ="";
@@ -70,66 +126,6 @@ public class BatchControlImpl extends AbstractServiceImpl implements BatchContro
         dobj.setRetObject(vSEL10);
         VOBJ vSEL19 = BatchControldao.pageInit_SEL19(dobj);        //  MGRSUM
         dobj.setRetObject(vSEL19);
-        return dobj;
-    }
-    public DOBJ copyMP(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL7 = BatchControldao.copyMP_SEL7(dobj);        //  F_YYYMM
-        dobj.setRetObject(vSEL7);
-        VOBJ vDEL15 = BatchControldao.copyMP_DEL15(dobj);        //  MP_YYYY_YYYYMMDD
-        dobj.setRetObject(vDEL15);
-        VOBJ vSEL28 = BatchControldao.copyMP_SEL28(dobj);        //  snapshot Search
-        dobj.setRetObject(vSEL28);
-        VOBJ vDEL12 = BatchControldao.copyMP_DEL12(dobj);        //  MP_YYYY
-        dobj.setRetObject(vDEL12);
-        VOBJ vSEL2 = BatchControldao.copyMP_SEL2(dobj);        //  get HP2D002T
-        dobj.setRetObject(vSEL2);
-        VOBJ vINS13 = BatchControldao.copyMP_INS13(dobj);        //  CopyHP2D002T_TZ
-        dobj.setRetObject(vINS13);
-        VOBJ vINS14 = BatchControldao.copyMP_INS14(dobj);        //  CopyHP2D002T_TZ
-        dobj.setRetObject(vINS14);
-        VOBJ vUNI5 = BatchControldao.copyMP_UNI5(dobj);        //  OptionTableSave
-        dobj.setRetObject(vUNI5);
-        VOBJ vSEL3 = BatchControldao.copyMP_SEL3(dobj);        //  Confirm Info
-        dobj.setRetObject(vSEL3);
-        VOBJ vXIUD13 = BatchControldao.copyMP_XIUD13(dobj);        //  copy HP2DM11T_TZ
-        dobj.setRetObject(vXIUD13);
-        VOBJ vDEL18 = BatchControldao.copyMP_DEL18(dobj);        //  HP2DM11T  Delete
-        dobj.setRetObject(vDEL18);
-        VOBJ vUPD9 = BatchControldao.copyMP_UPD9(dobj);        //  R++
-        dobj.setRetObject(vUPD9);
-        return dobj;
-    }
-    public DOBJ copyMiddle(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL11 = BatchControldao.copyMiddle_SEL11(dobj);        //  F_YYYMM
-        dobj.setRetObject(vSEL11);
-        VOBJ vDEL13 = BatchControldao.copyMiddle_DEL13(dobj);        //  MP_YYYY_YYYYMMDD
-        dobj.setRetObject(vDEL13);
-        VOBJ vSEL16 = BatchControldao.copyMiddle_SEL16(dobj);        //  snapshot Search
-        dobj.setRetObject(vSEL16);
-        VOBJ vDEL14 = BatchControldao.copyMiddle_DEL14(dobj);        //  snapshot Delete
-        dobj.setRetObject(vDEL14);
-        VOBJ vSEL2 = BatchControldao.copyMiddle_SEL2(dobj);        //  get HP2D002T
-        dobj.setRetObject(vSEL2);
-        VOBJ vINS14 = BatchControldao.copyMiddle_INS14(dobj);        //  CopyHP2D002T_TZ
-        dobj.setRetObject(vINS14);
-        VOBJ vINS16 = BatchControldao.copyMiddle_INS16(dobj);        //  CopyHP2D002T_TZ
-        dobj.setRetObject(vINS16);
-        VOBJ vUNI8 = BatchControldao.copyMiddle_UNI8(dobj);        //  OptionTableSave
-        dobj.setRetObject(vUNI8);
-        VOBJ vSEL3 = BatchControldao.copyMiddle_SEL3(dobj);        //  Confirm Info
-        dobj.setRetObject(vSEL3);
-        VOBJ vXIUD11 = BatchControldao.copyMiddle_XIUD11(dobj);        //  copy HP2DM11T_TZ
-        dobj.setRetObject(vXIUD11);
-        VOBJ vDEL17 = BatchControldao.copyMiddle_DEL17(dobj);        //  HP2DM11T  Delete
-        dobj.setRetObject(vDEL17);
-        VOBJ vUPD7 = BatchControldao.copyMiddle_UPD7(dobj);        //  R++
-        dobj.setRetObject(vUPD7);
         return dobj;
     }
     public DOBJ LMP_ConfirmCheck(DOBJ dobj) throws Exception

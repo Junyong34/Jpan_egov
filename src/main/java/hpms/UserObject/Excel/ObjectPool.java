@@ -69,7 +69,7 @@ public class ObjectPool<T>  {
 	}
 		
 	
-	static class PoolSizeOutException extends RuntimeException {
+	public static class PoolSizeOutException extends RuntimeException {
 
 		public PoolSizeOutException(String message) {
 			super(message);

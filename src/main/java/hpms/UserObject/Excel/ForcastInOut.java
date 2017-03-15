@@ -180,11 +180,13 @@ public class ForcastInOut
                     	  _cell.setCellValue(invobj.getRecord().get(ymlist.get(i)).toString());
                       }*/
                     String cellValue = invobj.getRecord().get(ymlist.get(i)).toString()+"";
-                    String cell_comment = invobj.getRecord().get(ymlist.get(i)+"_VAL_COMMENT").toString()+""; // 코멘트 컬럼
+                    
+                   
+                 //   String cell_comment = invobj.getRecord().get(ymlist.get(i)+"_VAL_COMMENT").toString()+""; // 코멘트 컬럼
                 
                  	if(cellValue==null || cellValue.equals("")){
                  		
-                   		_cell.setCellValue(cellValue);
+                   		_cell.setCellValue(0);
                    		
                    	}else{
 	                   		/*Drawing drawing = _cell.getSheet().createDrawingPatriarch();  // 시트에 메모 그림
@@ -414,8 +416,9 @@ public class ForcastInOut
         XSSFRow _headRow_1Line = null;
         XSSFRow _headRow_2Line = null;
         ArrayList _headYMDList = null;  // 년월 중복 제거해서 테이블에 데이타 넣을때 중복오류 발생 방지
+        ArrayList _headYMDList_2 = null;  // skip 뺴고 
         ArrayList Real_headYMDList = null; //년월 중복 존재 실제 비교 오류메시지 출력
-       Set duplicate_YMD_list = null;
+        Set duplicate_YMD_list = null;
         boolean Dupl_YMD = false;
         boolean WorkTableMaxLength = false;
         _indobj.dispRetObjectKeyNames();
@@ -459,7 +462,8 @@ public class ForcastInOut
                 if(rowidx == 1)
                 {
                     _headRow_2Line =_sheet.getRow(rowidx);
-                    _headYMDList = getHeadColumnYMD(_headRow_1Line, _headRow_2Line);
+                    _headYMDList = getHeadColumnYMD(_headRow_1Line, _headRow_2Line );
+                    _headYMDList_2 = getHeadColumnYMD_2(_headRow_1Line, _headRow_2Line ); // skip은뺴고 체크
                    // _headYMDList = new ArrayList<String>(new HashSet<String>(_headYMDList));  //중복 제거 순서가 랜덤으로 변함
                    
                     
@@ -501,7 +505,9 @@ public class ForcastInOut
                  
                 _hdata = new ArrayList();
                 _hdata = getDataStepOne(_row);
-              
+               
+                
+               // System.out.println( " headYMDList.size() " + _headYMDList.size() );
                 //-------------------------------------  Create Record  -----------------------------------------
                 for(int ymdindex =0;ymdindex<_headYMDList.size();ymdindex++)
                 {
@@ -522,6 +528,7 @@ public class ForcastInOut
                     if(isValidateYMD(_headYMDList.get(ymdindex).toString())==false)
                     {
                         //날짜 오입력에 대한 처리 필요한가?.
+                    	
                     	_rvobj.setRetcode(1022);//_rvobj.setRetcode(1010);
                         _rvobj.setRetmsg(_headYMDList.get(ymdindex).toString());
                         ErrorMSG +=  ": "+ _headYMDList.get(ymdindex).toString(); // 잘못입력된년도 
@@ -572,35 +579,35 @@ public class ForcastInOut
                             }
                         }
                     }
-
+                
                     rec.put("YYYYMM",_headYMDList.get(ymdindex));
                   
                     value = getCellValue(_row.getCell(colindex+ymdindex));
                   
-                    XSSFCell cells_c = _row.getCell(colindex+ymdindex);
-                    XSSFComment comment = cells_c.getCellComment();
+                   // XSSFCell cells_c = _row.getCell(colindex+ymdindex);
+                  //  XSSFComment comment = cells_c.getCellComment();
                    
                    
                 //     System.out.println(  comment.getColumn()  + " @@@@@ " + colindex+ymdindex + "  ## " + _row.getCell(colindex+ymdindex) );
                //     System.out.println(comment.getString() + " getrow  " + comment.getRow() + "getColumn " + comment.getColumn()  + " getAuthor " + comment.getAuthor() );
                     
-                
+  
                     
-                    if(value.equals("") || value==null){
+                  /*  if(value.equals("") || value==null){
                     	continue; 
-                    }
+                    }*/
                     //System.out.println(value.toString()  + " @ ");
                  
-                   
+                     
                     
 	                  if(value == null || value.equals("")){
 	                	 
 	                	  //value = null; 
-	                	  rec.put("VAL", "");
+	                	  rec.put("VAL", 0);
 	                   }else{
 	                	  
 	                	   if(isNumber(value)== false) // val에 숫자가 아닌값이 존재 할 경우
-	                       {
+	                       {	
 	                		   _rvobj.setRetcode(1022);//_rvobj.setRetcode(1011);
 	                           rec.put("VAL",value); 
 	                           ErrorMSG +=  ": " +value; // Error_MSG 값 셋팅
@@ -619,7 +626,7 @@ public class ForcastInOut
                     {
                     	String Msg = isValidateRecordMsg(rec);
                     	ErrorMSG +=  v_chk;
-
+                    	
                     	_rvobj.setRetcode(1022);// _rvobj.setRetcode(1012);
                        _rvobj.setRetmsg(Msg);
                     }
@@ -683,6 +690,7 @@ public class ForcastInOut
 
         if(_rvobj.getRetcode() != 0)
         {
+        	
             _indobj.setRtncode(_rvobj.getRetcode());
             _indobj.setRetmsg(_rvobj.getRetcode()+_rvobj.getRetmsg() + "");
         }
@@ -743,6 +751,7 @@ public class ForcastInOut
 
 		for (String yourInt : listContainingDuplicates) {
 			if (!set1.add(yourInt)) {
+				if(!yourInt.equals("skip"))
 				setToReturn.add(yourInt);
 			}
 		}
@@ -978,7 +987,7 @@ public class ForcastInOut
        }
        return false;
    }
-   private  ArrayList getHeadColumnYMD(XSSFRow row_1Line, XSSFRow row_2Line)
+   private  ArrayList getHeadColumnYMD(XSSFRow row_1Line, XSSFRow row_2Line )
    {
        ArrayList alist = new ArrayList();
        int eocindex = ordername.size();
@@ -992,7 +1001,7 @@ public class ForcastInOut
        {
            _cell_1Line = row_1Line.getCell(eocindex);
            _cell_2Line = row_2Line.getCell(eocindex);
-           //System.out.println("start:" + eocindex +":" + getCellValue(_cell_2Line) );
+         
            if(continuecnt > 2)
            {
                break;
@@ -1007,18 +1016,85 @@ public class ForcastInOut
            if (_cell_1Line!=null )
            {
                _val_1Line = getCellValue(_cell_1Line);
+             
            }
            if( _val_1Line != null && _val_1Line.trim().toUpperCase().equals("EOC"))
            {
                break;
            }
-           if( _val_1Line != null && _val_1Line.trim().toUpperCase().equals("SKIP"))
+           if( _val_1Line != null && _val_1Line.trim().toUpperCase().equals("SKIP") )
            {
+        	  
                alist.add("SKIP");
+               eocindex++;
+               continuecnt=0;
+             
+               continue;
+           }
+
+           if (_cell_2Line!=null)
+           {
+               _val_2Line = getCellValue(_cell_2Line);
+          
+           }
+
+           if( (_val_2Line == null && _val_2Line == null)  || (_val_2Line.trim().equals("")&& _val_2Line.trim().equals("") ))
+           {
+               alist.add("NULL");
+               continuecnt++;
+               eocindex++;
+               continue;
+           }
+
+           if(!_val_1Line.trim().toUpperCase().equals("SKIP") && (_val_2Line == null || _val_2Line.trim().equals("")))
+           {
+        	  
+               alist.add("NULL");
                eocindex++;
                continuecnt=0;
                continue;
            }
+          
+           alist.add(_val_2Line);
+           continuecnt=0;
+           eocindex++;
+       }
+     
+//       for(int i=0;i<alist.size();i++)
+//       {
+//           System.out.print(":" + alist.get(i));
+//       }
+       return alist;
+   }
+   
+   private  ArrayList getHeadColumnYMD_2(XSSFRow row_1Line, XSSFRow row_2Line )
+   {
+       ArrayList alist = new ArrayList();
+       int eocindex = ordername.size();
+       XSSFCell _cell_1Line = null;
+       XSSFCell _cell_2Line = null;
+       String _val_1Line="";
+       String _val_2Line="";
+       int continuecnt = 0;
+
+       while(true)
+       {
+          
+           _cell_2Line = row_2Line.getCell(eocindex);
+           //System.out.println("start:" + eocindex +":" + getCellValue(_cell_2Line) );
+           if(continuecnt > 2)
+           {
+               break;
+           }
+
+           if(_cell_2Line == null)
+           {
+               continuecnt++;
+               eocindex++;
+               continue;
+           }
+          
+       
 
            if (_cell_2Line!=null)
            {
@@ -1033,13 +1109,7 @@ public class ForcastInOut
                continue;
            }
 
-           if(!_val_1Line.trim().toUpperCase().equals("SKIP") && (_val_2Line == null || _val_2Line.trim().equals("")))
-           {
-               alist.add("ERR");
-               eocindex++;
-               continuecnt=0;
-               continue;
-           }
+          
 
            alist.add(_val_2Line);
            continuecnt=0;

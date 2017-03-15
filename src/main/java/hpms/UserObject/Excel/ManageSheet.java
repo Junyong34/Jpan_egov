@@ -28,7 +28,13 @@ import java.util.Date;
 
 
 
+
+
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+
 
 
 
@@ -65,6 +71,9 @@ import java.io.FileOutputStream;
 
 
 
+
+
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -77,6 +86,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 
 
+import org.springframework.util.StopWatch;
+
 import WIZ.FR.DAO.Connector;
 
 public class ManageSheet
@@ -88,7 +99,7 @@ public class ManageSheet
     private  String layoutfilefold = this.rootPath + "ExcelLayout";
    
     // Static 영역에 Objectpool 생성하여 올리며 개수 제한을 걸어 설정 한다.
-    static  ObjectPool<StringBuffer> pool = new ObjectPool<StringBuffer>(StringBuffer.class, 2);
+    static  ObjectPool<StringBuffer> pool = new ObjectPool<StringBuffer>(StringBuffer.class, 100);
     private  int objnum = 0;
     
     public ManageSheet()
@@ -155,15 +166,18 @@ public class ManageSheet
         File _fp = null;
         FileInputStream _fin = null;
         FileOutputStream fileOut =null;
-       
+        VOBJ ErrorCode = new VOBJ();
         
-        
-        
-          StringBuffer object = null , object1= null , object2= null , object3= null;
-          
-    		if(pool.CurrentPoolSize() > 2){
+        StringBuffer object = null , object1= null , object2= null , object3= null;
+    
+    		if(pool.CurrentPoolSize() > 100){
     			
-    			throw new PoolSizeOutException("PoolSizeOutException");
+    			//ErrorCode.setName("PoolSize");
+    			//ErrorCode.setRetmsg("0004");
+    			//ErrorCode.setRetcode(0);
+    			indobj.setRetmsg("00039"); // pool size 초과되면 메시지 발번 한다. Dn01download.jsp 에서 잡아서 메시지 띄워준다
+    		    //indobj.setRetObject(ErrorCode);
+    			return indobj;
     			
     		}else{
     			 // Connect pool 객체를 생성하여 static 영역에 Stringbuffer 올려 pool 생성한다..
@@ -173,7 +187,7 @@ public class ManageSheet
 					object = pool.borrowObject();	
 					objnum= 0;
 					
-					break;
+					break;	
 				case 1:
 					object1 = pool.borrowObject();
 					objnum= 1;
@@ -277,7 +291,7 @@ public class ManageSheet
        
        
        // Connect pool 객체 return 시켜서 초기화 시킨다.
-       switch (objnum) {
+      switch (objnum) {
 		case 0:
 			 pool.returnObject(object);
 			break;
@@ -409,15 +423,20 @@ public class ManageSheet
 
            HashMap<Object,Object> record = null;
            Conn = getConnection();
+           StopWatch SEL03 = new StopWatch();
+           SEL03.start();
            pstmt = getStatement(Conn, indobj);
            rset = pstmt.executeQuery();
+           SEL03.stop();
+           System.out.println("Step 2 Management Sheet rigth Search  " +SEL03.toString());
            ResultSetMetaData rmeta = pstmt.getMetaData();
            
            rightrowindex=0; //엑셀 Rightrowindex
            
           
           
-          
+           StopWatch ExcelSheetCreate = new StopWatch();
+           ExcelSheetCreate.start();
            while (rset.next())
            {
         	  
@@ -487,6 +506,8 @@ public class ManageSheet
                     rightrowindex++;
                 }
            
+           ExcelSheetCreate.stop();
+           System.out.println("Step 3 Management Sheet Create  " +ExcelSheetCreate.toString());
            
           // System.out.println( " -==========================-" + rowcnt + "-===================- " +  rmeta.getColumnCount());
 

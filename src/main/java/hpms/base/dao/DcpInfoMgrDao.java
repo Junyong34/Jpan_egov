@@ -11,129 +11,16 @@ import javax.annotation.Resource;
 @Repository("DcpInfoMgr2016082417884Dao")
 public class DcpInfoMgrDao extends EgovAbstractDAO
 {
-    // ROOTPATH
-    public VOBJ BLOB_DCPFileDown_PEX3(DOBJ dobj) throws Exception
+    // DCP exist Check
+    public VOBJ DCPApproval_Flow_SEL19(DOBJ dobj) throws Exception
     {
-        CommUtil cu = new CommUtil(dobj);
-        HashMap   classinfo = new HashMap();
-        classinfo.put("OBJECTID", "PEX3" );
-        classinfo.put("PACKAGE", "hpms.UserObject.BatchExe" );
-        classinfo.put("CLASS", "FileUtility" );
-        classinfo.put("METHOD", "rootPath" );
-        dobj = cu.callPSExternal(dobj, null, classinfo );
-        VOBJ dvobj = dobj.getRetObject("FN02");
-        dvobj.setName("PEX3");
-        return dvobj;
-    }
-    // Fileinfo
-    public VOBJ BLOB_DCPFileDown_SEL8(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL8", "Fileinfo" );
+        WizUtil wutil = new WizUtil(dobj,"SEL19", "DCP exist Check" );
         HashMap param = null;
         VOBJ dvobj = new VOBJ();
         param = new HashMap();
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        param.put("DCP_TYPE", dobj.getRetObject("S").getRecord().get("DCP_TYPE"));   //DCP종별코드
-        param.put("SEQ", dobj.getRetObject("S").getRecord().getInt("SEQ")+"");   //일렬번호
-        param.put("FILE_PATH", dobj.getRetObject("PEX3").getRecord().get("ROOTPATH")+"/uploadfile");   //파일path
-        List rlist = list("DcpInfoMgr_2016082417884.BLOB_DCPFileDown_SEL8", param);
-        dvobj.setName("SEL8");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // Fileinfo
-    public VOBJ BLOB_DCPFileDown_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "Fileinfo" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        param.put("DCP_TYPE", dobj.getRetObject("S").getRecord().get("DCP_TYPE"));   //DCP종별코드
-        param.put("SEQ", dobj.getRetObject("S").getRecord().getInt("SEQ")+"");   //일렬번호
-        param.put("FILE_PATH", dobj.getRetObject("PEX3").getRecord().get("ROOTPATH")+"uploadfile");   //파일path
-        List rlist = list("DcpInfoMgr_2016082417884.BLOB_DCPFileDown_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        String fullname="";
-        dvobj.first();
-        while(dvobj.next()) 
-        {
-        
-            fullname= wutil.makeFileOverwirte( dobj.getRetObject("SEL8").getRecord().get("FILE_PATH"), dobj.getRetObject("SEL8").getRecord().get("FILE_NAME"),dvobj.getRecord().getBytes("FILE_BIN"));
-            dvobj.getRecord().put("FILE_BIN",fullname);
-        }
-        return dvobj;
-    }
-    // downfile seting
-    public VOBJ BLOB_DCPFileDown_DN01(DOBJ dobj) throws Exception
-    {
-        dobj.setRtnname("DN01");
-        WizUtil wutil = new WizUtil(dobj,"DN01", "downfile seting" );
-        VOBJ dvobj = dobj.getRetObjectCopy("SEL8");        //Fileinfo Input Object(CALLBLOB_DCPFileDown_SEL8)
-        String[] outcolumns = 
-        {
-        "FILE_PATH", "FILE_UNNAME", "FILE_NAME"
-        }
-        ;;
-        HashMap    record =null;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            record = dvobj.getRecordMap();
-            String   FILE_NAME = dvobj.getRecord().get("FILE_NAME");         //파일이름
-            record.put("FILE_NAME",FILE_NAME);
-            String   FILE_PATH = dvobj.getRecord().get("FILE_PATH");         //파일path
-            record.put("FILE_PATH",FILE_PATH);
-            String   FILE_UNNAME = dvobj.getRecord().get("FILE_NAME");         //유니크파일
-            record.put("FILE_UNNAME",FILE_UNNAME);
-            boolean isfind=false;
-            ArrayList alist = new ArrayList();
-            Iterator itor = record.keySet().iterator();
-            while(itor.hasNext())
-            {
-            
-                alist.add(itor.next().toString());
-            }
-            for(int i=0;i<alist.size();i++)
-            {
-            
-                isfind = false;
-                for(int j=0;j<outcolumns.length;j++)
-                {
-                
-                    if(alist.get(i).equals(outcolumns[j])) 
-                    {
-                    
-                        isfind=true;
-                    }
-                }
-                if(isfind == false)
-                {
-                
-                    record.remove(alist.get(i));
-                }
-            }
-            dvobj.setRecord(record);
-        }
-        dvobj.setName("DN01") ;
-        return dvobj;
-    }
-    // FILE info
-    public VOBJ BLOB_DCPFileDown_SEL6(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL6", "FILE info" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        param.put("DCP_TYPE", dobj.getRetObject("S").getRecord().get("DCP_TYPE"));   //DCP종별코드
-        param.put("SEQ", dobj.getRetObject("S").getRecord().getInt("SEQ")+"");   //일렬번호
-        param.put("FILE_PATH", dobj.getRetObject("PEX3").getRecord().get("ROOTPATH")+"uploadfile/");   //파일path
-        List rlist = list("DcpInfoMgr_2016082417884.BLOB_DCPFileDown_SEL6", param);
-        dvobj.setName("SEL6");
+        param.put("PID", dobj.getRetObject("S3").getRecord().get("PID"));   //PID
+        List rlist = list("DcpInfoMgr_2016082417884.DCPApproval_Flow_SEL19", param);
+        dvobj.setName("SEL19");
         dvobj.setRetcode(1);
         dvobj.setRecords(rlist);
         return dvobj;
@@ -221,6 +108,7 @@ public class DcpInfoMgrDao extends EgovAbstractDAO
                 insert("DcpInfoMgr_2016082417884.DCPApproval_Flow_UNI5_INS",param);
                 inscnt++;
                 unicnt++;
+                
             }
             else
             {
@@ -414,6 +302,155 @@ public class DcpInfoMgrDao extends EgovAbstractDAO
         rvobj.addRecord(recordx);
         rvobj.setName("INS19") ;
         return rvobj;
+    }
+    // PID exist Check
+    public VOBJ PIDConfirm_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "PID exist Check" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        List rlist = list("DcpInfoMgr_2016082417884.PIDConfirm_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // DCP exist Check
+    public VOBJ PIDConfirm_SEL3(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL3", "DCP exist Check" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        List rlist = list("DcpInfoMgr_2016082417884.PIDConfirm_SEL3", param);
+        dvobj.setName("SEL3");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // ROOTPATH
+    public VOBJ BLOB_DCPFileDown_PEX3(DOBJ dobj) throws Exception
+    {
+        CommUtil cu = new CommUtil(dobj);
+        HashMap   classinfo = new HashMap();
+        classinfo.put("OBJECTID", "PEX3" );
+        classinfo.put("PACKAGE", "hpms.UserObject.BatchExe" );
+        classinfo.put("CLASS", "FileUtility" );
+        classinfo.put("METHOD", "rootPath" );
+        dobj = cu.callPSExternal(dobj, null, classinfo );
+        VOBJ dvobj = dobj.getRetObject("FN02");
+        dvobj.setName("PEX3");
+        return dvobj;
+    }
+    // Fileinfo
+    public VOBJ BLOB_DCPFileDown_SEL8(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL8", "Fileinfo" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        param.put("DCP_TYPE", dobj.getRetObject("S").getRecord().get("DCP_TYPE"));   //DCP종별코드
+        param.put("SEQ", dobj.getRetObject("S").getRecord().getInt("SEQ")+"");   //일렬번호
+        param.put("FILE_PATH", dobj.getRetObject("PEX3").getRecord().get("ROOTPATH")+"/uploadfile");   //파일path
+        List rlist = list("DcpInfoMgr_2016082417884.BLOB_DCPFileDown_SEL8", param);
+        dvobj.setName("SEL8");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // Fileinfo
+    public VOBJ BLOB_DCPFileDown_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "Fileinfo" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        param.put("DCP_TYPE", dobj.getRetObject("S").getRecord().get("DCP_TYPE"));   //DCP종별코드
+        param.put("SEQ", dobj.getRetObject("S").getRecord().getInt("SEQ")+"");   //일렬번호
+        param.put("FILE_PATH", dobj.getRetObject("PEX3").getRecord().get("ROOTPATH")+"uploadfile");   //파일path
+        List rlist = list("DcpInfoMgr_2016082417884.BLOB_DCPFileDown_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        String fullname="";
+        dvobj.first();
+        while(dvobj.next())
+        {
+            fullname= wutil.makeFileOverwirte( dobj.getRetObject("SEL8").getRecord().get("FILE_PATH"), dobj.getRetObject("SEL8").getRecord().get("FILE_NAME"),dvobj.getRecord().getBytes("FILE_BIN"));
+            dvobj.getRecord().put("FILE_BIN",fullname);
+        }
+        return dvobj;
+    }
+    // downfile seting
+    public VOBJ BLOB_DCPFileDown_DN01(DOBJ dobj) throws Exception
+    {
+        dobj.setRtnname("DN01");
+        WizUtil wutil = new WizUtil(dobj,"DN01", "downfile seting" );
+        VOBJ dvobj = dobj.getRetObjectCopy("SEL8");        //Fileinfo Input Object(CALLBLOB_DCPFileDown_SEL8)
+        String[] outcolumns =
+        {
+            "FILE_PATH", "FILE_UNNAME", "FILE_NAME"
+        }
+        ;;
+        HashMap    record =null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            record = dvobj.getRecordMap();
+            String   FILE_NAME = dvobj.getRecord().get("FILE_NAME");         //파일이름
+            record.put("FILE_NAME",FILE_NAME);
+            String   FILE_PATH = dvobj.getRecord().get("FILE_PATH");         //파일path
+            record.put("FILE_PATH",FILE_PATH);
+            String   FILE_UNNAME = dvobj.getRecord().get("FILE_NAME");         //유니크파일
+            record.put("FILE_UNNAME",FILE_UNNAME);
+            boolean isfind=false;
+            ArrayList alist = new ArrayList();
+            Iterator itor = record.keySet().iterator();
+            while(itor.hasNext())
+            {
+                alist.add(itor.next().toString());
+            }
+            for(int i=0;i<alist.size();i++)
+            {
+                isfind = false;
+                for(int j=0;j<outcolumns.length;j++)
+                {
+                    if(alist.get(i).equals(outcolumns[j]))
+                    {
+                        isfind=true;
+                    }
+                }
+                if(isfind == false)
+                {
+                    record.remove(alist.get(i));
+                }
+            }
+            dvobj.setRecord(record);
+        }
+        dvobj.setName("DN01") ;
+        return dvobj;
+    }
+    // FILE info
+    public VOBJ BLOB_DCPFileDown_SEL6(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL6", "FILE info" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        param.put("DCP_TYPE", dobj.getRetObject("S").getRecord().get("DCP_TYPE"));   //DCP종별코드
+        param.put("SEQ", dobj.getRetObject("S").getRecord().getInt("SEQ")+"");   //일렬번호
+        param.put("FILE_PATH", dobj.getRetObject("PEX3").getRecord().get("ROOTPATH")+"uploadfile/");   //파일path
+        List rlist = list("DcpInfoMgr_2016082417884.BLOB_DCPFileDown_SEL6", param);
+        dvobj.setName("SEL6");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
     }
     // Confirm(HP2D002T_TZ)
     // DCP_A_20160303 값을 넣을 칼럼 사이즈가 ㅇ존재하지않음 확인해야함
@@ -1284,20 +1321,6 @@ public class DcpInfoMgrDao extends EgovAbstractDAO
         dvobj.setRetcode(1);
         dvobj.setRecords(rlist);
         dvobj.Println("SEL10");
-        return dvobj;
-    }
-    // PID exist Check
-    public VOBJ PIDConfirm_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "PID exist Check" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        List rlist = list("DcpInfoMgr_2016082417884.PIDConfirm_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
         return dvobj;
     }
     // Copy Date Delete(HP2D002T )

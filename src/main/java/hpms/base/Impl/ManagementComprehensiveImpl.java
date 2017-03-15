@@ -1,12 +1,17 @@
 
 package hpms.base.Impl;
 import java.util.*;
+
 import egov.wizware.com.*;
 import egov.wizware.util.*;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -14,6 +19,8 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.util.StopWatch;
+
 import hpms.base.dao.*;
 import hpms.base.service.ManagementComprehensive;
 @Service("ManagementComprehensive20160901101144Service")
@@ -29,7 +36,12 @@ public class ManagementComprehensiveImpl extends AbstractServiceImpl implements 
         WizUtil wutil = new WizUtil(dobj,"","");
         VOBJ vSEL5 = ManagementComprehensivedao.buildSheetDownload_SEL5(dobj);        //  Layout_Excel
         dobj.setRetObject(vSEL5);
+        
+        StopWatch SEL02 = new StopWatch();
+        SEL02.start();
         VOBJ vSEL02 = ManagementComprehensivedao.buildSheetDownload_SEL02(dobj);        //  Left Data
+        SEL02.stop();
+        System.out.println("Step 1 Management Sheet Left Search  " +SEL02.toString());
         dobj.setRetObject(vSEL02);
         VOBJ vleftColumn = ManagementComprehensivedao.buildSheetDownload_leftColumn(dobj);        //  Column info left
         dobj.setRetObject(vleftColumn);

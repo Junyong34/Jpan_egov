@@ -118,7 +118,7 @@ public class WorkOutputUpload
                     if(isValidateYMD(_headYMDList.get(ymdindex).toString())==false)
                     {
                         //날짜 오입력에 대한 처리 필요한가?.
-                        _rvobj.setRetcode(1010);
+                        _rvobj.setRetcode(1024);
                         continue;
                     }
 
@@ -154,22 +154,26 @@ public class WorkOutputUpload
                     rec.put("YYYYMM",_headYMDList.get(ymdindex));
                     value = getCellValue(_row.getCell(colindex+ymdindex));
                     
-                    if(value.equals("") || value==null){
+                  /*  if(value.equals("") || value==null){
                     	continue; 
-                    }
+                    }*/ 
 
                     
 	                  if(value == null || value.equals("")){
 	                	 
 	                	  //value = null; 
-	                	  rec.put("VAL", "");
+	                	  rec.put("VAL", 0);
 	                   }else{
-	                	  
+	                	 
 	                	   if(isNumber(value)== false)
 	                       {
+	                		  
+	                		   rec.put("VAL", -1); 
 	                           _rvobj.setRetcode(1011);
+	                       }else{
+	                    	   rec.put("VAL", Double.parseDouble(value)); 
 	                       }
-	                	   rec.put("VAL", Double.parseDouble(value)); 
+	                	   
 	                   }
 
                     int vchk = 0;

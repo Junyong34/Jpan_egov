@@ -52,18 +52,6 @@ public class DcpInfoMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/2016082417884DcpInfoMgr_PIDConfirm.do")
-    public ModelAndView PIDConfirm(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = DcpInfoMgrService.PIDConfirm(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
-        mav.addObject("S", odobj.getRetObject("S").getRecordMap());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/2016082417884DcpInfoMgr_DCPSearchInfo.do")
     public ModelAndView DCPSearchInfo(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -141,16 +129,6 @@ public class DcpInfoMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/2016082417884DcpInfoMgr_DCPApproval_Flow.do")
-    public ModelAndView DCPApproval_Flow(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = DcpInfoMgrService.DCPApproval_Flow(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/2016082417884DcpInfoMgr_BLOB_DCPFileDown.do")
     public String BLOB_DCPFileDown(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -161,5 +139,28 @@ public class DcpInfoMgrController
         model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
         model.addAttribute("MESSAGE", odobj.getRetmsg());
         return "/jsp/File/Dn01download";
+    }
+    @RequestMapping(value="/2016082417884DcpInfoMgr_PIDConfirm.do")
+    public ModelAndView PIDConfirm(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = DcpInfoMgrService.PIDConfirm(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
+        mav.addObject("S", odobj.getRetObject("S").getRecordMap());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/2016082417884DcpInfoMgr_DCPApproval_Flow.do")
+    public ModelAndView DCPApproval_Flow(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = DcpInfoMgrService.DCPApproval_Flow(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL19", odobj.getRetObject("SEL19").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
     }
 }

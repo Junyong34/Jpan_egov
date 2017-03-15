@@ -27,15 +27,6 @@ FROM HP1D001T_TZ
 WHERE 1=1 
 AND PID = #PID# 
 AND DCP_TYPE = 'E'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="PIDConfirm_SEL2">
-    SELECT COUNT(*) AS CNT  
-FROM HP1DM01T 
-WHERE 1=1 
-AND PID NOT IN (SELECT SUB_PID FROM HP1DM02T)
-    <dynamic>
-      <isNotEmpty property="PID">AND PID=#PID#</isNotEmpty>
-    </dynamic>
-  </select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="DCPSearchInfo_SEL8">SELECT A.PID, 
        B.SUB_PID, 
        (SELECT APPLICATION FROM HP1DM01T WHERE PID= B.SUB_PID) AS APPLICATION, 
@@ -272,6 +263,47 @@ AND   ORG_LVL != 2
 AND   ORG_LVL != 3 
 AND ACTIVE_FLAG= 0 
 ORDER BY ORG_SEQ</select>
+  <resultMap class="java.util.HashMap" id="BLOB_DCPFileDown_SEL8">
+    <result property="FILE_NAME" column="FILE_NAME" jdbcType="String" javaType="java.lang.String" />
+    <result property="APPROVAL_YYYYMMDD" column="APPROVAL_YYYYMMDD" jdbcType="String" javaType="java.lang.String" />
+    <result property="PID" column="PID" jdbcType="String" javaType="java.lang.String" />
+    <result property="DCP_TYPE" column="DCP_TYPE" jdbcType="String" javaType="java.lang.String" />
+    <result property="SEQ" column="SEQ" jdbcType="String" javaType="java.lang.String" />
+    <result property="FILE_PATH" column="FILE_PATH" jdbcType="String" javaType="java.lang.String" />
+    <result property="FILE_BIN" column="FILE_BIN" jdbcType="BLOB" javaType="[B" />
+  </resultMap>
+  <select parameterClass="java.util.HashMap" resultMap="BLOB_DCPFileDown_SEL8" id="BLOB_DCPFileDown_SEL8">SELECT PID, DCP_TYPE, APPROVAL_YYYYMMDD, SEQ, FILE_NAME, FILE_BIN , #FILE_PATH# FILE_PATH 
+FROM HP1D002T 
+ WHERE PID = #PID# 
+ AND DCP_TYPE = #DCP_TYPE# 
+ AND SEQ = #SEQ#</select>
+  <resultMap class="java.util.HashMap" id="BLOB_DCPFileDown_SEL2">
+    <result property="FILE_NAME" column="FILE_NAME" jdbcType="String" javaType="java.lang.String" />
+    <result property="APPROVAL_YYYYMMDD" column="APPROVAL_YYYYMMDD" jdbcType="String" javaType="java.lang.String" />
+    <result property="PID" column="PID" jdbcType="String" javaType="java.lang.String" />
+    <result property="DCP_TYPE" column="DCP_TYPE" jdbcType="String" javaType="java.lang.String" />
+    <result property="SEQ" column="SEQ" jdbcType="String" javaType="java.lang.String" />
+    <result property="FILE_PATH" column="FILE_PATH" jdbcType="String" javaType="java.lang.String" />
+    <result property="FILE_BIN" column="FILE_BIN" jdbcType="BLOB" javaType="[B" />
+  </resultMap>
+  <select parameterClass="java.util.HashMap" resultMap="BLOB_DCPFileDown_SEL2" id="BLOB_DCPFileDown_SEL2">SELECT PID, DCP_TYPE, APPROVAL_YYYYMMDD, SEQ, FILE_NAME, FILE_BIN , #FILE_PATH# FILE_PATH 
+FROM HP1D002T 
+ WHERE PID = #PID# 
+ AND DCP_TYPE = #DCP_TYPE# 
+ AND SEQ = #SEQ#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="PIDConfirm_SEL2">
+    SELECT COUNT(*) AS CNT  
+FROM HP1DM01T 
+WHERE 1=1 
+AND PID NOT IN (SELECT SUB_PID FROM HP1DM02T)
+    <dynamic>
+      <isNotEmpty property="PID">AND PID=#PID#</isNotEmpty>
+    </dynamic>
+  </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="DCPApproval_Flow_SEL19">SELECT COUNT(*) AS CNT  
+FROM HP1D001T 
+WHERE 1=1 
+AND PID=#PID#</select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="DCPApproval_Flow_SEL18">SELECT PID, 
        DCP_TYPE, 
        REQUIRED_RETURN, 
@@ -376,33 +408,5 @@ FROM HP1D002T
   where 1=1 
 AND (PID=#PID# OR PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) )</select>
   <insert parameterClass="java.util.HashMap" id="DCPApproval_Flow_INS19">Insert into HP_DBA01.HP2D002T_TZ (VAL2, VAL3, PID, UNIT2, UNIT3, APPLICATION, VAL_TYPE, DST_ORG_CD, DST_COMPANY_CD, YYYYMM, CALC_MST_VER, SRC_COMPANY_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD, CUSTOMER_CD, UNIT, HPMS_ID, UPDATE_TIME, APPROVAL_YYYYMMDD, INVEST_TYPE_CD, VAL, SRC_ORG_CD, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD)  values(#VAL2# , #VAL3# , #PID# , #UNIT2# , #UNIT3# , #APPLICATION# , #VAL_TYPE# , #DST_ORG_CD# , #DST_COMPANY_CD# , #YYYYMM# , #CALC_MST_VER# , #SRC_COMPANY_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# , #CUSTOMER_CD# , #UNIT# , #HPMS_ID# , SYSDATE, #APPROVAL_YYYYMMDD# , #INVEST_TYPE_CD# , #VAL# , #SRC_ORG_CD# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# )</insert>
-  <resultMap class="java.util.HashMap" id="BLOB_DCPFileDown_SEL8">
-    <result property="FILE_NAME" column="FILE_NAME" jdbcType="String" javaType="java.lang.String" />
-    <result property="APPROVAL_YYYYMMDD" column="APPROVAL_YYYYMMDD" jdbcType="String" javaType="java.lang.String" />
-    <result property="PID" column="PID" jdbcType="String" javaType="java.lang.String" />
-    <result property="DCP_TYPE" column="DCP_TYPE" jdbcType="String" javaType="java.lang.String" />
-    <result property="SEQ" column="SEQ" jdbcType="String" javaType="java.lang.String" />
-    <result property="FILE_PATH" column="FILE_PATH" jdbcType="String" javaType="java.lang.String" />
-    <result property="FILE_BIN" column="FILE_BIN" jdbcType="BLOB" javaType="[B" />
-  </resultMap>
-  <select parameterClass="java.util.HashMap" resultMap="BLOB_DCPFileDown_SEL8" id="BLOB_DCPFileDown_SEL8">SELECT PID, DCP_TYPE, APPROVAL_YYYYMMDD, SEQ, FILE_NAME, FILE_BIN , #FILE_PATH# FILE_PATH 
-FROM HP1D002T 
- WHERE PID = #PID# 
- AND DCP_TYPE = #DCP_TYPE# 
- AND SEQ = #SEQ#</select>
-  <resultMap class="java.util.HashMap" id="BLOB_DCPFileDown_SEL2">
-    <result property="FILE_NAME" column="FILE_NAME" jdbcType="String" javaType="java.lang.String" />
-    <result property="APPROVAL_YYYYMMDD" column="APPROVAL_YYYYMMDD" jdbcType="String" javaType="java.lang.String" />
-    <result property="PID" column="PID" jdbcType="String" javaType="java.lang.String" />
-    <result property="DCP_TYPE" column="DCP_TYPE" jdbcType="String" javaType="java.lang.String" />
-    <result property="SEQ" column="SEQ" jdbcType="String" javaType="java.lang.String" />
-    <result property="FILE_PATH" column="FILE_PATH" jdbcType="String" javaType="java.lang.String" />
-    <result property="FILE_BIN" column="FILE_BIN" jdbcType="BLOB" javaType="[B" />
-  </resultMap>
-  <select parameterClass="java.util.HashMap" resultMap="BLOB_DCPFileDown_SEL2" id="BLOB_DCPFileDown_SEL2">SELECT PID, DCP_TYPE, APPROVAL_YYYYMMDD, SEQ, FILE_NAME, FILE_BIN , #FILE_PATH# FILE_PATH 
-FROM HP1D002T 
- WHERE PID = #PID# 
- AND DCP_TYPE = #DCP_TYPE# 
- AND SEQ = #SEQ#</select>
 </sqlMap>
 

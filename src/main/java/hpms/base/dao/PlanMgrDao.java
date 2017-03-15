@@ -296,6 +296,8 @@ public class PlanMgrDao extends EgovAbstractDAO
         VOBJ       rvobj= null;
         int        updcnt =0;
         HashMap    param = null;
+        SqlMapClient client = getSqlMapClient();  
+        client.startBatch();
         dvobj.first();
         while(dvobj.next())
         {
@@ -317,14 +319,11 @@ public class PlanMgrDao extends EgovAbstractDAO
             param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
             String  ERR_FLAG="" ;          //エラ？フラグ
             if(dobj.getRetObject("PEX2").getRecord().get("ERR_MSG").equals("")) 
-            {
-            
-                ERR_FLAG = "";
-                
+            { 
+                ERR_FLAG = "";  
             }
              else 
             {
-            
                 ERR_FLAG = "1";
             }
             param.put("ERR_FLAG", ERR_FLAG);   //エラ？フラグ
@@ -333,9 +332,10 @@ public class PlanMgrDao extends EgovAbstractDAO
             param.put("UPLOAD_FILE_NAME", dobj.getRetObject("S1").getRecord().get("FILE_NAME"));   //UPLOAD_FILE_NAME
             param.put("USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //사용자ID
             param.put("VAL", dvobj.getRecord().get("VAL") +"");   //Value
-            insert("PlanMgr_20160901091138.ExcelNoChecking_INS27",param);
+            client.insert("PlanMgr_20160901091138.ExcelNoChecking_INS27",param);
             updcnt++;
         }
+        client.executeBatch(); 
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
         HashMap recordx = new HashMap();

@@ -50,7 +50,7 @@ public class BatchControlImpl extends AbstractServiceImpl implements BatchContro
         dobj.setRetObject(vXIUD11);
         VOBJ vDEL17 = BatchControldao.copyMiddle_DEL17(dobj);        //  HP2DM11T  Delete
         dobj.setRetObject(vDEL17);
-        return dobj;
+        return dobj; 
     }
     public DOBJ copyMP(DOBJ dobj) throws Exception
     {

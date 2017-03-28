@@ -23,6 +23,36 @@ public class ForecastInfoMgrImpl extends AbstractServiceImpl implements Forecast
 {
     @Autowired
     private ForecastInfoMgrDao ForecastInfoMgrdao;
+    public DOBJ FCST_TITLE_COMBO(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL2 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL2(dobj);        //  FCST_TILTE Conn
+        dobj.setRetObject(vSEL2);
+        VOBJ vSEL4 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL4(dobj);        //  TO_FCST_TITLE conn
+        dobj.setRetObject(vSEL4);
+        VOBJ vSEL6 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL6(dobj);        //  ORG_FCST_TITLE conn
+        dobj.setRetObject(vSEL6);
+        VOBJ vSEL9 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL9(dobj);        //  ORG_FROM_TITLE conn(COPY)
+        dobj.setRetObject(vSEL9);
+        VOBJ vSEL8 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL8(dobj);        //  ORG_TO_FCST_TITLE conn(COPY)
+        dobj.setRetObject(vSEL8);
+        VOBJ vSEL11 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL11(dobj);        //  FCST01 02 03 09
+        dobj.setRetObject(vSEL11);
+        VOBJ vSEL12 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL12(dobj);        //  FCST01 02 03 09_ORG FORM
+        dobj.setRetObject(vSEL12);
+        return dobj;
+    }
+    public DOBJ FCSTCOPYCombo(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL1 = ForecastInfoMgrdao.FCSTCOPYCombo_SEL1(dobj);        //  DATA_TYPE
+        dobj.setRetObject(vSEL1);
+        VOBJ vSEL2 = ForecastInfoMgrdao.FCSTCOPYCombo_SEL2(dobj);        //  FCST01 02 03 09
+        dobj.setRetObject(vSEL2);
+        return dobj;
+    }
     /**
     HP2D001T 복사 대상 테이블
     */
@@ -203,30 +233,6 @@ public class ForecastInfoMgrImpl extends AbstractServiceImpl implements Forecast
             VOBJ vSEL4 = ForecastInfoMgrdao.Forecast_PIDcheck_SEL4(dobj);        //  AUTH_CODE
             dobj.setRetObject(vSEL4);
         }
-        return dobj;
-    }
-    public DOBJ FCST_TITLE_COMBO(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL2 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL2(dobj);        //  FCST_TILTE Conn
-        dobj.setRetObject(vSEL2);
-        VOBJ vSEL4 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL4(dobj);        //  TO_FCST_TITLE conn
-        dobj.setRetObject(vSEL4);
-        VOBJ vSEL6 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL6(dobj);        //  ORG_FCST_TITLE conn
-        dobj.setRetObject(vSEL6);
-        VOBJ vSEL9 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL9(dobj);        //  ORG_FROM_TITLE conn(COPY)
-        dobj.setRetObject(vSEL9);
-        VOBJ vSEL8 = ForecastInfoMgrdao.FCST_TITLE_COMBO_SEL8(dobj);        //  ORG_TO_FCST_TITLE conn(COPY)
-        dobj.setRetObject(vSEL8);
-        return dobj;
-    }
-    public DOBJ FCSTCOPYCombo(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL1 = ForecastInfoMgrdao.FCSTCOPYCombo_SEL1(dobj);        //  DATA_TYPE
-        dobj.setRetObject(vSEL1);
         return dobj;
     }
     public DOBJ ServiceID00(DOBJ dobj) throws Exception

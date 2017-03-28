@@ -154,7 +154,7 @@
        
         }
 		
-        // ?? ??
+
         function leftFrameMove(){
               var leftwidth = $('#mainlist').width();
 			  
@@ -339,7 +339,9 @@ function MenuOnclick(url,auth){
 	</iframe>
 </div>
  <input type='hidden'  id="InWIzJsonParma" name="InWIzJsonParma"  value="" ></input>
-    
+    <div id='close_open' style='border:solid; border-width:0px;background-color:Transparent; color:Black;border-color:Black;text-align:left; position: absolute; top:15px; left:420px;  width:435px; height:34px; z-index:100'>
+       <label style='color;black;font-weight:bold;font-size:36px;'> </label>
+    </div>
       <div  id="top" name="top" style="border-width:1px;background-color:#75C4FF; color:Black;border-color:Black;text-align:left; position: absolute; top:0px; left:0px;  width:1450px; height:80px; " >
 	
 	        <div id="header">

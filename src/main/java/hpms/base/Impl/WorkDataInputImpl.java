@@ -147,6 +147,9 @@ public class WorkDataInputImpl extends AbstractServiceImpl implements WorkDataIn
     ////
     ////
     ////
+    ////
+    ////
+    ////
     public DOBJ errorConfirm(DOBJ dobj) throws Exception
     {
         String  message ="";

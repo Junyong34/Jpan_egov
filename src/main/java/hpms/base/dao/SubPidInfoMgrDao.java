@@ -11,41 +11,6 @@ import javax.annotation.Resource;
 @Repository("SubPidInfoMgr20160912111171Dao")
 public class SubPidInfoMgrDao extends EgovAbstractDAO
 {
-    // PID Info Search
-    public VOBJ sub_PID_NumberSearch_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "PID Info Search" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        String  OWNER_COMPANY_CD="" ;          //オ？ナ？部門(利用部門)の？社CD
-        if(dobj.getRetObject("S").getRecord().get("OWNER_COMPANY_CD").equals("")) 
-        {
-        
-            OWNER_COMPANY_CD = "";
-            
-        }
-         else 
-        {
-        
-            OWNER_COMPANY_CD = wutil.substr(dobj.getRetObject("S").getRecord().get("OWNER_COMPANY_CD"),0,3);
-        }
-        param.put("OWNER_COMPANY_CD", OWNER_COMPANY_CD);   //オ？ナ？部門(利用部門)の？社CD
-        param.put("RD_CATEGORY_CD", dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD"));   //RND Category CD
-        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
-        param.put("ITEM_NAME", dobj.getRetObject("S").getRecord().get("ITEM_NAME"));   //ITEM명
-        param.put("PID_STATUS_CD", dobj.getRetObject("S").getRecord().get("PID_STATUS_CD"));   //PID상태코드
-        param.put("RD_THEME", dobj.getRetObject("S").getRecord().get("RD_THEME"));   //RND Theme
-        param.put("OWNER_ORG_CD", dobj.getRetObject("S").getRecord().get("OWNER_ORG_CD"));   //登？部門
-        param.put("NICKNAME_EXCL", dobj.getRetObject("S").getRecord().get("NICKNAME_EXCL"));   //Nickname(社外用)
-        param.put("NICKNAME", dobj.getRetObject("S").getRecord().get("NICKNAME"));   //Nickname공개용
-        List rlist = list("SubPidInfoMgr_20160912111171.sub_PID_NumberSearch_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL2");
-        return dvobj;
-    }
     // SubPid Numbering
     public VOBJ subPIDResult_SEL3(DOBJ dobj) throws Exception
     {
@@ -105,12 +70,15 @@ public class SubPidInfoMgrDao extends EgovAbstractDAO
             param.put("REGIST_ORG_CD", dvobj.getRecord().get("REGIST_ORG_CD"));   //オ？ナ？部門(利用部門)
             param.put("OWNER_COMPANY_CD", wutil.substr(dobj.getRetObject("S").getRecord().get("OWNER_COMPANY_CD"),0,3));   //オ？ナ？部門(利用部門)の？社CD
             String  OWNER_ORG_CD="" ;          //登？部門
-            if(dobj.getRetObject("S").getRecord().get("OWNER_ORG_CD").equals("Z"))
+            if(dobj.getRetObject("S").getRecord().get("OWNER_ORG_CD").equals("Z")) 
             {
+            
                 OWNER_ORG_CD = "";
+                
             }
-            else
+             else 
             {
+            
                 OWNER_ORG_CD = dobj.getRetObject("S").getRecord().get("OWNER_ORG_CD");
             }
             param.put("OWNER_ORG_CD", OWNER_ORG_CD);   //登？部門
@@ -118,13 +86,15 @@ public class SubPidInfoMgrDao extends EgovAbstractDAO
             String  REGIST_COMPANY_CD="" ;          //登？部門の？社CD
             if(!dobj.getRetObject("S").getRecord().get("REGIST_COMPANY_CD").equals(""))
             {
-                REGIST_COMPANY_CD = wutil.substr(dobj.getRetObject("S").getRecord().get("REGIST_COMPANY_CD"),0,3);
+               REGIST_COMPANY_CD = wutil.substr(dobj.getRetObject("S").getRecord().get("REGIST_COMPANY_CD"),0,3);
+                
             }
-            else
+            else 
             {
-                REGIST_COMPANY_CD = "";
+               REGIST_COMPANY_CD = "";
+                
             }
-            param.put("REGIST_COMPANY_CD", REGIST_COMPANY_CD);   //登？部門の？社CD
+              param.put("REGIST_COMPANY_CD", REGIST_COMPANY_CD);   //登？部門の？社CD
             param.put("REGIST_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //작성자ID
             insert("SubPidInfoMgr_20160912111171.subPIDResult_INS9",param);
             updcnt++;
@@ -149,6 +119,50 @@ public class SubPidInfoMgrDao extends EgovAbstractDAO
         param.put("SUB_PID", dobj.getRetObject("SEL3").getRecord().get("SUB_PID"));   //SUB PID
         List rlist = list("SubPidInfoMgr_20160912111171.subPIDResult_SEL2", param);
         dvobj.setName("SEL2");
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL2");
+        return dvobj;
+    }
+    // MAX MSG PID
+    public VOBJ subPIDResult_SEL7(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL7", "MAX MSG PID" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("SubPidInfoMgr_20160912111171.subPIDResult_SEL7", param);
+        dvobj.setName("SEL7");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // PID Info Search
+    public VOBJ sub_PID_NumberSearch_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "PID Info Search" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        String  OWNER_COMPANY_CD="" ;          //オ？ナ？部門(利用部門)の？社CD
+        if(dobj.getRetObject("S").getRecord().get("OWNER_COMPANY_CD").equals(""))
+        {
+            OWNER_COMPANY_CD = "";
+        }
+        else
+        {
+            OWNER_COMPANY_CD = wutil.substr(dobj.getRetObject("S").getRecord().get("OWNER_COMPANY_CD"),0,3);
+        }
+        param.put("OWNER_COMPANY_CD", OWNER_COMPANY_CD);   //オ？ナ？部門(利用部門)の？社CD
+        param.put("RD_CATEGORY_CD", dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD"));   //RND Category CD
+        param.put("PID", dobj.getRetObject("S").getRecord().get("PID"));   //PID
+        param.put("ITEM_NAME", dobj.getRetObject("S").getRecord().get("ITEM_NAME"));   //ITEM명
+        param.put("PID_STATUS_CD", dobj.getRetObject("S").getRecord().get("PID_STATUS_CD"));   //PID상태코드
+        param.put("RD_THEME", dobj.getRetObject("S").getRecord().get("RD_THEME"));   //RND Theme
+        param.put("OWNER_ORG_CD", dobj.getRetObject("S").getRecord().get("OWNER_ORG_CD"));   //登？部門
+        param.put("NICKNAME_EXCL", dobj.getRetObject("S").getRecord().get("NICKNAME_EXCL"));   //Nickname(社外用)
+        param.put("NICKNAME", dobj.getRetObject("S").getRecord().get("NICKNAME"));   //Nickname공개용
+        List rlist = list("SubPidInfoMgr_20160912111171.sub_PID_NumberSearch_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
         dvobj.setRecords(rlist);
         dvobj.Println("SEL2");
         return dvobj;

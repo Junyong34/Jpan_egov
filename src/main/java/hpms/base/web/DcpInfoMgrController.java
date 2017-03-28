@@ -69,17 +69,6 @@ public class DcpInfoMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/2016082417884DcpInfoMgr_FileInfoAdd.do")
-    public ModelAndView FileInfoAdd(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = DcpInfoMgrService.FileInfoAdd(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL21", odobj.getRetObject("SEL21").getRecords());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/2016082417884DcpInfoMgr_DCP_PIDCheck.do")
     public ModelAndView DCP_PIDCheck(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -159,6 +148,18 @@ public class DcpInfoMgrController
         DOBJ odobj = DcpInfoMgrService.DCPApproval_Flow(idobj);
         mav.addObject("WIZDOBJ", odobj);
         mav.addObject("SEL19", odobj.getRetObject("SEL19").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/2016082417884DcpInfoMgr_FileInfoAdd.do")
+    public ModelAndView FileInfoAdd(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = DcpInfoMgrService.FileInfoAdd(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL22", odobj.getRetObject("SEL22").getRecords());
+        mav.addObject("SEL21", odobj.getRetObject("SEL21").getRecords());
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;

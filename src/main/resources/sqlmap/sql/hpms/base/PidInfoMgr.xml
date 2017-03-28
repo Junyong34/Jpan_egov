@@ -16,22 +16,6 @@
      FROM HP1DM01T 
      WHERE 1=1 
      AND PID=#PID#</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CompletePage_SEL3">SELECT 'P'|| LPAD(PID_SUBPID_SEQ.nextval,5,'0') AS PID , PID_SUBPID_SEQ.CURRVAL AS CNT  FROM DUAL</select>
-  <insert parameterClass="java.util.HashMap" id="CompletePage_INS4">Insert into HP_DBA01.HP1DM01T (REGIST_ORG_CD, OWNER_COMPANY_CD, PID, REGIST_COMPANY_CD, PID_STATUS_CD, APPLICATION, RD_THEME, NICKNAME, RD_CATEGORY_TYPE, REGIST_TIME, RD_CATEGORY_CD, REGIST_USER_ID, ITEM_NAME, OWNER_ORG_CD, NICKNAME_EXCL)  values(#REGIST_ORG_CD# , #OWNER_COMPANY_CD# , #PID# , #REGIST_COMPANY_CD# , #PID_STATUS_CD# , #APPLICATION# , #RD_THEME# , #NICKNAME# , #RD_CATEGORY_TYPE# , SYSDATE, #RD_CATEGORY_CD# , #REGIST_USER_ID# , #ITEM_NAME# , #OWNER_ORG_CD# , #NICKNAME_EXCL# )</insert>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CompletePage_SEL4">SELECT  
-         PID 
-        ,F_GET_COMBO_NAME('STATUS_CD',PID_STATUS_CD) AS PID_STATUS_NM 
-        ,F_GET_COMBO_NAME('CATEGORY_CD',RD_CATEGORY_CD) AS RD_CATEGORY_NM 
-        ,RD_THEME                         
-        ,ITEM_NAME 
-        ,NICKNAME 
-        ,NICKNAME_EXCL 
-        ,RD_CATEGORY_CD 
-        ,REGIST_ORG_CD 
-        ,OWNER_ORG_CD 
-     FROM HP1DM01T 
-     WHERE 1=1 
-     AND PID=#PID#</select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="MasterComboList_SEL2">SELECT ORG_CD  AS ITEM_CD 
        ,ORG_NM_S  AS ITEM_NM 
   FROM HP1DM03T 
@@ -40,5 +24,23 @@
   AND ACTIVE_FLAG= 0 
   AND COMPANY_CD=#COMPANY_CD# 
   ORDER BY ORG_SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CompletePage_SEL3">SELECT 'P'|| LPAD(PID_SUBPID_SEQ.nextval,5,'0') AS PID 
+, PID_SUBPID_SEQ.CURRVAL AS CNT   FROM DUAL</select>
+  <insert parameterClass="java.util.HashMap" id="CompletePage_INS4">Insert into HP_DBA01.HP1DM01T (REGIST_ORG_CD, OWNER_COMPANY_CD, PID, REGIST_COMPANY_CD, PID_STATUS_CD, APPLICATION, RD_THEME, NICKNAME, RD_CATEGORY_TYPE, REGIST_TIME, RD_CATEGORY_CD, REGIST_USER_ID, ITEM_NAME, OWNER_ORG_CD, NICKNAME_EXCL)  values(#REGIST_ORG_CD# , #OWNER_COMPANY_CD# , #PID# , #REGIST_COMPANY_CD# , #PID_STATUS_CD# , #APPLICATION# , #RD_THEME# , #NICKNAME# , #RD_CATEGORY_TYPE# , SYSDATE, #RD_CATEGORY_CD# , #REGIST_USER_ID# , #ITEM_NAME# , #OWNER_ORG_CD# , #NICKNAME_EXCL# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CompletePage_SEL4">SELECT  
+         PID  /*+ ALL_ROWS */ 
+        ,F_GET_COMBO_NAME('STATUS_CD',PID_STATUS_CD) AS PID_STATUS_NM 
+        ,F_GET_COMBO_NAME('CATEGORY_CD',RD_CATEGORY_CD) AS RD_CATEGORY_NM 
+        ,RD_THEME                         
+        ,ITEM_NAME 
+        ,NICKNAME 
+        ,NICKNAME_EXCL 
+        ,RD_CATEGORY_CD 
+        ,REGIST_ORG_CD  
+        ,OWNER_ORG_CD 
+     FROM HP1DM01T 
+     WHERE 1=1 
+     AND PID=#PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CompletePage_SEL7">SELECT '00009' AS MSG FROM DUAL</select>
 </sqlMap>
 

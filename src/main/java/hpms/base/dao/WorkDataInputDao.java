@@ -237,6 +237,16 @@ public class WorkDataInputDao extends EgovAbstractDAO
                ERR_MSG = "Currency Code not Found";
                 
             }
+            else if(param.get("MSGCODE").toString().equals("1018") && dobj.getGVString ( "FLAG" ).equals(""))
+            {
+               ERR_MSG = "COMPANY/ORG CODE Error. (Check authority)";
+                
+            }
+            else if(param.get("MSGCODE").toString().equals("1019") && dobj.getGVString ( "FLAG" ).equals(""))
+            {
+               ERR_MSG = "COMPANY Error. (Check authority)";
+                
+            }
             else 
             {
                ERR_MSG = "";

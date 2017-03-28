@@ -2,76 +2,6 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="CommonCodeMgr_20160704154561">
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL2">SELECT CD AS  ITEM_CD 
-       ,NM_EN AS ITEM_NM 
-FROM HP1M101T 
-WHERE 1=1 
-AND CD_TYPE='STATUS_CD' 
-ORDER BY SEQ</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL4">SELECT CD AS  ITEM_CD 
-       ,NM_EN AS ITEM_NM 
-FROM HP1M101T 
-WHERE 1=1 
-AND CD_TYPE='CATEGORY_CD' 
-ORDER BY SEQ</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL6">SELECT ORG_CD AS ITEM_CD,ORG_NM_S AS ITEM_NM 
-  FROM HP1DM03T 
- WHERE ORG_SEQ LIKE 
-             (SELECT SUBSTR ( 
-                        ORG_SEQ, 
-                        0, 
-                        (SELECT ORG_LVL * 2 
-                           FROM HP1DM03T 
-                          WHERE     COMPANY_CD = AZ.COMPANY_CD 
-                                AND ORG_CD = AZ.ORG_CD)) 
-                FROM HP1DM03T AZ 
-               WHERE AZ.COMPANY_CD = #COMPANY_CD# AND AZ.ORG_CD = #ORG_CD#)|| '%' 
-               AND COMPANY_CD=#COMPANY_CD# 
-                AND ORG_LVL != 3 
-             AND ACTIVE_FLAG= 0</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL8">SELECT DISTINCT FROM_CURRENCY_CD AS ITEM_CD, 
-                FROM_CURRENCY_CD AS ITEM_NM 
- FROM HP1DM30T</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL10">SELECT CD AS  ITEM_CD 
-       ,NM_EN AS ITEM_NM 
-FROM HP1M101T 
-WHERE 1=1 
-AND CD_TYPE='DATA_TYPE' 
-ORDER BY SEQ</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL12">SELECT CD AS  ITEM_CD 
-       ,NM_EN AS ITEM_NM 
-FROM HP1M101T 
-WHERE 1=1 
-AND CD_TYPE='DCP_STATUS' 
-ORDER BY SEQ</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL14">SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE   AS ITEM_NM 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL16">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
-  FROM HP1M101T 
- WHERE     1 = 1 
-       AND CD_TYPE = 'DATA_TYPE' 
-            
-UNION 
- 
-SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE  AS ITEM_NM, 
-       ROWID 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
-ORDER BY ROWID</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL20">SELECT DATA_TYPE   ITEM_CD, 
-       DATA_TYPE   ITEM_NM 
-FROM   HP1AU03T 
-WHERE  AUTH_CD=#AUTH_CD# 
-AND     CD_TYPE='DTYPE'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL18">SELECT CD AS  ITEM_CD 
-       ,NM_EN AS ITEM_NM 
-FROM HP1M101T 
-WHERE 1=1 
-AND CD_TYPE='HPMS_ID' 
-ORDER BY SEQ</select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Company_Org_cd_SEL4">SELECT  (COMPANY_CD||ORG_CD) AS ITEM_CD 
        ,ORG_NM_S AS ITEM_NM 
   FROM HP1DM03T 
@@ -180,6 +110,78 @@ FROM
                 ,CD ITEM_NM 
                 , '0' || SEQ SEQ FROM HP1M101T WHERE CD_TYPE='DATA_TYPE' 
 ) 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL2">SELECT CD AS  ITEM_CD 
+       ,NM_EN AS ITEM_NM 
+FROM HP1M101T 
+WHERE 1=1 
+AND CD_TYPE='STATUS_CD' 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL4">SELECT CD AS  ITEM_CD 
+       ,NM_EN AS ITEM_NM 
+FROM HP1M101T 
+WHERE 1=1 
+AND CD_TYPE='CATEGORY_CD' 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL6">SELECT ORG_CD AS ITEM_CD,ORG_NM_S AS ITEM_NM 
+  FROM HP1DM03T 
+ WHERE ORG_SEQ LIKE 
+             (SELECT SUBSTR ( 
+                        ORG_SEQ, 
+                        0, 
+                        (SELECT ORG_LVL * 2 
+                           FROM HP1DM03T 
+                          WHERE     COMPANY_CD = AZ.COMPANY_CD 
+                                AND ORG_CD = AZ.ORG_CD)) 
+                FROM HP1DM03T AZ 
+               WHERE AZ.COMPANY_CD = #COMPANY_CD# AND AZ.ORG_CD = #ORG_CD#)|| '%' 
+               AND COMPANY_CD=#COMPANY_CD# 
+                AND ORG_LVL != 3 
+             AND ACTIVE_FLAG= 0</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL8">SELECT DISTINCT FROM_CURRENCY_CD AS ITEM_CD, 
+                FROM_CURRENCY_CD AS ITEM_NM 
+ FROM HP1DM30T 
+ order by 
+    DECODE(FROM_CURRENCY_CD ,'JPY','1')</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL10">SELECT CD AS  ITEM_CD 
+       ,NM_EN AS ITEM_NM 
+FROM HP1M101T 
+WHERE 1=1 
+AND CD_TYPE='DATA_TYPE' 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL12">SELECT CD AS  ITEM_CD 
+       ,NM_EN AS ITEM_NM 
+FROM HP1M101T 
+WHERE 1=1 
+AND CD_TYPE='DCP_STATUS' 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL14">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE   AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL16">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+            
+UNION 
+ 
+SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE  AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL20">SELECT DATA_TYPE   ITEM_CD, 
+       DATA_TYPE   ITEM_NM 
+FROM   HP1AU03T 
+WHERE  AUTH_CD=#AUTH_CD# 
+AND     CD_TYPE='DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="CommonCombo_SEL18">SELECT CD AS  ITEM_CD 
+       ,NM_EN AS ITEM_NM 
+FROM HP1M101T 
+WHERE 1=1 
+AND CD_TYPE='HPMS_ID' 
 ORDER BY SEQ</select>
 </sqlMap>
 

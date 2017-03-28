@@ -94,7 +94,7 @@ ORDER BY ORG_SEQ</select>
 FROM HP1DM03T 
 WHERE COMPANY_CD = #COMPANY_CD# 
 AND   ORG_CD=#ORG_CD#</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN2" remapResults="true">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" remapResults="true" id="planExcelDownload_EXDN2">
     SELECT * 
 FROM 
 ( 
@@ -136,7 +136,7 @@ FROM
   ) 
   ORDER BY DATA_TYPE, PID, USE_COMPANY_CD, USE_ORG_CD, REQ_COMPANY_CD, REQ_ORG_CD, HPMS_ID
   </select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="planExcelDownload_EXDN1" remapResults="true">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" remapResults="true" id="planExcelDownload_EXDN1">
     SELECT * 
 FROM 
 ( 
@@ -406,7 +406,24 @@ USING
     ) 
 when matched then 
 UPDATE SET X.ERR_FLAG = Y.ERR_FLAG, X.ERR_MSG=Y.ERR_MSG</update>
-  <update parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD116">MERGE INTO HP2D001T  X 
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_SEL46">SELECT    
+       COUNT(*) AS CNT 
+  FROM HP2D001W  A, HP2D001T B 
+  WHERE A.LOG_SEQ = #LOG_SEQ# 
+    AND A.DATA_TYPE =B.DATA_TYPE 
+    AND A.PID =B.PID 
+    AND A.USE_COMPANY_CD =B.USE_COMPANY_CD 
+    AND A.USE_ORG_CD =B.USE_ORG_CD 
+    AND A.REQ_COMPANY_CD =B.REQ_COMPANY_CD 
+    AND A.REQ_ORG_CD =B.REQ_ORG_CD 
+    AND A.HPMS_ID =B.HPMS_ID 
+    AND A.INVEST_TYPE_CD =B.INVEST_TYPE_CD 
+    AND A.APPLICATION =B.APPLICATION 
+    AND A.ITEM_NAME =B.ITEM_NAME 
+    AND A.CUSTOMER_CD =B.CUSTOMER_CD 
+    AND A.YYYYMM =B.YYYYMM 
+    AND A.PROCESSING_FLAG = 'U'</select>
+  <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD22">MERGE INTO HP2D001T  X 
 USING 
   ( SELECT A.USER_ID , 
           A.PROCESSING_FLAG, 
@@ -428,6 +445,7 @@ USING
           A.UPDATE_TIME  
      FROM HP2D001W A 
      WHERE     A.LOG_SEQ = #LOG_SEQ#  
+     AND A.PROCESSING_FLAG='I'  
     ) Y 
     ON (    X.DATA_TYPE = Y.DATA_TYPE 
           AND X.PID = Y.PID 
@@ -441,16 +459,10 @@ USING
           AND X.ITEM_NAME = Y.ITEM_NAME 
           AND X.CUSTOMER_CD = Y.CUSTOMER_CD 
           AND X.YYYYMM = Y.YYYYMM 
+          
     ) 
-when matched then 
-UPDATE SET 
-          X.UPDATE_USER_ID =  Y.USER_ID, 
-          X.VAL=Y.VAL, 
-          X.UNIT=Y.UNIT, 
-          X.UPLOAD_FILE_NAME=Y.UPLOAD_FILE_NAME, 
-          X.UPDATE_TIME =Y.UPDATE_TIME 
 when NOT matched then 
-INSERT (  X.UPDATE_USER_ID ,  
+INSERT   (  X.UPDATE_USER_ID ,  
           X.DATA_TYPE, 
           X.PID, 
           X.USE_COMPANY_CD, 
@@ -486,7 +498,51 @@ INSERT (  X.UPDATE_USER_ID ,
           Y.VAL, 
           Y.UNIT, 
           Y.UPLOAD_FILE_NAME, 
-          Y.UPDATE_TIME )</update>
+          Y.UPDATE_TIME )</insert>
+  <update parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD116">MERGE INTO HP2D001T  X 
+USING 
+  ( SELECT A.USER_ID , 
+          A.PROCESSING_FLAG, 
+          A.DATA_TYPE, 
+          A.PID, 
+          A.USE_COMPANY_CD, 
+          A.USE_ORG_CD, 
+          A.REQ_COMPANY_CD, 
+          A.REQ_ORG_CD, 
+          A.HPMS_ID, 
+          A.INVEST_TYPE_CD, 
+          A.APPLICATION, 
+          A.ITEM_NAME, 
+          A.CUSTOMER_CD , 
+          A.YYYYMM , 
+          A.VAL, 
+          A.UNIT, 
+          A.UPLOAD_FILE_NAME, 
+          A.UPDATE_TIME  
+     FROM HP2D001W A 
+     WHERE     A.LOG_SEQ = #LOG_SEQ#  
+    AND A.PROCESSING_FLAG='U' 
+    ) Y 
+    ON (    X.DATA_TYPE = Y.DATA_TYPE 
+          AND X.PID = Y.PID 
+          AND X.USE_COMPANY_CD = Y.USE_COMPANY_CD 
+          AND X.USE_ORG_CD = Y.USE_ORG_CD 
+          AND X.REQ_COMPANY_CD = Y.REQ_COMPANY_CD 
+          AND X.REQ_ORG_CD = Y.REQ_ORG_CD 
+          AND X.HPMS_ID = Y.HPMS_ID 
+          AND X.INVEST_TYPE_CD = Y.INVEST_TYPE_CD 
+          AND X.APPLICATION = Y.APPLICATION 
+          AND X.ITEM_NAME = Y.ITEM_NAME 
+          AND X.CUSTOMER_CD = Y.CUSTOMER_CD 
+          AND X.YYYYMM = Y.YYYYMM   
+    ) 
+when matched then 
+UPDATE SET 
+          X.UPDATE_USER_ID =  Y.USER_ID, 
+          X.VAL=Y.VAL, 
+          X.UNIT=Y.UNIT, 
+          X.UPLOAD_FILE_NAME=Y.UPLOAD_FILE_NAME, 
+          X.UPDATE_TIME =Y.UPDATE_TIME</update>
   <delete parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD118">DELETE FROM HP2D001T X WHERE (  X.DATA_TYPE, 
           X.PID, 
           X.USE_COMPANY_CD, 
@@ -511,6 +567,48 @@ INSERT (  X.UPDATE_USER_ID ,
           X.CUSTOMER_CD  FROM HP2D001W X 
            WHERE X.LOG_SEQ = #LOG_SEQ# 
            AND X.PROCESSING_FLAG='D')</delete>
+  <update parameterClass="java.util.HashMap" id="ExcelNoChecking_XIUD51">MERGE INTO HP2D001W X 
+USING 
+  ( SELECT A.USER_ID, 
+          #ERR_FLAG# AS ERR_FLAG , 
+          #ERR_MSG# AS ERR_MSG, 
+          A.PROCESSING_FLAG, 
+          A.DATA_TYPE, 
+          A.PID, 
+          A.USE_COMPANY_CD, 
+          A.USE_ORG_CD, 
+          A.REQ_COMPANY_CD, 
+          A.REQ_ORG_CD, 
+          A.HPMS_ID, 
+          A.INVEST_TYPE_CD, 
+          A.APPLICATION, 
+          A.ITEM_NAME, 
+          A.CUSTOMER_CD , 
+           A.YYYYMM 
+     FROM HP2D001W A 
+     WHERE     A.LOG_SEQ = #LOG_SEQ# 
+     AND A.PROCESSING_FLAG='U' 
+    ) Y 
+    ON (    X.DATA_TYPE = Y.DATA_TYPE 
+          AND X.PID = Y.PID 
+          AND X.USE_COMPANY_CD = Y.USE_COMPANY_CD 
+          AND X.USE_ORG_CD = Y.USE_ORG_CD 
+          AND X.REQ_COMPANY_CD = Y.REQ_COMPANY_CD 
+          AND X.REQ_ORG_CD = Y.REQ_ORG_CD 
+          AND X.HPMS_ID = Y.HPMS_ID 
+          AND X.INVEST_TYPE_CD = Y.INVEST_TYPE_CD 
+          AND X.APPLICATION = Y.APPLICATION 
+          AND X.ITEM_NAME = Y.ITEM_NAME 
+          AND X.CUSTOMER_CD = Y.CUSTOMER_CD 
+          AND X.YYYYMM = Y.YYYYMM 
+    ) 
+when matched then 
+UPDATE SET X.ERR_FLAG = Y.ERR_FLAG, X.ERR_MSG=Y.ERR_MSG</update>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="ExcelNoChecking_SEL81">SELECT    
+       COUNT(*) AS CNT 
+  FROM HP2D001W  A 
+  WHERE A.LOG_SEQ = #LOG_SEQ# 
+  AND ERR_FLAG ='1'</select>
   <insert parameterClass="java.util.HashMap" id="ExcelNoChecking_INS27">Insert into HP_DBA01.HP2D001W (LOG_SEQ, CUSTOMER_CD, UNIT, USER_ID, ERR_MSG, PID, APPLICATION, HPMS_ID, UPDATE_TIME, ERR_FLAG, INVEST_TYPE_CD, VAL, PROCESSING_FLAG, YYYYMM, ITEM_NAME, REQ_ORG_CD, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#LOG_SEQ# , #CUSTOMER_CD# , #UNIT# , #USER_ID# , #ERR_MSG# , #PID# , #APPLICATION# , #HPMS_ID# , #UPDATE_TIME# , #ERR_FLAG# , #INVEST_TYPE_CD# , #VAL# , #PROCESSING_FLAG# , #YYYYMM# , #ITEM_NAME# , #REQ_ORG_CD# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
 </sqlMap>
 

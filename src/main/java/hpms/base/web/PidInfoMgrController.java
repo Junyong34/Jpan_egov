@@ -45,16 +45,6 @@ public class PidInfoMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/2016082417883PidInfoMgr_CompletePage.do")
-    public String CompletePage(ModelMap model, DOBJ idobj) throws Exception
-    {
-        DOBJ odobj = PidInfoMgrService.CompletePage(idobj);
-        model.addAttribute("WIZDOBJ", odobj);
-        model.addAttribute("SEL4", odobj.getRetObject("SEL4").getRecordMap());
-        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
-        model.addAttribute("MESSAGE", odobj.getRetmsg());
-        return "/jsp/base/PIDConfirm";
-    }
     @RequestMapping(value="/2016082417883PidInfoMgr_MasterComboList.do")
     public ModelAndView MasterComboList(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -65,5 +55,16 @@ public class PidInfoMgrController
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
+    }
+    @RequestMapping(value="/2016082417883PidInfoMgr_CompletePage.do")
+    public String CompletePage(ModelMap model, DOBJ idobj) throws Exception
+    {
+        DOBJ odobj = PidInfoMgrService.CompletePage(idobj);
+        model.addAttribute("WIZDOBJ", odobj);
+        model.addAttribute("SEL4", odobj.getRetObject("SEL4").getRecordMap());
+        model.addAttribute("SEL7", odobj.getRetObject("SEL7").getRecordMap());
+        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
+        model.addAttribute("MESSAGE", odobj.getRetmsg());
+        return "/jsp/base/PIDConfirm";
     }
 }

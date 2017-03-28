@@ -23,6 +23,89 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
 {
     @Autowired
     private DcpInfoMgrDao DcpInfoMgrdao;
+    /**
+    파일 업로드 승인날짜 고정 값을로 되어있음 어떻게 진행해야 할지 나오지 않아서  나오면 수정해야함
+    */
+    public DOBJ FileInfoAdd(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL22 = DcpInfoMgrdao.FileInfoAdd_SEL22(dobj);        //  DCP exist Check
+        dobj.setRetObject(vSEL22);
+        if( dobj.getRetObject("SEL22").getRecord().getInt("CNT") == 0)
+        {
+            dobj.setRetmsg("00031");
+        }
+        else if( dobj.getRetObject("SEL22").getRecord().getInt("CNT") != 0)
+        {
+            VOBJ vSEL2 = DcpInfoMgrdao.FileInfoAdd_SEL2(dobj);        //  File_length
+            dobj.setRetObject(vSEL2);
+            if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 72)
+            {
+                VOBJ vUNI34 = DcpInfoMgrdao.FileInfoAdd_UNI34(dobj);        //  etc 3
+                dobj.setRetObject(vUNI34);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 71)
+            {
+                VOBJ vUNI33 = DcpInfoMgrdao.FileInfoAdd_UNI33(dobj);        //  etc2
+                dobj.setRetObject(vUNI33);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 70)
+            {
+                VOBJ vUNI32 = DcpInfoMgrdao.FileInfoAdd_UNI32(dobj);        //  etc 1
+                dobj.setRetObject(vUNI32);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 60)
+            {
+                VOBJ vUNI31 = DcpInfoMgrdao.FileInfoAdd_UNI31(dobj);        //  CHIP Specification Sheet
+                dobj.setRetObject(vUNI31);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 50)
+            {
+                VOBJ vUNI30 = DcpInfoMgrdao.FileInfoAdd_UNI30(dobj);        //  DR Slip Sheet
+                dobj.setRetObject(vUNI30);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 40)
+            {
+                VOBJ vUNI29 = DcpInfoMgrdao.FileInfoAdd_UNI29(dobj);        //  Quote Sheet
+                dobj.setRetObject(vUNI29);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 30)
+            {
+                VOBJ vUNI28 = DcpInfoMgrdao.FileInfoAdd_UNI28(dobj);        //  Cost Estimate Sheet
+                dobj.setRetObject(vUNI28);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 20)
+            {
+                VOBJ vUNI27 = DcpInfoMgrdao.FileInfoAdd_UNI27(dobj);        //  PL Sheet
+                dobj.setRetObject(vUNI27);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+            else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 10)
+            {
+                VOBJ vUNI26 = DcpInfoMgrdao.FileInfoAdd_UNI26(dobj);        //  Front Page File
+                dobj.setRetObject(vUNI26);
+                VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
+                dobj.setRetObject(vSEL21);
+            }
+        }
+        return dobj;
+    }
     public DOBJ DCPApproval_Flow(DOBJ dobj) throws Exception
     {
         String  message ="";
@@ -68,23 +151,20 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
         dvobj.first();
         while(dvobj.next())
         {
-            if(true) 
+            if(true)
             {
-            
                 dobj.resetObject("SEL11,XIUD5,XIUD11");
                 dobj.setRetObject(dvobj.getRecVobj("R"));
                 VOBJ vSEL11 = DcpInfoMgrdao.DCPApproval_Flow_SEL11(dobj);        //  Approval File exist check
                 dobj.setRetObject(vSEL11);
                 if( dobj.getRetObject("SEL11").getRecord().getInt("CNT") == 0)
-                
                 {
-                VOBJ vXIUD11 = DcpInfoMgrdao.DCPApproval_Flow_XIUD11(dobj);        //  Approval File Table Insert
+                    VOBJ vXIUD11 = DcpInfoMgrdao.DCPApproval_Flow_XIUD11(dobj);        //  Approval File Table Insert
                     dobj.setRetObject(vXIUD11);
                 }
                 else if( dobj.getRetObject("SEL11").getRecord().getInt("CNT") >= 1)
-                
                 {
-                VOBJ vXIUD5 = DcpInfoMgrdao.DCPApproval_Flow_XIUD5(dobj);        //  Approval File Table Update
+                    VOBJ vXIUD5 = DcpInfoMgrdao.DCPApproval_Flow_XIUD5(dobj);        //  Approval File Table Update
                     dobj.setRetObject(vXIUD5);
                 }
             }
@@ -101,9 +181,8 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
         dvobj.first();
         while(dvobj.next())
         {
-            if(true) 
+            if(true)
             {
-            
                 dobj.resetObject("INS19");
                 dobj.setRetObject(dvobj.getRecVobj("R"));
                 VOBJ vINS19 = DcpInfoMgrdao.DCPApproval_Flow_INS19(dobj);        //  Confirm(HP2D002T_TZ)
@@ -188,80 +267,6 @@ public class DcpInfoMgrImpl extends AbstractServiceImpl implements DcpInfoMgr
         {
             VOBJ vSEL5 = DcpInfoMgrdao.DCP_PIDCheck_SEL5(dobj);        //  AUTH_CODE
             dobj.setRetObject(vSEL5);
-        }
-        return dobj;
-    }
-    /**
-    파일 업로드 승인날짜 고정 값을로 되어있음 어떻게 진행해야 할지 나오지 않아서  나오면 수정해야함
-    */
-    public DOBJ FileInfoAdd(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL2 = DcpInfoMgrdao.FileInfoAdd_SEL2(dobj);        //  File_length
-        dobj.setRetObject(vSEL2);
-        if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 72)
-        {
-            VOBJ vUNI34 = DcpInfoMgrdao.FileInfoAdd_UNI34(dobj);        //  etc 3
-            dobj.setRetObject(vUNI34);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 71)
-        {
-            VOBJ vUNI33 = DcpInfoMgrdao.FileInfoAdd_UNI33(dobj);        //  etc2
-            dobj.setRetObject(vUNI33);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 70)
-        {
-            VOBJ vUNI32 = DcpInfoMgrdao.FileInfoAdd_UNI32(dobj);        //  etc 1
-            dobj.setRetObject(vUNI32);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 60)
-        {
-            VOBJ vUNI31 = DcpInfoMgrdao.FileInfoAdd_UNI31(dobj);        //  CHIP Specification Sheet
-            dobj.setRetObject(vUNI31);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 50)
-        {
-            VOBJ vUNI30 = DcpInfoMgrdao.FileInfoAdd_UNI30(dobj);        //  DR Slip Sheet
-            dobj.setRetObject(vUNI30);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 40)
-        {
-            VOBJ vUNI29 = DcpInfoMgrdao.FileInfoAdd_UNI29(dobj);        //  Quote Sheet
-            dobj.setRetObject(vUNI29);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 30)
-        {
-            VOBJ vUNI28 = DcpInfoMgrdao.FileInfoAdd_UNI28(dobj);        //  Cost Estimate Sheet
-            dobj.setRetObject(vUNI28);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 20)
-        {
-            VOBJ vUNI27 = DcpInfoMgrdao.FileInfoAdd_UNI27(dobj);        //  PL Sheet
-            dobj.setRetObject(vUNI27);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
-        }
-        else if( dobj.getRetObject("F").getRecord().getInt("SEQ") == 10)
-        {
-            VOBJ vUNI26 = DcpInfoMgrdao.FileInfoAdd_UNI26(dobj);        //  Front Page File
-            dobj.setRetObject(vUNI26);
-            VOBJ vSEL21 = DcpInfoMgrdao.FileInfoAdd_SEL21(dobj);        //  FILE_NAME
-            dobj.setRetObject(vSEL21);
         }
         return dobj;
     }

@@ -23,14 +23,6 @@ public class SubPidInfoMgrImpl extends AbstractServiceImpl implements SubPidInfo
 {
     @Autowired
     private SubPidInfoMgrDao SubPidInfoMgrdao;
-    public DOBJ sub_PID_NumberSearch(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL2 = SubPidInfoMgrdao.sub_PID_NumberSearch_SEL2(dobj);        //  PID Info Search
-        dobj.setRetObject(vSEL2);
-        return dobj;
-    }
     public DOBJ subPIDResult(DOBJ dobj) throws Exception
     {
         String  message ="";
@@ -48,8 +40,17 @@ public class SubPidInfoMgrImpl extends AbstractServiceImpl implements SubPidInfo
         }
         else
         {
-            dobj.setRetmsg("00009");
+            VOBJ vSEL7 = SubPidInfoMgrdao.subPIDResult_SEL7(dobj);        //  MAX MSG PID
+            dobj.setRetObject(vSEL7);
         }
+        return dobj;
+    }
+    public DOBJ sub_PID_NumberSearch(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL2 = SubPidInfoMgrdao.sub_PID_NumberSearch_SEL2(dobj);        //  PID Info Search
+        dobj.setRetObject(vSEL2);
         return dobj;
     }
     public DOBJ Result_loadPage(DOBJ dobj) throws Exception

@@ -17,86 +17,6 @@ ORDER BY COMPANY_CD</select>
 FROM   HP1AU03T 
 WHERE  AUTH_CD=#AUTH_CD# 
 AND     CD_TYPE='DTYPE'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCSTCOPYCombo_SEL1">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
-  FROM HP1M101T 
- WHERE     1 = 1 
-       AND CD_TYPE = 'DATA_TYPE' 
-       AND CD NOT IN('LMP','MP','MTP') 
-       
-UNION 
- 
-SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE 
-       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
-             FROM HP1AU03T A, HP1D003T B 
-            WHERE     B.PID = #PID# 
-                  AND B.DATA_TYPE = C.DATA_TYPE 
-                  AND A.DATA_TYPE = B.DATA_TYPE 
-                  AND A.AUTH_CD = C.AUTH_CD 
-                  AND A.CD_TYPE = 'DTYPE') 
-          AS ITEM_NM, 
-       ROWID 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
-ORDER BY ROWID</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL2">SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE  AS ITEM_NM 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL4">SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE 
-       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
-             FROM HP1AU03T A, HP1D003T B 
-            WHERE     B.PID = #PID# 
-                  AND B.DATA_TYPE = C.DATA_TYPE 
-                  AND A.DATA_TYPE = B.DATA_TYPE 
-                  AND A.AUTH_CD = C.AUTH_CD 
-                  AND A.CD_TYPE = 'DTYPE') 
-          AS ITEM_NM 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL6">SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE   AS ITEM_NM 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL9">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
-  FROM HP1M101T 
- WHERE     1 = 1 
-       AND CD_TYPE = 'DATA_TYPE' 
-       AND CD NOT IN('A.DCP','P.DCP','T.DCP','M.DCP','E.DCP') 
-       
-UNION 
- 
-SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE 
-       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
-             FROM HP1AU03T A, HP1D004T B 
-            WHERE  1=1 
-                  AND B.DATA_TYPE = C.DATA_TYPE 
-                  AND A.DATA_TYPE = B.DATA_TYPE 
-                  AND B.COMPANY_CD = #COMPANY_CD# 
-                  AND B.ORG_CD =  #ORG_CD# 
-                  AND A.AUTH_CD = C.AUTH_CD 
-                  AND A.CD_TYPE = 'DTYPE') 
-          AS ITEM_NM, 
-       ROWID 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
-ORDER BY ROWID</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL8">SELECT C.DATA_TYPE ITEM_CD, 
-          C.DATA_TYPE 
-       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
-            FROM HP1AU03T A, HP1D004T B 
-            WHERE  1=1 
-                  AND B.DATA_TYPE = C.DATA_TYPE 
-                  AND A.DATA_TYPE = B.DATA_TYPE 
-                  AND B.COMPANY_CD = #COMPANY_CD# 
-                  AND B.ORG_CD =  #ORG_CD# 
-                  AND A.AUTH_CD = C.AUTH_CD 
-                  AND A.CD_TYPE = 'DTYPE') 
-          AS ITEM_NM 
-  FROM HP1AU03T C 
- WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Forecast_PIDcheck_SEL2">SELECT COUNT(*) AS CNT FROM( 
                 SELECT Y.USER_ID, X.ORG_LVL_4 
                   FROM ( 
@@ -429,5 +349,136 @@ AND DATA_TYPE = #DATA_TYPE#
   AND (PID=#PID# OR PID IN (SELECT SUB_PID FROM HP1DM02T WHERE PID = #PID#) ) 
    and VAL_TYPE=0</select>
   <insert parameterClass="java.util.HashMap" id="ForecastDataCopy_INS16">Insert into HP_DBA01.HP2D001T (CUSTOMER_CD, UNIT, PID, APPLICATION, HPMS_ID, UPDATE_TIME, INVEST_TYPE_CD, VAL, YYYYMM, UPDATE_USER_ID, REQ_ORG_CD, ITEM_NAME, REQ_COMPANY_CD, USE_ORG_CD, DATA_TYPE, UPLOAD_FILE_NAME, USE_COMPANY_CD)  values(#CUSTOMER_CD# , #UNIT# , #PID# , #APPLICATION# , #HPMS_ID# , SYSDATE, #INVEST_TYPE_CD# , #VAL# , #YYYYMM# , #UPDATE_USER_ID# , #REQ_ORG_CD# , #ITEM_NAME# , #REQ_COMPANY_CD# , #USE_ORG_CD# , #DATA_TYPE# , #UPLOAD_FILE_NAME# , #USE_COMPANY_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCSTCOPYCombo_SEL1">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN('LMP','MP','MTP') 
+       
+UNION 
+ 
+SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCSTCOPYCombo_SEL2">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN('LMP','MP','MTP') 
+       
+UNION 
+ 
+SELECT C.CD ITEM_CD, 
+          C.NM_JP 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1M101T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.CD 
+                  AND A.CD = B.DATA_TYPE 
+                  AND A.CD_TYPE = 'FORECAST_FROM') 
+          AS ITEM_NM, 
+       ROWID AS IDA 
+  FROM HP1M101T C 
+ WHERE CD_TYPE = 'FORECAST_FROM' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL2">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE  AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL4">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D003T B 
+            WHERE     B.PID = #PID# 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL6">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE   AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'FCSTA'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL9">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN('A.DCP','P.DCP','T.DCP','M.DCP','E.DCP') 
+       
+UNION 
+ 
+SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1AU03T A, HP1D004T B 
+            WHERE  1=1 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND B.COMPANY_CD = #COMPANY_CD# 
+                  AND B.ORG_CD =  #ORG_CD# 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM, 
+       ROWID 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE' 
+ORDER BY ROWID</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL8">SELECT C.DATA_TYPE ITEM_CD, 
+          C.DATA_TYPE 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+            FROM HP1AU03T A, HP1D004T B 
+            WHERE  1=1 
+                  AND B.DATA_TYPE = C.DATA_TYPE 
+                  AND A.DATA_TYPE = B.DATA_TYPE 
+                  AND B.COMPANY_CD = #COMPANY_CD# 
+                  AND B.ORG_CD =  #ORG_CD# 
+                  AND A.AUTH_CD = C.AUTH_CD 
+                  AND A.CD_TYPE = 'DTYPE') 
+          AS ITEM_NM 
+  FROM HP1AU03T C 
+ WHERE AUTH_CD = #AUTH_CD# AND CD_TYPE = 'DTYPE'</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL11">SELECT CD AS  ITEM_CD 
+       ,NM_EN AS ITEM_NM 
+FROM HP1M101T 
+WHERE 1=1 
+AND CD_TYPE='FORECAST_TO' 
+AND NOTES = '1' 
+ORDER BY SEQ</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="FCST_TITLE_COMBO_SEL12">SELECT CD AS ITEM_CD, NM_EN AS ITEM_NM, ROWID 
+  FROM HP1M101T 
+ WHERE     1 = 1 
+       AND CD_TYPE = 'DATA_TYPE' 
+       AND CD NOT IN('A.DCP','P.DCP','T.DCP','M.DCP','E.DCP') 
+       
+UNION 
+ 
+SELECT C.CD ITEM_CD, 
+          C.NM_EN 
+       || (SELECT '(' || B.DATA_TYPE_NM || ')' AS DATA_TYPE_NM 
+             FROM HP1M101T  A, HP1D004T B 
+            WHERE  1=1 
+                  AND B.DATA_TYPE = C.CD 
+                  AND A.CD = B.DATA_TYPE 
+                  AND B.COMPANY_CD = #COMPANY_CD# 
+                  AND B.ORG_CD =  #ORG_CD# 
+                  AND A.CD = 'FORECAST_FROM') 
+          AS ITEM_NM, 
+       ROWID 
+  FROM HP1M101T  C 
+ WHERE  CD_TYPE = 'FORECAST_FROM' 
+ORDER BY ROWID</select>
 </sqlMap>
 

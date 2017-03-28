@@ -11,20 +11,6 @@ import javax.annotation.Resource;
 @Repository("PidInfoMgr2016082417883Dao")
 public class PidInfoMgrDao extends EgovAbstractDAO
 {
-    // PID상태 콤보
-    public VOBJ MasterComboList_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "PID상태 콤보" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("COMPANY_CD", dobj.getRetObject("G").getRecord().get("OWNER_COMPANY_CD"));   //COMPANY_CD
-        List rlist = list("PidInfoMgr_2016082417883.MasterComboList_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
     // PID Nubmering
     public VOBJ CompletePage_SEL3(DOBJ dobj) throws Exception
     {
@@ -66,47 +52,57 @@ public class PidInfoMgrDao extends EgovAbstractDAO
             String  RD_CATEGORY_TYPE="" ;          //RD Category Type
             if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD31"))
             {
-                RD_CATEGORY_TYPE = "C";
+               RD_CATEGORY_TYPE = "C";
+                
             }
             else if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD51"))
             {
-                RD_CATEGORY_TYPE = "B";
+               RD_CATEGORY_TYPE = "B";
+                
             }
             else if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD71"))
             {
-                RD_CATEGORY_TYPE = "S";
+               RD_CATEGORY_TYPE = "S";
+                
             }
             else if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD91"))
             {
-                RD_CATEGORY_TYPE = "Z";
+               RD_CATEGORY_TYPE = "Z";
+                
             }
             else if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD11"))
             {
-                RD_CATEGORY_TYPE = "P";
+               RD_CATEGORY_TYPE = "P";
+                
             }
             else if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD12"))
             {
-                RD_CATEGORY_TYPE = "P";
+               RD_CATEGORY_TYPE = "P";
+                
             }
             else if(dobj.getRetObject("S").getRecord().get("RD_CATEGORY_CD").equals("RD13"))
             {
-                RD_CATEGORY_TYPE = "P";
+               RD_CATEGORY_TYPE = "P";
+                
             }
-            else
+            else 
             {
-                RD_CATEGORY_TYPE = "";
+               RD_CATEGORY_TYPE = "";
+                
             }
-            param.put("RD_CATEGORY_TYPE", RD_CATEGORY_TYPE);   //RD Category Type
+              param.put("RD_CATEGORY_TYPE", RD_CATEGORY_TYPE);   //RD Category Type
             String  REGIST_COMPANY_CD="" ;          //登？部門の？社CD
             if(!dobj.getRetObject("S").getRecord().get("REGIST_COMPANY_CD").equals(""))
             {
-                REGIST_COMPANY_CD = wutil.substr(dobj.getRetObject("S").getRecord().get("REGIST_COMPANY_CD"),0,3);
+               REGIST_COMPANY_CD = wutil.substr(dobj.getRetObject("S").getRecord().get("REGIST_COMPANY_CD"),0,3);
+                
             }
-            else
+            else 
             {
-                REGIST_COMPANY_CD = "";
+               REGIST_COMPANY_CD = "";
+                
             }
-            param.put("REGIST_COMPANY_CD", REGIST_COMPANY_CD);   //登？部門の？社CD
+              param.put("REGIST_COMPANY_CD", REGIST_COMPANY_CD);   //登？部門の？社CD
             param.put("REGIST_USER_ID", dobj.getRetObject("G").getRecord().get("USER_ID"));   //작성자ID
             insert("PidInfoMgr_2016082417883.CompletePage_INS4",param);
             updcnt++;
@@ -132,6 +128,32 @@ public class PidInfoMgrDao extends EgovAbstractDAO
         dvobj.setName("SEL4");
         dvobj.setRecords(rlist);
         dvobj.Println("SEL4");
+        return dvobj;
+    }
+    // MAX MSG PID
+    public VOBJ CompletePage_SEL7(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL7", "MAX MSG PID" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("PidInfoMgr_2016082417883.CompletePage_SEL7", param);
+        dvobj.setName("SEL7");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // PID상태 콤보
+    public VOBJ MasterComboList_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "PID상태 콤보" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("COMPANY_CD", dobj.getRetObject("G").getRecord().get("OWNER_COMPANY_CD"));   //COMPANY_CD
+        List rlist = list("PidInfoMgr_2016082417883.MasterComboList_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
         return dvobj;
     }
     // PID Search

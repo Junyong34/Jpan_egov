@@ -125,8 +125,7 @@ public class PlanMgrDao extends EgovAbstractDAO
             client.insert("PlanMgr_20160901091138.ExcelNoChecking_INS28",param);
             updcnt++;
         }
-        client.executeBatch(); 
-       
+        client.executeBatch();
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
         HashMap recordx = new HashMap();
@@ -223,6 +222,8 @@ public class PlanMgrDao extends EgovAbstractDAO
         VOBJ       rvobj= null;
         int        updcnt =0;
         HashMap param = null;
+        SqlMapClient client = getSqlMapClient();  
+        client.startBatch();
         dvobj.first();
         while(dvobj.next())
         {
@@ -230,14 +231,56 @@ public class PlanMgrDao extends EgovAbstractDAO
             param.put("LOG_SEQ", dobj.getRetObject("ER01").getRecord().get("LOG_SEQ"));   //LOG_SEQ
             param.put("ERR_MSG", "Insert Error Duplicated Data");   //오류메시지
             param.put("ERR_FLAG", "1");   //エラ？フラグ
-            updcnt += update("PlanMgr_20160901091138.ExcelNoChecking_XIUD114",param);
+            updcnt += client.update("PlanMgr_20160901091138.ExcelNoChecking_XIUD114",param);
         }
+        client.executeBatch();
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
         HashMap recordx = new HashMap();
         recordx.put("UPDCNT",updcnt+"");
         rvobj.addRecord(recordx);
         rvobj.setName("XIUD114");
+        return rvobj;
+    }
+    // HP2D001T Data CHeck
+    public VOBJ ExcelNoChecking_SEL46(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL46", "HP2D001T Data CHeck" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("LOG_SEQ", dobj.getRetObject("ER01").getRecord().get("LOG_SEQ"));   //LOG_SEQ
+        List rlist = list("PlanMgr_20160901091138.ExcelNoChecking_SEL46", param);
+        dvobj.setName("SEL46");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // UNI   HP2D001T
+    public VOBJ ExcelNoChecking_XIUD22(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"XIUD22", "UNI   HP2D001T  " );
+        VOBJ dvobj = dobj.getRetObject("ER01");            //get LogSequence Input Object(CALLExcelNoChecking_ER01)
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap param = null;
+        SqlMapClient client = getSqlMapClient();  
+        client.startBatch();
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("LOG_SEQ", dvobj.getRecord().get("LOG_SEQ"));   //LOG_SEQ
+            client.insert("PlanMgr_20160901091138.ExcelNoChecking_XIUD22",param);
+            updcnt++;
+        }
+        client.executeBatch();
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("XIUD22");
         return rvobj;
     }
     // UNI   HP2D001T
@@ -288,6 +331,45 @@ public class PlanMgrDao extends EgovAbstractDAO
         rvobj.setName("XIUD118");
         return rvobj;
     }
+    // Merge Update ERR_MSG
+    public VOBJ ExcelNoChecking_XIUD51(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"XIUD51", "Merge Update ERR_MSG" );
+        VOBJ dvobj = dobj.getRetObject("ER01");            //get LogSequence Input Object(CALLExcelNoChecking_ER01)
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        int        updcnt =0;
+        HashMap param = null;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("LOG_SEQ", dobj.getRetObject("ER01").getRecord().get("LOG_SEQ"));   //LOG_SEQ
+            param.put("ERR_MSG", "There is no target plan record for updating.");   //오류메시지
+            param.put("ERR_FLAG", "1");   //エラ？フラグ
+            updcnt += update("PlanMgr_20160901091138.ExcelNoChecking_XIUD51",param);
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("XIUD51");
+        return rvobj;
+    }
+    // error_flag
+    public VOBJ ExcelNoChecking_SEL81(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL81", "error_flag " );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("LOG_SEQ", dobj.getRetObject("ER01").getRecord().get("LOG_SEQ"));   //LOG_SEQ
+        List rlist = list("PlanMgr_20160901091138.ExcelNoChecking_SEL81", param);
+        dvobj.setName("SEL81");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
     // WorkTable Save HP2D001W
     public VOBJ ExcelNoChecking_INS27(DOBJ dobj) throws Exception
     {
@@ -319,11 +401,14 @@ public class PlanMgrDao extends EgovAbstractDAO
             param.put("CUSTOMER_CD", dvobj.getRecord().get("CUSTOMER_CD"));   //顧客CD
             String  ERR_FLAG="" ;          //エラ？フラグ
             if(dobj.getRetObject("PEX2").getRecord().get("ERR_MSG").equals("")) 
-            { 
-                ERR_FLAG = "";  
+            {
+            
+                ERR_FLAG = "";
+                
             }
              else 
             {
+            
                 ERR_FLAG = "1";
             }
             param.put("ERR_FLAG", ERR_FLAG);   //エラ？フラグ
@@ -335,7 +420,7 @@ public class PlanMgrDao extends EgovAbstractDAO
             client.insert("PlanMgr_20160901091138.ExcelNoChecking_INS27",param);
             updcnt++;
         }
-        client.executeBatch(); 
+        client.executeBatch();
         rvobj = new VOBJ();
         rvobj.setHeadColumn("UPDCNT" , "INT" );
         HashMap recordx = new HashMap();

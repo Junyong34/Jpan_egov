@@ -23,14 +23,6 @@ public class PidInfoMgrImpl extends AbstractServiceImpl implements PidInfoMgr
 {
     @Autowired
     private PidInfoMgrDao PidInfoMgrdao;
-    public DOBJ MasterComboList(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL2 = PidInfoMgrdao.MasterComboList_SEL2(dobj);        //  PID STATUS
-        dobj.setRetObject(vSEL2);
-        return dobj;
-    }
     public DOBJ CompletePage(DOBJ dobj) throws Exception
     {
         String  message ="";
@@ -46,8 +38,17 @@ public class PidInfoMgrImpl extends AbstractServiceImpl implements PidInfoMgr
         }
         else
         {
-            dobj.setRetmsg("00009");
+            VOBJ vSEL7 = PidInfoMgrdao.CompletePage_SEL7(dobj);        //  MAX MSG PID
+            dobj.setRetObject(vSEL7);
         }
+        return dobj;
+    }
+    public DOBJ MasterComboList(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL2 = PidInfoMgrdao.MasterComboList_SEL2(dobj);        //  PID상태 콤보
+        dobj.setRetObject(vSEL2);
         return dobj;
     }
     public DOBJ Result_loadPage(DOBJ dobj) throws Exception

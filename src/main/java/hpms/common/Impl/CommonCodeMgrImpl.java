@@ -23,6 +23,32 @@ public class CommonCodeMgrImpl extends AbstractServiceImpl implements CommonCode
 {
     @Autowired
     private CommonCodeMgrDao CommonCodeMgrdao;
+    public DOBJ CommonCombo(DOBJ dobj) throws Exception
+    {
+        String  message ="";
+        WizUtil wutil = new WizUtil(dobj,"","");
+        VOBJ vSEL2 = CommonCodeMgrdao.CommonCombo_SEL2(dobj);        //  PID STATUS
+        dobj.setRetObject(vSEL2);
+        VOBJ vSEL4 = CommonCodeMgrdao.CommonCombo_SEL4(dobj);        //  CATEGORY_CD
+        dobj.setRetObject(vSEL4);
+        VOBJ vSEL6 = CommonCodeMgrdao.CommonCombo_SEL6(dobj);        //  OWNER_ORG
+        dobj.setRetObject(vSEL6);
+        VOBJ vSEL8 = CommonCodeMgrdao.CommonCombo_SEL8(dobj);        //  CURRENCY_TYPE
+        dobj.setRetObject(vSEL8);
+        VOBJ vSEL10 = CommonCodeMgrdao.CommonCombo_SEL10(dobj);        //  DATA_TYPE
+        dobj.setRetObject(vSEL10);
+        VOBJ vSEL12 = CommonCodeMgrdao.CommonCombo_SEL12(dobj);        //  DCP_STATUS
+        dobj.setRetObject(vSEL12);
+        VOBJ vSEL14 = CommonCodeMgrdao.CommonCombo_SEL14(dobj);        //  Forecast_FCSTA
+        dobj.setRetObject(vSEL14);
+        VOBJ vSEL16 = CommonCodeMgrdao.CommonCombo_SEL16(dobj);        //  From
+        dobj.setRetObject(vSEL16);
+        VOBJ vSEL20 = CommonCodeMgrdao.CommonCombo_SEL20(dobj);        //  To
+        dobj.setRetObject(vSEL20);
+        VOBJ vSEL18 = CommonCodeMgrdao.CommonCombo_SEL18(dobj);        //  HPMS_ID
+        dobj.setRetObject(vSEL18);
+        return dobj;
+    }
     public DOBJ AllDataTypeCombo(DOBJ dobj) throws Exception
     {
         String  message ="";
@@ -89,32 +115,6 @@ public class CommonCodeMgrImpl extends AbstractServiceImpl implements CommonCode
         dobj.setRetObject(vSEL5);
         VOBJ vSEL7 = CommonCodeMgrdao.Company_Org_cd_SEL7(dobj);        //  Total_ORG
         dobj.setRetObject(vSEL7);
-        return dobj;
-    }
-    public DOBJ CommonCombo(DOBJ dobj) throws Exception
-    {
-        String  message ="";
-        WizUtil wutil = new WizUtil(dobj,"","");
-        VOBJ vSEL2 = CommonCodeMgrdao.CommonCombo_SEL2(dobj);        //  PID STATUS
-        dobj.setRetObject(vSEL2);
-        VOBJ vSEL4 = CommonCodeMgrdao.CommonCombo_SEL4(dobj);        //  CATEGORY_CD
-        dobj.setRetObject(vSEL4);
-        VOBJ vSEL6 = CommonCodeMgrdao.CommonCombo_SEL6(dobj);        //  OWNER_ORG
-        dobj.setRetObject(vSEL6);
-        VOBJ vSEL8 = CommonCodeMgrdao.CommonCombo_SEL8(dobj);        //  CURRENCY_TYPE
-        dobj.setRetObject(vSEL8);
-        VOBJ vSEL10 = CommonCodeMgrdao.CommonCombo_SEL10(dobj);        //  DATA_TYPE
-        dobj.setRetObject(vSEL10);
-        VOBJ vSEL12 = CommonCodeMgrdao.CommonCombo_SEL12(dobj);        //  DCP_STATUS
-        dobj.setRetObject(vSEL12);
-        VOBJ vSEL14 = CommonCodeMgrdao.CommonCombo_SEL14(dobj);        //  Forecast_FCSTA
-        dobj.setRetObject(vSEL14);
-        VOBJ vSEL16 = CommonCodeMgrdao.CommonCombo_SEL16(dobj);        //  From
-        dobj.setRetObject(vSEL16);
-        VOBJ vSEL20 = CommonCodeMgrdao.CommonCombo_SEL20(dobj);        //  To
-        dobj.setRetObject(vSEL20);
-        VOBJ vSEL18 = CommonCodeMgrdao.CommonCombo_SEL18(dobj);        //  HPMS_ID
-        dobj.setRetObject(vSEL18);
         return dobj;
     }
 }

@@ -25,26 +25,6 @@ public class CommonCodeMgrController
 {
     @Autowired
     private CommonCodeMgr CommonCodeMgrService;
-    @RequestMapping(value="/20160704154561CommonCodeMgr_CommonCombo.do")
-    public ModelAndView CommonCombo(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = CommonCodeMgrService.CommonCombo(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
-        mav.addObject("SEL4", odobj.getRetObject("SEL4").getRecords());
-        mav.addObject("SEL6", odobj.getRetObject("SEL6").getRecords());
-        mav.addObject("SEL8", odobj.getRetObject("SEL8").getRecords());
-        mav.addObject("SEL10", odobj.getRetObject("SEL10").getRecords());
-        mav.addObject("SEL12", odobj.getRetObject("SEL12").getRecords());
-        mav.addObject("SEL14", odobj.getRetObject("SEL14").getRecords());
-        mav.addObject("SEL16", odobj.getRetObject("SEL16").getRecords());
-        mav.addObject("SEL20", odobj.getRetObject("SEL20").getRecords());
-        mav.addObject("SEL18", odobj.getRetObject("SEL18").getRecords());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/20160704154561CommonCodeMgr_Company_Org_cd.do")
     public ModelAndView Company_Org_cd(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -99,6 +79,26 @@ public class CommonCodeMgrController
         DOBJ odobj = CommonCodeMgrService.AllDataTypeCombo(idobj);
         mav.addObject("WIZDOBJ", odobj);
         mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/20160704154561CommonCodeMgr_CommonCombo.do")
+    public ModelAndView CommonCombo(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = CommonCodeMgrService.CommonCombo(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
+        mav.addObject("SEL4", odobj.getRetObject("SEL4").getRecords());
+        mav.addObject("SEL6", odobj.getRetObject("SEL6").getRecords());
+        mav.addObject("SEL8", odobj.getRetObject("SEL8").getRecords());
+        mav.addObject("SEL10", odobj.getRetObject("SEL10").getRecords());
+        mav.addObject("SEL12", odobj.getRetObject("SEL12").getRecords());
+        mav.addObject("SEL14", odobj.getRetObject("SEL14").getRecords());
+        mav.addObject("SEL16", odobj.getRetObject("SEL16").getRecords());
+        mav.addObject("SEL20", odobj.getRetObject("SEL20").getRecords());
+        mav.addObject("SEL18", odobj.getRetObject("SEL18").getRecords());
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;

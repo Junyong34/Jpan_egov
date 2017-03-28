@@ -12,6 +12,453 @@ import javax.annotation.Resource;
 public class DcpInfoMgrDao extends EgovAbstractDAO
 {
     // DCP exist Check
+    public VOBJ FileInfoAdd_SEL22(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL22", "DCP exist Check" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S3").getRecord().get("PID"));   //PID
+        List rlist = list("DcpInfoMgr_2016082417884.FileInfoAdd_SEL22", param);
+        dvobj.setName("SEL22");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // File_length
+    public VOBJ FileInfoAdd_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "File_length" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("FILE_NAME", "FILENAME");   //파일이름
+        List rlist = list("DcpInfoMgr_2016082417884.FileInfoAdd_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // Front Page File
+    public VOBJ FileInfoAdd_UNI26(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI26", "Front Page File" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE_PATH"), dobj.getRetObject("F").getRecord().get("FILE_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI26_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI26_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI26") ;
+        return rvobj;
+    }
+    // FILE_NAME
+    public VOBJ FileInfoAdd_SEL21(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL21", "FILE_NAME" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S3").getRecord().get("PID"));   //PID
+        List rlist = list("DcpInfoMgr_2016082417884.FileInfoAdd_SEL21", param);
+        dvobj.setName("SEL21");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL21");
+        return dvobj;
+    }
+    // PL Sheet
+    public VOBJ FileInfoAdd_UNI27(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI27", "PL Sheet" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE1_PATH"), dobj.getRetObject("F").getRecord().get("FILE1_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE1_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI27_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI27_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI27") ;
+        return rvobj;
+    }
+    // Cost Estimate Sheet
+    public VOBJ FileInfoAdd_UNI28(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI28", "Cost Estimate Sheet" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE2_PATH"), dobj.getRetObject("F").getRecord().get("FILE2_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE2_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI28_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI28_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI28") ;
+        return rvobj;
+    }
+    // Quote Sheet
+    public VOBJ FileInfoAdd_UNI29(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI29", "Quote Sheet" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE3_PATH"), dobj.getRetObject("F").getRecord().get("FILE3_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE3_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI29_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI29_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI29") ;
+        return rvobj;
+    }
+    // DR Slip Sheet
+    public VOBJ FileInfoAdd_UNI30(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI30", "DR Slip Sheet" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE4_PATH"), dobj.getRetObject("F").getRecord().get("FILE4_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE4_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI30_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI30_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI30") ;
+        return rvobj;
+    }
+    // CHIP Specification Sheet
+    public VOBJ FileInfoAdd_UNI31(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI31", "CHIP Specification Sheet" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE5_PATH"), dobj.getRetObject("F").getRecord().get("FILE5_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE5_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI31_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI31_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI31") ;
+        return rvobj;
+    }
+    // etc 1
+    public VOBJ FileInfoAdd_UNI32(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI32", "etc 1" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE6_PATH"), dobj.getRetObject("F").getRecord().get("FILE6_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE6_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI32_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI32_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI32") ;
+        return rvobj;
+    }
+    // etc2
+    public VOBJ FileInfoAdd_UNI33(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI33", "etc2" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE7_PATH"), dobj.getRetObject("F").getRecord().get("FILE7_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE7_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI33_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI33_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI33") ;
+        return rvobj;
+    }
+    // etc 3
+    public VOBJ FileInfoAdd_UNI34(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"UNI34", "etc 3" );
+        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
+        SQLObject  sobj = null;
+        VOBJ       rvobj= null;
+        HashMap    param= null;
+        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
+        dvobj.first();
+        while(dvobj.next())
+        {
+            param = new HashMap();
+            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
+            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
+            param.put("PID", dvobj.getRecord().get("PID"));   //PID
+            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
+            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE8_PATH"), dobj.getRetObject("F").getRecord().get("FILE8_UNNAME")));   //FILE_BIN
+            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE8_NAME"));   //파일이름
+            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI34_UPD",param);
+            if(rtncnt < 1)
+            {
+                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI34_INS",param);
+                inscnt++;
+                unicnt++;
+                
+            }
+            else
+            {
+                updcnt += rtncnt;
+                unicnt += rtncnt;
+            }
+        }
+        rvobj = new VOBJ();
+        rvobj.setHeadColumn("UPDCNT" , "INT" );
+        rvobj.setHeadColumn("INSCNT" , "INT" );
+        rvobj.setHeadColumn("UNICNT" , "INT" );
+        HashMap recordx = new HashMap();
+        recordx.put("UPDCNT",updcnt+"");
+        recordx.put("INSCNT",inscnt+"");
+        recordx.put("UNICNT",unicnt+"");
+        rvobj.addRecord(recordx);
+        rvobj.setName("UNI34") ;
+        return rvobj;
+    }
+    // DCP exist Check
     public VOBJ DCPApproval_Flow_SEL19(DOBJ dobj) throws Exception
     {
         WizUtil wutil = new WizUtil(dobj,"SEL19", "DCP exist Check" );
@@ -108,7 +555,6 @@ public class DcpInfoMgrDao extends EgovAbstractDAO
                 insert("DcpInfoMgr_2016082417884.DCPApproval_Flow_UNI5_INS",param);
                 inscnt++;
                 unicnt++;
-                
             }
             else
             {
@@ -792,430 +1238,6 @@ public class DcpInfoMgrDao extends EgovAbstractDAO
         dvobj.setRetcode(1);
         dvobj.setRecords(rlist);
         return dvobj;
-    }
-    // File_length
-    public VOBJ FileInfoAdd_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "File_length" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("FILE_NAME", "FILENAME");   //파일이름
-        List rlist = list("DcpInfoMgr_2016082417884.FileInfoAdd_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // Front Page File
-    public VOBJ FileInfoAdd_UNI26(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI26", "Front Page File" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE_PATH"), dobj.getRetObject("F").getRecord().get("FILE_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI26_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI26_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI26") ;
-        return rvobj;
-    }
-    // FILE_NAME
-    public VOBJ FileInfoAdd_SEL21(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL21", "FILE_NAME" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S3").getRecord().get("PID"));   //PID
-        List rlist = list("DcpInfoMgr_2016082417884.FileInfoAdd_SEL21", param);
-        dvobj.setName("SEL21");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL21");
-        return dvobj;
-    }
-    // PL Sheet
-    public VOBJ FileInfoAdd_UNI27(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI27", "PL Sheet" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE1_PATH"), dobj.getRetObject("F").getRecord().get("FILE1_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE1_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI27_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI27_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI27") ;
-        return rvobj;
-    }
-    // Cost Estimate Sheet
-    public VOBJ FileInfoAdd_UNI28(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI28", "Cost Estimate Sheet" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE2_PATH"), dobj.getRetObject("F").getRecord().get("FILE2_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE2_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI28_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI28_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI28") ;
-        return rvobj;
-    }
-    // Quote Sheet
-    public VOBJ FileInfoAdd_UNI29(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI29", "Quote Sheet" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE3_PATH"), dobj.getRetObject("F").getRecord().get("FILE3_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE3_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI29_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI29_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI29") ;
-        return rvobj;
-    }
-    // DR Slip Sheet
-    public VOBJ FileInfoAdd_UNI30(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI30", "DR Slip Sheet" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE4_PATH"), dobj.getRetObject("F").getRecord().get("FILE4_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE4_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI30_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI30_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI30") ;
-        return rvobj;
-    }
-    // CHIP Specification Sheet
-    public VOBJ FileInfoAdd_UNI31(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI31", "CHIP Specification Sheet" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE5_PATH"), dobj.getRetObject("F").getRecord().get("FILE5_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE5_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI31_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI31_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI31") ;
-        return rvobj;
-    }
-    // etc 1
-    public VOBJ FileInfoAdd_UNI32(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI32", "etc 1" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE6_PATH"), dobj.getRetObject("F").getRecord().get("FILE6_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE6_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI32_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI32_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI32") ;
-        return rvobj;
-    }
-    // etc2
-    public VOBJ FileInfoAdd_UNI33(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI33", "etc2" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE7_PATH"), dobj.getRetObject("F").getRecord().get("FILE7_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE7_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI33_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI33_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI33") ;
-        return rvobj;
-    }
-    // etc 3
-    public VOBJ FileInfoAdd_UNI34(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"UNI34", "etc 3" );
-        VOBJ dvobj = dobj.getRetObject("F");           // Input Dataset Object.
-        SQLObject  sobj = null;
-        VOBJ       rvobj= null;
-        HashMap    param= null;
-        int        inscnt=0, updcnt =0 ,unicnt=0,  rtncnt=0;
-        dvobj.first();
-        while(dvobj.next())
-        {
-            param = new HashMap();
-            param.put("SEQ", dvobj.getRecord().getInt("SEQ")+"");   //일렬번호
-            param.put("DCP_TYPE", dvobj.getRecord().get("DCP_TYPE"));   //DCP종별코드
-            param.put("PID", dvobj.getRecord().get("PID"));   //PID
-            param.put("APPROVAL_YYYYMMDD", dvobj.getRecord().get("APPROVAL_YYYYMMDD"));   //승인일
-            param.put("FILE_BIN", wutil.inputFileStream(dobj.getRetObject("F").getRecord().get("FILE8_PATH"), dobj.getRetObject("F").getRecord().get("FILE8_UNNAME")));   //FILE_BIN
-            param.put("FILE_NAME", dobj.getRetObject("F").getRecord().get("FILE8_NAME"));   //파일이름
-            rtncnt= update("DcpInfoMgr_2016082417884.FileInfoAdd_UNI34_UPD",param);
-            if(rtncnt < 1)
-            {
-                insert("DcpInfoMgr_2016082417884.FileInfoAdd_UNI34_INS",param);
-                inscnt++;
-                unicnt++;
-            }
-            else
-            {
-                updcnt += rtncnt;
-                unicnt += rtncnt;
-            }
-        }
-        rvobj = new VOBJ();
-        rvobj.setHeadColumn("UPDCNT" , "INT" );
-        rvobj.setHeadColumn("INSCNT" , "INT" );
-        rvobj.setHeadColumn("UNICNT" , "INT" );
-        HashMap recordx = new HashMap();
-        recordx.put("UPDCNT",updcnt+"");
-        recordx.put("INSCNT",inscnt+"");
-        recordx.put("UNICNT",unicnt+"");
-        rvobj.addRecord(recordx);
-        rvobj.setName("UNI34") ;
-        return rvobj;
     }
     // SUB_PID Search(HP1DM12T)
     public VOBJ DCPSearchInfo_SEL8(DOBJ dobj) throws Exception

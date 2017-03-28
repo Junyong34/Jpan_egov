@@ -1,17 +1,12 @@
 
 package hpms.base.Impl;
 import java.util.*;
-
 import egov.wizware.com.*;
 import egov.wizware.util.*;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -19,8 +14,6 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.util.StopWatch;
-
 import hpms.base.dao.*;
 import hpms.base.service.PlanMgr;
 @Service("PlanMgr20160901091138Service")
@@ -34,13 +27,7 @@ public class PlanMgrImpl extends AbstractServiceImpl implements PlanMgr
     {
         String  message ="";
         WizUtil wutil = new WizUtil(dobj,"","");
-        
-        StopWatch PEX2= new StopWatch();
-        PEX2.start();
         VOBJ vPEX2 = PlanMgrdao.ExcelNoChecking_PEX2(dobj);        //  ExcelUpload Data
-        PEX2.stop();
-        System.out.println("Step 1 Excel Leng Check(PEX2) " +PEX2.toString());
-        
         dobj.setRetObject(vPEX2);
         VOBJ vER01 = PlanMgrdao.ExcelNoChecking_ER01(dobj);        //  get LogSequence
         dobj.setRetObject(vER01);
@@ -48,28 +35,14 @@ public class PlanMgrImpl extends AbstractServiceImpl implements PlanMgr
         dobj.setRetObject(vCVT25);
         if( dobj.getRtncode ( ) != 0)
         {
-        	StopWatch INS27 = new StopWatch();
-        	INS27.start();
             VOBJ vINS27 = PlanMgrdao.ExcelNoChecking_INS27(dobj);        //  WorkTable Save HP2D001W
-            INS27.stop();
-            System.out.println("Step 2-1 WorkTable Insert(INS27) " +INS27.toString());
             dobj.setRetObject(vINS27);
         }
         else if( dobj.getRtncode ( ) == 0)
         {
-        	StopWatch INS28 = new StopWatch();
-        	INS28.start();
             VOBJ vINS28 = PlanMgrdao.ExcelNoChecking_INS28(dobj);        //  WorkTable Save HP2D001W
-            INS28.stop();
-            System.out.println("Step 2-2 WorkTable Insert(INS28) " +INS28.toString());
             dobj.setRetObject(vINS28);
-            
-            StopWatch SEL80 = new StopWatch();
-            SEL80.start();
             VOBJ vSEL80 = PlanMgrdao.ExcelNoChecking_SEL80(dobj);        //  MST Cheeck
-            SEL80.stop();
-            System.out.println("Step 3 MST Data Check (SEL80) " +SEL80.toString());
-            
             dobj.setRetObject(vSEL80);
             VOBJ vUPD68 = PlanMgrdao.ExcelNoChecking_UPD68(dobj);        //  WorkTable Update HP2D001W
             dobj.setRetObject(vUPD68);
@@ -87,23 +60,41 @@ public class PlanMgrImpl extends AbstractServiceImpl implements PlanMgr
                 {
                     VOBJ vXIUD114 = PlanMgrdao.ExcelNoChecking_XIUD114(dobj);        //  Merge Update ERR_MSG
                     dobj.setRetObject(vXIUD114);
-                    dobj.setRetmsg("1014");
+                    dobj.setRetmsg("1022");
                 }
                 else if(dobj.getRetmsg ( ).equals("") && dobj.getRetObject("SEL74").getRecord().getInt("CNT") == 0)
                 {
-                	 StopWatch XIUD116 = new StopWatch();
-                	 XIUD116.start();
-                    VOBJ vXIUD116 = PlanMgrdao.ExcelNoChecking_XIUD116(dobj);        //  UNI   HP2D001T
-                    XIUD116.stop();
-                    System.out.println("Step 4 HP2D001T Insert or Update (XIUD116) " +XIUD116.toString());
-                    
-                    dobj.setRetObject(vXIUD116);
-                    StopWatch XIUD118 = new StopWatch();
-                    XIUD118.start();
-                    VOBJ vXIUD118 = PlanMgrdao.ExcelNoChecking_XIUD118(dobj);        //  Delete HP2D001T
-                    XIUD118.stop();
-                    System.out.println("Step 5 HP2D001T Delete(XIUD118) " +XIUD118.toString());
-                    dobj.setRetObject(vXIUD118);
+                    VOBJ vSEL46 = PlanMgrdao.ExcelNoChecking_SEL46(dobj);        //  HP2D001T Data CHeck
+                    dobj.setRetObject(vSEL46);
+                    if( dobj.getRetObject("SEL46").getRecord().getInt("CNT") == 0)
+                    {
+                        VOBJ vXIUD51 = PlanMgrdao.ExcelNoChecking_XIUD51(dobj);        //  Merge Update ERR_MSG
+                        dobj.setRetObject(vXIUD51);
+                        VOBJ vSEL81 = PlanMgrdao.ExcelNoChecking_SEL81(dobj);        //  error_flag
+                        dobj.setRetObject(vSEL81);
+                        if( dobj.getRetObject("SEL81").getRecord().getInt("CNT") == 0)
+                        {
+                            VOBJ vXIUD22 = PlanMgrdao.ExcelNoChecking_XIUD22(dobj);        //  UNI   HP2D001T
+                            dobj.setRetObject(vXIUD22);
+                            VOBJ vXIUD116 = PlanMgrdao.ExcelNoChecking_XIUD116(dobj);        //  UNI   HP2D001T
+                            dobj.setRetObject(vXIUD116);
+                            VOBJ vXIUD118 = PlanMgrdao.ExcelNoChecking_XIUD118(dobj);        //  Delete HP2D001T
+                            dobj.setRetObject(vXIUD118);
+                        }
+                        else if( dobj.getRetObject("SEL81").getRecord().getInt("CNT") > 0)
+                        {
+                            dobj.setRetmsg("1022");
+                        }
+                    }
+                    else if( dobj.getRetObject("SEL46").getRecord().getInt("CNT") > 0)
+                    {
+                        VOBJ vXIUD22 = PlanMgrdao.ExcelNoChecking_XIUD22(dobj);        //  UNI   HP2D001T
+                        dobj.setRetObject(vXIUD22);
+                        VOBJ vXIUD116 = PlanMgrdao.ExcelNoChecking_XIUD116(dobj);        //  UNI   HP2D001T
+                        dobj.setRetObject(vXIUD116);
+                        VOBJ vXIUD118 = PlanMgrdao.ExcelNoChecking_XIUD118(dobj);        //  Delete HP2D001T
+                        dobj.setRetObject(vXIUD118);
+                    }
                 }
                 else
                 {

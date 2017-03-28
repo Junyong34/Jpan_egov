@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MainMenu_20160412101097">
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="loadPage_SEL1">SELECT X.MENU_ID     
+         , X.MENU_NM 
+         , X.IMAGE_PATH 
+         , X.URL 
+         , X.AUTH 
+         , X.DISP_SEQ 
+         , X.P_MENU_ID 
+  FROM HP1C002T X 
+ WHERE 1=1  
+ ORDER BY X.MENU_ID</select>
+</sqlMap>
+

@@ -11,17 +11,6 @@
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="Result_loadPage_SEL1">SELECT A.APPLICATION 
       FROM HP1DM01T A 
  WHERE 1 = 1 AND A.PID = #SUB_PID#</select>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="subPIDResult_SEL3">SELECT 'P'|| LPAD(PID_SUBPID_SEQ.nextval,5,'0') AS SUB_PID  , PID_SUBPID_SEQ.CURRVAL AS CNT  FROM DUAL</select>
-  <insert parameterClass="java.util.HashMap" id="subPIDResult_INS4">Insert into HP_DBA01.HP1DM02T (REGIST_TIME, REGIST_USER_ID, PID, SUB_PID)  values(SYSDATE, #REGIST_USER_ID# , #PID# , #SUB_PID# )</insert>
-  <insert parameterClass="java.util.HashMap" id="subPIDResult_INS9">Insert into HP_DBA01.HP1DM01T (REGIST_ORG_CD, OWNER_COMPANY_CD, REGIST_TIME, REGIST_USER_ID, REGIST_COMPANY_CD, PID, PID_STATUS_CD, APPLICATION, OWNER_ORG_CD)  values(#REGIST_ORG_CD# , #OWNER_COMPANY_CD# , SYSDATE, #REGIST_USER_ID# , #REGIST_COMPANY_CD# , #PID# , #PID_STATUS_CD# , #APPLICATION# , #OWNER_ORG_CD# )</insert>
-  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="subPIDResult_SEL2">SELECT #PID# AS PID, 
-       A.PID AS SUB_PID, 
-       A.APPLICATION, 
-       F_GET_COMBO_NAME('OWNER_ORG_CD', A.OWNER_ORG_CD) AS OWNER_ORG_NM, 
-       A.REGIST_ORG_CD 
-       , (SELECT RD_THEME FROM  HP1DM01T WHERE PID = #PID# ) AS RD_THEME 
-  FROM HP1DM01T A 
- WHERE 1 = 1 AND A.PID = #SUB_PID#</select>
   <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="sub_PID_NumberSearch_SEL2">
     SELECT  
          PID 
@@ -50,5 +39,17 @@
     </dynamic>
     ORDER BY PID
   </select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="subPIDResult_SEL3">SELECT 'P'|| LPAD(PID_SUBPID_SEQ.nextval,5,'0') AS SUB_PID  , PID_SUBPID_SEQ.CURRVAL AS CNT  FROM DUAL</select>
+  <insert parameterClass="java.util.HashMap" id="subPIDResult_INS4">Insert into HP_DBA01.HP1DM02T (REGIST_TIME, REGIST_USER_ID, PID, SUB_PID)  values(SYSDATE, #REGIST_USER_ID# , #PID# , #SUB_PID# )</insert>
+  <insert parameterClass="java.util.HashMap" id="subPIDResult_INS9">Insert into HP_DBA01.HP1DM01T (REGIST_ORG_CD, OWNER_COMPANY_CD, REGIST_TIME, REGIST_USER_ID, REGIST_COMPANY_CD, PID, PID_STATUS_CD, APPLICATION, OWNER_ORG_CD)  values(#REGIST_ORG_CD# , #OWNER_COMPANY_CD# , SYSDATE, #REGIST_USER_ID# , #REGIST_COMPANY_CD# , #PID# , #PID_STATUS_CD# , #APPLICATION# , #OWNER_ORG_CD# )</insert>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="subPIDResult_SEL2">SELECT #PID# AS PID, 
+       A.PID AS SUB_PID, 
+       A.APPLICATION, 
+       F_GET_COMBO_NAME('OWNER_ORG_CD', A.OWNER_ORG_CD) AS OWNER_ORG_NM, 
+       A.REGIST_ORG_CD 
+       , (SELECT RD_THEME FROM  HP1DM01T WHERE PID = #PID# ) AS RD_THEME 
+  FROM HP1DM01T A 
+ WHERE 1 = 1 AND A.PID = #SUB_PID#</select>
+  <select parameterClass="java.util.HashMap" resultClass="java.util.HashMap" id="subPIDResult_SEL7">SELECT '00009' AS MSG FROM DUAL</select>
 </sqlMap>
 

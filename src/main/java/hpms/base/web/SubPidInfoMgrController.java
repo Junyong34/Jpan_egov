@@ -63,16 +63,6 @@ public class SubPidInfoMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/20160912111171SubPidInfoMgr_subPIDResult.do")
-    public String subPIDResult(ModelMap model, DOBJ idobj) throws Exception
-    {
-        DOBJ odobj = SubPidInfoMgrService.subPIDResult(idobj);
-        model.addAttribute("WIZDOBJ", odobj);
-        model.addAttribute("SEL2", odobj.getRetObject("SEL2").getRecordMap());
-        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
-        model.addAttribute("MESSAGE", odobj.getRetmsg());
-        return "/jsp/base/subPIDConfirm";
-    }
     @RequestMapping(value="/20160912111171SubPidInfoMgr_sub_PID_NumberSearch.do")
     public ModelAndView sub_PID_NumberSearch(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -83,5 +73,16 @@ public class SubPidInfoMgrController
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
+    }
+    @RequestMapping(value="/20160912111171SubPidInfoMgr_subPIDResult.do")
+    public String subPIDResult(ModelMap model, DOBJ idobj) throws Exception
+    {
+        DOBJ odobj = SubPidInfoMgrService.subPIDResult(idobj);
+        model.addAttribute("WIZDOBJ", odobj);
+        model.addAttribute("SEL2", odobj.getRetObject("SEL2").getRecordMap());
+        model.addAttribute("SEL7", odobj.getRetObject("SEL7").getRecordMap());
+        model.addAttribute("G", odobj.getRetObject("G").getRecordMap());
+        model.addAttribute("MESSAGE", odobj.getRetmsg());
+        return "/jsp/base/subPIDConfirm";
     }
 }

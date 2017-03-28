@@ -11,6 +11,175 @@ import javax.annotation.Resource;
 @Repository("ForecastInfoMgr2016082417899Dao")
 public class ForecastInfoMgrDao extends EgovAbstractDAO
 {
+    // FCST_TILTE Conn
+    public VOBJ FCST_TITLE_COMBO_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "FCST_TILTE Conn" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // TO_FCST_TITLE conn
+    public VOBJ FCST_TITLE_COMBO_SEL4(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL4", "TO_FCST_TITLE conn" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S5").getRecord().get("PID"));   //PID
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL4", param);
+        dvobj.setName("SEL4");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // ORG_FCST_TITLE conn
+    public VOBJ FCST_TITLE_COMBO_SEL6(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL6", "ORG_FCST_TITLE conn" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL6", param);
+        dvobj.setName("SEL6");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // ORG_FROM_TITLE conn(COPY)
+    public VOBJ FCST_TITLE_COMBO_SEL9(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL9", "ORG_FROM_TITLE conn(COPY)" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("ORG_CD", dobj.getRetObject("S4").getRecord().get("ORG_CD"));   //ORG_CD
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        String  COMPANY_CD="" ;          //COMPANY_CD
+        if(!dobj.getRetObject("S4").getRecord().get("COMPANY_CD").equals("")) 
+        {
+        
+            COMPANY_CD = dobj.getRetObject("S4").getRecord().get("COMPANY_CD").substring(0,3);
+            
+        }
+         else 
+        {
+        
+            COMPANY_CD = "";
+        }
+        param.put("COMPANY_CD", COMPANY_CD);   //COMPANY_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL9", param);
+        dvobj.setName("SEL9");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        dvobj.Println("SEL9");
+        return dvobj;
+    }
+    // ORG_TO_FCST_TITLE conn(COPY)
+    public VOBJ FCST_TITLE_COMBO_SEL8(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL8", "ORG_TO_FCST_TITLE conn(COPY)" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("ORG_CD", dobj.getRetObject("S4").getRecord().get("ORG_CD"));   //ORG_CD
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        String  COMPANY_CD="" ;          //COMPANY_CD
+        if(!dobj.getRetObject("S4").getRecord().get("COMPANY_CD").equals("")) 
+        {
+        
+            COMPANY_CD = dobj.getRetObject("S4").getRecord().get("COMPANY_CD").substring(0,3);
+            
+        }
+         else 
+        {
+        
+            COMPANY_CD = "";
+        }
+        param.put("COMPANY_CD", COMPANY_CD);   //COMPANY_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL8", param);
+        dvobj.setName("SEL8");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // FCST01 02 03 09
+    public VOBJ FCST_TITLE_COMBO_SEL11(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL11", "FCST01 02 03 09" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL11", param);
+        dvobj.setName("SEL11");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // FCST01 02 03 09_ORG FORM
+    public VOBJ FCST_TITLE_COMBO_SEL12(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL12", "FCST01 02 03 09_ORG FORM" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("ORG_CD", dobj.getRetObject("S4").getRecord().get("ORG_CD"));   //ORG_CD
+        String  COMPANY_CD="" ;          //COMPANY_CD
+        if(!dobj.getRetObject("S4").getRecord().get("COMPANY_CD").equals("")) 
+        {
+        
+            COMPANY_CD = dobj.getRetObject("S4").getRecord().get("COMPANY_CD").substring(0,3);
+            
+        }
+         else 
+        {
+        
+            COMPANY_CD = "";
+        }
+        param.put("COMPANY_CD", COMPANY_CD);   //COMPANY_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL12", param);
+        dvobj.setName("SEL12");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // DATA_TYPE
+    public VOBJ FCSTCOPYCombo_SEL1(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL1", "DATA_TYPE" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
+        List rlist = list("ForecastInfoMgr_2016082417899.FCSTCOPYCombo_SEL1", param);
+        dvobj.setName("SEL1");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
+    // FCST01 02 03 09
+    public VOBJ FCSTCOPYCombo_SEL2(DOBJ dobj) throws Exception
+    {
+        WizUtil wutil = new WizUtil(dobj,"SEL2", "FCST01 02 03 09" );
+        HashMap param = null;
+        VOBJ dvobj = new VOBJ();
+        param = new HashMap();
+        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
+        List rlist = list("ForecastInfoMgr_2016082417899.FCSTCOPYCombo_SEL2", param);
+        dvobj.setName("SEL2");
+        dvobj.setRetcode(1);
+        dvobj.setRecords(rlist);
+        return dvobj;
+    }
     // MAX(HP2D002T_TZ )
     public VOBJ ForecastDataCopy_SEL11(DOBJ dobj) throws Exception
     {
@@ -198,35 +367,29 @@ public class ForecastInfoMgrDao extends EgovAbstractDAO
         String  DATA_TYPE="" ;          //デ？タタイプ
         if(dobj.getRetObject("S3").getRecord().get("FROM").equals("A.DCP"))
         {
-           DATA_TYPE = "DCP_A";
-            
+            DATA_TYPE = "DCP_A";
         }
         else if(dobj.getRetObject("S3").getRecord().get("FROM").equals("P.DCP"))
         {
-           DATA_TYPE = "DCP_P";
-            
+            DATA_TYPE = "DCP_P";
         }
         else if(dobj.getRetObject("S3").getRecord().get("FROM").equals("T.DCP"))
         {
-           DATA_TYPE = "DCP_T";
-            
+            DATA_TYPE = "DCP_T";
         }
         else if(dobj.getRetObject("S3").getRecord().get("FROM").equals("M.DCP"))
         {
-           DATA_TYPE = "DCP_M";
-            
+            DATA_TYPE = "DCP_M";
         }
         else if(dobj.getRetObject("S3").getRecord().get("FROM").equals("E.DCP"))
         {
-           DATA_TYPE = "DCP_E";
-            
+            DATA_TYPE = "DCP_E";
         }
-        else 
+        else
         {
-           DATA_TYPE = "";
-            
+            DATA_TYPE = "";
         }
-          param.put("DATA_TYPE", DATA_TYPE);   //デ？タタイプ
+        param.put("DATA_TYPE", DATA_TYPE);   //デ？タタイプ
         List rlist = list("ForecastInfoMgr_2016082417899.ForecastDataCopy_SEL13", param);
         dvobj.setName("SEL13");
         dvobj.setRecords(rlist);
@@ -832,130 +995,6 @@ public class ForecastInfoMgrDao extends EgovAbstractDAO
         param = new HashMap();
         List rlist = list("ForecastInfoMgr_2016082417899.Forecast_PIDcheck_SEL4", param);
         dvobj.setName("SEL4");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // FCST_TILTE Conn
-    public VOBJ FCST_TITLE_COMBO_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "FCST_TILTE Conn" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL2", param);
-        dvobj.setName("SEL2");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // TO_FCST_TITLE conn
-    public VOBJ FCST_TITLE_COMBO_SEL4(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL4", "TO_FCST_TITLE conn" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S5").getRecord().get("PID"));   //PID
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL4", param);
-        dvobj.setName("SEL4");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // ORG_FCST_TITLE conn
-    public VOBJ FCST_TITLE_COMBO_SEL6(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL6", "ORG_FCST_TITLE conn" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL6", param);
-        dvobj.setName("SEL6");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // ORG_FROM_TITLE conn(COPY)
-    public VOBJ FCST_TITLE_COMBO_SEL9(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL9", "ORG_FROM_TITLE conn(COPY)" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("ORG_CD", dobj.getRetObject("S4").getRecord().get("ORG_CD"));   //ORG_CD
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        String  COMPANY_CD="" ;          //COMPANY_CD
-        if(!dobj.getRetObject("S4").getRecord().get("COMPANY_CD").equals(""))
-        {
-            COMPANY_CD = dobj.getRetObject("S4").getRecord().get("COMPANY_CD").substring(0,3);
-        }
-        else
-        {
-            COMPANY_CD = "";
-        }
-        param.put("COMPANY_CD", COMPANY_CD);   //COMPANY_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL9", param);
-        dvobj.setName("SEL9");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        dvobj.Println("SEL9");
-        return dvobj;
-    }
-    // ORG_TO_FCST_TITLE conn(COPY)
-    public VOBJ FCST_TITLE_COMBO_SEL8(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL8", "ORG_TO_FCST_TITLE conn(COPY)" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("ORG_CD", dobj.getRetObject("S4").getRecord().get("ORG_CD"));   //ORG_CD
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        String  COMPANY_CD="" ;          //COMPANY_CD
-        if(!dobj.getRetObject("S4").getRecord().get("COMPANY_CD").equals(""))
-        {
-            COMPANY_CD = dobj.getRetObject("S4").getRecord().get("COMPANY_CD").substring(0,3);
-        }
-        else
-        {
-            COMPANY_CD = "";
-        }
-        param.put("COMPANY_CD", COMPANY_CD);   //COMPANY_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCST_TITLE_COMBO_SEL8", param);
-        dvobj.setName("SEL8");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // DATA_TYPE
-    public VOBJ FCSTCOPYCombo_SEL1(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL1", "DATA_TYPE" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCSTCOPYCombo_SEL1", param);
-        dvobj.setName("SEL1");
-        dvobj.setRetcode(1);
-        dvobj.setRecords(rlist);
-        return dvobj;
-    }
-    // DATA_TYPE
-    public VOBJ FCSTCOPYCombo_SEL2(DOBJ dobj) throws Exception
-    {
-        WizUtil wutil = new WizUtil(dobj,"SEL2", "DATA_TYPE" );
-        HashMap param = null;
-        VOBJ dvobj = new VOBJ();
-        param = new HashMap();
-        param.put("PID", dobj.getRetObject("S2").getRecord().get("PID"));   //PID
-        param.put("AUTH_CD", dobj.getRetObject("G").getRecord().get("AUTH_CD"));   //AUTH_CD
-        List rlist = list("ForecastInfoMgr_2016082417899.FCSTCOPYCombo_SEL2", param);
-        dvobj.setName("SEL2");
         dvobj.setRetcode(1);
         dvobj.setRecords(rlist);
         return dvobj;

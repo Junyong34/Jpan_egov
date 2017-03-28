@@ -70,34 +70,6 @@ public class ForecastInfoMgrController
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
     }
-    @RequestMapping(value="/2016082417899ForecastInfoMgr_FCSTCOPYCombo.do")
-    public ModelAndView FCSTCOPYCombo(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = ForecastInfoMgrService.FCSTCOPYCombo(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL1", odobj.getRetObject("SEL1").getRecords());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
-    @RequestMapping(value="/2016082417899ForecastInfoMgr_FCST_TITLE_COMBO.do")
-    public ModelAndView FCST_TITLE_COMBO(ModelMap model, DOBJ idobj) throws Exception
-    {
-        ModelAndView mav = new ModelAndView("riaView");
-        DOBJ odobj = ForecastInfoMgrService.FCST_TITLE_COMBO(idobj);
-        mav.addObject("WIZDOBJ", odobj);
-        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
-        mav.addObject("SEL4", odobj.getRetObject("SEL4").getRecords());
-        mav.addObject("SEL6", odobj.getRetObject("SEL6").getRecords());
-        mav.addObject("SEL9", odobj.getRetObject("SEL9").getRecords());
-        mav.addObject("SEL8", odobj.getRetObject("SEL8").getRecords());
-        mav.addObject("S", odobj.getRetObject("S").getRecordMap());
-        mav.addObject("S5", odobj.getRetObject("S5").getRecordMap());
-        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
-        mav.addObject("MESSAGE", odobj.getRetmsg());
-        return mav;
-    }
     @RequestMapping(value="/2016082417899ForecastInfoMgr_Forecast_PIDcheck.do")
     public ModelAndView Forecast_PIDcheck(ModelMap model, DOBJ idobj) throws Exception
     {
@@ -142,6 +114,37 @@ public class ForecastInfoMgrController
         mav.addObject("WIZDOBJ", odobj);
         mav.addObject("SEL20", odobj.getRetObject("SEL20").getRecords());
         mav.addObject("SEL41", odobj.getRetObject("SEL41").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/2016082417899ForecastInfoMgr_FCSTCOPYCombo.do")
+    public ModelAndView FCSTCOPYCombo(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = ForecastInfoMgrService.FCSTCOPYCombo(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL1", odobj.getRetObject("SEL1").getRecords());
+        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
+        mav.addObject("G", odobj.getRetObject("G").getRecordMap());
+        mav.addObject("MESSAGE", odobj.getRetmsg());
+        return mav;
+    }
+    @RequestMapping(value="/2016082417899ForecastInfoMgr_FCST_TITLE_COMBO.do")
+    public ModelAndView FCST_TITLE_COMBO(ModelMap model, DOBJ idobj) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("riaView");
+        DOBJ odobj = ForecastInfoMgrService.FCST_TITLE_COMBO(idobj);
+        mav.addObject("WIZDOBJ", odobj);
+        mav.addObject("SEL2", odobj.getRetObject("SEL2").getRecords());
+        mav.addObject("SEL4", odobj.getRetObject("SEL4").getRecords());
+        mav.addObject("SEL6", odobj.getRetObject("SEL6").getRecords());
+        mav.addObject("SEL9", odobj.getRetObject("SEL9").getRecords());
+        mav.addObject("SEL8", odobj.getRetObject("SEL8").getRecords());
+        mav.addObject("SEL11", odobj.getRetObject("SEL11").getRecords());
+        mav.addObject("SEL12", odobj.getRetObject("SEL12").getRecords());
+        mav.addObject("S", odobj.getRetObject("S").getRecordMap());
+        mav.addObject("S5", odobj.getRetObject("S5").getRecordMap());
         mav.addObject("G", odobj.getRetObject("G").getRecordMap());
         mav.addObject("MESSAGE", odobj.getRetmsg());
         return mav;
